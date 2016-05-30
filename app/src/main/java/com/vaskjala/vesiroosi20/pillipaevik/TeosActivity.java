@@ -29,16 +29,6 @@ public class TeosActivity extends AppCompatActivity implements YldineKysimuseAke
     private boolean bUueTeoseLoomine = false;
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("TeosActivity", "On Stop" );
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("TeosActivity", "On Destroy" );
-    }
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teos);

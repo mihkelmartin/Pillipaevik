@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Created by mihkel on 2.05.2016.
  */
-public class Teos {
+public class Teos implements Comparable<Teos> {
 
     private int id;
     private String nimi;
@@ -24,6 +24,11 @@ public class Teos {
 
     private List<HarjutusKord> Harjustuskorrad = null;
     private HashMap<Integer, HarjutusKord> Harjutuskorradmap = null;
+
+    @Override
+    public int compareTo(Teos another) {
+        return this.getNimi().compareTo(another.getNimi());
+    }
 
     public static abstract class Teosekirje implements BaseColumns {
         public static final String TABLE_NAME = "Teos";

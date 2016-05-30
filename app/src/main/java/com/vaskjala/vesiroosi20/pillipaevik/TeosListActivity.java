@@ -104,7 +104,8 @@ public class TeosListActivity extends AppCompatActivity {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
                 Log.d("TeosListActivity", "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
-                mMainAdapter.notifyItemChanged(itemposition);
+                mMainAdapter.SordiTeosed();
+                mMainAdapter.notifyDataSetChanged();
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
@@ -115,6 +116,7 @@ public class TeosListActivity extends AppCompatActivity {
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
                 Log.d("TeosListActivity", "Tagasi TeosActivityst. Lisatud");
+                mMainAdapter.SordiTeosed();
                 mMainAdapter.notifyDataSetChanged();
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
@@ -138,6 +140,10 @@ public class TeosListActivity extends AppCompatActivity {
 
         public SimpleItemRecyclerViewAdapter(List<Teos> items) {
             mValues = items;
+        }
+
+        public void SordiTeosed(){
+            Collections.sort(mValues);
         }
 
         @Override
