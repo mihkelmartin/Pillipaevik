@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.HarjutusActivity">
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/harjutus_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="10dp"
+                android:theme="@style/Pillipaevik"
+                app:popupTheme="@style/Pillipaevik"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:id="@+id/harjutusekirjeldus"
+            android:hint="Kirjuta mida harjutasid ..."
+            android:inputType="textCapSentences|textMultiLine"/>
+
+        <TableLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TableRow android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      android:textStyle="bold"
+                      android:text="Harjutus algas : "/>
+            <TextView android:id="@+id/alguskuupaev"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      style="@android:style/Widget.Holo.Spinner"
+                      android:onClick="MuudaKuupaeva"/>
+            <TextView android:id="@+id/alguskellaaeg"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      style="@android:style/Widget.Holo.Spinner"
+                      android:onClick="MuudaKuupaeva"/>
+        </TableRow>
+
+        <TableRow android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      android:textStyle="bold"
+                      android:text="Harjutus lõppes : "/>
+            <TextView android:id="@+id/lopukuupaev"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      style="@android:style/Widget.Holo.Spinner"
+                      android:onClick="MuudaKuupaeva"/>
+            <TextView android:id="@+id/lopukellaaeg"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      style="@android:style/Widget.Holo.Spinner"
+                      android:onClick="MuudaKuupaeva"/>
+        </TableRow>
+
+        <TableRow android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      android:textStyle="bold"
+                      android:text="Kestus : "/>
+            <TextView android:id="@+id/pikkusminutites"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="12dp"
+                      style="@android:style/Widget.Holo.Spinner"
+                      android:text=""
+                      android:onClick="MuudaPikkust"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="0dp"
+                      android:layout_margin="12dp"
+                      android:text="minutit"/>
+        </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

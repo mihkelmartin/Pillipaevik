@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="false"
+                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.SeadedActivity">
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/seaded_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="10dp"
+                android:theme="@style/Pillipaevik"
+                app:popupTheme="@style/Pillipaevik"/>
+    </android.support.design.widget.AppBarLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/minueesnimi"
+            android:hint="Minu eesnimi"
+            android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/minuperenimi"
+                android:hint="Minu perekonnanimi"
+                android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/minuepost"
+                android:hint="Minu e-post"
+                android:inputType="textEmailAddress"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:background="@color/colorPrimaryDark" />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/muusikakool"
+                android:hint="Muusikakooli nimi"
+                android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/klass"
+                android:hint="Klass"
+                android:inputType="textCapSentences"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:background="@color/colorPrimaryDark" />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/opetajaeesnimi"
+                android:hint="Minu õpetaja eesnimi"
+                android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/opetajaperenimi"
+                android:hint="Minu õpetaja perekonnanimi"
+                android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/opetajaepost"
+                android:hint="Minu õpetaja e-post"
+                android:inputType="textEmailAddress"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:background="@color/colorPrimaryDark" />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/paevasharjutada"
+                android:hint="Mitu minutit tahan päevas harjutada"
+                android:inputType="number"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:background="@color/colorPrimaryDark" />
+    </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>
