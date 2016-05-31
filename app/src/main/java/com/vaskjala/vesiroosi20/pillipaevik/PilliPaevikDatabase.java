@@ -392,8 +392,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             FileChannel source=null;
             FileChannel destination=null;
             String currentDBPath = "/data/"+ context.getPackageName() +"/databases/"+DATABASE_NAME;
-            String timestamp = KujundaKuupaevKellaaegBackup(new Date());
-            String backupDBPath = DATABASE_NAME+timestamp;
+            String backupDBPath = DATABASE_NAME + KujundaKuupaevKellaaegBackup(new Date());
             File currentDB = new File(data, currentDBPath);
             File backupDB = new File(sd, backupDBPath);
             Log.d("exportDB", "Originaal:" + currentDB.getAbsolutePath());
