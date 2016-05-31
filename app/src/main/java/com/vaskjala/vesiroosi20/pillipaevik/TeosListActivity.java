@@ -24,7 +24,7 @@ public class TeosListActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private SimpleItemRecyclerViewAdapter mMainAdapter;
-    static final int TEOS_MUUTMINE_TEGU = 0;
+    private PilliPaevikDatabase mPPManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +51,13 @@ public class TeosListActivity extends AppCompatActivity {
         mAction.setDisplayHomeAsUpEnabled(true);
         mAction.setHomeButtonEnabled(true);
 
+        mPPManager = new PilliPaevikDatabase(getApplicationContext());
+
         setupDrawer(toolbar);
 
         View recyclerView = findViewById(R.id.harjutua_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
-
-        // Backup
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        mPPManager.exportDB(getApplicationContext());
     }
     @Override
     protected void onStop() {
@@ -132,7 +130,6 @@ public class TeosListActivity extends AppCompatActivity {
         }
     }
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         List<Teos> teosed = mPPManager.getAllTeosed();
         mMainAdapter = new SimpleItemRecyclerViewAdapter(teosed);
         recyclerView.setAdapter(mMainAdapter);
@@ -181,6 +178,11 @@ public class TeosListActivity extends AppCompatActivity {
             holder.mItem = mValues.get(position);
             holder.mContentView.setText(holder.mItem.getNimi());
 
+            // TODO Asynckroonselt
+            int[] stat = mPPManager.TeoseHarjutusKordadeStatistika(holder.mItem.getId());
+            holder.mHarjutusteArv.setText(String.valueOf(stat[1]));
+            holder.mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(stat[0]/60));
+
             ListiKuulaja pLK = new ListiKuulaja(holder);
             holder.mView.setOnClickListener(pLK);
         }
@@ -193,12 +195,17 @@ public class TeosListActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView mContentView;
+            public final TextView mHarjutusteArv;
+            public final TextView mHarjutuseKestus;
+
             public Teos mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
                 mContentView = (TextView) view.findViewById(R.id.content);
+                mHarjutusteArv = (TextView) view.findViewById(R.id.teoslistteoseharjutustearv);
+                mHarjutuseKestus = (TextView) view.findViewById(R.id.teoslistteoseharjutustekestus);
             }
 
             @Override
