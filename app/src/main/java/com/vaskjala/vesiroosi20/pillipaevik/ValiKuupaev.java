@@ -6,14 +6,11 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.widget.CheckedTextView;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -23,15 +20,12 @@ public class ValiKuupaev extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
     private final Calendar c = Calendar.getInstance();
-    private FragmendiltTagaside KuupaevaOmanik;
+    private AjaMuutuseTeavitus KuupaevaOmanik;
 
-    public interface FragmendiltTagaside {
-        void MuudetudKuupaev(Date kuupaev, boolean muudaalgust);
-    }
 
     public void onAttach(Activity a) {
         super.onAttach(a);
-        KuupaevaOmanik = (FragmendiltTagaside) a;
+        KuupaevaOmanik = (AjaMuutuseTeavitus) a;
     }
 
 
@@ -57,7 +51,7 @@ public class ValiKuupaev extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         c.set(year,month,day);
-        KuupaevaOmanik.MuudetudKuupaev(c.getTime(), getArguments().getBoolean("muudaalgust"));
+        KuupaevaOmanik.AegMuudetud(c.getTime(), getArguments().getBoolean("muudaalgust"));
         Log.d("Valikuupaev", year + "-" + month + "-"+ day + " " + c.getTime());
     }
 }

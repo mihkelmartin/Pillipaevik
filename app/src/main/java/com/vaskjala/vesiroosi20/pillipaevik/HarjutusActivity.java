@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class HarjutusActivity extends AppCompatActivity implements ValiKuupaev.FragmendiltTagaside, YldineKysimuseAken.NoticeDialogListener {
+public class HarjutusActivity extends AppCompatActivity implements AjaMuutuseTeavitus, LihtsaKusimuseKuulaja {
 
     private PilliPaevikDatabase mPPManager;
     private int teosid;
@@ -115,7 +115,7 @@ public class HarjutusActivity extends AppCompatActivity implements ValiKuupaev.F
             args.putString("kysimus", "Kustutad Harjutuse ?");
             args.putString("jahvastus", "Jah");
             args.putString("eivastus", "Ei");
-            DialogFragment newFragment = new YldineKysimuseAken();
+            DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "KustutaHarjutus");
         }
@@ -165,7 +165,8 @@ public class HarjutusActivity extends AppCompatActivity implements ValiKuupaev.F
         }
         return retVal;
     }
-    public void MuudetudKuupaev(Date kuupaev, boolean muudaalgust) {
+    @Override
+    public void AegMuudetud(Date kuupaev, boolean muudaalgust) {
 
         String VeaTeade = "";
         if (!(VeaTeade = AjaMuutusKeelatud(kuupaev)).isEmpty()) {
@@ -254,7 +255,7 @@ public class HarjutusActivity extends AppCompatActivity implements ValiKuupaev.F
 
     // Dialoogi vastused
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void kuiEiVastus(DialogFragment dialog) {
         if (dialog.getTag() == "KustutaHarjutus") {
             Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
         }
@@ -263,7 +264,7 @@ public class HarjutusActivity extends AppCompatActivity implements ValiKuupaev.F
         }
     }
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag() == "KustutaHarjutus") {
             mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
             Intent output = new Intent();

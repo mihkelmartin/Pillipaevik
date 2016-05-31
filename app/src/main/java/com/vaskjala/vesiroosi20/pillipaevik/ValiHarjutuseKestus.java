@@ -25,7 +25,7 @@ import java.util.Locale;
 public class ValiHarjutuseKestus extends DialogFragment {
 
     // Use this instance of the interface to deliver action events
-    YldineKysimuseAken.NoticeDialogListener mListener;
+    LihtsaKusimuseKuulaja mListener;
     private NumberPicker kestus;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
@@ -35,7 +35,7 @@ public class ValiHarjutuseKestus extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (YldineKysimuseAken.NoticeDialogListener) activity;
+            mListener = (LihtsaKusimuseKuulaja) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
@@ -60,12 +60,12 @@ public class ValiHarjutuseKestus extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         Bundle args = getArguments();
                         args.putInt("kestus", kestus.getValue());
-                        mListener.onDialogPositiveClick(ValiHarjutuseKestus.this);
+                        mListener.kuiJahVastus(ValiHarjutuseKestus.this);
                     }
                 })
                 .setNegativeButton("Loobu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogNegativeClick(ValiHarjutuseKestus.this);
+                        mListener.kuiEiVastus(ValiHarjutuseKestus.this);
                     }
                 });
         kestus = (NumberPicker) v.findViewById(R.id.kestusminutites);

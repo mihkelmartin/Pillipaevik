@@ -16,14 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 
-public class HarjutusUusActivity extends AppCompatActivity implements YldineKysimuseAken.NoticeDialogListener {
+public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
     private PilliPaevikDatabase mPPManager;
     private int teosid;
@@ -75,6 +72,8 @@ public class HarjutusUusActivity extends AppCompatActivity implements YldineKysi
         Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
 
         mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        Teos teos = mPPManager.getTeos(this.teosid);
+        mAction.setTitle(teos.getNimi());
 
         if (savedInstanceState == null) {
             this.harjutus = new HarjutusKord(this.teosid);
@@ -89,7 +88,6 @@ public class HarjutusUusActivity extends AppCompatActivity implements YldineKysi
             Log.d(this.getLocalClassName(), "Loen savedinstantsist :" + this.harjutusid + " " +
                     this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
 
-            Teos teos = mPPManager.getTeos(this.teosid);
             HashMap<Integer, HarjutusKord> harjutuskorradmap  = teos.getHarjutuskorradmap(getApplicationContext());
             this.harjutus = harjutuskorradmap.get(this.harjutusid);
             Log.d(this.getLocalClassName(), "Harjutus taastatud teose kaudu : " + this.harjutusid);
@@ -134,7 +132,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements YldineKysi
             args.putString("kysimus","Kustutad Harjutuse ?");
             args.putString("jahvastus","Jah");
             args.putString("eivastus","Ei");
-            DialogFragment newFragment = new YldineKysimuseAken();
+            DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "Kustuta Harjutus");
         }
@@ -191,11 +189,11 @@ public class HarjutusUusActivity extends AppCompatActivity implements YldineKysi
 
     // Dialoogi vastused
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void kuiEiVastus(DialogFragment dialog) {
         Log.d("TeosActivity", "Kustutamine katkestatud:" + this.teosid);
     }
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void kuiJahVastus(DialogFragment dialog) {
         mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
         Log.d(this.getLocalClassName(), "Uus harjutuskord kustutatud : " + this.harjutusid);
         Intent output = new Intent();

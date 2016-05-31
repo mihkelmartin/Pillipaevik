@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
-public class TeosActivity extends AppCompatActivity implements YldineKysimuseAken.NoticeDialogListener {
+public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
 
     private PilliPaevikDatabase mPPManager;
@@ -293,7 +293,7 @@ public class TeosActivity extends AppCompatActivity implements YldineKysimuseAke
             args.putString("kysimus","Kustutad teose ja kõik selle teose harjutused ?");
             args.putString("jahvastus","Jah");
             args.putString("eivastus","Ei");
-            DialogFragment newFragment = new YldineKysimuseAken();
+            DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "Kustuta teos");
         }
@@ -379,12 +379,12 @@ public class TeosActivity extends AppCompatActivity implements YldineKysimuseAke
 
     // Dialoogi vastused
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void kuiEiVastus(DialogFragment dialog) {
         Log.d("TeosActivity", "Kustutamine katkestatud:" + this.teosid);
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public void kuiJahVastus(DialogFragment dialog) {
         mPPManager.KustutaTeos(this.teosid);
         Intent output = new Intent();
         output.putExtra("item_position", this.itemposition);

@@ -10,15 +10,11 @@ import android.support.v4.app.DialogFragment;
 /**
  * Created by mihkel on 24.05.2016.
  */
-public class YldineKysimuseAken  extends DialogFragment {
+public class LihtneKusimus extends DialogFragment {
 
-    public interface NoticeDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
-    }
 
     // Use this instance of the interface to deliver action events
-    NoticeDialogListener mListener;
+    LihtsaKusimuseKuulaja mListener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
@@ -27,7 +23,7 @@ public class YldineKysimuseAken  extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (NoticeDialogListener) activity;
+            mListener = (LihtsaKusimuseKuulaja) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
@@ -45,12 +41,12 @@ public class YldineKysimuseAken  extends DialogFragment {
         builder.setMessage(kysimus)
                 .setPositiveButton(jahvastus, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogPositiveClick(YldineKysimuseAken.this);
+                        mListener.kuiJahVastus(LihtneKusimus.this);
                     }
                 })
                 .setNegativeButton(eivastus, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogNegativeClick(YldineKysimuseAken.this);
+                        mListener.kuiEiVastus(LihtneKusimus.this);
                     }
                 });
         // Create the AlertDialog object and return it

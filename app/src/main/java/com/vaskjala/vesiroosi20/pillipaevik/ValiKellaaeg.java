@@ -1,20 +1,17 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -24,11 +21,11 @@ public class ValiKellaaeg extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
     private final Calendar c = Calendar.getInstance();
-    private ValiKuupaev.FragmendiltTagaside KuupaevaOmanik;
+    private AjaMuutuseTeavitus KuupaevaOmanik;
 
     public void onAttach(Activity a) {
         super.onAttach(a);
-        KuupaevaOmanik = (ValiKuupaev.FragmendiltTagaside) a;
+        KuupaevaOmanik = (AjaMuutuseTeavitus) a;
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -54,7 +51,7 @@ public class ValiKellaaeg extends DialogFragment
     public void onTimeSet(TimePicker view, int hour, int minute) {
         // Kellaaega sätitakse minuti täpsusega. Nulli sekundid.
         c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), hour, minute, 0);
-        KuupaevaOmanik.MuudetudKuupaev(c.getTime(), getArguments().getBoolean("muudaalgust"));
+        KuupaevaOmanik.AegMuudetud(c.getTime(), getArguments().getBoolean("muudaalgust"));
         Log.d("Valikuupaev", hour + ":" + minute + " " + c.getTime());
     }
 }
