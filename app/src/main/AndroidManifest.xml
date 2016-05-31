@@ -8,6 +8,7 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/Pillipaevik">
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
         <activity
                 android:name=".TeosListActivity"
                 android:label="@string/app_name"
@@ -15,7 +16,6 @@
                 android:theme="@style/Pillipaevik">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

@@ -56,6 +56,10 @@ public class TeosListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.harjutua_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+        // Backup
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        mPPManager.exportDB(getApplicationContext());
     }
     @Override
     protected void onStop() {

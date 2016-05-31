@@ -11,4 +11,43 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textAppearance="?attr/textAppearanceListItem"/>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="0"
+                  android:orientation="horizontal">
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_weight="1">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="0"
+                       android:src="@drawable/ic_replay_black_24dp"/>
+            <TextView android:id="@+id/teoseharjutustearv"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:paddingLeft="8dp"
+                      android:paddingRight="8dp"
+                      android:gravity="center_vertical|left"
+                      android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_weight="1">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:layout_weight="0"
+                       android:src="@drawable/ic_query_builder_black_24dp"/>
+            <TextView android:id="@+id/teoseharjutustekestus"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:paddingLeft="8dp"
+                      android:paddingRight="8dp"
+                      android:gravity="center_vertical|left"
+                      android:text="00:00"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

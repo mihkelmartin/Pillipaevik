@@ -5,15 +5,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.support.annotation.IntegerRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Adapter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import static com.vaskjala.vesiroosi20.pillipaevik.Tooriistad.KujundaKuupaevKellaaegBackup;
 
 /**
  * Created by mihkel on 2.05.2016.
@@ -369,4 +375,64 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     }
 
 
+    // Varukoopia
+    public void exportDB(Context context){
+
+        File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +
+                File.separator + DATABASE_NAME + File.separator );
+
+        boolean success = true;
+        if (!sd.exists()) {
+            Log.d("exportDB", "Soovitakse luua:" + sd.getAbsolutePath());
+            success = sd.mkdir();
+        }
+        if (success) {
+
+            File data = Environment.getDataDirectory();
+            FileChannel source=null;
+            FileChannel destination=null;
+            String currentDBPath = "/data/"+ context.getPackageName() +"/databases/"+DATABASE_NAME;
+            String timestamp = KujundaKuupaevKellaaegBackup(new Date());
+            String backupDBPath = DATABASE_NAME+timestamp;
+            File currentDB = new File(data, currentDBPath);
+            File backupDB = new File(sd, backupDBPath);
+            Log.d("exportDB", "Originaal:" + currentDB.getAbsolutePath());
+            Log.d("exportDB", "Koopia:" + backupDB.getAbsolutePath());
+
+            try {
+                source = new FileInputStream(currentDB).getChannel();
+                destination = new FileOutputStream(backupDB).getChannel();
+                destination.transferFrom(source, 0, source.size());
+                source.close();
+                destination.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d("exportDB", "Download kataloogi loomine ei õnnestunud.");
+        }
+    }
+
+    // Taastamine
+    private void importDB(Context context){
+        File sd = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +
+                File.separator + DATABASE_NAME+
+                File.separator );
+        File data = Environment.getDataDirectory();
+        FileChannel source=null;
+        FileChannel destination=null;
+        String backupDBPath = "/data/"+ context.getPackageName() +"/databases/"+DATABASE_NAME;
+        String currentDBPath = DATABASE_NAME + "Taasta";
+        File currentDB = new File(sd, currentDBPath);
+        File backupDB = new File(data, backupDBPath);
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
