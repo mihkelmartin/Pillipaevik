@@ -23,7 +23,7 @@
                        android:layout_height="wrap_content"
                        android:layout_weight="0"
                        android:src="@drawable/ic_replay_black_24dp"/>
-            <TextView android:id="@+id/teoseharjutustearv"
+            <TextView android:id="@+id/teoslistteoseharjutustearv"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
                       android:layout_weight="1"
@@ -40,7 +40,7 @@
                        android:layout_height="match_parent"
                        android:layout_weight="0"
                        android:src="@drawable/ic_query_builder_black_24dp"/>
-            <TextView android:id="@+id/teoseharjutustekestus"
+            <TextView android:id="@+id/teoslistteoseharjutustekestus"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
                       android:layout_weight="1"
