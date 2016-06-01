@@ -35,16 +35,26 @@
                      android:layout_width="match_parent"
                      android:layout_height="match_parent"
                      app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <LinearLayout android:id="@+id/paevasharjutatudprogress"
-                          android:layout_width="match_parent"
+            <TableLayout android:id="@+id/harjutatudprogresstabel"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentBottom="true">
+            <TableRow android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_above="@+id/nadalasharjutatudprogress"
-                          android:orientation="horizontal">
+                          android:layout_weight="0"
+                          android:layout_marginLeft="16dp"
+                          android:gravity="left|center_vertical"
+                          android:paddingRight="8dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:text="Täna"/>
                 <TextView android:id="@+id/paevasharjutatud"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_weight="0"
-                          android:layout_marginLeft="16dp"
+                          android:layout_marginLeft="8dp"
                           android:gravity="right|center_vertical"
                           android:paddingRight="8dp"
                           android:textAppearance="?android:attr/textAppearanceSmall"
@@ -52,8 +62,8 @@
                 <ProgressBar android:id="@+id/paevasharjutatudtulp"
                              android:layout_width="match_parent"
                              android:layout_height="wrap_content"
-                             android:scaleY="2"
                              style="?android:attr/progressBarStyleHorizontal"
+                             android:progressDrawable="@layout/progressijoonistaja"
                              android:layout_weight="1"
                              android:gravity="center_vertical"/>
                 <TextView android:id="@+id/paevanorm"
@@ -65,17 +75,22 @@
                           android:paddingLeft="8dp"
                           android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text=""/>
-            </LinearLayout>
-            <LinearLayout android:id="@+id/nadalasharjutatudprogress"
-                          android:layout_width="match_parent"
+            </TableRow>
+            <TableRow  android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_alignParentBottom="true"
-                          android:orientation="horizontal">
+                          android:layout_weight="0"
+                          android:layout_marginLeft="16dp"
+                          android:gravity="left|center_vertical"
+                          android:paddingRight="8dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:text="Nädal"/>
                 <TextView android:id="@+id/nadalasharjutatud"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_weight="0"
-                          android:layout_marginLeft="16dp"
+                          android:layout_marginLeft="8dp"
                           android:gravity="right|center_vertical"
                           android:paddingRight="8dp"
                           android:textAppearance="?android:attr/textAppearanceSmall"
@@ -83,8 +98,8 @@
                 <ProgressBar android:id="@+id/nadalasharjutatudtulp"
                              android:layout_width="match_parent"
                              android:layout_height="wrap_content"
-                             android:scaleY="2"
                              style="?android:attr/progressBarStyleHorizontal"
+                             android:progressDrawable="@layout/progressijoonistaja"
                              android:layout_weight="1"
                              android:gravity="center_vertical"/>
                 <TextView android:id="@+id/nadalanorm"
@@ -96,14 +111,15 @@
                           android:paddingLeft="8dp"
                           android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text=""/>
-            </LinearLayout>
+                </TableRow>
+            </TableLayout>
             <android.support.v7.widget.RecyclerView android:id="@+id/harjutua_list"
                                                     android:name="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content"
                                                     android:layout_marginLeft="16dp"
                                                     android:layout_marginRight="16dp"
-                                                    android:layout_above="@+id/paevasharjutatudprogress"
+                                                    android:layout_above="@+id/harjutatudprogresstabel"
                                                     android:layout_alignParentTop="true"
                                                     tools:context=".TeosListActivity"
                                                     app:layoutManager="LinearLayoutManager"

@@ -5,7 +5,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
-                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.HarjutusActivity">
+                                                 tools:context=".HarjutusMuudaActivity">
 
     <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -49,15 +49,11 @@
             <TextView android:id="@+id/alguskuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
-                      style="@android:style/Widget.Holo.Spinner"
-                      android:onClick="MuudaKuupaeva"/>
+                      android:layout_margin="12dp"/>
             <TextView android:id="@+id/alguskellaaeg"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
-                      style="@android:style/Widget.Holo.Spinner"
-                      android:onClick="MuudaKuupaeva"/>
+                      android:layout_margin="12dp"/>
         </TableRow>
 
         <TableRow android:layout_width="wrap_content"
@@ -71,15 +67,11 @@
             <TextView android:id="@+id/lopukuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
-                      style="@android:style/Widget.Holo.Spinner"
-                      android:onClick="MuudaKuupaeva"/>
+                      android:layout_margin="12dp"/>
             <TextView android:id="@+id/lopukellaaeg"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
-                      style="@android:style/Widget.Holo.Spinner"
-                      android:onClick="MuudaKuupaeva"/>
+                      android:layout_margin="12dp"/>
         </TableRow>
 
         <TableRow android:layout_width="wrap_content"
@@ -93,10 +85,7 @@
             <TextView android:id="@+id/pikkusminutites"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
-                      style="@android:style/Widget.Holo.Spinner"
-                      android:text=""
-                      android:onClick="MuudaPikkust"/>
+                      android:layout_margin="12dp"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="0dp"
@@ -104,6 +93,12 @@
                       android:text="minutit"/>
         </TableRow>
         </TableLayout>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="12dp"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:text="@string/eisaamuutaharjutustjuhend"/>
 
     </LinearLayout>
 

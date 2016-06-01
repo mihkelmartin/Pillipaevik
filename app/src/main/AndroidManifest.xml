@@ -31,7 +31,7 @@
                     android:value=".TeosListActivity"/>
         </activity>
         <activity
-                android:name=".HarjutusActivity"
+                android:name=".HarjutusMuudaActivity"
                 android:parentActivityName=".TeosActivity"
                 android:theme="@style/Pillipaevik">
             <meta-data
@@ -39,6 +39,13 @@
                     android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosActivity"/>
         </activity>
         <activity
+                android:name=".HarjutusLisaTehtudActivity"
+                android:parentActivityName=".TeosActivity"
+                android:theme="@style/Pillipaevik">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosActivity"/>
+        </activity>        <activity
                 android:name=".HarjutusUusActivity"
                 android:parentActivityName=".TeosActivity"
                 android:theme="@style/Pillipaevik">

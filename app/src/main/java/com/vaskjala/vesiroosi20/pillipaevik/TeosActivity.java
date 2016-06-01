@@ -191,7 +191,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
 
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            Intent intent = new Intent(view.getContext(), HarjutusActivity.class);
+            Intent intent = new Intent(view.getContext(), HarjutusMuudaActivity.class);
             HarjutusKord mHarjutuskord = (HarjutusKord)parent.getItemAtPosition(position);
             intent.putExtra("teos_id", teosid);
             intent.putExtra("harjutus_id", mHarjutuskord.getId());
@@ -245,7 +245,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         savedInstanceState.putInt("itemposition", this.itemposition);
         savedInstanceState.putBoolean("uusteos", this.bUueTeoseLoomine);
 
-        Log.d("TeosActivity", "Salvestan :" + this.teosid + " " + this.itemposition );
+        Log.d("TeosActivity", "onSaveInstanceState :" + this.teosid + " " + this.itemposition );
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -306,7 +306,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         }
         if(item.getItemId() == R.id.lisatehtud){
             Log.d("TeosActivity", "Lisa tehtud harjutus");
-            Intent intent = new Intent(this, HarjutusActivity.class);
+            Intent intent = new Intent(this, HarjutusLisaTehtudActivity.class);
             intent.putExtra("teos_id", this.teosid);
             intent.putExtra("harjutus_id", -1);
             startActivityForResult(intent, getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_TEHTUD ));

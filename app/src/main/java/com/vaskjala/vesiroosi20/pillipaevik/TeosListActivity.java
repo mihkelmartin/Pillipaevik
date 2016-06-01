@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -347,11 +345,12 @@ public class TeosListActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.paevanorm)).setText(String.valueOf(vajaharjutada+" m"));
 
         ProgressBar pPHT = ((ProgressBar) findViewById(R.id.paevasharjutatudtulp));
-        int color = (harjutatud >= vajaharjutada) ? Color.GREEN : Color.MAGENTA;
         pPHT.setMax(vajaharjutada);
         pPHT.setProgress(harjutatud);
-        pPHT.getProgressDrawable().setColorFilter(
-                color, android.graphics.PorterDuff.Mode.SRC_IN);
+        if(harjutatud >= vajaharjutada)
+            pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
+        else
+            pPHT.getProgressDrawable().setColorFilter(null);
 
     }
 
@@ -371,11 +370,12 @@ public class TeosListActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.nadalanorm)).setText(String.valueOf(vajaharjutada+" m"));
 
         ProgressBar pPHT = ((ProgressBar) findViewById(R.id.nadalasharjutatudtulp));
-        int color = (harjutatud >= vajaharjutada) ? Color.GREEN : Color.MAGENTA;
         pPHT.setMax(vajaharjutada);
         pPHT.setProgress(harjutatud);
-        pPHT.getProgressDrawable().setColorFilter(
-                color, android.graphics.PorterDuff.Mode.SRC_IN);
+        if(harjutatud >= vajaharjutada)
+            pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
+
+
 
     }
 }

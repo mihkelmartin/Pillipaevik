@@ -13,6 +13,10 @@
     <string name="sule_sahtel">Sulge</string>
     <string name="stopper">00:00:00</string>
     <string name="vaikimisisharjutusekirjeldus">Mängisin lugu</string>
+    <string name="eisaamuutaharjutustjuhend">
+    Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
+    </string>
+
     <string-array name="sahtli_valikud_ikoonid">
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_color_24dp</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_week_color_24dp</item>
