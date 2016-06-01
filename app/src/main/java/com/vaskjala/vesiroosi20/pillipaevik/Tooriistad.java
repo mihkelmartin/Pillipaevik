@@ -149,7 +149,7 @@ public final class Tooriistad {
     }
 
     // Taastamine
-    private static void importDB(Context context){
+    public static void importDB(Context context){
         File sd = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +
                 File.separator + PilliPaevikDatabase.DATABASE_NAME+
                 File.separator );

@@ -10,5 +10,6 @@ public class PilliPaevik extends Application {
     public void onCreate() {
         super.onCreate();
         Tooriistad.exportDB(getApplicationContext());
+        Tooriistad.importDB(getApplicationContext());
     }
 }

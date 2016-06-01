@@ -22,14 +22,16 @@
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_weight="0"
+                       android:scaleType="centerInside"
+                       android:scaleX="0.5"
+                       android:scaleY="0.5"
                        android:src="@drawable/ic_replay_black_24dp"/>
             <TextView android:id="@+id/teoslistteoseharjutustearv"
-                      android:layout_width="wrap_content"
+                      android:layout_width="36sp"
                       android:layout_height="match_parent"
                       android:layout_weight="1"
-                      android:paddingLeft="8dp"
-                      android:paddingRight="8dp"
-                      android:gravity="center_vertical|left"
+                      android:paddingEnd="8dp"
+                      android:gravity="center_vertical|right"
                       android:text="0"/>
         </LinearLayout>
         <LinearLayout android:layout_width="wrap_content"
@@ -39,13 +41,15 @@
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="match_parent"
                        android:layout_weight="0"
+                       android:scaleType="centerInside"
+                       android:scaleX="0.5"
+                       android:scaleY="0.5"
                        android:src="@drawable/ic_query_builder_black_24dp"/>
             <TextView android:id="@+id/teoslistteoseharjutustekestus"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"
                       android:layout_weight="1"
-                      android:paddingLeft="8dp"
-                      android:paddingRight="8dp"
+                      android:paddingEnd="8dp"
                       android:gravity="center_vertical|left"
                       android:text="00:00"/>
         </LinearLayout>
