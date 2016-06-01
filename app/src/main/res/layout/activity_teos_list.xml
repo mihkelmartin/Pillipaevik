@@ -38,6 +38,8 @@
             <TableLayout android:id="@+id/harjutatudprogresstabel"
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
+                         android:layout_marginLeft="16dp"
+                         android:layout_marginRight="16dp"
                          android:layout_alignParentBottom="true">
             <TableRow android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -45,9 +47,9 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_weight="0"
-                          android:layout_marginLeft="16dp"
                           android:gravity="left|center_vertical"
                           android:paddingRight="8dp"
+                          android:textStyle="bold"
                           android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text="Täna"/>
                 <TextView android:id="@+id/paevasharjutatud"
@@ -81,9 +83,9 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_weight="0"
-                          android:layout_marginLeft="16dp"
                           android:gravity="left|center_vertical"
                           android:paddingRight="8dp"
+                          android:textStyle="bold"
                           android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text="Nädal"/>
                 <TextView android:id="@+id/nadalasharjutatud"
@@ -111,6 +113,42 @@
                           android:paddingLeft="8dp"
                           android:textAppearance="?android:attr/textAppearanceSmall"
                           android:text=""/>
+                </TableRow>
+                <TableRow  android:layout_width="match_parent"
+                           android:layout_height="wrap_content">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0"
+                              android:gravity="left|center_vertical"
+                              android:paddingRight="8dp"
+                              android:textStyle="bold"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:text="Kuu"/>
+                    <TextView android:id="@+id/kuusharjutatud"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0"
+                              android:layout_marginLeft="8dp"
+                              android:gravity="right|center_vertical"
+                              android:paddingRight="8dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:text=""/>
+                    <ProgressBar android:id="@+id/kuusharjutatudtulp"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 style="?android:attr/progressBarStyleHorizontal"
+                                 android:progressDrawable="@layout/progressijoonistaja"
+                                 android:layout_weight="1"
+                                 android:gravity="center_vertical"/>
+                    <TextView android:id="@+id/kuunorm"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginRight="16dp"
+                              android:layout_weight="0"
+                              android:gravity="right|center_vertical"
+                              android:paddingLeft="8dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:text=""/>
                 </TableRow>
             </TableLayout>
             <android.support.v7.widget.RecyclerView android:id="@+id/harjutua_list"

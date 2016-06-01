@@ -332,7 +332,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ") FROM "
                 + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE strftime('%Y'," +
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + aasta + "'" + " AND strftime('%W'," +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + nadal + "'";
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + Tooriistad.formatDigits(nadal) + "'";
 
         Log.d(LOG, selectParing);
 
@@ -344,6 +344,27 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         c.close();
         db.close();
         Log.d("ArvutaNadalaMinutid", "retVal:" + retVal);
+        return retVal;
+
+    }
+    public int ArvutaKuuMinutid (int aasta, int kuu){
+
+        int retVal = 0;
+        String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ") FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE strftime('%Y'," +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + aasta + "'" + " AND strftime('%m'," +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + Tooriistad.formatDigits(kuu) + "'";
+
+        Log.d(LOG, selectParing);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectParing, null);
+        c.moveToFirst();
+        retVal = c.getInt(0);
+        retVal = (int)Math.ceil((double)retVal / 60.0);
+        c.close();
+        db.close();
+        Log.d("ArvutaKuuMinutid", "retVal:" + retVal);
         return retVal;
 
     }
@@ -374,4 +395,26 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return retVal;
     }
 
+    public void PilliPaevikTestMeetod(){
+        String selectParing = "SELECT strftime('%Y',algusaeg), strftime('%m',algusaeg), strftime('%W',algusaeg) FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME;
+
+        try{
+
+            Log.d(LOG, selectParing);
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor c = db.rawQuery(selectParing, null);
+            // looping through all rows and adding to list
+            if (c.moveToFirst()) {
+
+                do {
+                   Log.d("getAllHarjutuskorrad",c.getString(0) + " " + c.getString(1) + c.getString(2));
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        } catch (Exception e){
+            Log.e("PilliPaevikTestMeetod", "Ei suuda lugeda" + e.toString());
+        }
+    }
 }

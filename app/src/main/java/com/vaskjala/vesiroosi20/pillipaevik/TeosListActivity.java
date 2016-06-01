@@ -68,6 +68,7 @@ public class TeosListActivity extends AppCompatActivity {
         super.onStart();
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
+        KuuHarjutusteProgress();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -353,7 +354,6 @@ public class TeosListActivity extends AppCompatActivity {
             pPHT.getProgressDrawable().setColorFilter(null);
 
     }
-
     private void NadalaHarjutusteProgress(){
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
 
@@ -374,8 +374,32 @@ public class TeosListActivity extends AppCompatActivity {
         pPHT.setProgress(harjutatud);
         if(harjutatud >= vajaharjutada)
             pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
+        else
+            pPHT.getProgressDrawable().setColorFilter(null);
 
+    }
+    private void KuuHarjutusteProgress(){
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
 
+        Calendar c = Calendar.getInstance();
+        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());
+        // Java 0 - 11, SQLite 1 - 12, seega +1
+        int harjutatud = mPPManager.ArvutaKuuMinutid(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1);
+        String szharjutatud = String.valueOf(harjutatud)+" m";
+        ((TextView) findViewById(R.id.kuusharjutatud)).setText(szharjutatud );
+
+        int paevakordaja = c.get(Calendar.DAY_OF_MONTH);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
+        int vajaharjutada = sharedPref.getInt("paevasharjutada", 0) * paevakordaja;
+        ((TextView) findViewById(R.id.kuunorm)).setText(String.valueOf(vajaharjutada+" m"));
+
+        ProgressBar pPHT = ((ProgressBar) findViewById(R.id.kuusharjutatudtulp));
+        pPHT.setMax(vajaharjutada);
+        pPHT.setProgress(harjutatud);
+        if(harjutatud >= vajaharjutada)
+            pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
+        else
+            pPHT.getProgressDrawable().setColorFilter(null);
 
     }
 }

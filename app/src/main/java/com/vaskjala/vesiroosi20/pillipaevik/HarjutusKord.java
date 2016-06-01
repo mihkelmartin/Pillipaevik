@@ -1,6 +1,5 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.content.Context;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -84,11 +83,11 @@ public class HarjutusKord {
         }
 
     }
-    public void setAlgusaegEiArvuta(Date algusaeg) {
+    private void setAlgusaegEiArvuta(Date algusaeg) {
         this.algusaeg = algusaeg;
     }
 
-    public void TeavitaAlguseMuutusest(){
+    private void TeavitaAlguseMuutusest(){
         Log.d("Harjutuskord","algusaeg muutus");
 
         if(getLopuaeg() == null) {
@@ -128,7 +127,7 @@ public class HarjutusKord {
         this.lopuaeg = lopuaeg;
     }
 
-    public void TeavitaLopuMuutusest(){
+    private void TeavitaLopuMuutusest(){
         Log.d("Harjutuskord","lopuaeg muutus");
 
         if(getAlgusaeg() == null) {
@@ -158,7 +157,7 @@ public class HarjutusKord {
     public void setPikkussekundites(int pikkussekundites) {
         this.pikkussekundites = pikkussekundites;
     }
-    public void VarskendaPikkusSekundites(){
+    private void VarskendaPikkusSekundites(){
 
         setPikkussekundites(ArvutaPikkusSekundites());
 
@@ -167,8 +166,8 @@ public class HarjutusKord {
     public int getPikkusminutites(){
         return (int)Math.ceil((double)getPikkussekundites() / 60.0);
     }
-    public int ArvutaPikkusSekundites(){
-        int retVal = 0;
+    private int ArvutaPikkusSekundites(){
+        int retVal;
         Calendar c = Calendar.getInstance();
         c.setTime(getAlgusaeg());
         long algus = c.getTimeInMillis();
@@ -188,9 +187,6 @@ public class HarjutusKord {
         this.harjutusekirjeldus = harjutusekirjeldus;
     }
 
-    public Date getLisatudpaevikusse() {
-        return lisatudpaevikusse;
-    }
     public String getLisatudpaevikusseAsString(){
         String result = "";
         SimpleDateFormat format =
@@ -200,7 +196,7 @@ public class HarjutusKord {
 
         return result;
     }
-    public void setLisatudpaevikusse(Date lisatudpaevikusse) {
+    private void setLisatudpaevikusse(Date lisatudpaevikusse) {
         this.lisatudpaevikusse = lisatudpaevikusse;
     }
     public void setLisatudpaevikusse(String lisatudpaevikusse) {
@@ -222,10 +218,8 @@ public class HarjutusKord {
     }
 
     public String toString(){
-        String retVal = "ID:" + this.id + "Algusaeg:" + this.algusaeg + " Pikkus:" + this.pikkussekundites +
+        return "ID:" + this.id + "Algusaeg:" + this.algusaeg + " Pikkus:" + this.pikkussekundites +
                 " Lopuaeg:" + this.lopuaeg + " Kirjeldus:" + this.harjutusekirjeldus +
                 " Lisatud:" + this.lisatudpaevikusse + " Teoseid:" + this.teoseid;
-
-        return retVal;
     }
 }

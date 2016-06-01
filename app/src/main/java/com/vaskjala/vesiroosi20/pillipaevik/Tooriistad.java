@@ -84,7 +84,7 @@ public final class Tooriistad {
                 .append(formatDigits(seconds));
         return sb.toString();
     }
-    private static String formatDigits(long num) {
+    public static String formatDigits(long num) {
         return (num < 10) ? "0" + num : new Long(num).toString();
     }
 
