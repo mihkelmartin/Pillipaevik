@@ -48,7 +48,7 @@ public class SeadedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void AlustaAtribuudid(){
+    private void AlustaAtribuudid(){
         minueesnimi = ((EditText)findViewById(R.id.minueesnimi));
         minuperenimi = ((EditText)findViewById(R.id.minuperenimi));
         minuinstrument = ((EditText)findViewById(R.id.minuinstrument));
@@ -60,7 +60,7 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaepost = ((EditText)findViewById(R.id.opetajaepost));
         paevasharjutada = ((EditText)findViewById(R.id.paevasharjutada));
     }
-    void PaneFookusePassija(){
+    private void PaneFookusePassija(){
         SeadedFookusePassija mFP = new SeadedFookusePassija();
         minueesnimi.setOnFocusChangeListener(mFP);
         minuperenimi.setOnFocusChangeListener(mFP);
@@ -73,7 +73,7 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaepost.setOnFocusChangeListener(mFP);
         paevasharjutada.setOnFocusChangeListener(mFP);
     }
-    void TaastaAndmed(){
+    private void TaastaAndmed(){
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         minueesnimi.setText(sharedPref.getString("minueesnimi", ""));
         minuperenimi.setText(sharedPref.getString("minuperenimi", ""));
@@ -86,11 +86,11 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaepost.setText(sharedPref.getString("opetajaepost", ""));
 
         String lszPaevas = String.valueOf(sharedPref.getInt("paevasharjutada", 0));
-        if(lszPaevas == "0")
+        if(lszPaevas.equals("0"))
             lszPaevas = "";
         paevasharjutada.setText(lszPaevas);
     }
-    void SalvestaAndmed (){
+    private void SalvestaAndmed(){
 
         Log.d(getLocalClassName(),"Salvestan");
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
@@ -117,7 +117,7 @@ public class SeadedActivity extends AppCompatActivity {
 
         editor.commit();
     }
-    public class SeadedFookusePassija implements View.OnFocusChangeListener {
+    private class SeadedFookusePassija implements View.OnFocusChangeListener {
 
         public void onFocusChange(View v, boolean hasFocus) {
             SalvestaAndmed();

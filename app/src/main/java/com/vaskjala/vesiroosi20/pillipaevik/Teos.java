@@ -2,9 +2,8 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Context;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.util.Log;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +25,7 @@ public class Teos implements Comparable<Teos> {
     private HashMap<Integer, HarjutusKord> Harjutuskorradmap = null;
 
     @Override
-    public int compareTo(Teos another) {
+    public int compareTo(@NonNull Teos another) {
         return this.getNimi().compareTo(another.getNimi());
     }
 
@@ -40,7 +39,7 @@ public class Teos implements Comparable<Teos> {
         public static final String COLUMN_NAME_KASUTUSVIIS = "kasutusviis";
     }
 
-    public void LoadHarjustuskorrad(Context context) {
+    private void LoadHarjustuskorrad(Context context) {
         Harjustuskorrad = new ArrayList<HarjutusKord>();
         Harjutuskorradmap = new HashMap<Integer, HarjutusKord>();
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
@@ -159,10 +158,8 @@ public class Teos implements Comparable<Teos> {
     }
 
     public String toString(){
-        String retVal = "ID:" + id + "Nimi:" + this.nimi + " Autor:" + this.autor +
+        return "ID:" + id + "Nimi:" + this.nimi + " Autor:" + this.autor +
                 " Kommentaar:" + this.kommentaar + " Hinnang:" + this.hinnang +
                 " Lisatud:" + this.lisatudpaevikusse + " Kasutusviis:" + this.kasutusviis;
-
-        return retVal;
     }
 }

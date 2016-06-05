@@ -178,11 +178,17 @@ public class TeosListActivity extends AppCompatActivity {
             holder.mItem = mValues.get(position);
             holder.mContentView.setText(holder.mItem.getNimi());
 
-            // TODO Asynckroonselt
-            int[] stat = mPPManager.TeoseHarjutusKordadeStatistika(holder.mItem.getId());
-            holder.mHarjutusteArv.setText(String.valueOf(stat[1]));
-            holder.mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(stat[0]/60));
-
+            new Thread(new Runnable() {
+                public void run() {
+                    final int[] stat = mPPManager.TeoseHarjutusKordadeStatistika(holder.mItem.getId());
+                    holder.mHarjutusteArv.post(new Runnable() {
+                        public void run() {
+                            holder.mHarjutusteArv.setText(String.valueOf(stat[1]));
+                            holder.mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(stat[0]/60));
+                        }
+                    });
+                }
+            }).start();
             ListiKuulaja pLK = new ListiKuulaja(holder);
             holder.mView.setOnClickListener(pLK);
         }
@@ -338,14 +344,14 @@ public class TeosListActivity extends AppCompatActivity {
                 ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
                 ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
                 Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
+                i.setType("text/html");
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{ka.getOpetajaepost()});
                 i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
                 i.putExtra(Intent.EXTRA_TEXT   , ka.AruandeKoguTekst(getApplicationContext()));
                 try {
                     startActivity(Intent.createChooser(i, "Saada aruanne..."));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText( getParent() , "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( getParent() , "E-posti äppi ei paista olevat ....", Toast.LENGTH_SHORT).show();
                 }
 
             }

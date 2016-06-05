@@ -1,30 +1,24 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.app.backup.BackupManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
-import android.support.annotation.IntegerRes;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Adapter;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.vaskjala.vesiroosi20.pillipaevik.Tooriistad.KujundaKuupaevKellaaegBackup;
 
 /**
  * Created by mihkel on 2.05.2016.
  */
 public class PilliPaevikDatabase extends SQLiteOpenHelper {
+
+    // Sünkroniseerimiseks
+    static final Object sPilliPaevikuLukk = new Object();
+
+    private static Context context;
 
     // Logcat tag
     private static final String LOG = "PilliPaevikDatabase";
@@ -57,9 +51,12 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             HarjutusKord.Harjutuskordkirje.TABLE_NAME + "(" +
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ")";
 
-    public static final List<Teos> teosed = new ArrayList<Teos>();
-    public static final HashMap<Integer, Teos> teosedmap = new HashMap<Integer, Teos>();
+    private static final List<Teos> teosed = new ArrayList<Teos>();
+    private static final HashMap<Integer, Teos> teosedmap = new HashMap<Integer, Teos>();
 
+    public static void setContext(Context context) {
+        PilliPaevikDatabase.context = context;
+    }
 
     public PilliPaevikDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -89,36 +86,45 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     }
 
 
+    @SuppressWarnings("SameReturnValue")
     public List<Teos> getAllTeosed(){
 
-        if(teosed.isEmpty()) {
-            String selectParing = "SELECT * FROM " + Teos.Teosekirje.TABLE_NAME + " ORDER BY nimi";
-            Log.d(LOG, selectParing);
+        try {
+            if (teosed.isEmpty()) {
+                String selectParing = "SELECT * FROM " + Teos.Teosekirje.TABLE_NAME + " ORDER BY nimi";
+                Log.d(LOG, selectParing);
+                synchronized (sPilliPaevikuLukk) {
+                    SQLiteDatabase db = this.getReadableDatabase();
+                    Cursor c = db.rawQuery(selectParing, null);
 
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery(selectParing, null);
-
-            // looping through all rows and adding to list and map
-            if (c.moveToFirst()) {
-                do {
-                    Teos teos = new Teos();
-                    teos.setId(c.getInt((c.getColumnIndex(Teos.Teosekirje._ID))));
-                    teos.setNimi((c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_NIMI))));
-                    teos.setAutor(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_AUTOR)));
-                    teos.setKommentaar(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR)));
-                    teos.setHinnang(c.getShort((c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_HINNANG))));
-                    teos.setLisatudpaevikusse(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
-                    teos.setKasutusviis(c.getShort(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS)));
-                    teosed.add(teos);
-                    teosedmap.put(teos.getId(),teos);
-                    Log.d("getAllTeosed",teos.toString());
-                } while (c.moveToNext());
+                    // looping through all rows and adding to list and map
+                    if (c.moveToFirst()) {
+                        do {
+                            Teos teos = new Teos();
+                            teos.setId(c.getInt((c.getColumnIndex(Teos.Teosekirje._ID))));
+                            teos.setNimi((c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_NIMI))));
+                            teos.setAutor(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_AUTOR)));
+                            teos.setKommentaar(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR)));
+                            teos.setHinnang(c.getShort((c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_HINNANG))));
+                            teos.setLisatudpaevikusse(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
+                            teos.setKasutusviis(c.getShort(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS)));
+                            teosed.add(teos);
+                            teosedmap.put(teos.getId(), teos);
+                            Log.d("getAllTeosed", teos.toString());
+                        } while (c.moveToNext());
+                    }
+                    c.close();
+                    db.close();
+                }
             }
+        } catch (Exception e){
+            Log.e(LOG, "getAllTeosed " + e);
         }
         return teosed;
     }
 
-    public HashMap<Integer, Teos> getTeosedHash(){
+    @SuppressWarnings("SameReturnValue")
+    private HashMap<Integer, Teos> getTeosedHash(){
         return teosedmap;
     }
 
@@ -129,83 +135,111 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     public int SalvestaTeos(Teos teos){
 
         int retVal = 0;
+
         List<Teos> teosed = getAllTeosed();
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
         boolean bNew = (teosedmap.get(teos.getId()) == null);
         try {
-            values.put(Teos.Teosekirje.COLUMN_NAME_NIMI, teos.getNimi());
-            values.put(Teos.Teosekirje.COLUMN_NAME_AUTOR, teos.getAutor());
-            values.put(Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR, teos.getKommentaar());
-            values.put(Teos.Teosekirje.COLUMN_NAME_HINNANG, teos.getHinnang());
-            values.put(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE, teos.getLisatudpaevikusseAsString());
-            values.put(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS, teos.getKasutusviis());
-            if(bNew )
-                retVal = (int)db.insert(Teos.Teosekirje.TABLE_NAME, null, values);
-            else
-                retVal = db.update(Teos.Teosekirje.TABLE_NAME, values,
-                                   Teos.Teosekirje._ID + "=" + String.valueOf(teos.getId()),null);
-
-            if(retVal > 0) {
-                if(bNew) {
-                    teos.setId(retVal);
-                    teosed.add(teos);
-                    teosedmap.put(retVal, teos);
-                    Log.d(LOG, "Uus teos lisatud:" + String.valueOf(retVal));
-                }
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(Teos.Teosekirje.COLUMN_NAME_NIMI, teos.getNimi());
+                values.put(Teos.Teosekirje.COLUMN_NAME_AUTOR, teos.getAutor());
+                values.put(Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR, teos.getKommentaar());
+                values.put(Teos.Teosekirje.COLUMN_NAME_HINNANG, teos.getHinnang());
+                values.put(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE, teos.getLisatudpaevikusseAsString());
+                values.put(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS, teos.getKasutusviis());
+                if (bNew)
+                    retVal = (int) db.insert(Teos.Teosekirje.TABLE_NAME, null, values);
                 else
-                    Log.d(LOG, "Muudetud:" + String.valueOf(retVal) + " rida.");
-            } else {
-                Log.e(LOG, "Ei lisatud ega muudetud ühtegi Teose rida " + String.valueOf(retVal));
-            }
+                    retVal = db.update(Teos.Teosekirje.TABLE_NAME, values,
+                            Teos.Teosekirje._ID + "=" + String.valueOf(teos.getId()), null);
 
-            //notifyAdapter(mTeosed);
+                if (retVal > 0) {
+                    if (bNew) {
+                        teos.setId(retVal);
+                        teosed.add(teos);
+                        teosedmap.put(retVal, teos);
+                        Log.d(LOG, "Uus teos lisatud:" + String.valueOf(retVal));
+                    } else
+                        Log.d(LOG, "Muudetud:" + String.valueOf(retVal) + " rida.");
+                } else {
+                    Log.e(LOG, "Ei lisatud ega muudetud ühtegi Teose rida " + String.valueOf(retVal));
+                }
+                db.close();
+                BackupManager backupManager = new BackupManager(context);
+                backupManager.dataChanged();
+            }
         } catch (Exception e){
             System.out.println("Ei suutnud salvestada " +  teos.toString() + " " + e.toString());
         }
-        db.close();
         return retVal;
     }
 
     public void KustutaTeos(int teosid){
-        int deletedharjutused = KusututaTeoseHarjutused(teosid);
-        SQLiteDatabase db = this.getWritableDatabase();
-        int deletedrows = db.delete(Teos.Teosekirje.TABLE_NAME, Teos.Teosekirje._ID + "=" + teosid, null);
-        Teos teos = teosedmap.get(teosid);
-        teosed.remove(teos);
-        teosedmap.remove(teosid);
-        db.close();
-        Log.d("PilliPaevikDatabase","Kustuta teos:" + teosid + " Ridu kustutatud:" + deletedrows);
+        try {
+            synchronized (sPilliPaevikuLukk) {
+                int deletedharjutused = KusututaTeoseHarjutused(teosid);
+                SQLiteDatabase db = this.getWritableDatabase();
+                int deletedrows = db.delete(Teos.Teosekirje.TABLE_NAME, Teos.Teosekirje._ID + "=" + teosid, null);
+                Teos teos = teosedmap.get(teosid);
+                teosed.remove(teos);
+                teosedmap.remove(teosid);
+                db.close();
+                Log.d("PilliPaevikDatabase","Kustuta teos:" + teosid + " Teose kustutatud:" +
+                        deletedrows + " Harjutusi:" + deletedharjutused);
+                BackupManager backupManager = new BackupManager(context);
+                backupManager.dataChanged();
+            }
+        } catch (Exception e){
+            Log.e(LOG, "KustutaTeos " + e);
+        }
     }
 
     public int KusututaHarjutus (int teosid, int harjutusid){
-        SQLiteDatabase db = this.getWritableDatabase();
-        int deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje._ID+ "=" + harjutusid, null);
-        Teos teos = teosedmap.get(teosid);
-        if(teos != null){
-            teos.clearHarjutus(harjutusid);
-        } else {
-            Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
+        int deletedrows = 0;
+        try {
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getWritableDatabase();
+                deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje._ID+ "=" + harjutusid, null);
+                Teos teos = teosedmap.get(teosid);
+                if(teos != null){
+                    teos.clearHarjutus(harjutusid);
+                } else {
+                    Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
+                }
+                db.close();
+                BackupManager backupManager = new BackupManager(context);
+                backupManager.dataChanged();
+                Log.d("PilliPaevikDatabase","Kustuta teose Harjutus. Teosid:" + teosid + " Harjutus:" + harjutusid +
+                        " Ridu kustutatud:" + deletedrows);
+            }
+        } catch (Exception e){
+            Log.e(LOG, "KusututaHarjutus " + e);
         }
-        db.close();
-        Log.d("PilliPaevikDatabase","Kustuta teose Harjutus. Teosid:" + teosid + " Harjutus:" + harjutusid +
-                " Ridu kustutatud:" + deletedrows);
 
         return deletedrows;
     }
 
-    public int KusututaTeoseHarjutused (int teosid){
-        SQLiteDatabase db = this.getWritableDatabase();
-        int deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + teosid, null);
-        Teos teos = teosedmap.get(teosid);
-        if(teos != null){
-            teos.clearHarjutuskorrad();
-        } else {
-            Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
+    private int KusututaTeoseHarjutused(int teosid){
+        int deletedrows = 0;
+        try {
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getWritableDatabase();
+                deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + teosid, null);
+                Teos teos = teosedmap.get(teosid);
+                if(teos != null){
+                    teos.clearHarjutuskorrad();
+                } else {
+                    Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
+                }
+                db.close();
+                BackupManager backupManager = new BackupManager(context);
+                backupManager.dataChanged();
+                Log.d("PilliPaevikDatabase","Kustuta teose Harjutused. Teosid:" + teosid + " Ridu kustutatud:" + deletedrows);
+            }
+        } catch (Exception e){
+            Log.e(LOG, "KusututaTeoseHarjutused " + e);
         }
-        db.close();
-        Log.d("PilliPaevikDatabase","Kustuta teose Harjutused. Teosid:" + teosid + " Ridu kustutatud:" + deletedrows);
-
         return deletedrows;
     }
 
@@ -214,7 +248,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         List<Teos> teosed = getAllTeosed();
         for (Teos teoshulgast : teosed){
             if(teoshulgast != teos){
-                if(teoshulgast.getNimi().toString().equals(nimi)){
+                if(teoshulgast.getNimi().equals(nimi)){
                     retVal = false;
                     break;
                 }
@@ -229,32 +263,30 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         String selectParing = "SELECT * FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
                 " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + String.valueOf(teoseid) +
                 " ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + " DESC";
+        Log.d(LOG, selectParing);
 
         try{
-
-            Log.d(LOG, selectParing);
-            SQLiteDatabase db = this.getReadableDatabase();
-
-            Cursor c = db.rawQuery(selectParing, null);
-            // looping through all rows and adding to list
-            if (c.moveToFirst()) {
-                
-                do {
-                    HarjutusKord harjutuskord = new HarjutusKord();
-                    harjutuskord.setId(c.getInt((c.getColumnIndex(HarjutusKord.Harjutuskordkirje._ID))));
-                    harjutuskord.setAlgusaeg((c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG))));
-                    harjutuskord.setPikkussekundites(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES)));
-                    harjutuskord.setLopuaeg(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG)));
-                    harjutuskord.setHarjutusekirjeldus(c.getString((c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS))));
-                    harjutuskord.setLisatudpaevikusse(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
-                    harjutuskord.setTeoseid(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID)));
-                    Harjustuskorrad.add(harjutuskord);
-                    Harjutuskorradmap.put(harjutuskord.getId(), harjutuskord);
-                    Log.d("getAllHarjutuskorrad",harjutuskord.toString());
-                } while (c.moveToNext());
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                if (c.moveToFirst()) {
+                    do {
+                        HarjutusKord harjutuskord = new HarjutusKord();
+                        harjutuskord.setId(c.getInt((c.getColumnIndex(HarjutusKord.Harjutuskordkirje._ID))));
+                        harjutuskord.setAlgusaeg((c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG))));
+                        harjutuskord.setPikkussekundites(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES)));
+                        harjutuskord.setLopuaeg(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG)));
+                        harjutuskord.setHarjutusekirjeldus(c.getString((c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS))));
+                        harjutuskord.setLisatudpaevikusse(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
+                        harjutuskord.setTeoseid(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID)));
+                        Harjustuskorrad.add(harjutuskord);
+                        Harjutuskorradmap.put(harjutuskord.getId(), harjutuskord);
+                        Log.d("getAllHarjutuskorrad", harjutuskord.toString());
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
             }
-            c.close();
-            db.close();
         } catch (Exception e){
             Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
         }
@@ -263,46 +295,46 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     public int SalvestaHarjutusKord(Context context, HarjutusKord harjutuskord){
 
         int retVal = 0;
-        List<HarjutusKord> harjutuskorrad = null;
-        HashMap<Integer, HarjutusKord> harjutuskorradmap = null;
-        harjutuskorrad = getTeos(harjutuskord.getTeoseid()).getHarjustuskorrad(context);
-        harjutuskorradmap = getTeos(harjutuskord.getTeoseid()).getHarjutuskorradmap(context);
+        List<HarjutusKord> harjutuskorrad = getTeos(harjutuskord.getTeoseid()).getHarjustuskorrad(context);
+        HashMap<Integer, HarjutusKord> harjutuskorradmap = getTeos(harjutuskord.getTeoseid()).getHarjutuskorradmap(context);
 
         boolean bNew = (harjutuskorradmap.get(harjutuskord.getId()) == null);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
         try {
-            values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG, harjutuskord.getAlgusaegAsString());
-            values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES, harjutuskord.getPikkussekundites());
-            values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG, harjutuskord.getLopuaegAsString());
-            values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS, harjutuskord.getHarjutusekirjeldus());
-            values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE, harjutuskord.getLisatudpaevikusseAsString());
-            values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID, harjutuskord.getTeoseid());
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG, harjutuskord.getAlgusaegAsString());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES, harjutuskord.getPikkussekundites());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG, harjutuskord.getLopuaegAsString());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS, harjutuskord.getHarjutusekirjeldus());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE, harjutuskord.getLisatudpaevikusseAsString());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID, harjutuskord.getTeoseid());
 
-            if(bNew )
-                retVal =  (int)db.insert(HarjutusKord.Harjutuskordkirje.TABLE_NAME, null, values);
-            else
-                retVal = db.update(HarjutusKord.Harjutuskordkirje.TABLE_NAME, values,
-                        HarjutusKord.Harjutuskordkirje._ID + "=" + String.valueOf(harjutuskord.getId()),null);
+                if (bNew)
+                    retVal = (int) db.insert(HarjutusKord.Harjutuskordkirje.TABLE_NAME, null, values);
+                else
+                    retVal = db.update(HarjutusKord.Harjutuskordkirje.TABLE_NAME, values,
+                            HarjutusKord.Harjutuskordkirje._ID + "=" + String.valueOf(harjutuskord.getId()), null);
 
-            if(retVal > 0) {
-                if(bNew) {
-                    harjutuskord.setId(retVal);
-                    harjutuskorrad.add(harjutuskord);
-                    harjutuskorradmap.put(retVal, harjutuskord);
-                    Log.d(LOG, "Harjutuskord lisatud:" + harjutuskord.toString());
+                if (retVal > 0) {
+                    if (bNew) {
+                        harjutuskord.setId(retVal);
+                        harjutuskorrad.add(harjutuskord);
+                        harjutuskorradmap.put(retVal, harjutuskord);
+                        Log.d(LOG, "Harjutuskord lisatud:" + harjutuskord.toString());
+                    } else {
+                        Log.d(LOG, "Harjutuskord muudetud:" + harjutuskord.toString());
+                    }
                 } else {
-                    Log.d(LOG, "Harjutuskord muudetud:" + harjutuskord.toString());
+                    Log.e(LOG, "Ei lisatud ega muudetud ühtegi Harjutuskorrad rida " + String.valueOf(retVal));
                 }
-            } else {
-                Log.e(LOG, "Ei lisatud ega muudetud ühtegi Harjutuskorrad rida " + String.valueOf(retVal));
+                db.close();
+                BackupManager backupManager = new BackupManager(context);
+                backupManager.dataChanged();
             }
-
         } catch (Exception e){
             System.out.println("Ei suutnud salvestada " + e.toString());
         }
-        db.close();
         return retVal;
     }
 
@@ -316,14 +348,19 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "')";
 
         Log.d(LOG, selectParing);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectParing, null);
-        c.moveToFirst();
-        retVal = c.getInt(0);
-        retVal = (int)Math.ceil((double)retVal / 60.0);
-        c.close();
-        db.close();
+        try {
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                c.moveToFirst();
+                retVal = c.getInt(0);
+                retVal = (int)Math.ceil((double)retVal / 60.0);
+                c.close();
+                db.close();
+            }
+        } catch (Exception e){
+            Log.e(LOG, "ArvutaPerioodiMinutid " + e);
+        }
         Log.d("ArvutaPerioodiMinutid", "retVal:" + retVal);
         return retVal;
 
@@ -335,20 +372,21 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +
                 "), COUNT(*) FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
                 " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + String.valueOf(teoseid);
+        Log.d(LOG, selectParing);
 
         try{
-
-            Log.d(LOG, selectParing);
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery(selectParing, null);
-            // looping through all rows and adding to list
-            if (c.moveToFirst()) {
-                retVal[0] = c.getInt(0);
-                retVal[1] = c.getInt(1);
-                Log.d("TeoseHarjutusKordad....", "Sekundeid:" + retVal[0] + " Kordi:" + retVal[1]);
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                // looping through all rows and adding to list
+                if (c.moveToFirst()) {
+                    retVal[0] = c.getInt(0);
+                    retVal[1] = c.getInt(1);
+                    Log.d("TeoseHarjutusKordad....", "Sekundeid:" + retVal[0] + " Kordi:" + retVal[1]);
+                }
+                c.close();
+                db.close();
             }
-            c.close();
-            db.close();
         } catch (Exception e){
             Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
         }
@@ -358,7 +396,6 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     public List<String> HarjutusKordadeStatistikaPerioodis(Date algus, Date lopp){
 
         List<String> pList = new ArrayList<String>();
-        int retVal = 0;
         String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ",SUM("+
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +") FROM "
                 + HarjutusKord.Harjutuskordkirje.TABLE_NAME + "," + Teos.Teosekirje.TABLE_NAME + " WHERE " +
@@ -366,21 +403,22 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') GROUP BY " + Teos.Teosekirje.COLUMN_NAME_NIMI;
+        Log.d(LOG, selectParing);
         try{
-
-            Log.d(LOG, selectParing);
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery(selectParing, null);
-            // looping through all rows and adding to list
-            if (c.moveToFirst()) {
-                do {
-                    String kirje = c.getString(0) +
-                            Tooriistad.KujundaHarjutusteMinutid(c.getInt(1)/60);
-                    pList.add(kirje);
-                } while (c.moveToNext());
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                // looping through all rows and adding to list
+                if (c.moveToFirst()) {
+                    do {
+                        String kirje = "<tr><td>" + c.getString(0) + "</td><td>" +
+                                Tooriistad.KujundaHarjutusteMinutid(c.getInt(1) / 60) + "</td></tr>";
+                        pList.add(kirje);
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
             }
-            c.close();
-            db.close();
         } catch (Exception e){
             Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
         }

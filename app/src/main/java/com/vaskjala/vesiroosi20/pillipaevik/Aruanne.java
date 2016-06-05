@@ -4,6 +4,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Aruanne {
 
-    public final static String ReaVahetus = System.getProperty("line.separator");
+    private final static String ReaVahetus = System.getProperty("line.separator");
     public String aruandekogutekst;
 
     private String aruandenimi;
@@ -26,13 +27,13 @@ public class Aruanne {
     private Date perioodilopp;
     private int perioodipikkus;
 
-    private String minueesnimi;
-    private String minuperenimi;
-    private String opilaseinstrument;
-    private String opetajaeesnimi;
-    private String opetajaperenimi;
-    private String opetajaepost;
-    private int paevasharjutada;
+    private final String minueesnimi;
+    private final String minuperenimi;
+    private final String opilaseinstrument;
+    private final String opetajaeesnimi;
+    private final String opetajaperenimi;
+    private final String opetajaepost;
+    private final int paevasharjutada;
 
     public Aruanne(Context context, String aruandenimi){
 
@@ -55,7 +56,7 @@ public class Aruanne {
         this.aruandeperioodinimi = aruandeperioodinimi;
     }
 
-    public int getPerioodipikkus() {
+    private int getPerioodipikkus() {
         perioodipikkus = Tooriistad.KaheKuupaevaVahePaevades(perioodialgus, perioodilopp);
         return perioodipikkus;
     }
@@ -85,8 +86,8 @@ public class Aruanne {
                 " " + minuperenimi + ", " + opilaseinstrument + " " + aruandeperioodinimi;
     }
 
-    public String KoostaKoond(Context context){
-        String koond = "";
+    private String KoostaKoond(Context context){
+        String koond = "<html><body>";
         koond = koond + "Soovituslik päevane harjutamise aeg : " +
                 Tooriistad.KujundaHarjutusteMinutid(getPaevasharjutada()) +
                 ReaVahetus;
@@ -99,23 +100,25 @@ public class Aruanne {
         Date algus = Tooriistad.MoodustaKuuAlgusKuupaev(now);
         Date lopp = Tooriistad.MoodustaKuuLopuKuupaev(now);
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        koond = koond + "Tegelik harjutamise aeg perioodil: " +
+        koond = koond + "<b>Tegelik harjutamise aeg perioodil: </b>" +
                 Tooriistad.KujundaHarjutusteMinutid(mPPManager.ArvutaPerioodiMinutid(algus, lopp)) +
                 ReaVahetus + ReaVahetus + ReaVahetus;
 
         List<String> pList = mPPManager.HarjutusKordadeStatistikaPerioodis(algus, lopp);
+        koond = koond + "<table>";
         for ( String teoserida : pList){
             koond = koond + teoserida + ReaVahetus;
         }
-
+        koond = koond + "</table></body></html>";
+        Log.d("Aruanne",koond);
         return koond;
     }
 
-    public String KoostaDetailneSisu(){
+    private String KoostaDetailneSisu(){
         return "";
     }
 
-    public String KoostaLopp(){
+    private String KoostaLopp(){
         return "";
     }
 
@@ -123,7 +126,7 @@ public class Aruanne {
         return KoostaKoond(context) + KoostaDetailneSisu() + KoostaLopp();
     }
 
-    public int getPaevasharjutada() {
+    private int getPaevasharjutada() {
         return paevasharjutada;
     }
 }

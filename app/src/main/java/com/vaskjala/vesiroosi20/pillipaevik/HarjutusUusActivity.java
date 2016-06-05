@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -65,6 +64,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         Toolbar toolbar = (Toolbar) findViewById(R.id.uusharjutus_toolbar);
         setSupportActionBar(toolbar);
         ActionBar mAction = getSupportActionBar();
+        assert mAction != null;
         mAction.setDisplayHomeAsUpEnabled(true);
 
         this.teosid = getIntent().getIntExtra("teos_id", 0);
@@ -104,27 +104,19 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         }
     }
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
 
         if(item.getItemId() == android.R.id.home){
             if(taimertootab) {
-                taimertootab = false;
-                kulunudaeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
-                harjutus.setLopuaegEiArvuta(Calendar.getInstance().getTime());
-                harjutus.setPikkussekundites((int) (kulunudaeg / 1000));
-                handler.removeCallbacks(runnable);
+                SeisataTaimer();
             }
-            EditText ETharjutusekirjeldus = (EditText) findViewById(R.id.harjutusekirjeldus);
-            String kirjeldus = ETharjutusekirjeldus.getText().toString();
-            if(kirjeldus.isEmpty())
-                ETharjutusekirjeldus.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
-
-            AndmedHarjutusse(this.harjutus);
-            mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
-            Intent output = new Intent();
-            setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
-            Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
+            if(AndmedHarjutuses()) {
+                SalvestaHarjutus();
+                Intent output = new Intent();
+                setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
+                Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
+            } else {
+                KustutaHarjutus();
+            }
             finish();
         }
         if(item.getItemId() == R.id.kustutaharjutus){
@@ -144,13 +136,44 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         return true;
     }
 
-    void AndmedHarjutusse (HarjutusKord harjutus){
+    @Override
+    public void onBackPressed() {
+        if(taimertootab) {
+            SeisataTaimer();
+        }
+        if(AndmedHarjutuses()) {
+            SalvestaHarjutus();
+            Intent output = new Intent();
+            setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
+            Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
+        } else {
+            KustutaHarjutus();
+        }
+        super.onBackPressed();
+    }
+
+    private void AndmedHarjutusse(HarjutusKord harjutus){
         String kirjeldus = ((EditText)findViewById(R.id.harjutusekirjeldus)).getText().toString();
         harjutus.setHarjutusekirjeldus(kirjeldus);
     }
+    private void SalvestaHarjutus(){
+        EditText ETharjutusekirjeldus = (EditText) findViewById(R.id.harjutusekirjeldus);
+        String kirjeldus = ETharjutusekirjeldus.getText().toString();
+        if (kirjeldus.isEmpty())
+            ETharjutusekirjeldus.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
 
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
+        AndmedHarjutusse(this.harjutus);
+        mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
+    }
+    private void KustutaHarjutus(){
+        mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
+        Log.d(this.getLocalClassName(), "Uus harjutuskord kustutatud : " + this.harjutusid);
+        Intent output = new Intent();
+        setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA), output);
+    }
+
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
@@ -158,7 +181,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             handler.postDelayed(this, viiv);
         }
     };
-    public void KaivitaTaimer(View view){
+    public void KaivitaTaimer(){
         if(taimertootab) {
             taimertootab = false;
             kulunudaeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
@@ -185,7 +208,13 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             handler.postDelayed(runnable, viiv);
         }
     }
-
+    private void SeisataTaimer(){
+        taimertootab = false;
+        kulunudaeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
+        harjutus.setLopuaegEiArvuta(Calendar.getInstance().getTime());
+        harjutus.setPikkussekundites((int) (kulunudaeg / 1000));
+        handler.removeCallbacks(runnable);
+    }
 
     // Dialoogi vastused
     @Override
@@ -194,11 +223,12 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     }
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
-        mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
-        Log.d(this.getLocalClassName(), "Uus harjutuskord kustutatud : " + this.harjutusid);
-        Intent output = new Intent();
-        setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA), output);
+        KustutaHarjutus();
         finish();
+    }
+
+    private boolean AndmedHarjutuses(){
+        return harjutus.getPikkussekundites() != 0 || !harjutus.getAlgusaeg().equals(harjutus.getLopuaeg());
     }
 
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +21,6 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
     private PilliPaevikDatabase mPPManager;
     private int teosid;
-    private Teos teos;
     private int harjutusid;
     private HarjutusKord harjutuskord;
 
@@ -50,6 +48,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         Toolbar toolbar = (Toolbar) findViewById(R.id.harjutus_toolbar);
         setSupportActionBar(toolbar);
         ActionBar mAction = getSupportActionBar();
+        assert mAction != null;
         mAction.setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
@@ -64,33 +63,26 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
 
         mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        this.teos = mPPManager.getTeos(this.teosid);
+        Teos teos = mPPManager.getTeos(this.teosid);
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
         Log.d(getLocalClassName(), "Harjutus : " + this.harjutuskord);
-        mAction.setTitle(this.teos.getNimi());
+        mAction.setTitle(teos.getNimi());
         AndmedHarjutuskorrastVaatele();
     }
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
-            int result = 0;
-            Intent intent = NavUtils.getParentActivityIntent(this);
-
-            result = getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_MUUDA);
-            Log.d(getLocalClassName(), "Result tagasi harjutus muudetud");
-
-            // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
-            String kirjeldus = harjutusekirjelduslahter.getText().toString();
-            if (kirjeldus.isEmpty())
-                harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
-
-            AndmedHarjutusse();
-            SalvestaAndmed();
-            setResult(result, intent);
-            Log.d(this.getLocalClassName(), "Harjutuskord : " + harjutuskord);
-            NavUtils.navigateUpTo(this, intent);
-            return true;
+            Intent output = new Intent();
+            if(AndmedHarjutuses()){
+                SalvestaHarjutus();
+                setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_MUUDA), output);
+                Log.d(this.getLocalClassName(), "Harjutus lisatud: " + harjutuskord);
+            } else {
+                Log.d(this.getLocalClassName(), "Uus harjutus tühi: " + harjutuskord);
+                KustutaHarjutus();
+            }
+            finish();
         }
         if (item.getItemId() == R.id.kustutaharjutus) {
             Bundle args = new Bundle();
@@ -109,10 +101,23 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         return true;
     }
 
-    void AndmedHarjutusse() {
+    @Override
+    public void onBackPressed() {
+
+        if(AndmedHarjutuses()) {
+            SalvestaHarjutus();
+            Intent output = new Intent();
+            setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
+            Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutuskord.toString());
+        } else {
+            KustutaHarjutus();
+        }
+        super.onBackPressed();
+    }
+    private void AndmedHarjutusse() {
         this.harjutuskord.setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
     }
-    void AndmedHarjutuskorrastVaatele() {
+    private void AndmedHarjutuskorrastVaatele() {
         harjutusekirjelduslahter.setText(harjutuskord.getHarjutusekirjeldus());
         alguskuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getAlgusaeg()));
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
@@ -120,16 +125,31 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         lopukellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getLopuaeg()));
         pikkusminutiteslahter.setText(String.valueOf(harjutuskord.getPikkusminutites()));
     }
-    void SalvestaAndmed (){
+    private void SalvestaHarjutus (){
+        // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
+        String kirjeldus = harjutusekirjelduslahter.getText().toString();
+        if (kirjeldus.isEmpty())
+            harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
+
+        AndmedHarjutusse();
         if(mPPManager == null)
             mPPManager = new PilliPaevikDatabase(getApplicationContext());
         mPPManager.SalvestaHarjutusKord(getApplicationContext(),this.harjutuskord);
     }
+    private void KustutaHarjutus(){
+        mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
+        Intent output = new Intent();
+        setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
+        Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
+    }
 
+    private boolean AndmedHarjutuses(){
+        return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
+    }
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
-        if (dialog.getTag() == "KustutaHarjutus") {
+        if (dialog.getTag().equals("KustutaHarjutus")) {
             Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
         } else {
             Log.e(this.getLocalClassName(), "kuiEiVastus. Tundmatust kohast tuldud !");
@@ -137,11 +157,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
-        if (dialog.getTag() == "KustutaHarjutus") {
-            mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
-            Intent output = new Intent();
-            setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
-            Log.d(this.getLocalClassName(), "kuiJahVastus. Harjutuskord kustutatud : " + this.harjutusid);
+        if (dialog.getTag().equals("KustutaHarjutus")) {
+            KustutaHarjutus();
             finish();
         } else {
             Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
