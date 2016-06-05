@@ -14,6 +14,7 @@ public class SeadedActivity extends AppCompatActivity {
 
     private EditText minueesnimi;
     private EditText minuperenimi;
+    private EditText minuinstrument;
     private EditText minuepost;
 
     private EditText muusikakool;
@@ -50,6 +51,7 @@ public class SeadedActivity extends AppCompatActivity {
     void AlustaAtribuudid(){
         minueesnimi = ((EditText)findViewById(R.id.minueesnimi));
         minuperenimi = ((EditText)findViewById(R.id.minuperenimi));
+        minuinstrument = ((EditText)findViewById(R.id.minuinstrument));
         minuepost = ((EditText)findViewById(R.id.minuepost));
         muusikakool = ((EditText)findViewById(R.id.muusikakool));
         klass = ((EditText)findViewById(R.id.klass));
@@ -62,6 +64,7 @@ public class SeadedActivity extends AppCompatActivity {
         SeadedFookusePassija mFP = new SeadedFookusePassija();
         minueesnimi.setOnFocusChangeListener(mFP);
         minuperenimi.setOnFocusChangeListener(mFP);
+        minuinstrument.setOnFocusChangeListener(mFP);
         minuepost.setOnFocusChangeListener(mFP);
         muusikakool.setOnFocusChangeListener(mFP);
         klass.setOnFocusChangeListener(mFP);
@@ -74,6 +77,7 @@ public class SeadedActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         minueesnimi.setText(sharedPref.getString("minueesnimi", ""));
         minuperenimi.setText(sharedPref.getString("minuperenimi", ""));
+        minuinstrument.setText(sharedPref.getString("minuinstrument", ""));
         minuepost.setText(sharedPref.getString("minuepost", ""));
         muusikakool.setText(sharedPref.getString("muusikakool", ""));
         klass.setText(sharedPref.getString("klass", ""));
@@ -94,6 +98,7 @@ public class SeadedActivity extends AppCompatActivity {
 
         editor.putString("minueesnimi", minueesnimi.getText().toString());
         editor.putString("minuperenimi", minuperenimi.getText().toString());
+        editor.putString("minuinstrument", minuinstrument.getText().toString());
         editor.putString("minuepost", minuepost.getText().toString());
 
         editor.putString("muusikakool", muusikakool.getText().toString());

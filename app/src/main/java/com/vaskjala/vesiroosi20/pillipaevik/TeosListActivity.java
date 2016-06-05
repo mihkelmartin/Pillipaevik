@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -330,14 +331,34 @@ public class TeosListActivity extends AppCompatActivity {
         }
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+            if(position == 2) {
+                Kuuaruanne ka = new Kuuaruanne(getApplicationContext());
+                ka.setAruandeperioodinimi("2016 juuni");
+                Date now = new Date();
+                ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
+                ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{ka.getOpetajaepost()});
+                i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
+                i.putExtra(Intent.EXTRA_TEXT   , ka.AruandeKoguTekst(getApplicationContext()));
+                try {
+                    startActivity(Intent.createChooser(i, "Saada aruanne..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText( getParent() , "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
             mDrawerLayout.closeDrawer(mDrawerList);
         }
 
     }
 
     private void PaevaHarjutusteProgress(){
+
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        int harjutatud = mPPManager.ArvutaKuupaevaMinutid("'now'");
+        Date now = new Date();
+        int harjutatud = mPPManager.ArvutaPerioodiMinutid(now, now);
         String szharjutatud = String.valueOf(harjutatud)+" m";
         ((TextView) findViewById(R.id.paevasharjutatud)).setText(szharjutatud );
 
@@ -357,13 +378,14 @@ public class TeosListActivity extends AppCompatActivity {
     private void NadalaHarjutusteProgress(){
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());
-        // Calendri nädalad on 1- 54, SQLite 0 - 53, seega - 1
-        int harjutatud = mPPManager.ArvutaNadalaMinutid(c.get(Calendar.YEAR), c.get(Calendar.WEEK_OF_YEAR));
+        Date now = new Date();
+        int harjutatud = mPPManager.ArvutaPerioodiMinutid(Tooriistad.MoodustaNädalaAlgusKuupaev(now),
+                Tooriistad.MoodustaNädalaLopuKuupaev(now));
         String szharjutatud = String.valueOf(harjutatud)+" m";
         ((TextView) findViewById(R.id.nadalasharjutatud)).setText(szharjutatud );
 
+        Calendar c = Calendar.getInstance();
+        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());
         int paevakordaja = (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) ? 7 : c.get(Calendar.DAY_OF_WEEK) -1;
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         int vajaharjutada = sharedPref.getInt("paevasharjutada", 0) * paevakordaja;
@@ -381,14 +403,14 @@ public class TeosListActivity extends AppCompatActivity {
     private void KuuHarjutusteProgress(){
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());
-        // Java 0 - 11, SQLite 1 - 12, seega +1
-        int harjutatud = mPPManager.ArvutaKuuMinutid(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1);
+        Date now = new Date();
+        int harjutatud = mPPManager.ArvutaPerioodiMinutid(Tooriistad.MoodustaKuuAlgusKuupaev(now),
+                Tooriistad.MoodustaKuuLopuKuupaev(now));
         String szharjutatud = String.valueOf(harjutatud)+" m";
         ((TextView) findViewById(R.id.kuusharjutatud)).setText(szharjutatud );
 
-        int paevakordaja = c.get(Calendar.DAY_OF_MONTH);
+        Calendar c = Calendar.getInstance();
+        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());        int paevakordaja = c.get(Calendar.DAY_OF_MONTH);
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         int vajaharjutada = sharedPref.getInt("paevasharjutada", 0) * paevakordaja;
         ((TextView) findViewById(R.id.kuunorm)).setText(String.valueOf(vajaharjutada+" m"));

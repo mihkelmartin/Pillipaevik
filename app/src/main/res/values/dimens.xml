@@ -5,7 +5,7 @@
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">1dp</dimen>
     <dimen name="editext_defaultmargin">4dp</dimen>
-    <dimen name="eraldusjoone_paksus">4dp</dimen>
+    <dimen name="eraldusjoone_paksus">2dp</dimen>
     <dimen name="eraldusjoone_alumine">8dp</dimen>
     <dimen name="eraldusjoone_ylemine">8dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->

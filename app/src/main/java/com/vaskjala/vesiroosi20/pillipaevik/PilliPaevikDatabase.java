@@ -306,12 +306,14 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return retVal;
     }
 
-    public int ArvutaKuupaevaMinutid (String kuupaev){
+    public int ArvutaPerioodiMinutid (Date algus, Date lopp){
 
         int retVal = 0;
         String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ") FROM "
                 + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE date(" +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") = date(" + kuupaev + ")";
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
+                "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "')";
 
         Log.d(LOG, selectParing);
 
@@ -322,49 +324,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         retVal = (int)Math.ceil((double)retVal / 60.0);
         c.close();
         db.close();
-        Log.d("ArvutaKuupaevaMinutid", "retVal:" + retVal);
-        return retVal;
-
-    }
-    public int ArvutaNadalaMinutid (int aasta, int nadal){
-
-        int retVal = 0;
-        String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ") FROM "
-                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE strftime('%Y'," +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + aasta + "'" + " AND strftime('%W'," +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + Tooriistad.formatDigits(nadal) + "'";
-
-        Log.d(LOG, selectParing);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectParing, null);
-        c.moveToFirst();
-        retVal = c.getInt(0);
-        retVal = (int)Math.ceil((double)retVal / 60.0);
-        c.close();
-        db.close();
-        Log.d("ArvutaNadalaMinutid", "retVal:" + retVal);
-        return retVal;
-
-    }
-    public int ArvutaKuuMinutid (int aasta, int kuu){
-
-        int retVal = 0;
-        String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ") FROM "
-                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE strftime('%Y'," +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + aasta + "'" + " AND strftime('%m'," +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")='" + Tooriistad.formatDigits(kuu) + "'";
-
-        Log.d(LOG, selectParing);
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectParing, null);
-        c.moveToFirst();
-        retVal = c.getInt(0);
-        retVal = (int)Math.ceil((double)retVal / 60.0);
-        c.close();
-        db.close();
-        Log.d("ArvutaKuuMinutid", "retVal:" + retVal);
+        Log.d("ArvutaPerioodiMinutid", "retVal:" + retVal);
         return retVal;
 
     }
@@ -393,6 +353,38 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
         }
         return retVal;
+    }
+
+    public List<String> HarjutusKordadeStatistikaPerioodis(Date algus, Date lopp){
+
+        List<String> pList = new ArrayList<String>();
+        int retVal = 0;
+        String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ",SUM("+
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +") FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + "," + Teos.Teosekirje.TABLE_NAME + " WHERE " +
+                Teos.Teosekirje.TABLE_NAME + "." + Teos.Teosekirje._ID + "=" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " AND (" +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
+                "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') GROUP BY " + Teos.Teosekirje.COLUMN_NAME_NIMI;
+        try{
+
+            Log.d(LOG, selectParing);
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery(selectParing, null);
+            // looping through all rows and adding to list
+            if (c.moveToFirst()) {
+                do {
+                    String kirje = c.getString(0) +
+                            Tooriistad.KujundaHarjutusteMinutid(c.getInt(1)/60);
+                    pList.add(kirje);
+                } while (c.moveToNext());
+            }
+            c.close();
+            db.close();
+        } catch (Exception e){
+            Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
+        }
+        return pList;
     }
 
     public void PilliPaevikTestMeetod(){

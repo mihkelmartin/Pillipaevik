@@ -34,6 +34,32 @@ public final class Tooriistad {
         c.set( Calendar.MILLISECOND, 0 );
         return c.getTime();
     }
+    public static Date MoodustaKuuAlgusKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        return c.getTime();
+    }
+    public static Date MoodustaKuuLopuKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DATE));
+        return c.getTime();
+    }
+
+    public static Date MoodustaNädalaAlgusKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        int paev = c.get(Calendar.DAY_OF_WEEK);
+        paev = (paev == 1) ? 7 : paev - 1;
+        c.add(Calendar.DAY_OF_MONTH, (-1 * paev) + 1);
+        return c.getTime();
+    }
+    public static Date MoodustaNädalaLopuKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        int paev = c.get(Calendar.DAY_OF_WEEK);
+        paev = (paev == 1) ? 7 : paev - 1;
+        c.add(Calendar.DAY_OF_MONTH, 7 - paev);
+        return c.getTime();
+    }
+
 
     public static void NaitaHoiatust(Activity activity, String pealkiri, String hoiatus) {
         AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
@@ -59,6 +85,10 @@ public final class Tooriistad {
     }
     public static String KujundaKuupaevKellaaegBackup(Date kuupaev){
         return sdfkuupaevkellaaegBackup.format(kuupaev);
+    }
+
+    public static int KaheKuupaevaVahePaevades(Date esimene, Date teine){
+        return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24);
     }
 
     public static String formatElapsedTime(long now) {
@@ -100,7 +130,6 @@ public final class Tooriistad {
         String kokku = strtunnid + " " + strminutid;
         return kokku;
     }
-
     public static String KujundaHarjutusteMinutidTabloo (int minutid ) {
         long hours = 0, minutes = minutid;
 

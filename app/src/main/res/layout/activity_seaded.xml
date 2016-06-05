@@ -32,18 +32,28 @@
             android:layout_height="wrap_content"
             android:id="@+id/minueesnimi"
             android:hint="Minu eesnimi"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/minuperenimi"
                 android:hint="Minu perekonnanimi"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/minuinstrument"
+                android:hint="Minu pill"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/minuepost"
                 android:hint="Minu e-post"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
@@ -58,12 +68,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/muusikakool"
                 android:hint="Muusikakooli nimi"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/klass"
                 android:hint="Klass"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <View
                 android:layout_width="fill_parent"
@@ -78,18 +90,21 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/opetajaeesnimi"
                 android:hint="Minu õpetaja eesnimi"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/opetajaperenimi"
                 android:hint="Minu õpetaja perekonnanimi"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/opetajaepost"
                 android:hint="Minu õpetaja e-post"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
@@ -104,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/paevasharjutada"
                 android:hint="Mitu minutit tahan päevas harjutada"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="number"/>
         <View
                 android:layout_width="fill_parent"
