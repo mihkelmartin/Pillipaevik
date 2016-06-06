@@ -18,6 +18,7 @@ public class HarjutusKord {
     private String harjutusekirjeldus;
     private Date lisatudpaevikusse;
     private int teoseid;
+    private String helifail;
 
     public static abstract class Harjutuskordkirje implements BaseColumns {
         public static final String TABLE_NAME = "Harjutuskord";
@@ -27,6 +28,7 @@ public class HarjutusKord {
         public static final String COLUMN_NAME_HARJUTUSEKIRJELDUS = "harjutusekirjeldus";
         public static final String COLUMN_NAME_LISATUDPAEVIKUSSE = "lisatudpaevikusse";
         public static final String COLUMN_NAME_TEOSEID = "teoseid";
+        public static final String COLUMN_NAME_HELIFAIL = "helifail";
     }
 
     public HarjutusKord (){
@@ -217,9 +219,25 @@ public class HarjutusKord {
         this.teoseid = teoseid;
     }
 
+    public String getHelifail() {
+        return helifail;
+    }
+
+    public void setHelifail(String helifail) {
+        this.helifail = helifail;
+    }
+
+    public String MoodustaFailiNimi(){
+        return String.valueOf(getTeoseid()) + "_" + String.valueOf(getId()) + "_" +
+                Tooriistad.KujundaKuupaevKellaaegFailiNimi(new Date());
+    }
+    public Date getLisatudpaevikusse() {
+        return lisatudpaevikusse;
+    }
+
     public String toString(){
         return "ID:" + this.id + "Algusaeg:" + this.algusaeg + " Pikkus:" + this.pikkussekundites +
                 " Lopuaeg:" + this.lopuaeg + " Kirjeldus:" + this.harjutusekirjeldus +
-                " Lisatud:" + this.lisatudpaevikusse + " Teoseid:" + this.teoseid;
+                " Lisatud:" + this.lisatudpaevikusse + " Teoseid:" + this.teoseid + " Helifail: " + this.helifail;
     }
 }

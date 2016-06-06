@@ -48,6 +48,10 @@
                 android:textSize="60sp"
                 android:text="@string/stopper"
                 android:id="@+id/timer"/>
+        <CheckBox android:id="@+id/KasSalvestame"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/SalvestaLinnukeTekst"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

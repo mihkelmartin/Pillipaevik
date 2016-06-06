@@ -23,7 +23,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     // Logcat tag
     private static final String LOG = "PilliPaevikDatabase";
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     // Database Name
     public static final String DATABASE_NAME = "PilliPaevik";
 
@@ -44,6 +44,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS + " TEXT," +
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE + " DATETIME," +
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " INTEGER," +
+            HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL + " TEXT," +
             "FOREIGN KEY (" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ") REFERENCES " +
             Teos.Teosekirje.TABLE_NAME + "(" + Teos.Teosekirje._ID + "))";
 
@@ -75,9 +76,8 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(CREATE_TABLE_HARJUTUSKORD);
-        db.execSQL(CREATE_INDEX_TEOSEID);
-    }
+        db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifail TEXT");
+     }
 
     @Override
     public void onConfigure(SQLiteDatabase db) {
@@ -279,6 +279,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         harjutuskord.setHarjutusekirjeldus(c.getString((c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS))));
                         harjutuskord.setLisatudpaevikusse(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
                         harjutuskord.setTeoseid(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID)));
+                        harjutuskord.setHelifail(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL)));
                         Harjustuskorrad.add(harjutuskord);
                         Harjutuskorradmap.put(harjutuskord.getId(), harjutuskord);
                         Log.d("getAllHarjutuskorrad", harjutuskord.toString());
@@ -309,6 +310,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS, harjutuskord.getHarjutusekirjeldus());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE, harjutuskord.getLisatudpaevikusseAsString());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID, harjutuskord.getTeoseid());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL, harjutuskord.getHelifail());
 
                 if (bNew)
                     retVal = (int) db.insert(HarjutusKord.Harjutuskordkirje.TABLE_NAME, null, values);

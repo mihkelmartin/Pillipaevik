@@ -11,13 +11,13 @@ import java.io.IOException;
  */
 public class VaruKoopiaTegija extends BackupAgentHelper {
     // The name of the SharedPreferences file
-    static final String PREFS = "seadete_fail";
-    String currentDBPath = "/data/data/com.vaskjala.vesiroosi20.pillipaevik/databases/" + PilliPaevikDatabase.DATABASE_NAME;
+    private static final String PREFS = "seadete_fail";
+    private String currentDBPath = "/data/data/com.vaskjala.vesiroosi20.pillipaevik/databases/" + PilliPaevikDatabase.DATABASE_NAME;
 
 
     // A key to uniquely identify the set of backup data
-    static final String PREFS_BACKUP_KEY = "seaded";
-    static final String FILES_BACKUP_KEY = PilliPaevikDatabase.DATABASE_NAME;
+    private static final String PREFS_BACKUP_KEY = "seaded";
+    private static final String FILES_BACKUP_KEY = PilliPaevikDatabase.DATABASE_NAME;
 
     // Allocate a helper and add it to the backup agent
     @Override

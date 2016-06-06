@@ -16,6 +16,7 @@
     <string name="eisaamuutaharjutustjuhend">
     Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
     </string>
+    <string name="SalvestaLinnukeTekst">Salvestame harjutuse telefoni mikrofoniga</string>
 
     <string-array name="sahtli_valikud_ikoonid">
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_color_24dp</item>

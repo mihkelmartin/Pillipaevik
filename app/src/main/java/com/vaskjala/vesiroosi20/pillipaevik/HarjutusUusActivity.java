@@ -1,8 +1,12 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Intent;
+import android.content.IntentSender;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,15 +15,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 
 import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
+public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja,
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks  {
 
     private PilliPaevikDatabase mPPManager;
     private int teosid;
@@ -30,14 +41,21 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     private long kulunudaeg = 0;
     private static final short viiv = 300;
 
-    @Override
-    protected void onStop() {
-        Log.d("HarjutusUusActivity", "On Stop");
-        if(taimertootab)
-            handler.removeCallbacks(runnable);
-        super.onStop();
-    }
+    private static TextView timer;
+    private static CheckBox kasSalvestame;
+    private static Button kaivitaTimerNupp;
 
+    private MediaRecorder mRecorder = null;
+
+    private static GoogleApiClient mGoogleApiClient;
+
+    protected void onStart() {
+        if(taimertootab)
+            handler.postDelayed(runnable, viiv);
+
+        //GoogleKettaYhendus();
+        super.onStart();
+    }
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current game state
         savedInstanceState.putInt("harjutusid", this.harjutusid);
@@ -48,12 +66,12 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
-
-    @Override
-    protected void onStart() {
+    protected void onStop() {
+        Log.d("HarjutusUusActivity", "On Stop");
+        SeisataLindistaja();
         if(taimertootab)
-            handler.postDelayed(runnable, viiv);
-        super.onStart();
+            handler.removeCallbacks(runnable);
+        super.onStop();
     }
 
     @Override
@@ -75,6 +93,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         Teos teos = mPPManager.getTeos(this.teosid);
         mAction.setTitle(teos.getNimi());
 
+        timer = (TextView) findViewById(R.id.timer);
+        kasSalvestame = (CheckBox) findViewById(R.id.KasSalvestame);
+        kaivitaTimerNupp = (Button) findViewById(R.id.kaivitataimernupp);
+
         if (savedInstanceState == null) {
             this.harjutus = new HarjutusKord(this.teosid);
             mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
@@ -93,23 +115,24 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             Log.d(this.getLocalClassName(), "Harjutus taastatud teose kaudu : " + this.harjutusid);
 
             if(taimertootab)
-                ((Button)findViewById(R.id.kaivitataimernupp)).setText("Katkesta");
+                kaivitaTimerNupp.setText("Katkesta");
             else
-                ((Button)findViewById(R.id.kaivitataimernupp)).setText("Jätka");
+                kaivitaTimerNupp.setText("Jätka");
 
             // Taimer on pausil, kuid on juba lugenud aega
             if(!taimertootab && kulunudaeg != 0) {
-                ((TextView) findViewById(R.id.timer)).setText(String.valueOf(Tooriistad.formatElapsedTime(kulunudaeg)));
+                timer.setText(String.valueOf(Tooriistad.formatElapsedTime(kulunudaeg)));
             }
         }
     }
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        if(taimertootab) {
+            SeisataLindistaja();
+            SeisataTaimer();
+        }
         if(item.getItemId() == android.R.id.home){
-            if(taimertootab) {
-                SeisataTaimer();
-            }
-            if(AndmedHarjutuses()) {
+            if(kuiAndmedHarjutuses()) {
                 SalvestaHarjutus();
                 Intent output = new Intent();
                 setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
@@ -139,9 +162,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     @Override
     public void onBackPressed() {
         if(taimertootab) {
+            SeisataLindistaja();
             SeisataTaimer();
         }
-        if(AndmedHarjutuses()) {
+        if(kuiAndmedHarjutuses()) {
             SalvestaHarjutus();
             Intent output = new Intent();
             setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
@@ -151,6 +175,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         }
         super.onBackPressed();
     }
+
 
     private void AndmedHarjutusse(HarjutusKord harjutus){
         String kirjeldus = ((EditText)findViewById(R.id.harjutusekirjeldus)).getText().toString();
@@ -177,36 +202,32 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         @Override
         public void run() {
             long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
-            ((TextView) findViewById(R.id.timer)).setText(String.valueOf( Tooriistad.formatElapsedTime(aeg)));
+            timer.setText(String.valueOf( Tooriistad.formatElapsedTime(aeg)));
             handler.postDelayed(this, viiv);
         }
     };
-    public void KaivitaTaimer(){
+    public void KaivitaTaimer(View v){
+
         if(taimertootab) {
-            taimertootab = false;
-            kulunudaeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
-
-            harjutus.setPikkussekundites((int)(kulunudaeg / 1000));
-            int kulunudminuteid = harjutus.getPikkusminutites();
-            Calendar c = Calendar.getInstance();
-            c.setTime(harjutus.getAlgusaeg());
-            c.add(Calendar.MINUTE,kulunudminuteid);
-            harjutus.setLopuaegEiArvuta(c.getTime());
+            SeisataLindistaja();
+            SeisataTaimer();
             mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
-
-            ((Button)findViewById(R.id.kaivitataimernupp)).setText("Jätka");
-            handler.removeCallbacks(runnable);
+            kaivitaTimerNupp.setText("Jätka");
         } else {
-            // Esimene start
-            if(stardiaeg == 0) {
-                harjutus.setAlgusaeg(Tooriistad.HetkeKuupaevNullitudSekunditega());
-                mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
-            }
-            taimertootab = true;
-            this.stardiaeg = System.currentTimeMillis();
-            ((Button)findViewById(R.id.kaivitataimernupp)).setText("Katkesta");
-            handler.postDelayed(runnable, viiv);
+            KaivitaLindistaja();
+            KaivitaTaimer();
+            kaivitaTimerNupp.setText("Katkesta");
         }
+    }
+
+    private void KaivitaTaimer(){
+        if(stardiaeg == 0) {
+            harjutus.setAlgusaeg(Tooriistad.HetkeKuupaevNullitudSekunditega());
+            mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
+        }
+        taimertootab = true;
+        this.stardiaeg = System.currentTimeMillis();
+        handler.postDelayed(runnable, viiv);
     }
     private void SeisataTaimer(){
         taimertootab = false;
@@ -216,6 +237,34 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         handler.removeCallbacks(runnable);
     }
 
+    private void KaivitaLindistaja(){
+        if(kasSalvestame.isChecked()) {
+            harjutus.setHelifail(getFilesDir().getPath().toString() + "/" + harjutus.MoodustaFailiNimi());
+            mRecorder = new MediaRecorder();
+            Log.e(getLocalClassName(), "Fail:" + harjutus.getHelifail());
+
+            try {
+                mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mRecorder.setOutputFile(harjutus.getHelifail());
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mRecorder.prepare();
+                mRecorder.start();
+            } catch (Exception e) {
+                mRecorder = null;
+                Log.e(getLocalClassName(), "prepare() failed" + e.toString());
+            }
+        }
+    }
+    private void SeisataLindistaja() {
+        Log.d(getLocalClassName(), "Lõpetan lindistamise");
+        if (mRecorder != null) {
+            mRecorder.stop();
+            mRecorder.release();
+            mRecorder = null;
+            Log.d(getLocalClassName(), "Lõpetasin lindistamise");
+        }
+    }
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
@@ -227,8 +276,55 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         finish();
     }
 
-    private boolean AndmedHarjutuses(){
+
+
+    private boolean kuiAndmedHarjutuses(){
         return harjutus.getPikkussekundites() != 0 || !harjutus.getAlgusaeg().equals(harjutus.getLopuaeg());
     }
 
+
+    // Google Drive
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+            case 9999:
+                if (resultCode == RESULT_OK) {
+                    mGoogleApiClient.connect();
+                }
+                break;
+        }
+    }
+
+    private void GoogleKettaYhendus(){
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Drive.API)
+                .addScope(Drive.SCOPE_FILE)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        mGoogleApiClient.connect();
+
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                // TODO
+                connectionResult.startResolutionForResult(this, 9999);
+            } catch (IntentSender.SendIntentException e) {
+                // Unable to resolve, message user appropriately
+            }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
+        }
+    }
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
 }

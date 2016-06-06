@@ -27,6 +27,7 @@ public final class Tooriistad {
     private static final SimpleDateFormat sdfkellaaeg = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevkellaaeg = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevkellaaegBackup = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+    private static final SimpleDateFormat sdfkuupaevkellaaegFailiNimi = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
 
     public static Date HetkeKuupaevNullitudSekunditega(){
         c.setTime( new Date() );
@@ -86,7 +87,9 @@ public final class Tooriistad {
     public static String KujundaKuupaevKellaaegBackup(Date kuupaev){
         return sdfkuupaevkellaaegBackup.format(kuupaev);
     }
-
+    public static String KujundaKuupaevKellaaegFailiNimi(Date kuupaev){
+        return sdfkuupaevkellaaegFailiNimi.format(kuupaev);
+    }
     public static int KaheKuupaevaVahePaevades(Date esimene, Date teine){
         return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24);
     }
@@ -115,7 +118,7 @@ public final class Tooriistad {
         return sb.toString();
     }
     public static String formatDigits(long num) {
-        return (num < 10) ? "0" + num : new Long(num).toString();
+        return (num < 10) ? "0" + num : Long.valueOf(num).toString();
     }
 
     public static String KujundaHarjutusteMinutid (int minutid ) {

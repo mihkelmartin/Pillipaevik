@@ -58,15 +58,11 @@ public class TeosListActivity extends AppCompatActivity {
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("Peaaken", "Läbin stoppi");
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
+        // TODO Asünkroonselt
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
         KuuHarjutusteProgress();

@@ -62,7 +62,6 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         EditText mNimi = ((EditText) findViewById(R.id.nimi));
         EditText mAutor = ((EditText) findViewById(R.id.autor));
         EditText mKommentaar = ((EditText) findViewById(R.id.kommentaar));
-        Spinner mHinnang = ((Spinner) findViewById(R.id.hinnang));
         RadioGroup mKasutusViis = ((RadioGroup) findViewById(R.id.kasutusviis));
         mNimi.setOnFocusChangeListener(mFP);
         mAutor.setOnFocusChangeListener(mFP);
@@ -79,7 +78,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             this.setTitle(this.teos.getNimi());
             mAutor.setText(this.teos.getAutor());
             mKommentaar.setText(this.teos.getKommentaar());
-            mHinnang.setSelection(this.teos.getHinnang());
+            spinner.setSelection(this.teos.getHinnang());
             if (this.teos.getKasutusviis() == 1)
                 mKasutusViis.check(R.id.Kasutusel);
             else if (this.teos.getKasutusviis() == 2)

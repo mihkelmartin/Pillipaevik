@@ -1,6 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
@@ -31,6 +33,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     private TextView lopukuupaevlahter;
     private TextView lopukellaaeglahter;
     private TextView pikkusminutiteslahter;
+
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,33 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.harjutusmenyy, menu);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        if(harjutuskord != null && harjutuskord.getHelifail() != null && !harjutuskord.getHelifail().isEmpty()) {
+            mPlayer = new MediaPlayer();
+            try {
+                mPlayer.setDataSource(harjutuskord.getHelifail());
+                mPlayer.prepare();
+                mPlayer.start();
+            } catch (IOException e) {
+                Log.e(getLocalClassName(), "Mängi maha");
+            }
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(getLocalClassName(), "Lõpetan mahamängimise");
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+            Log.d(getLocalClassName(), "Lõpetasin mahamängimise");
+        }
+        super.onStop();
     }
 
     @Override
