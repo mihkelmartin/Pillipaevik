@@ -16,6 +16,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class TeosListActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private SimpleItemRecyclerViewAdapter mMainAdapter;
     private PilliPaevikDatabase mPPManager;
+    private boolean bEsimeneAvamine = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +59,39 @@ public class TeosListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.harjutua_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+        if(savedInstanceState != null )
+            bEsimeneAvamine = false;
+
     }
 
     @Override
     protected void onStart() {
+        Log.d(getLocalClassName(), "onStart");
         super.onStart();
         // TODO Asünkroonselt
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
         KuuHarjutusteProgress();
+        if(bEsimeneAvamine) {
+            GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+            Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
+            mGDU.LooDriveUhendus(this);
+            Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        bEsimeneAvamine = false;
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+        mGDU.KatkestaUhnedus();
+        super.onDestroy();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,30 +127,43 @@ public class TeosListActivity extends AppCompatActivity {
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
-                Log.d("TeosListActivity", "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
+                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
                 mMainAdapter.SordiTeosed();
                 mMainAdapter.notifyDataSetChanged();
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
-                Log.d("TeosListActivity", "Tagasi TeosActivityst. Pos:" + itemposition);
+                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Pos:" + itemposition);
                 mMainAdapter.notifyItemRemoved(itemposition);
             }
         }
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
-                Log.d("TeosListActivity", "Tagasi TeosActivityst. Lisatud");
+                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud");
                 mMainAdapter.SordiTeosed();
                 mMainAdapter.notifyDataSetChanged();
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
-                Log.d("TeosListActivity", "Tagasi TeosActivityst. Lisamisel kustutati");
+                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamisel kustutati");
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_UUS_LOOMATA)) {
-                Log.d("TeosListActivity", "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
+                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
             }
         }
+        if( requestCode == 1000) {
+            if (resultCode == RESULT_OK) {
+                Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
+                GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+                GoogleApiClient mGoogleApiClient = mGDU.GoogleApiKlient();
+                if(mGoogleApiClient != null)
+                    mGoogleApiClient.connect();
+            } else {
+                Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
+            }
+
+        }
     }
+
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         List<Teos> teosed = mPPManager.getAllTeosed();
         mMainAdapter = new SimpleItemRecyclerViewAdapter(teosed);

@@ -15,6 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.DriveId;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -107,16 +110,18 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
     @Override
     protected void onStart() {
-        if(harjutuskord != null && harjutuskord.getHelifail() != null && !harjutuskord.getHelifail().isEmpty()) {
+        //    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+        //    DriveId mHDI = mGDU.AnnaDriveID(harjutuskord.getHelifailidriveid());
+        //    DriveContents mFD = mGDU.AvaDriveFail(mHDI, DriveFile.MODE_READ_ONLY);
             mPlayer = new MediaPlayer();
             try {
                 mPlayer.setDataSource(harjutuskord.getHelifail());
                 mPlayer.prepare();
                 mPlayer.start();
             } catch (IOException e) {
-                Log.e(getLocalClassName(), "Mängi maha");
+                Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
             }
-        }
+
         super.onStart();
     }
 

@@ -221,7 +221,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         muudaFragment.show(getSupportFragmentManager(), "Ajamuutus");
 
     }
-    public void MuudaPikkust() {
+    public void MuudaPikkust(View v) {
 
         Bundle args = new Bundle();
         DialogFragment muudaKestustFragment = new ValiHarjutuseKestus();

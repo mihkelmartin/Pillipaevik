@@ -23,14 +23,18 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.drive.*;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 
+import java.io.FileDescriptor;
 import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja,
-        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks  {
+public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja  {
 
     private PilliPaevikDatabase mPPManager;
     private int teosid;
@@ -52,8 +56,6 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     protected void onStart() {
         if(taimertootab)
             handler.postDelayed(runnable, viiv);
-
-        //GoogleKettaYhendus();
         super.onStart();
     }
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -239,14 +241,13 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
     private void KaivitaLindistaja(){
         if(kasSalvestame.isChecked()) {
-            harjutus.setHelifail(getFilesDir().getPath().toString() + "/" + harjutus.MoodustaFailiNimi());
-            mRecorder = new MediaRecorder();
+            harjutus.setHelifail(harjutus.MoodustaFailiNimi());
             Log.e(getLocalClassName(), "Fail:" + harjutus.getHelifail());
-
+            mRecorder = new MediaRecorder();
             try {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                mRecorder.setOutputFile(harjutus.getHelifail());
+                mRecorder.setOutputFile(getFilesDir().getPath().toString() + "/" + harjutus.getHelifail());
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 mRecorder.prepare();
                 mRecorder.start();
@@ -262,6 +263,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;
+            Intent intent = new Intent(this, HeliFailDraiviTeenus.class);
+            intent.putExtra("teosid", harjutus.getTeoseid());
+            intent.putExtra("harjutusid", harjutus.getId());
+            startService(intent);
             Log.d(getLocalClassName(), "Lõpetasin lindistamise");
         }
     }
@@ -276,55 +281,8 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         finish();
     }
 
-
-
     private boolean kuiAndmedHarjutuses(){
         return harjutus.getPikkussekundites() != 0 || !harjutus.getAlgusaeg().equals(harjutus.getLopuaeg());
     }
 
-
-    // Google Drive
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        switch (requestCode) {
-            case 9999:
-                if (resultCode == RESULT_OK) {
-                    mGoogleApiClient.connect();
-                }
-                break;
-        }
-    }
-
-    private void GoogleKettaYhendus(){
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Drive.API)
-                .addScope(Drive.SCOPE_FILE)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        mGoogleApiClient.connect();
-
-    }
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
-                // TODO
-                connectionResult.startResolutionForResult(this, 9999);
-            } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
-            }
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
-        }
-    }
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pillipäevik</string>
     <string name="title_harjutua_detail">Harjutus</string>
+    <string name="title_activity_seaded">SeadedActivity</string>
     <string name="seadete_fail">seadete_fail</string>
     <string name="title_teos">Teos</string>
     <string name="seaded">Seaded...</string>
@@ -57,6 +58,7 @@
     <integer name="TEOSLIST_ACTIVITY_INTENT_LISA">9</integer>
     <integer name="TEOS_ACTIVITY_RETURN_LISATUD">10</integer>
     <integer name="TEOS_ACTIVITY_RETURN_UUS_LOOMATA">11</integer>
-    <string name="title_activity_seaded">SeadedActivity</string>
+
+    <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
 
 </resources>
