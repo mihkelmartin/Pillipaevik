@@ -51,21 +51,19 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
     private MediaRecorder mRecorder = null;
 
-    private static GoogleApiClient mGoogleApiClient;
-
     protected void onStart() {
         if(taimertootab)
             handler.postDelayed(runnable, viiv);
         super.onStart();
     }
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save the user's current game state
+
         savedInstanceState.putInt("harjutusid", this.harjutusid);
         savedInstanceState.putLong("stardiaeg", this.stardiaeg);
         savedInstanceState.putLong("kulunudaeg", this.kulunudaeg);
         savedInstanceState.putBoolean("taimertootab", this.taimertootab);
-        Log.d("HarjutusUusActivity", "Salvestan :" + this.harjutusid + " " + this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
-        // Always call the superclass so it can save the view hierarchy state
+        Log.d("HarjutusUusActivity", "onSaveInstanceState " + this.harjutusid + " " + this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
+
         super.onSaveInstanceState(savedInstanceState);
     }
     protected void onStop() {
@@ -178,7 +176,6 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         super.onBackPressed();
     }
 
-
     private void AndmedHarjutusse(HarjutusKord harjutus){
         String kirjeldus = ((EditText)findViewById(R.id.harjutusekirjeldus)).getText().toString();
         harjutus.setHarjutusekirjeldus(kirjeldus);
@@ -263,6 +260,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;
+            // TODO MIS SIIS KUI ÜHENDUST EI OLE HETKEL
+            // TODO ON CONNECTIONFAILED ON TEOSLISTACTITIVY KÜLJES
+            // TODO JA PANEBKI PANGE VIST SELLEPÄRAST !!!!
+
             Intent intent = new Intent(this, HeliFailDraiviTeenus.class);
             intent.putExtra("teosid", harjutus.getTeoseid());
             intent.putExtra("harjutusid", harjutus.getId());

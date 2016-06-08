@@ -2,6 +2,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 
@@ -38,6 +39,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     private TextView pikkusminutiteslahter;
 
     private MediaPlayer mPlayer;
+    private DriveContents mHeliFailDrive = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +61,11 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         mAction.setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
             this.teosid = getIntent().getIntExtra("teos_id", 0);
             this.harjutusid = getIntent().getIntExtra("harjutus_id", 0);
+            Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
         } else {
-            Log.d(getLocalClassName(), "Loen saveInstants");
+            Log.d(getLocalClassName(), "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teos_id");
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
         }
@@ -110,18 +112,12 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
     @Override
     protected void onStart() {
-        //    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-        //    DriveId mHDI = mGDU.AnnaDriveID(harjutuskord.getHelifailidriveid());
-        //    DriveContents mFD = mGDU.AvaDriveFail(mHDI, DriveFile.MODE_READ_ONLY);
-            mPlayer = new MediaPlayer();
-            try {
-                mPlayer.setDataSource(harjutuskord.getHelifail());
-                mPlayer.prepare();
-                mPlayer.start();
-            } catch (IOException e) {
-                Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
-            }
 
+        if(harjutuskord!= null && harjutuskord.getHelifailidriveid() != null &&
+                !harjutuskord.getHelifailidriveid().isEmpty()) {
+            AvaFailMangimiseks mAFM = new AvaFailMangimiseks();
+            mAFM.execute(harjutuskord.getHelifailidriveid());
+        }
         super.onStart();
     }
 
@@ -135,6 +131,14 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             Log.d(getLocalClassName(), "Lõpetasin mahamängimise");
         }
         super.onStop();
+    }
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putInt("teos_id", this.teosid);
+        savedInstanceState.putInt("harjutus_id", this.harjutusid);
+        Log.d(getLocalClassName(), "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
+
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -200,14 +204,30 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
         }
     }
-    public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        Log.d(getLocalClassName(), "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
+    private class AvaFailMangimiseks extends AsyncTask<String, Void, DriveContents> {
 
-        savedInstanceState.putInt("teos_id", this.teosid);
-        savedInstanceState.putInt("harjutus_id", this.harjutusid);
+        @Override
+        protected DriveContents doInBackground(String... driveIDs) {
+            GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+            DriveId dID = DriveId.decodeFromString(driveIDs[0]);
+            DriveContents dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+            return dFC;
+        }
 
-        super.onSaveInstanceState(savedInstanceState);
+        protected void onPostExecute(DriveContents dFC) {
+            mHeliFailDrive = dFC;
+            mPlayer = new MediaPlayer();
+            try {
+                mPlayer.setDataSource(dFC.getParcelFileDescriptor().getFileDescriptor());
+                mPlayer.prepare();
+                mPlayer.start();
+            } catch (IOException e) {
+                Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+            }
+            super.onPostExecute(dFC);
+        }
+
     }
 
 }

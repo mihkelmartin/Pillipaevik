@@ -211,6 +211,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje._ID+ "=" + harjutusid, null);
                 Teos teos = teosedmap.get(teosid);
                 if(teos != null){
+                    HashMap<Integer, HarjutusKord> pHarjutused = teos.getHarjutuskorradmap(context);
+                    HarjutusKord pH = pHarjutused.get(harjutusid);
+                    if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty())
+                        GoogleDriveUhendus.getInstance().KustutaDriveFail(pH.getHelifailidriveid());
+
                     teos.clearHarjutus(harjutusid);
                 } else {
                     Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
@@ -236,6 +241,12 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + teosid, null);
                 Teos teos = teosedmap.get(teosid);
                 if(teos != null){
+                    // Kustuta Draivist failid
+                    List<HarjutusKord> pHarjutused = teos.getHarjustuskorrad(context);
+                    for(HarjutusKord pH : pHarjutused) {
+                        if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty())
+                            GoogleDriveUhendus.getInstance().KustutaDriveFail(pH.getHelifailidriveid());
+                    }
                     teos.clearHarjutuskorrad();
                 } else {
                     Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);

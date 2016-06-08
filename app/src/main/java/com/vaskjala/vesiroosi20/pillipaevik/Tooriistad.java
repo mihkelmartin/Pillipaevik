@@ -179,7 +179,6 @@ public final class Tooriistad {
             Log.d("exportDB", "Download kataloogi loomine ei õnnestunud.");
         }
     }
-
     // Taastamine
     public static void importDB(Context context){
         File sd = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +

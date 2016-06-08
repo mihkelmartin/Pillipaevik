@@ -79,6 +79,15 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         }
         AndmedHarjutuskorrastVaatele();
     }
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putInt("teos_id", this.teosid);
+        savedInstanceState.putInt("harjutus_id", this.harjutusid);
+        Log.d(getLocalClassName(), "onSaveInstanceState " + this.teosid + " " + this.harjutusid);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
@@ -263,15 +272,6 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
             Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
         }
 
-    }
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-
-        Log.d(getLocalClassName(), "savedInstanceState: " + this.teosid + " " + this.harjutusid);
-
-        savedInstanceState.putInt("teos_id", this.teosid);
-        savedInstanceState.putInt("harjutus_id", this.harjutusid);
-
-        super.onSaveInstanceState(savedInstanceState);
     }
 
 }

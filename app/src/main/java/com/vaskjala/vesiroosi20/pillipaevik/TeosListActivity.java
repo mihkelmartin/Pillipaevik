@@ -73,6 +73,7 @@ public class TeosListActivity extends AppCompatActivity {
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
         KuuHarjutusteProgress();
+        // https://developers.google.com/android/guides/api-client#handle_connection_failures
         if(bEsimeneAvamine) {
             GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
             Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
@@ -378,7 +379,7 @@ public class TeosListActivity extends AppCompatActivity {
                 Date now = new Date();
                 ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
                 ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
-                Intent i = new Intent(Intent.ACTION_SEND);
+                Intent i = new Intent(Intent.ACTION_SENDTO);
                 i.setType("text/html");
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{ka.getOpetajaepost()});
                 i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));

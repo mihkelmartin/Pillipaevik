@@ -7,6 +7,7 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,12 +41,14 @@ public class HeliFailDraiviTeenus extends IntentService {
         mPP.SalvestaHarjutusKord(getApplicationContext(), harjutusKord);
         DriveContents mFD = mGD.AvaDriveFail(mHDI, DriveFile.MODE_WRITE_ONLY);
 
+        // TODO Allolev tööriistadesse
         FileInputStream in = null;
         try {
             in = new FileInputStream(getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
         } catch (IOException e) {
             Log.e("HeliFailDraiviTeenus","Lugemise viga :" + e.toString());
         }
+
         FileOutputStream out = new FileOutputStream(mFD.getParcelFileDescriptor().getFileDescriptor());
         byte[] buf = new byte[2048];
         int len;
@@ -57,6 +60,17 @@ public class HeliFailDraiviTeenus extends IntentService {
             Log.e("HeliFailDraiviTeenus","Kirjutamise viga :" + e.toString());
         }
         mGD.SalvestaDrivei(mFD);
+
+        // TODO Kui Draivi tegemine ei õnnestunud siis ei tohi kustutada
+        // Ja siis tuleb hiljem draivi teha
+        // TODO Allolev Tooriistadessse
+        File dir = getFilesDir();
+        File file = new File(dir, harjutusKord.getHelifail());
+        if(file.delete())
+            Log.d("HeliFailDraiviTeenus","Telefonis oleva fail kustutatud :" + getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
+        else
+            Log.e("HeliFailDraiviTeenus","Telefonis oleva faili kustutamise viga !");
+
     }
 
     public void setHarjutusKord(HarjutusKord harjutusKord) {

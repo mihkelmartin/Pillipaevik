@@ -3,6 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.IntentSender;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -98,7 +99,7 @@ public class GoogleDriveUhendus  implements
         GoogleApiClient mLocalGAC = GoogleApiKlient();
 
         if(mLocalGAC != null) {
-            retVal = driveId.asDriveResource().getMetadata(mLocalGAC).await().getMetadata().getWebContentLink();
+            retVal = driveId.asDriveResource().getMetadata(mLocalGAC).await().getMetadata().getAlternateLink();
         }
         Log.d("AnnaWebLink", "WebLink");
         return retVal;
@@ -121,12 +122,19 @@ public class GoogleDriveUhendus  implements
         GoogleApiClient mLocalGAC = GoogleApiKlient();
 
         if (mLocalGAC != null) {
-            retVal = file.open(mLocalGAC, mode, null).await().
-                    getDriveContents();
+            retVal = file.open(mLocalGAC, mode, null).await().getDriveContents();
+            Log.d("HeliFailDraiviTeenus","Drive faili sisu avatud !" + retVal.toString());
         }
 
         return retVal;
     }
+
+    public void KustutaDriveFail(String failiDriveID){
+        KustutuaDraivisFailAsyncTask mKDFA = new KustutuaDraivisFailAsyncTask();
+        mKDFA.driveId = failiDriveID;
+        mKDFA.execute();
+    }
+
 
 
     private class DriveFailiTagasiside implements ResultCallback<DriveFolder.DriveFileResult> {
@@ -135,11 +143,9 @@ public class GoogleDriveUhendus  implements
         public DriveFailiTagasiside(){
             super();
         }
-
         public DriveId getLoodudFail() {
             return loodudFail;
         }
-
         @Override
         public void onResult(DriveFolder.DriveFileResult result) {
             if (!result.getStatus().isSuccess()) {
@@ -154,7 +160,16 @@ public class GoogleDriveUhendus  implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
             try {
-                //TODO
+                //TODO 1000 osas
+                // TODO Activity võib ju vale olla kui connection kaob
+                // TODO LIHTSALT EI TEE AKTIVITEETIDEGA ASJU SELLISEL JUHUL EKSOLE
+                // TODO võibolla võiks nii teha, et ENNE SALVESTAMISET SÄTIKA VÕI MITTESÄTIKS
+                // TODO mDriveActivity ja kontrolliks Connectsiooni.
+                // TODO Lisaks tuleks hallata mis siis kui ei saa salveatada
+                // TODO Kuna teha järelsalvestamist. Kas Eraldi atribuut !!!
+
+
+                // TODO PROOVI ILMA YHENDUSETA
                 connectionResult.startResolutionForResult(mDriveActivity, 1000);
             } catch (IntentSender.SendIntentException e) {
                 // Unable to resolve, message user appropriately
@@ -178,11 +193,11 @@ public class GoogleDriveUhendus  implements
                         // Iterate over the matching Metadata instances in mdResultSet
                         MetadataBuffer metadataBuffer = result.getMetadataBuffer();
                         int count = metadataBuffer.getCount();
-                        Log.e("GoogleDriveUhendus", "count=" + count);
+                        Log.e("GoogleDriveUhendus", "Leitud " + PilliPaevikDatabase.DATABASE_NAME + " kaustade arv:" + count);
                         for (Metadata metadata : metadataBuffer) {
-                            mPilliPaevikKaust = metadata.getDriveId();
-                            Log.e("GoogleDriveUhendus", metadata.getTitle()+ " " + metadata.getDriveId() + " " +
-                            metadata.getOriginalFilename() + " " + metadata.getMimeType());
+                            if(!metadata.isTrashed())
+                                mPilliPaevikKaust = metadata.getDriveId();
+                            Log.e("GoogleDriveUhendus", metadata.getTitle()+ " " + metadata.getDriveId() + " " + metadata.isTrashed());
                         }
                         if(count == 0) {
                             MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
@@ -190,7 +205,6 @@ public class GoogleDriveUhendus  implements
                             pGDRoot.createFolder(mGoogleApiClient, changeSet).setResultCallback(folderCreatedCallback);
                         }
                         metadataBuffer.release();
-
                     }
                 });
 
@@ -202,11 +216,11 @@ public class GoogleDriveUhendus  implements
             ResultCallback<DriveFolder.DriveFolderResult>() {
                 public void onResult(DriveFolder.DriveFolderResult result) {
                     if (!result.getStatus().isSuccess()) {
-                        Log.e("Tooriistad", "Error while trying to create the folder");
+                        Log.e("GoogleDriveUhendus", "Error while trying to create the folder");
                         return;
                     }
                     mPilliPaevikKaust = result.getDriveFolder().getDriveId();
-                    Log.d("Tooriistad","Created a folder: " + result.getDriveFolder().getDriveId());
+                    Log.d("GoogleDriveUhendus","Created a folder: " + result.getDriveFolder().getDriveId());
                 }
             };
 
@@ -215,4 +229,29 @@ public class GoogleDriveUhendus  implements
 
     }
 
+
+
+
+    private class KustutuaDraivisFailAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        public String driveId = "";
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (!driveId.isEmpty()) {
+                DriveId fileId = DriveId.decodeFromString(driveId);
+                DriveFile fail = fileId.asDriveFile();
+                // Call to delete app data file. Consider using DriveResource.trash()
+                // for user visible files.
+                com.google.android.gms.common.api.Status deleteStatus =
+                        fail.delete(mGoogleApiClient).await();
+                if (!deleteStatus.isSuccess()) {
+                    Log.e("Kusutatamise AsyncTask", "Ei suuda kustutada: " + driveId);
+                    return null;
+                }
+                // Remove stored DriveId.
+                Log.d("KustutuaDraivist", "Kustutatud " + driveId);
+            }
+            return null;
+        }
+    }
 }
