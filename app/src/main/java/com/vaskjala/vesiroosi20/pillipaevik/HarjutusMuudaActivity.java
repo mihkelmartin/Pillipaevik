@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.google.android.gms.drive.DriveContents;
@@ -183,6 +185,17 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
     }
 
+    public void MangiLugu(View v){
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mHeliFailDrive.getParcelFileDescriptor().getFileDescriptor());
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+        }
+    }
+
     private boolean AndmedHarjutuses(){
         return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
     }
@@ -210,21 +223,20 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         @Override
         protected DriveContents doInBackground(String... driveIDs) {
             GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+            mGDU.setmDriveActivity(null);
             DriveId dID = DriveId.decodeFromString(driveIDs[0]);
             DriveContents dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
             return dFC;
         }
 
         protected void onPostExecute(DriveContents dFC) {
-            mHeliFailDrive = dFC;
-            mPlayer = new MediaPlayer();
-            try {
-                mPlayer.setDataSource(dFC.getParcelFileDescriptor().getFileDescriptor());
-                mPlayer.prepare();
-                mPlayer.start();
-            } catch (IOException e) {
-                Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+
+            if(dFC != null){
+                mHeliFailDrive = dFC;
+                Button mangilugu = (Button) findViewById(R.id.mangilugu);
+                mangilugu.setVisibility(Button.VISIBLE);
             }
+
             super.onPostExecute(dFC);
         }
 

@@ -1,5 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -116,6 +117,8 @@ public class SeadedActivity extends AppCompatActivity {
 
 
         editor.commit();
+        BackupManager backupManager = new BackupManager(this);
+        backupManager.dataChanged();
     }
     private class SeadedFookusePassija implements View.OnFocusChangeListener {
 

@@ -7,10 +7,7 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -33,31 +30,36 @@ public class HeliFailDraiviTeenus extends IntentService {
         Teos teos = mPP.getTeos(workIntent.getIntExtra("teosid",0));
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         harjutusKord = harjutuskorradmap.get(workIntent.getIntExtra("harjutusid",0));
+        Log.d("HeliFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
 
         GoogleDriveUhendus mGD = GoogleDriveUhendus.getInstance();
-        DriveId mHDI = mGD.LooDriveHeliFail(harjutusKord.getHelifail());
-        harjutusKord.setHelifailidriveid(mGD.AnnaDriveID(mHDI));
-        harjutusKord.setHelifailidriveweblink(mGD.AnnaWebLink(mHDI));
-        mPP.SalvestaHarjutusKord(getApplicationContext(), harjutusKord);
-        DriveContents mFD = mGD.AvaDriveFail(mHDI, DriveFile.MODE_WRITE_ONLY);
-
-        // TODO Allolev tööriistadesse
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
-        } catch (IOException e) {
-            Log.e("HeliFailDraiviTeenus","Lugemise viga :" + e.toString());
+        mGD.setmDriveActivity(null);
+        DriveId mHDI = null;
+        int writemode = DriveFile.MODE_WRITE_ONLY;
+        if(harjutusKord.getHelifailidriveid() == null || harjutusKord.getHelifailidriveid().isEmpty()) {
+            mHDI = mGD.LooDriveHeliFail(harjutusKord.getHelifail());
+            harjutusKord.setHelifailidriveid(mGD.AnnaDriveID(mHDI));
+            harjutusKord.setHelifailidriveweblink(mGD.AnnaWebLink(mHDI));
+            mPP.SalvestaHarjutusKord(getApplicationContext(), harjutusKord);
+            Log.d("HeliFailDraiviTeenus","Uus fail loodud");
+        } else {
+            mHDI = DriveId.decodeFromString(harjutusKord.getHelifailidriveid());
+            // TODO Tegelikult READ_WRITE kui oskaks lisada
+            writemode = DriveFile.MODE_WRITE_ONLY;
+            Log.d("HeliFailDraiviTeenus","Lisame olemasolevale failile");
         }
+        DriveContents mFD = mGD.AvaDriveFail(mHDI, writemode);
 
-        FileOutputStream out = new FileOutputStream(mFD.getParcelFileDescriptor().getFileDescriptor());
-        byte[] buf = new byte[2048];
-        int len;
         try {
+            FileOutputStream out = new FileOutputStream(mFD.getParcelFileDescriptor().getFileDescriptor());
+            FileInputStream in  = new FileInputStream(getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
+            byte[] buf = new byte[2048];
+            int len;
             while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
         } catch (IOException e) {
-            Log.e("HeliFailDraiviTeenus","Kirjutamise viga :" + e.toString());
+            Log.e("HeliFailDraiviTeenus","Lugemise/Kirjutamise viga :" + e.toString());
         }
         mGD.SalvestaDrivei(mFD);
 

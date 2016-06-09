@@ -213,8 +213,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if(teos != null){
                     HashMap<Integer, HarjutusKord> pHarjutused = teos.getHarjutuskorradmap(context);
                     HarjutusKord pH = pHarjutused.get(harjutusid);
-                    if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty())
-                        GoogleDriveUhendus.getInstance().KustutaDriveFail(pH.getHelifailidriveid());
+                    if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
+                        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+                        mGDU.setmDriveActivity(null);
+                        mGDU.KustutaDriveFail(pH.getHelifailidriveid());
+                    }
 
                     teos.clearHarjutus(harjutusid);
                 } else {
@@ -242,10 +245,13 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 Teos teos = teosedmap.get(teosid);
                 if(teos != null){
                     // Kustuta Draivist failid
+                    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+                    mGDU.setmDriveActivity(null);
                     List<HarjutusKord> pHarjutused = teos.getHarjustuskorrad(context);
                     for(HarjutusKord pH : pHarjutused) {
-                        if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty())
-                            GoogleDriveUhendus.getInstance().KustutaDriveFail(pH.getHelifailidriveid());
+                        if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
+                            mGDU.KustutaDriveFail(pH.getHelifailidriveid());
+                        }
                     }
                     teos.clearHarjutuskorrad();
                 } else {

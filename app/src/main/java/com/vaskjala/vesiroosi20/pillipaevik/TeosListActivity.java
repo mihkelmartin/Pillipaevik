@@ -74,12 +74,14 @@ public class TeosListActivity extends AppCompatActivity {
         NadalaHarjutusteProgress();
         KuuHarjutusteProgress();
         // https://developers.google.com/android/guides/api-client#handle_connection_failures
+
+        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
         if(bEsimeneAvamine) {
-            GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
             Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
             mGDU.LooDriveUhendus(this);
             Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
         }
+        mGDU.setmDriveActivity(this);
     }
 
     @Override
@@ -379,11 +381,11 @@ public class TeosListActivity extends AppCompatActivity {
                 Date now = new Date();
                 ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
                 ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
-                Intent i = new Intent(Intent.ACTION_SENDTO);
-                i.setType("text/html");
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{ka.getOpetajaepost()});
                 i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
-                i.putExtra(Intent.EXTRA_TEXT   , ka.AruandeKoguTekst(getApplicationContext()));
+                i.putExtra(Intent.EXTRA_TEXT, ka.AruandeKoguTekst(getApplicationContext()));
                 try {
                     startActivity(Intent.createChooser(i, "Saada aruanne..."));
                 } catch (android.content.ActivityNotFoundException ex) {

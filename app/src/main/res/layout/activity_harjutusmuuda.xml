@@ -93,6 +93,13 @@
                       android:text="minutit"/>
         </TableRow>
         </TableLayout>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Mängi ette"
+                android:visibility="gone"
+                android:id="@+id/mangilugu"
+                android:onClick="MangiLugu"/>
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"

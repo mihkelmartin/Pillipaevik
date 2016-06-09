@@ -22,6 +22,7 @@ public class VaruKoopiaTegija extends BackupAgentHelper {
     // Allocate a helper and add it to the backup agent
     @Override
     public void onCreate() {
+        Log.d("VaruKoopiaTegija","onCreate");
         SharedPreferencesBackupHelper helperSP =
                 new SharedPreferencesBackupHelper(this, PREFS);
         addHelper(PREFS_BACKUP_KEY, helperSP);

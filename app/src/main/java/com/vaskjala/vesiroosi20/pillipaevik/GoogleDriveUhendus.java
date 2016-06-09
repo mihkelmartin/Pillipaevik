@@ -49,6 +49,10 @@ public class GoogleDriveUhendus  implements
         return mPilliPaevikKaust;
     }
 
+    public static void setmDriveActivity(Activity mDriveActivity) {
+        GoogleDriveUhendus.mDriveActivity = mDriveActivity;
+    }
+
     public void LooDriveUhendus(Activity activity){
 
         mDriveActivity = activity;
@@ -160,22 +164,19 @@ public class GoogleDriveUhendus  implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
             try {
-                //TODO 1000 osas
-                // TODO Activity võib ju vale olla kui connection kaob
-                // TODO LIHTSALT EI TEE AKTIVITEETIDEGA ASJU SELLISEL JUHUL EKSOLE
-                // TODO võibolla võiks nii teha, et ENNE SALVESTAMISET SÄTIKA VÕI MITTESÄTIKS
-                // TODO mDriveActivity ja kontrolliks Connectsiooni.
-                // TODO Lisaks tuleks hallata mis siis kui ei saa salveatada
-                // TODO Kuna teha järelsalvestamist. Kas Eraldi atribuut !!!
+                if(mDriveActivity != null)
+                    connectionResult.startResolutionForResult(mDriveActivity, 1000);
+                else
+                    Log.e("GoogleDriveUhendus", "onConnectionFailed on lahendus kuid meil ei ole vaadet mille seda näidata");
 
-
-                // TODO PROOVI ILMA YHENDUSETA
-                connectionResult.startResolutionForResult(mDriveActivity, 1000);
             } catch (IntentSender.SendIntentException e) {
                 // Unable to resolve, message user appropriately
             }
         } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), mDriveActivity, 0).show();
+            if(mDriveActivity != null)
+                Tooriistad.NaitaHoiatust(mDriveActivity,"Google Drive ühenduse viga", "Veakood :" + connectionResult.getErrorCode());
+            else
+                Log.e("GoogleDriveUhendus", "onConnectionFailed lahendust ei ole, veakood :" + connectionResult.getErrorCode());
         }
     }
     @Override

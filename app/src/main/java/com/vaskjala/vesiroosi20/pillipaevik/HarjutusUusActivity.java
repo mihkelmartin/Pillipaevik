@@ -238,8 +238,9 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
     private void KaivitaLindistaja(){
         if(kasSalvestame.isChecked()) {
-            harjutus.setHelifail(harjutus.MoodustaFailiNimi());
-            Log.e(getLocalClassName(), "Fail:" + harjutus.getHelifail());
+            if(harjutus.getHelifail() == null || harjutus.getHelifail().isEmpty())
+                harjutus.setHelifail(harjutus.MoodustaFailiNimi());
+            Log.d(getLocalClassName(), "Fail:" + harjutus.getHelifail());
             mRecorder = new MediaRecorder();
             try {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
