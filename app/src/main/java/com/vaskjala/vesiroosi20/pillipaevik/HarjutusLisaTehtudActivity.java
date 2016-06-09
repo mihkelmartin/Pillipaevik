@@ -236,6 +236,9 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         DialogFragment muudaKestustFragment = new ValiHarjutuseKestus();
         args.putInt("maksimum",this.harjutuskord.ArvutaPikkusMinutites());
         args.putInt("kestus", this.harjutuskord.getPikkusminutites());
+        // Kui nimi on antud siis tuleb see harjutuskord objekti viia sest
+        // kui tagasi tullakse siis viikse andmed objektist vaatele
+        AndmedHarjutusse();
         muudaKestustFragment.setArguments(args);
         muudaKestustFragment.show(getSupportFragmentManager(), "Kestusemuutus");
 

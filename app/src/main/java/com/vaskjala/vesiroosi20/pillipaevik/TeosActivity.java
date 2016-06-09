@@ -28,16 +28,13 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
     private int itemposition;
     private boolean bUueTeoseLoomine = false;
 
+    // Vaate lahtrid
+    private RatingBar mHinnang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teos);
-
-        Spinner spinner = (Spinner) findViewById(R.id.hinnang);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.hinnangud, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.teos_toolbar);
         setSupportActionBar(toolbar);
@@ -62,6 +59,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         EditText mNimi = ((EditText) findViewById(R.id.nimi));
         EditText mAutor = ((EditText) findViewById(R.id.autor));
         EditText mKommentaar = ((EditText) findViewById(R.id.kommentaar));
+        mHinnang = ((RatingBar) findViewById(R.id.hinnaguriba));
         RadioGroup mKasutusViis = ((RadioGroup) findViewById(R.id.kasutusviis));
         mNimi.setOnFocusChangeListener(mFP);
         mAutor.setOnFocusChangeListener(mFP);
@@ -78,7 +76,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             this.setTitle(this.teos.getNimi());
             mAutor.setText(this.teos.getAutor());
             mKommentaar.setText(this.teos.getKommentaar());
-            spinner.setSelection(this.teos.getHinnang());
+            mHinnang.setRating(this.teos.getHinnang());
             if (this.teos.getKasutusviis() == 1)
                 mKasutusViis.check(R.id.Kasutusel);
             else if (this.teos.getKasutusviis() == 2)
@@ -107,7 +105,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         String nimi = ((EditText)findViewById(R.id.nimi)).getText().toString();
         String autor = ((EditText) findViewById(R.id.autor)).getText().toString();
         String kommentaar = ((EditText) findViewById(R.id.kommentaar)).getText().toString();
-        short hinnang = (short)((Spinner) findViewById(R.id.hinnang)).getSelectedItemId();
+        short hinnang = (short) mHinnang.getRating();
         short kasutusviis = 1;
         if( ((RadioGroup)findViewById(R.id.kasutusviis)).getCheckedRadioButtonId()== R.id.Kasutusel )
             kasutusviis = 1;
@@ -216,12 +214,17 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.harjutus_list_rida, parent, false);
             }
-            TextView kirjeldus = (TextView) convertView.findViewById(R.id.harjutusekirjeldus);
-            TextView lisamiseaeg = (TextView) convertView.findViewById(R.id.harjutuslist_kestus);
+            TextView kirjeldus = (TextView) convertView.findViewById(R.id.harjutuslist_harjutusekirjeldus);
+            TextView kestus = (TextView) convertView.findViewById(R.id.harjutuslist_kestus);
+            TextView kuupaev = (TextView) convertView.findViewById(R.id.harjutuslist_kuupaev);
 
             kirjeldus.setText(harjutuskord.getHarjutusekirjeldus());
             String pikkus = Tooriistad.formatElapsedTime(harjutuskord.getPikkussekundites()*1000);
-            lisamiseaeg.setText(pikkus);
+            kestus.setText(pikkus);
+            kuupaev.setText(Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg()));
+            if(harjutuskord.getHelifailidriveid() == null || harjutuskord.getHelifailidriveid().isEmpty())
+                convertView.findViewById(R.id.harjutuslisti_pilt).setVisibility(View.GONE);
+
             return convertView;
         }
     }
@@ -352,6 +355,10 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
 
         HarjutusteStatistika ();
 
+    }
+
+    public void MuudaHinnangut(View v){
+        teos.setHinnang((short)mHinnang.getRating());
     }
 
     // Reeglid

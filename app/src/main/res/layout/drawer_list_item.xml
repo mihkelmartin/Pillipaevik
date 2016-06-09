@@ -9,6 +9,9 @@
             android:id="@+id/drawerimageid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_drawer"
             />
@@ -17,11 +20,10 @@
               android:id="@+id/drawertextid"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:textAppearance="?android:attr/textAppearanceListItemSmall"
+              android:textSize="15sp"
               android:gravity="center_vertical"
               android:paddingLeft="16dp"
               android:paddingRight="16dp"
-              android:textColor="@color/colorPrimaryDark"
               android:background="?android:attr/activatedBackgroundIndicator"
               android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
 </LinearLayout>

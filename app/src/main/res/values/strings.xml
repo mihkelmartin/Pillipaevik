@@ -31,14 +31,6 @@
         <item>Kuu harjutused</item>
         <item>Harjutused loo kaupa</item>
     </string-array>
-    <string-array name="hinnangud">
-        <item>Ei oska öelda</item>
-        <item>Surmigav</item>
-        <item>Igav</item>
-        <item>Normaalne</item>
-        <item>Huvitav</item>
-        <item>Väga lahe</item>
-    </string-array>
     <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>
     <integer name="TEOS_ACTIVITY_RETURN_MUUDETUD">2</integer>
     <integer name="TEOS_ACTIVITY_RETURN_KUSTUTATUD">3</integer>

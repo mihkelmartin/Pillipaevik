@@ -28,6 +28,7 @@ public final class Tooriistad {
     private static final SimpleDateFormat sdfkuupaevkellaaeg = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevkellaaegBackup = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevkellaaegFailiNimi = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+    private static final SimpleDateFormat sdfkuupaevSonaline = new SimpleDateFormat("EEEE, MMM d", Locale.getDefault());
 
     public static Date HetkeKuupaevNullitudSekunditega(){
         c.setTime( new Date() );
@@ -78,6 +79,10 @@ public final class Tooriistad {
     public static String KujundaKuupaev(Date kuupaev){
         return sdfkuupaev.format(kuupaev);
     }
+    public static String KujundaKuupaevSonaline(Date kuupaev){
+        return sdfkuupaevSonaline.format(kuupaev);
+    }
+
     public static String KujundaKellaaeg(Date kuupaev){
         return sdfkellaaeg.format(kuupaev);
     }

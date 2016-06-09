@@ -56,6 +56,7 @@
         <View   android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimaryDark" />
+
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal">
@@ -65,56 +66,61 @@
                           android:layout_weight="1">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:layout_weight="0"
+                           android:scaleType="centerCrop"
+                           android:scaleX="0.5"
+                           android:scaleY="0.5"
                            android:src="@drawable/ic_replay_black_24dp"/>
                 <TextView android:id="@+id/teoseharjutustearv"
                           android:layout_width="wrap_content"
                           android:layout_height="match_parent"
-                          android:layout_weight="1"
-                          android:paddingLeft="16dp"
+                          android:paddingLeft="4dp"
                           android:gravity="center_vertical|left"
                           android:text="0"/>
             </LinearLayout>
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:orientation="horizontal"
-                          android:layout_weight="1">
+                          android:layout_weight="2">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:layout_weight="0"
+                           android:scaleType="centerCrop"
+                           android:scaleX="0.5"
+                           android:scaleY="0.5"
                            android:src="@drawable/ic_query_builder_black_24dp"/>
                 <TextView android:id="@+id/teoseharjutustekestus"
                           android:layout_width="wrap_content"
                           android:layout_height="match_parent"
-                          android:layout_weight="1"
-                          android:paddingLeft="16dp"
+                          android:paddingLeft="4dp"
                           android:gravity="center_vertical|left"
                           android:text="00:00"/>
+                </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:orientation="horizontal"
+                        android:layout_weight="4">
+                <RatingBar
+                        android:id="@+id/hinnaguriba"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:progressTint="@color/colorAccent"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:indeterminate="false"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:stepSize="1"
+                        android:rating="3"
+                        android:onClick="MuudaHinnangut"/>
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout android:visibility="gone"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-        android:padding="10dp">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:gravity="center"
-                      android:layout_margin="@dimen/text_margin"
-                      android:textStyle="bold"
-                      android:textSize="16dp"
-                      android:text="Hinnang:"/>
-            <Spinner android:id="@+id/hinnang"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:focusable="true"
-                     android:focusableInTouchMode="true">
-            </Spinner>
-        </LinearLayout>
+
+
         <View android:visibility="gone"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimaryDark" />
+              android:layout_width="fill_parent"
+              android:layout_height="1dp"
+              android:layout_marginLeft="@dimen/editext_defaultmargin"
+              android:layout_marginRight="@dimen/editext_defaultmargin"
+              android:background="@color/colorPrimaryDark" />
         <RadioGroup android:visibility="gone"
                     android:id="@+id/kasutusviis"
                     android:layout_width="match_parent"
@@ -134,15 +140,15 @@
         </RadioGroup>
         <View
                 android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
                 android:layout_marginLeft="@dimen/editext_defaultmargin"
                 android:layout_marginRight="@dimen/editext_defaultmargin"
-                android:layout_height="@dimen/eraldusjoone_paksus"
                 android:background="@color/colorPrimaryDark" />
         <ListView android:id="@+id/harjutuslist"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:choiceMode="singleChoice"
-                  android:dividerHeight="3dp"/>
+                  android:dividerHeight="@dimen/eraldusjoone_paksus"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
