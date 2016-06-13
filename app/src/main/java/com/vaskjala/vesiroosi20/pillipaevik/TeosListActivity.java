@@ -318,14 +318,19 @@ public class TeosListActivity extends AppCompatActivity {
                 if(convertView != null)
                     returnview = convertView;
                 if(returnview == null) {
-                    returnview = LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.drawer_list_item, parent, false);
-                    ImageView imageView = (ImageView) (returnview.findViewById(R.id.drawerimageid));
-                    imageView.setImageResource(getResources().getIdentifier(mSahtliValikud[0][position], null, null));
-                    TextView textView = (TextView) (returnview.findViewById(R.id.drawertextid));
-                    textView.setText(mSahtliValikud[1][position]);
-                    Log.d("cek", mSahtliValikud[0][position]);
-                    Log.d("cek", mSahtliValikud[1][position]);
+                    if(position == 0){
+                        returnview = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.sahtli_esimene_rida, parent, false);
+                    } else {
+                        returnview = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.drawer_list_item, parent, false);
+                        ImageView imageView = (ImageView) (returnview.findViewById(R.id.drawerimageid));
+                        imageView.setImageResource(getResources().getIdentifier(mSahtliValikud[0][position], null, null));
+                        TextView textView = (TextView) (returnview.findViewById(R.id.drawertextid));
+                        textView.setText(mSahtliValikud[1][position]);
+                        Log.d("mDrawerList.setAdapter", mSahtliValikud[0][position]);
+                        Log.d("mDrawerList.setAdapter", mSahtliValikud[1][position]);
+                    }
                 }
                 return returnview;
             }
@@ -373,25 +378,35 @@ public class TeosListActivity extends AppCompatActivity {
             mDrawerLayout = dL;
             mDrawerList = lV;
         }
+
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            if(position == 2) {
-                Kuuaruanne ka = new Kuuaruanne(getApplicationContext());
-                ka.setAruandeperioodinimi("2016 juuni");
-                Date now = new Date();
-                ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
-                ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{ka.getOpetajaepost()});
-                i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
-                i.putExtra(Intent.EXTRA_TEXT, ka.AruandeKoguTekst(getApplicationContext()));
-                try {
-                    startActivity(Intent.createChooser(i, "Saada aruanne..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText( getParent() , "E-posti äppi ei paista olevat ....", Toast.LENGTH_SHORT).show();
-                }
 
+            Intent i;
+            switch (position) {
+                case 1 :
+                    i = new Intent(view.getContext(), HarjutusteKalenderActivity.class);
+                    startActivity(i);
+                    break;
+                case 2 :
+                    Kuuaruanne ka = new Kuuaruanne(getApplicationContext());
+                    ka.setAruandeperioodinimi("2016 juuni");
+                    Date now = new Date();
+                    ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
+                    ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
+                    i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{ka.getOpetajaepost()});
+                    i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
+                    i.putExtra(Intent.EXTRA_TEXT, ka.AruandeKoguTekst(getApplicationContext()));
+                    try {
+                        startActivity(Intent.createChooser(i, "Saada aruanne..."));
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(getParent(), "E-posti äppi ei paista olevat ....", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                default:
+                    break;
             }
             mDrawerLayout.closeDrawer(mDrawerList);
         }

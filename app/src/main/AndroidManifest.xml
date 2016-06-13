@@ -15,6 +15,11 @@
         <service
                 android:name=".HeliFailDraiviTeenus"
                 android:exported="false"/>
+        <service android:name=".GoogleDriveTagasiSide" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.drive.events.HANDLE_EVENT"/>
+            </intent-filter>
+        </service>
         <meta-data android:name="com.google.android.backup.api_key" android:value="AEdPqrEAAAAISjQvYnK2KQlNpMvz3I9LG69yeRhZY56y_pReMg"/>
         <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=956679378662"/>
         <intent-filter>
@@ -77,6 +82,15 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"/>
         </activity>
-    </application>
+        <activity
+                android:name=".HarjutusteKalenderActivity"
+                android:label="@string/title_activity_harjutuste_kalender"
+                android:parentActivityName=".TeosListActivity"
+                android:theme="@style/Pillipaevik"
+                android:windowSoftInputMode="stateHidden">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"/>
+        </activity>    </application>
 
 </manifest>

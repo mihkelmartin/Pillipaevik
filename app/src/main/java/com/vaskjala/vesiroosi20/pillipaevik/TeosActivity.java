@@ -224,6 +224,8 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             kuupaev.setText(Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg()));
             if(harjutuskord.getHelifailidriveid() == null || harjutuskord.getHelifailidriveid().isEmpty())
                 convertView.findViewById(R.id.harjutuslisti_pilt).setVisibility(View.GONE);
+            else
+                convertView.findViewById(R.id.harjutuslisti_pilt).setVisibility(View.VISIBLE);
 
             return convertView;
         }

@@ -1,0 +1,100 @@
+package com.vaskjala.vesiroosi20.pillipaevik;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by mihkel on 11.06.2016.
+ */
+public class HarjutusteKalenderActivity extends AppCompatActivity {
+
+    private HarjutusteKalenderAdapter mharjutusteKalenderAdapter;
+    private ViewPager mViewPager;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_harjutuste_kalender);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.kalender_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar mAction = getSupportActionBar();
+        mAction.setDisplayHomeAsUpEnabled(true);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.harjutuste_kalender_leht1));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.harjutuste_kalender_leht2));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        mharjutusteKalenderAdapter =
+                new HarjutusteKalenderAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mharjutusteKalenderAdapter);
+    }
+
+    public class HarjutusteKalenderAdapter extends FragmentPagerAdapter {
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Lehekülg " + position;
+        }
+
+        public HarjutusteKalenderAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = new HarjutusteKalendriLeht();
+            Bundle args = new Bundle();
+            // Our object is just an integer :-P
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    }
+
+
+
+
+
+}
+

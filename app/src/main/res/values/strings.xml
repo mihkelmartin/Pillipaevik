@@ -18,18 +18,23 @@
     Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
     </string>
     <string name="SalvestaLinnukeTekst">Salvestame harjutuse telefoni mikrofoniga</string>
+    <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
+    <string name="harjutuste_kalender_leht1">Päevad</string>
+    <string name="harjutuste_kalender_leht2">Nädalad</string>
 
     <string-array name="sahtli_valikud_ikoonid">
+        <item>Päis</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_color_24dp</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_week_color_24dp</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_date_range_color_24dp</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_reorder_color_24dp</item>
     </string-array>
     <string-array name="sahtli_valikud">
-        <item>Päeva harjutused</item>
-        <item>Nädala harjutused</item>
-        <item>Kuu harjutused</item>
-        <item>Harjutused loo kaupa</item>
+        <item>Päis</item>
+        <item>Harjutuste kalender</item>
+        <item>Saada aruanne</item>
+        <item>Vaba ...</item>
+        <item>Vaba ...</item>
     </string-array>
     <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>
     <integer name="TEOS_ACTIVITY_RETURN_MUUDETUD">2</integer>

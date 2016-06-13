@@ -116,7 +116,10 @@ public class GoogleDriveUhendus  implements
                 .setStarred(true)
                 .setLastViewedByMeDate(new Date()).build();
         if (mLocalGAC != null) {
-            muudetudsisu.commit(mLocalGAC, changeSet);
+            ExecutionOptions executionOptions = new ExecutionOptions.Builder()
+                    .setNotifyOnCompletion(true)
+                    .build();
+            muudetudsisu.commit(mLocalGAC, changeSet, executionOptions );
         }
     }
 
@@ -162,6 +165,7 @@ public class GoogleDriveUhendus  implements
     };
 
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("GoogleDriveUhendus","onConnectionFailed: " + connectionResult.toString());
         if (connectionResult.hasResolution()) {
             try {
                 if(mDriveActivity != null)
@@ -227,7 +231,7 @@ public class GoogleDriveUhendus  implements
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.e("GoogleDriveUhendus","onConnectionSuspended: " + i);
     }
 
 

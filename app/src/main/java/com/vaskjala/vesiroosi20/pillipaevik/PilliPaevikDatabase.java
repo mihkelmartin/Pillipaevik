@@ -3,6 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 import android.app.backup.BackupManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -424,6 +425,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return retVal;
     }
 
+    // See on aruande jaoks
     public List<String> HarjutusKordadeStatistikaPerioodis(Date algus, Date lopp){
 
         List<String> pList = new ArrayList<String>();
@@ -445,6 +447,40 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         String kirje = "<tr><td>" + c.getString(0) + "</td><td>" +
                                 Tooriistad.KujundaHarjutusteMinutid(c.getInt(1) / 60) + "</td></tr>";
                         pList.add(kirje);
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
+            }
+        } catch (Exception e){
+            Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
+        }
+        return pList;
+    }
+
+    public HashMap<Long, PaevaKirje> HarjutusteStatistikaPerioodisPaevaKaupa(Date algus, Date lopp){
+
+        HashMap<Long, PaevaKirje> pList = new HashMap<Long, PaevaKirje>();
+        String selectParing = "SELECT date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + "), COUNT(*),SUM("+
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +") FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE date(" +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
+                "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') " +
+                "GROUP BY date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")";
+        Log.d(LOG, selectParing);
+        try{
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                // looping through all rows and adding to list
+                if (c.moveToFirst()) {
+                    do {
+                        Date pDate = Tooriistad.KuupaevStringist(c.getString(0));
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(pDate);
+                        PaevaKirje kirje = new PaevaKirje(pDate, c.getInt(1), c.getInt(2));
+                        pList.put(Long.valueOf(cal.getTimeInMillis()),kirje);
                     } while (c.moveToNext());
                 }
                 c.close();

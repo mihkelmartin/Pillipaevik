@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +37,16 @@ public final class Tooriistad {
         c.set( Calendar.MILLISECOND, 0 );
         return c.getTime();
     }
+
+    public static Date HetkeKuupaevNullitudKellaAjaga(){
+        c.setTime( new Date() );
+        c.set( Calendar.HOUR, 0 );
+        c.set( Calendar.MINUTE, 0 );
+        c.set( Calendar.SECOND, 0 );
+        c.set( Calendar.MILLISECOND, 0 );
+        return c.getTime();
+    }
+
     public static Date MoodustaKuuAlgusKuupaev(Date kuupaev){
         c.setTime( kuupaev );
         c.set(Calendar.DAY_OF_MONTH, 1);
@@ -46,7 +57,6 @@ public final class Tooriistad {
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DATE));
         return c.getTime();
     }
-
     public static Date MoodustaNädalaAlgusKuupaev(Date kuupaev){
         c.setTime( kuupaev );
         int paev = c.get(Calendar.DAY_OF_WEEK);
@@ -60,6 +70,18 @@ public final class Tooriistad {
         paev = (paev == 1) ? 7 : paev - 1;
         c.add(Calendar.DAY_OF_MONTH, 7 - paev);
         return c.getTime();
+    }
+
+    public static Date KuupaevStringist(String kuupaev){
+
+        Date retVal = null;
+        try {
+            retVal = sdfkuupaev.parse(kuupaev);
+        } catch (ParseException pe) {
+            System.out.println("ERROR: could not parse date in string \"" +
+                    sdfkuupaev + "\"");
+        }
+        return retVal;
     }
 
 

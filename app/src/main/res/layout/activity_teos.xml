@@ -55,6 +55,8 @@
                 android:inputType="textCapSentences"/>
         <View   android:layout_width="fill_parent"
                 android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
                 android:background="@color/colorPrimaryDark" />
 
         <LinearLayout android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,13 +42,14 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     private int harjutusid;
     private HarjutusKord harjutus;
     private boolean taimertootab = false;
+    private static boolean bkasSalvestame = false;
     private long stardiaeg = 0;
     private long kulunudaeg = 0;
     private static final short viiv = 300;
 
     private static TextView timer;
-    private static CheckBox kasSalvestame;
     private static Button kaivitaTimerNupp;
+    private static Button mikrofoniLulitiNupp;
 
     private MediaRecorder mRecorder = null;
 
@@ -62,7 +64,9 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         savedInstanceState.putLong("stardiaeg", this.stardiaeg);
         savedInstanceState.putLong("kulunudaeg", this.kulunudaeg);
         savedInstanceState.putBoolean("taimertootab", this.taimertootab);
-        Log.d("HarjutusUusActivity", "onSaveInstanceState " + this.harjutusid + " " + this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
+        savedInstanceState.putBoolean("kasSalvestame", this.bkasSalvestame);
+        Log.d("HarjutusUusActivity", "onSaveInstanceState " + this.harjutusid + " " + this.stardiaeg + " " +
+                this.kulunudaeg + " Taimer sees:" +this.taimertootab + " Kas salvestame: " + bkasSalvestame);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -94,8 +98,8 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         mAction.setTitle(teos.getNimi());
 
         timer = (TextView) findViewById(R.id.timer);
-        kasSalvestame = (CheckBox) findViewById(R.id.KasSalvestame);
         kaivitaTimerNupp = (Button) findViewById(R.id.kaivitataimernupp);
+        mikrofoniLulitiNupp = (Button) findViewById(R.id.mikrofoniluliti);
 
         if (savedInstanceState == null) {
             this.harjutus = new HarjutusKord(this.teosid);
@@ -107,6 +111,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             this.stardiaeg = savedInstanceState.getLong("stardiaeg");
             this.kulunudaeg = savedInstanceState.getLong("kulunudaeg");
             this.taimertootab = savedInstanceState.getBoolean("taimertootab");
+            this.bkasSalvestame = savedInstanceState.getBoolean("kasSalvestame");
             Log.d(this.getLocalClassName(), "Loen savedinstantsist :" + this.harjutusid + " " +
                     this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
 
@@ -124,6 +129,8 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 timer.setText(String.valueOf(Tooriistad.formatElapsedTime(kulunudaeg)));
             }
         }
+        SeadistaMikrofoniNupp();
+
     }
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -205,14 +212,22 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             handler.postDelayed(this, viiv);
         }
     };
+
+    public void LulitaMikrofon(View v) {
+        bkasSalvestame = !bkasSalvestame;
+        SeadistaMikrofoniNupp();
+    }
+
     public void KaivitaTaimer(View v){
 
         if(taimertootab) {
+            mikrofoniLulitiNupp.setEnabled(true);
             SeisataLindistaja();
             SeisataTaimer();
             mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
             kaivitaTimerNupp.setText("Jätka");
         } else {
+            mikrofoniLulitiNupp.setEnabled(false);
             KaivitaLindistaja();
             KaivitaTaimer();
             kaivitaTimerNupp.setText("Katkesta");
@@ -237,7 +252,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     }
 
     private void KaivitaLindistaja(){
-        if(kasSalvestame.isChecked()) {
+        if(KasVoimalikSalvestada() && bkasSalvestame) {
             if(harjutus.getHelifail() == null || harjutus.getHelifail().isEmpty())
                 harjutus.setHelifail(harjutus.MoodustaFailiNimi());
             Log.d(getLocalClassName(), "Fail:" + harjutus.getHelifail());
@@ -272,6 +287,21 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             Log.d(getLocalClassName(), "Lõpetasin lindistamise");
         }
     }
+
+    void SeadistaMikrofoniNupp(){
+        if(bkasSalvestame){
+            mikrofoniLulitiNupp.setText("Sees");
+            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_24dp, null), null, null, null);
+        } else {
+            mikrofoniLulitiNupp.setText("Väljas");
+            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_24dp, null), null, null, null);
+        }
+    }
+
+    boolean KasVoimalikSalvestada(){
+        return true;
+    }
+
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
