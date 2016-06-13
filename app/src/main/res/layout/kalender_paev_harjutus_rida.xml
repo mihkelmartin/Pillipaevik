@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/activatedBackgroundIndicator">
+    <TextView android:id="@+id/kalender_paev_harjutus_teosenimi"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:layout_toLeftOf="@+id/harjutuslisti_pilt"
+              android:singleLine="true"
+              android:paddingLeft="24dp"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:textColor="@color/colorPrimaryDark"
+              android:gravity="left|center_vertical"
+              android:minHeight="40sp"/>
+    <ImageView android:id="@+id/kalender_paev_harjutus_helifaili_pilt"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_toLeftOf="@+id/kalender_paev_harjutus_harjutuse_kestus"
+               android:scaleType="centerCrop"
+               android:scaleX="0.5"
+               android:scaleY="0.5"
+               android:src="@drawable/ic_library_music_black_24dp"/>
+    <TextView android:id="@+id/kalender_paev_harjutus_harjutuse_kestus"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:singleLine="true"
+                  android:paddingEnd="4dp"
+                  android:textSize="12sp"
+                  android:textColor="@color/colorPrimaryDark"
+                  android:gravity="right|center_vertical"/>
+    </RelativeLayout>
+

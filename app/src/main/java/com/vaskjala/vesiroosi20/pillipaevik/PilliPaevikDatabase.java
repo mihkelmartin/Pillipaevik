@@ -432,7 +432,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ",SUM("+
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +") FROM "
                 + HarjutusKord.Harjutuskordkirje.TABLE_NAME + "," + Teos.Teosekirje.TABLE_NAME + " WHERE " +
-                Teos.Teosekirje.TABLE_NAME + "." + Teos.Teosekirje._ID + "=" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " AND (" +
+                Teos.Teosekirje.TABLE_NAME + "." + Teos.Teosekirje._ID + "=" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " AND date(" +
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') GROUP BY " + Teos.Teosekirje.COLUMN_NAME_NIMI;
@@ -456,6 +456,45 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
         }
         return pList;
+    }
+
+    public void KuupaevaHarjutusKorrad(PaevaKirje paevaKirje){
+
+        String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ","+
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ","+
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + " FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + "," + Teos.Teosekirje.TABLE_NAME + " WHERE " +
+                Teos.Teosekirje.TABLE_NAME + "." + Teos.Teosekirje._ID + "=" +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " AND date(" +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(paevaKirje.kuupaev) +
+                "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") <= date('" + Tooriistad.KujundaKuupaev(paevaKirje.kuupaev) +
+                "') ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + " DESC";
+        Log.d(LOG, selectParing);
+        try{
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                // looping through all rows and adding to list
+                paevaKirje.bAndmebaasistLaetud = true;
+                if (c.moveToFirst()) {
+                    paevaKirje.Harjutused = new ArrayList<PaevaKirje>();
+                    do {
+                        Log.e("KuupaevaHarjutusKorrad", c.getString(0) + " " + c.getInt(1) + " " + c.getInt(2));
+                        PaevaKirje pPK = new PaevaKirje(paevaKirje.kuupaev, paevaKirje.kordadearv, paevaKirje.pikkussekundites);
+                        pPK.Teos = c.getString(0);
+                        pPK.harjutusepikkus = c.getInt(1);
+                        pPK.DriveId = c.getString(2);
+                        pPK.bPeaKirje = false;
+                        paevaKirje.Harjutused.add(pPK);
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
+            }
+        } catch (Exception e){
+            Log.e("KuupaevaHarjutusKorrad", "Ei suuda lugeda" + e.toString());
+        }
     }
 
     public HashMap<Long, PaevaKirje> HarjutusteStatistikaPerioodisPaevaKaupa(Date algus, Date lopp){
