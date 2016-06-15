@@ -1,5 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 import java.util.*;
 
@@ -164,6 +166,29 @@ public class TeosListActivity extends AppCompatActivity {
                 Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
             }
 
+        }
+        if( requestCode == 1001) {
+            if (resultCode == RESULT_OK && data != null &&
+                    data.getExtras() != null) {
+                String accountName =
+                        data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                if (accountName != null) {
+                    SharedPreferences settings =
+                            getSharedPreferences(getString(R.string.seadete_fail), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("googledrivekonto", accountName);
+                    editor.apply();
+
+                    GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
+                    GoogleAccountCredential mCredential = mGDRU.GoogleApiCredential();
+                    mCredential.setSelectedAccountName(accountName);
+                    Log.d(getLocalClassName(), "Valitud konto: " + accountName);
+                    mGDRU.Uhendu();
+                }
+            }
+        }
+        if( requestCode == 1004){
+            Log.d(getLocalClassName(), "See tuli REST API tagasidiena on ActivityResulti: " + resultCode);
         }
     }
 

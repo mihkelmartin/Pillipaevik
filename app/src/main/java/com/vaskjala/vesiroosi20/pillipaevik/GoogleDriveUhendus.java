@@ -15,9 +15,15 @@ import com.google.android.gms.drive.*;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -190,6 +196,7 @@ public class GoogleDriveUhendus  implements
         Query query = new Query.Builder()
                 .addFilter(Filters.eq(SearchableField.TITLE, PilliPaevikDatabase.DATABASE_NAME))
                 .build();
+
         pGDRoot.queryChildren(mGoogleApiClient, query)
                 .setResultCallback(new ResultCallback<DriveApi.MetadataBufferResult>() {
 
@@ -198,10 +205,13 @@ public class GoogleDriveUhendus  implements
                         // Iterate over the matching Metadata instances in mdResultSet
                         MetadataBuffer metadataBuffer = result.getMetadataBuffer();
                         int count = metadataBuffer.getCount();
+                        String DriveResourceId = "";
                         Log.e("GoogleDriveUhendus", "Leitud " + PilliPaevikDatabase.DATABASE_NAME + " kaustade arv:" + count);
                         for (Metadata metadata : metadataBuffer) {
-                            if(!metadata.isTrashed())
+                            if(!metadata.isTrashed()) {
                                 mPilliPaevikKaust = metadata.getDriveId();
+                                DriveResourceId = metadata.getDriveId().getResourceId();
+                            }
                             Log.e("GoogleDriveUhendus", metadata.getTitle()+ " " + metadata.getDriveId() + " " + metadata.isTrashed());
                         }
                         if(count == 0) {
@@ -210,6 +220,32 @@ public class GoogleDriveUhendus  implements
                             pGDRoot.createFolder(mGoogleApiClient, changeSet).setResultCallback(folderCreatedCallback);
                         }
                         metadataBuffer.release();
+/*
+                        GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();;
+                        Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
+                        mGDRU.setmDriveActivity(mDriveActivity);
+                        mGDRU.Uhendu();
+                        com.google.api.services.drive.Drive mService = null;
+                        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+                        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+                        mService = new com.google.api.services.drive.Drive.Builder(
+                                transport, jsonFactory, mGDRU.GoogleApiCredential())
+                                .setApplicationName("PilliPaevik")
+                                .build();
+                        com.google.api.services.drive.model.Permission tuhiluba =
+                                new com.google.api.services.drive.model.Permission().setRole("user").setType("write");
+                        try {
+                            // Peab olema asynics
+                            mService.permissions().create(DriveResourceId, tuhiluba).execute();
+                        }   catch (UserRecoverableAuthIOException e) {
+                            mDriveActivity.startActivityForResult(e.getIntent(), 1004);
+                            Log.e("GoogleDriveTagasiSide", "Catchisin hoopis " + e.toString());
+                        }
+                        catch (IOException e){
+                            Log.e("GoogleDriveTagasiSide", "Karm Eceptisioon" + e.toString());
+                        }
+                        Log.d("GoogleDriveUhendus", "Drive ühenduse REST loomine läbi");
+                        */
                     }
                 });
 

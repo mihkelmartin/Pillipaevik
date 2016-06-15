@@ -1,8 +1,17 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.util.Log;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.Permission;
 import com.google.android.gms.drive.events.CompletionEvent;
 import com.google.android.gms.drive.events.DriveEventService;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+
+import java.io.IOException;
 
 /**
  * Created by mihkel on 13.06.2016.
@@ -17,7 +26,24 @@ public class GoogleDriveTagasiSide extends DriveEventService {
             if(event.getDriveId() != null){
                 Log.d("GoogleDriveTagasiSide", "Drive id: " + event.getDriveId() + " Resource id:"
                         + event.getDriveId().getResourceId());
-
+                GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
+                com.google.api.services.drive.Drive mService = null;
+                HttpTransport transport = AndroidHttp.newCompatibleTransport();
+                JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+                mService = new com.google.api.services.drive.Drive.Builder(
+                        transport, jsonFactory, mGDRU.GoogleApiCredential())
+                        .setApplicationName("PilliPaevik")
+                        .build();
+                com.google.api.services.drive.model.Permission avalikluba =
+                        new com.google.api.services.drive.model.Permission().setType("anyone").setRole("reader");
+                try {
+                    mService.permissions().create(event.getDriveId().getResourceId(), avalikluba).execute();
+                }   catch (UserRecoverableAuthIOException e) {
+                    Log.e("GoogleDriveTagasiSide", "Catchisin hoopis " + e.toString());
+                }
+                catch (IOException e){
+                    Log.e("GoogleDriveTagasiSide", "Karm Eceptisioon" + e.toString());
+                }
             } else {
                 Log.e("GoogleDriveTagasiSide", "Drive id on null");
             }
