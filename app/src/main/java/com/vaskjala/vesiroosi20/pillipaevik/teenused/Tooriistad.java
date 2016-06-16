@@ -44,6 +44,18 @@ public final class Tooriistad {
         return retVal;
     }
 
+    public static Date KuupaevKellaAegStringist(String kuupaev){
+
+        Date retVal = null;
+        try {
+            retVal = sdfkuupaevkellaaeg.parse(kuupaev);
+        } catch (ParseException pe) {
+            System.out.println("ERROR: could not parse date in string \"" +
+                    sdfkuupaev + "\"");
+        }
+        return retVal;
+    }
+
     public static String KujundaKuupaev(Date kuupaev){
         return sdfkuupaev.format(kuupaev);
     }

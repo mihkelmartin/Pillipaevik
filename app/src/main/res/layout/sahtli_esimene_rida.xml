@@ -4,9 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="?attr/actionBarSize"
               android:orientation="horizontal"
-              android:background="@color/colorPrimary">
+              android:background="@color/primary_material_light">
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:layout_gravity="left"
-                   android:src="@drawable/ic_pillipaevik_app"/>
+                   android:layout_gravity="left|center_vertical"
+                   android:src="@drawable/ic_pillipaevik_app_vaike"/>
 </LinearLayout>

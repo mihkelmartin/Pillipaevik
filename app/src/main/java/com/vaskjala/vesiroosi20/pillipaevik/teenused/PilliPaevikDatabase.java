@@ -302,11 +302,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     do {
                         HarjutusKord harjutuskord = new HarjutusKord();
                         harjutuskord.setId(c.getInt((c.getColumnIndex(HarjutusKord.Harjutuskordkirje._ID))));
-                        harjutuskord.setAlgusaegEiArvuta(Tooriistad.KuupaevStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG))));
+                        harjutuskord.setAlgusaegEiArvuta(Tooriistad.KuupaevKellaAegStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG))));
                         harjutuskord.setPikkussekundites(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES)));
-                        harjutuskord.setLopuaegEiArvuta(Tooriistad.KuupaevStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG))));
+                        harjutuskord.setLopuaegEiArvuta(Tooriistad.KuupaevKellaAegStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG))));
                         harjutuskord.setHarjutusekirjeldus(c.getString((c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS))));
-                        harjutuskord.setLisatudpaevikusse(Tooriistad.KuupaevStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE))));
+                        harjutuskord.setLisatudpaevikusse(Tooriistad.KuupaevKellaAegStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE))));
                         harjutuskord.setTeoseid(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID)));
                         harjutuskord.setHelifail(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL)));
                         harjutuskord.setHelifailidriveid(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID)));

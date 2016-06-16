@@ -2,6 +2,7 @@ package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -79,28 +80,43 @@ public class GoogleDriveRestUhendus {
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
+    /**
+     * Attempt to resolve a missing, out-of-date, invalid or disabled Google
+     * Play Services installation via a user dialog, if possible.
+     */
+    private void acquireGooglePlayServices() {
+        GoogleApiAvailability apiAvailability =
+                GoogleApiAvailability.getInstance();
+        final int connectionStatusCode =
+                apiAvailability.isGooglePlayServicesAvailable(mDriveActivity);
+        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
+            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
+        }
+    }
+
+    void showGooglePlayServicesAvailabilityErrorDialog(
+            final int connectionStatusCode) {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        Dialog dialog = apiAvailability.getErrorDialog(
+                mDriveActivity,
+                connectionStatusCode,
+                // See on jälle ActivityREsultdi good
+                1010);
+        dialog.show();
+    }
+
     private void chooseAccount() {
-        if (EasyPermissions.hasPermissions(
-                mDriveActivity, Manifest.permission.GET_ACCOUNTS)) {
-            String googledrivekonto =
-                    mDriveActivity.getSharedPreferences(mDriveActivity.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
-                    .getString("googledrivekonto", null);
-            if(googledrivekonto != null){
-                mCredential.setSelectedAccountName(googledrivekonto);
-                Uhendu();
-            } else {
-                // Start a dialog from which the user can choose an account
-                mDriveActivity.startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        1001);
-            }
+        String googledrivekonto =
+                mDriveActivity.getSharedPreferences(mDriveActivity.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
+                .getString("googledrivekonto", null);
+        if(googledrivekonto != null){
+            mCredential.setSelectedAccountName(googledrivekonto);
+            Uhendu();
         } else {
-            // Request the GET_ACCOUNTS permission via a user dialog
-            EasyPermissions.requestPermissions(
-                    mDriveActivity,
-                    "This app needs to access your Google account (via Contacts).",
-                    1003,
-                    Manifest.permission.GET_ACCOUNTS);
+            // Start a dialog from which the user can choose an account
+            mDriveActivity.startActivityForResult(
+                    mCredential.newChooseAccountIntent(),
+                    1001);
         }
     }
 

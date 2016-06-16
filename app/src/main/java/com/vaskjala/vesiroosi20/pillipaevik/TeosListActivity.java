@@ -164,8 +164,13 @@ public class TeosListActivity extends AppCompatActivity {
                 Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
                 GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
                 GoogleApiClient mGoogleApiClient = mGDU.GoogleApiKlient();
-                if(mGoogleApiClient != null)
-                    mGoogleApiClient.connect();
+                if(!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
+                    Log.e(getLocalClassName(), "Loo drive ühendus uuesti !");
+                    mGDU.setmDriveActivity(this);
+                    mGDU.LooDriveUhendus(this);
+                } else
+                    Log.e(getLocalClassName(), "Google Drive uuesti ühendumisel oli ühendumine juba olemas või pooleli !");
+
             } else {
                 Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
             }

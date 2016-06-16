@@ -24,15 +24,11 @@
         <item>Päis</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_color_24dp</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_week_color_24dp</item>
-        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_date_range_color_24dp</item>
-        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_reorder_color_24dp</item>
     </string-array>
     <string-array name="sahtli_valikud">
         <item>Päis</item>
         <item>Harjutuste kalender</item>
         <item>Saada aruanne</item>
-        <item>Vaba ...</item>
-        <item>Vaba ...</item>
     </string-array>
     <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>
     <integer name="TEOS_ACTIVITY_RETURN_MUUDETUD">2</integer>

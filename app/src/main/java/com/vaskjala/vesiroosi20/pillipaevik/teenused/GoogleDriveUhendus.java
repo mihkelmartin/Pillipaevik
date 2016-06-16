@@ -71,7 +71,6 @@ public class GoogleDriveUhendus  implements
                 .addOnConnectionFailedListener(this)
                 .build();
         mGoogleApiClient.connect();
-
     }
 
     public void KatkestaUhnedus() {
@@ -137,9 +136,13 @@ public class GoogleDriveUhendus  implements
         DriveFile file = driveId.asDriveFile();
         GoogleApiClient mLocalGAC = GoogleApiKlient();
 
+        // TODO Mitteavamise veakoodi oleks nagu ka vaja
         if (mLocalGAC != null) {
             retVal = file.open(mLocalGAC, mode, null).await().getDriveContents();
-            Log.d("HeliFailDraiviTeenus", "Drive faili sisu avatud !" + retVal.toString());
+            if(retVal != null)
+                Log.d("HeliFailDraiviTeenus", "Drive faili sisu avatud !" + retVal.toString());
+            else
+                Log.e("HeliFailDraiviTeenus", "Drive faili ei avatud mispärast !");
         }
 
         return retVal;
@@ -181,8 +184,10 @@ public class GoogleDriveUhendus  implements
         Log.e("GoogleDriveUhendus", "onConnectionFailed: " + connectionResult.toString());
         if (connectionResult.hasResolution()) {
             try {
-                if (mDriveActivity != null)
+                if (mDriveActivity != null) {
+                    Log.e("GoogleDriveUhendus", "onConnectionFailed avame loa andmise akent");
                     connectionResult.startResolutionForResult(mDriveActivity, 1000);
+                }
                 else
                     Log.e("GoogleDriveUhendus", "onConnectionFailed on lahendus kuid meil ei ole vaadet mille seda näidata");
 
@@ -213,12 +218,10 @@ public class GoogleDriveUhendus  implements
                         // Iterate over the matching Metadata instances in mdResultSet
                         MetadataBuffer metadataBuffer = result.getMetadataBuffer();
                         int count = metadataBuffer.getCount();
-                        String DriveResourceId = "";
                         Log.e("GoogleDriveUhendus", "Leitud " + PilliPaevikDatabase.DATABASE_NAME + " kaustade arv:" + count);
                         for (Metadata metadata : metadataBuffer) {
                             if (!metadata.isTrashed()) {
                                 mPilliPaevikKaust = metadata.getDriveId();
-                                DriveResourceId = metadata.getDriveId().getResourceId();
                             }
                             Log.e("GoogleDriveUhendus", metadata.getTitle() + " " + metadata.getDriveId() + " " + metadata.isTrashed());
                         }
@@ -228,6 +231,8 @@ public class GoogleDriveUhendus  implements
                             pGDRoot.createFolder(mGoogleApiClient, changeSet).setResultCallback(folderCreatedCallback);
                         }
                         metadataBuffer.release();
+                        mGoogleApiClient.getConnectionResult(Drive.API);
+
 
                         GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
                         Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
@@ -300,10 +305,6 @@ public class GoogleDriveUhendus  implements
         protected Void doInBackground(Void... params) {
             try {
                 com.google.api.services.drive.model.FileList request = mService.files().list().execute();
-                List<com.google.api.services.drive.model.File> mF = request.getFiles();
-                for(com.google.api.services.drive.model.File mfile : mF){
-                    Log.d("TeeEelAutoriseerin", "Listin faile" + mfile.getName());
-                }
             } catch (UserRecoverableAuthIOException e) {
                 mDriveActivity.startActivityForResult(e.getIntent(), 1004);
                 Log.e("GoogleDriveTagasiSide", "Catchisin hoopis " + e.toString());
