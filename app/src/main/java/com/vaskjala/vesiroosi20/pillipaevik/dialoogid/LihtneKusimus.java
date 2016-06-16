@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.dialoogid;
 
 import android.app.Activity;
 import android.app.AlertDialog;

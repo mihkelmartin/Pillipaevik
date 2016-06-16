@@ -1,12 +1,9 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
@@ -18,31 +15,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.drive.*;
-import com.google.android.gms.drive.query.Filters;
-import com.google.android.gms.drive.query.Query;
-import com.google.android.gms.drive.query.SearchableField;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.HeliFailDraiviTeenus;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
-import java.io.FileDescriptor;
 import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja  {
+public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
     private PilliPaevikDatabase mPPManager;
     private int teosid;
     private int harjutusid;
     private HarjutusKord harjutus;
     private boolean taimertootab = false;
-    private static boolean bkasSalvestame = false;
+    private boolean bkasSalvestame = false;
     private long stardiaeg = 0;
     private long kulunudaeg = 0;
     private static final short viiv = 300;

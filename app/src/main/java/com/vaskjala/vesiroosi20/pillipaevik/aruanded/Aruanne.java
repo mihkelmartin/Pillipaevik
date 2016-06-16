@@ -1,10 +1,13 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.aruanded;
 
 
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.Date;
 import java.util.List;

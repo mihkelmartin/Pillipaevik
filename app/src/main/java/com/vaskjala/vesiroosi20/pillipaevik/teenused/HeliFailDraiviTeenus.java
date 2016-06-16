@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.util.Log;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
+import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
+import com.vaskjala.vesiroosi20.pillipaevik.Teos;
 
 import java.io.*;
 import java.util.HashMap;

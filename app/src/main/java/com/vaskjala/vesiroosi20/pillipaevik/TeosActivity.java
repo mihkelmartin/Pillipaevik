@@ -12,6 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.ArrayList;
 import java.util.Calendar;

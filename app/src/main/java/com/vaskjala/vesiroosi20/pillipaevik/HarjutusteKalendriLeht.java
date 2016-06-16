@@ -3,10 +3,11 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.*;
 

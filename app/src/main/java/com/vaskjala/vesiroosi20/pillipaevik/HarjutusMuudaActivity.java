@@ -21,6 +21,11 @@ import android.widget.TextView;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.io.IOException;
 import java.util.HashMap;

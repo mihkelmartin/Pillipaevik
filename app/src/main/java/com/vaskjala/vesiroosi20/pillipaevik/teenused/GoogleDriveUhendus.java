@@ -1,7 +1,6 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.IntentSender;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,9 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.*;
 import com.google.android.gms.drive.*;
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
@@ -21,10 +20,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-import java.io.File;
-import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by mihkel on 7.06.2016.
@@ -232,7 +230,6 @@ public class GoogleDriveUhendus  implements
                         metadataBuffer.release();
 
                         GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
-                        ;
                         Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
                         mGDRU.setmDriveActivity(mDriveActivity);
                         mGDRU.Uhendu();
@@ -302,7 +299,11 @@ public class GoogleDriveUhendus  implements
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                mService.files().list();
+                com.google.api.services.drive.model.FileList request = mService.files().list().execute();
+                List<com.google.api.services.drive.model.File> mF = request.getFiles();
+                for(com.google.api.services.drive.model.File mfile : mF){
+                    Log.d("TeeEelAutoriseerin", "Listin faile" + mfile.getName());
+                }
             } catch (UserRecoverableAuthIOException e) {
                 mDriveActivity.startActivityForResult(e.getIntent(), 1004);
                 Log.e("GoogleDriveTagasiSide", "Catchisin hoopis " + e.toString());

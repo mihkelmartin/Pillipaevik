@@ -2,9 +2,8 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.provider.BaseColumns;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +37,6 @@ public class HarjutusKord {
     public HarjutusKord (){
 
     }
-
     public HarjutusKord (int teosid){
         Date now = Tooriistad.HetkeKuupaevNullitudSekunditega();
         setTeoseid(teosid);
@@ -58,25 +56,6 @@ public class HarjutusKord {
     public Date getAlgusaeg() {
         return algusaeg;
     }
-    public String getAlgusaegAsString(){
-        String result = "";
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(this.algusaeg != null)
-            result = format.format(this.algusaeg);
-
-        return result;
-    }
-    public void setAlgusaeg(String algusaeg) {
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            setAlgusaegEiArvuta(format.parse(algusaeg));
-        } catch (ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    algusaeg + "\"");
-        }
-    }
     public void setAlgusaeg(Date algusaeg) {
         boolean bAlgusMuutus = true;
         if(this.algusaeg != null)
@@ -89,10 +68,9 @@ public class HarjutusKord {
         }
 
     }
-    private void setAlgusaegEiArvuta(Date algusaeg) {
+    public void setAlgusaegEiArvuta(Date algusaeg) {
         this.algusaeg = algusaeg;
     }
-
     private void TeavitaAlguseMuutusest(){
         Log.d("Harjutuskord","algusaeg muutus");
 
@@ -107,15 +85,6 @@ public class HarjutusKord {
 
     public Date getLopuaeg() {
         return lopuaeg;
-    }
-    public String getLopuaegAsString(){
-        String result = "";
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(this.lopuaeg != null)
-            result = format.format(this.lopuaeg);
-
-        return result;
     }
     public void setLopuaeg(Date lopuaeg) {
 
@@ -132,7 +101,6 @@ public class HarjutusKord {
     public void setLopuaegEiArvuta(Date lopuaeg) {
         this.lopuaeg = lopuaeg;
     }
-
     private void TeavitaLopuMuutusest(){
         Log.d("Harjutuskord","lopuaeg muutus");
 
@@ -146,16 +114,6 @@ public class HarjutusKord {
     }
 
 
-    public void setLopuaeg(String lopuaeg) {
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            setLopuaegEiArvuta(format.parse(lopuaeg));
-        } catch (ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    lopuaeg + "\"");
-        }
-    }
 
     public int getPikkussekundites() {
         return pikkussekundites;
@@ -164,23 +122,24 @@ public class HarjutusKord {
         this.pikkussekundites = pikkussekundites;
     }
     private void VarskendaPikkusSekundites(){
-
         setPikkussekundites(ArvutaPikkusSekundites());
-
-    }
-
-    public int getPikkusminutites(){
-        return (int)Math.ceil((double)getPikkussekundites() / 60.0);
     }
     private int ArvutaPikkusSekundites(){
         int retVal;
         Calendar c = Calendar.getInstance();
+
         c.setTime(getAlgusaeg());
         long algus = c.getTimeInMillis();
+
         c.setTime(getLopuaeg());
         long lopp = c.getTimeInMillis();
+
         retVal = (int)((lopp-algus)/(1000));
         return retVal;
+    }
+
+    public int getPikkusminutites(){
+        return (int)Math.ceil((double)getPikkussekundites() / 60.0);
     }
     public int ArvutaPikkusMinutites(){
         return (int)(ArvutaPikkusSekundites() / 60.0);
@@ -202,18 +161,8 @@ public class HarjutusKord {
 
         return result;
     }
-    private void setLisatudpaevikusse(Date lisatudpaevikusse) {
+    public void setLisatudpaevikusse(Date lisatudpaevikusse) {
         this.lisatudpaevikusse = lisatudpaevikusse;
-    }
-    public void setLisatudpaevikusse(String lisatudpaevikusse) {
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            this.lisatudpaevikusse = format.parse(lisatudpaevikusse);
-        } catch (ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    lisatudpaevikusse + "\"");
-        }
     }
 
     public int getTeoseid() {
@@ -248,14 +197,11 @@ public class HarjutusKord {
         return String.valueOf(getTeoseid()) + "_" + String.valueOf(getId()) + "_" +
                 Tooriistad.KujundaKuupaevKellaaegFailiNimi(new Date()) + ".mp4";
     }
-    public Date getLisatudpaevikusse() {
-        return lisatudpaevikusse;
-    }
 
     public String toString(){
         return "ID:" + this.id + "Algusaeg:" + this.algusaeg + " Pikkus:" + this.pikkussekundites +
                 " Lopuaeg:" + this.lopuaeg + " Kirjeldus:" + this.harjutusekirjeldus +
                 " Lisatud:" + this.lisatudpaevikusse + " Teoseid:" + this.teoseid + " Helifail:" + this.helifail +
-                " Helifaili Drive ID:" + helifailidriveid + " Helifaili Drive WebLink:" + helifailidriveweblink;
+                " DriveID:" + helifailidriveid + " WebLink:" + helifailidriveweblink;
     }
 }

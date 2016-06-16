@@ -1,13 +1,16 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.app.backup.BackupManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
+import com.vaskjala.vesiroosi20.pillipaevik.PaevaKirje;
+import com.vaskjala.vesiroosi20.pillipaevik.Teos;
+
 import java.util.*;
 
 
@@ -299,11 +302,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     do {
                         HarjutusKord harjutuskord = new HarjutusKord();
                         harjutuskord.setId(c.getInt((c.getColumnIndex(HarjutusKord.Harjutuskordkirje._ID))));
-                        harjutuskord.setAlgusaeg((c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG))));
+                        harjutuskord.setAlgusaegEiArvuta(Tooriistad.KuupaevStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG))));
                         harjutuskord.setPikkussekundites(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES)));
-                        harjutuskord.setLopuaeg(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG)));
+                        harjutuskord.setLopuaegEiArvuta(Tooriistad.KuupaevStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG))));
                         harjutuskord.setHarjutusekirjeldus(c.getString((c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS))));
-                        harjutuskord.setLisatudpaevikusse(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
+                        harjutuskord.setLisatudpaevikusse(Tooriistad.KuupaevStringist(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE))));
                         harjutuskord.setTeoseid(c.getInt(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID)));
                         harjutuskord.setHelifail(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL)));
                         harjutuskord.setHelifailidriveid(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID)));
@@ -332,9 +335,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             synchronized (sPilliPaevikuLukk) {
                 SQLiteDatabase db = this.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG, harjutuskord.getAlgusaegAsString());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG, Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getAlgusaeg()));
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES, harjutuskord.getPikkussekundites());
-                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG, harjutuskord.getLopuaegAsString());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG, Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getLopuaeg()));
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS, harjutuskord.getHarjutusekirjeldus());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE, harjutuskord.getLisatudpaevikusseAsString());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID, harjutuskord.getTeoseid());

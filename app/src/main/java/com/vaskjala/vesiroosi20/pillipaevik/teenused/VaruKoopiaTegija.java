@@ -1,8 +1,9 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.app.backup.*;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 
 import java.io.IOException;
 

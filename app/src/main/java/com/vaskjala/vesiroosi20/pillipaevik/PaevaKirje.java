@@ -7,6 +7,8 @@ import java.util.List;
  * Created by mihkel on 12.06.2016.
  */
 public class PaevaKirje {
+
+    // Kalendripäeva andmed
     public Date kuupaev;
     public int kordadearv;
     public int pikkussekundites;
@@ -15,6 +17,7 @@ public class PaevaKirje {
     public boolean bAndmebaasistLaetud = false;
     public List<PaevaKirje> Harjutused;
 
+    // Harjutuse andmed
     public String Teos;
     public int harjutusepikkus;
     public String DriveId;

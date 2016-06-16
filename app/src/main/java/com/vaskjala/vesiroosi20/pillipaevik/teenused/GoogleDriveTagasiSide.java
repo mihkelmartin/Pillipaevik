@@ -1,8 +1,6 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.util.Log;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.Permission;
 import com.google.android.gms.drive.events.CompletionEvent;
 import com.google.android.gms.drive.events.DriveEventService;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -49,6 +47,11 @@ public class GoogleDriveTagasiSide extends DriveEventService {
             }
         } else
             Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine");
+        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+        String retVal = event.getDriveId().asDriveResource().getMetadata(mGDU.GoogleApiKlient()).await().getMetadata().getAlternateLink();
+        if(retVal != null)
+            Log.e("GoogleDriveTagasiSide", "Faili link:" + retVal);
+
 
         event.dismiss();
     }

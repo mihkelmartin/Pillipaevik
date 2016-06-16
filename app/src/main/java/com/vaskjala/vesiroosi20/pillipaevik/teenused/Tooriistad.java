@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,46 +31,6 @@ public final class Tooriistad {
     private static final SimpleDateFormat sdfkuupaevkellaaegFailiNimi = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevSonaline = new SimpleDateFormat("EEEE, MMM d", Locale.getDefault());
 
-    public static Date HetkeKuupaevNullitudSekunditega(){
-        c.setTime( new Date() );
-        c.set( Calendar.SECOND, 0 );
-        c.set( Calendar.MILLISECOND, 0 );
-        return c.getTime();
-    }
-
-    public static Date HetkeKuupaevNullitudKellaAjaga(){
-        c.setTime( new Date() );
-        c.set( Calendar.HOUR_OF_DAY, 0 );
-        c.set( Calendar.MINUTE, 0 );
-        c.set( Calendar.SECOND, 0 );
-        c.set( Calendar.MILLISECOND, 0 );
-        return c.getTime();
-    }
-
-    public static Date MoodustaKuuAlgusKuupaev(Date kuupaev){
-        c.setTime( kuupaev );
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        return c.getTime();
-    }
-    public static Date MoodustaKuuLopuKuupaev(Date kuupaev){
-        c.setTime( kuupaev );
-        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DATE));
-        return c.getTime();
-    }
-    public static Date MoodustaNädalaAlgusKuupaev(Date kuupaev){
-        c.setTime( kuupaev );
-        int paev = c.get(Calendar.DAY_OF_WEEK);
-        paev = (paev == 1) ? 7 : paev - 1;
-        c.add(Calendar.DAY_OF_MONTH, (-1 * paev) + 1);
-        return c.getTime();
-    }
-    public static Date MoodustaNädalaLopuKuupaev(Date kuupaev){
-        c.setTime( kuupaev );
-        int paev = c.get(Calendar.DAY_OF_WEEK);
-        paev = (paev == 1) ? 7 : paev - 1;
-        c.add(Calendar.DAY_OF_MONTH, 7 - paev);
-        return c.getTime();
-    }
 
     public static Date KuupaevStringist(String kuupaev){
 
@@ -82,20 +42,6 @@ public final class Tooriistad {
                     sdfkuupaev + "\"");
         }
         return retVal;
-    }
-
-
-    public static void NaitaHoiatust(Activity activity, String pealkiri, String hoiatus) {
-        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-        alertDialog.setTitle(pealkiri);
-        alertDialog.setMessage(hoiatus);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
     }
 
     public static String KujundaKuupaev(Date kuupaev){
@@ -117,6 +63,51 @@ public final class Tooriistad {
     public static String KujundaKuupaevKellaaegFailiNimi(Date kuupaev){
         return sdfkuupaevkellaaegFailiNimi.format(kuupaev);
     }
+
+    // Eriliste kuupäevade loomine
+    // yyyy-mm-dd hh:mm:00.000000
+    public static Date HetkeKuupaevNullitudSekunditega(){
+        c.setTime( new Date() );
+        c.set( Calendar.SECOND, 0 );
+        c.set( Calendar.MILLISECOND, 0 );
+        return c.getTime();
+    }
+    // yyyy-mm-dd 00:00:00.000000
+    public static Date HetkeKuupaevNullitudKellaAjaga(){
+        c.setTime( new Date() );
+        c.set( Calendar.HOUR_OF_DAY, 0 );
+        c.set( Calendar.MINUTE, 0 );
+        c.set( Calendar.SECOND, 0 );
+        c.set( Calendar.MILLISECOND, 0 );
+        return c.getTime();
+    }
+
+    public static Date MoodustaNädalaAlgusKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        int paev = c.get(Calendar.DAY_OF_WEEK);
+        paev = (paev == 1) ? 7 : paev - 1;
+        c.add(Calendar.DAY_OF_MONTH, (-1 * paev) + 1);
+        return c.getTime();
+    }
+    public static Date MoodustaNädalaLopuKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        int paev = c.get(Calendar.DAY_OF_WEEK);
+        paev = (paev == 1) ? 7 : paev - 1;
+        c.add(Calendar.DAY_OF_MONTH, 7 - paev);
+        return c.getTime();
+    }
+    public static Date MoodustaKuuAlgusKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        return c.getTime();
+    }
+    public static Date MoodustaKuuLopuKuupaev(Date kuupaev){
+        c.setTime( kuupaev );
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DATE));
+        return c.getTime();
+    }
+
+    // Kuupäevaarvutused
     public static int KaheKuupaevaVahePaevades(Date esimene, Date teine){
         return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24);
     }
@@ -168,6 +159,19 @@ public final class Tooriistad {
             minutes -= hours * 60;
         }
         return formatDigits(hours) + ":" + formatDigits(minutes);
+    }
+
+    public static void NaitaHoiatust(Activity activity, String pealkiri, String hoiatus) {
+        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+        alertDialog.setTitle(pealkiri);
+        alertDialog.setMessage(hoiatus);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     // Varukoopia

@@ -1,11 +1,6 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.aruanded;
 
 import android.content.Context;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * Created by mihkel on 5.06.2016.

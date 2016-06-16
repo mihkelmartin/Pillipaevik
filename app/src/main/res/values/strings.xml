@@ -19,8 +19,6 @@
     </string>
     <string name="SalvestaLinnukeTekst">Salvestame harjutuse telefoni mikrofoniga</string>
     <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
-    <string name="harjutuste_kalender_leht1">Päevad</string>
-    <string name="harjutuste_kalender_leht2">Nädalad</string>
 
     <string-array name="sahtli_valikud_ikoonid">
         <item>Päis</item>

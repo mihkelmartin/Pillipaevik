@@ -4,6 +4,8 @@ import android.content.Context;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;

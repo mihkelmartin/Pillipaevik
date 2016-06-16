@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,6 +11,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.drive.DriveScopes;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import java.util.Arrays;

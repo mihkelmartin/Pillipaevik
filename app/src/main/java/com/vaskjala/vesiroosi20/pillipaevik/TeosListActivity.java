@@ -13,12 +13,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.vaskjala.vesiroosi20.pillipaevik.aruanded.Kuuaruanne;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveRestUhendus;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.*;
 

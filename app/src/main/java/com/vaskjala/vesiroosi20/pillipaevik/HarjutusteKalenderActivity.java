@@ -39,27 +39,6 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
         ActionBar mAction = getSupportActionBar();
         mAction.setDisplayHomeAsUpEnabled(true);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.harjutuste_kalender_leht1));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.harjutuste_kalender_leht2));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
 
         mharjutusteKalenderAdapter =
                 new HarjutusteKalenderAdapter(getSupportFragmentManager());
@@ -88,7 +67,7 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
     }
 
