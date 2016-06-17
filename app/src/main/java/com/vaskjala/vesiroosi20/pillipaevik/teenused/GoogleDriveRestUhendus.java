@@ -106,11 +106,11 @@ public class GoogleDriveRestUhendus {
     }
 
     private void chooseAccount() {
-        String googledrivekonto =
+        String googlekonto =
                 mDriveActivity.getSharedPreferences(mDriveActivity.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
-                .getString("googledrivekonto", null);
-        if(googledrivekonto != null){
-            mCredential.setSelectedAccountName(googledrivekonto);
+                .getString("googlekonto", null);
+        if(googlekonto != null){
+            mCredential.setSelectedAccountName(googlekonto);
             Uhendu();
         } else {
             // Start a dialog from which the user can choose an account

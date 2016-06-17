@@ -23,7 +23,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -37,7 +37,10 @@
             android:hint="Kirjuta mida harjutasid ..."
             android:inputType="textCapSentences|textMultiLine"/>
 
-        <TableLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TableLayout android:id="@+id/HarjutusTabel"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@+id/harjutusekirjeldus">
         <TableRow android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal">
@@ -96,6 +99,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/HarjutusTabel"
                 android:text="Mängi ette"
                 android:visibility="gone"
                 android:id="@+id/mangilugu"
@@ -103,11 +107,12 @@
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
                   android:layout_margin="12dp"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   android:text="@string/eisaamuutaharjutustjuhend"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -81,13 +81,15 @@ public class TeosListActivity extends AppCompatActivity {
         KuuHarjutusteProgress();
         // https://developers.google.com/android/guides/api-client#handle_connection_failures
 
-        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-        if(bEsimeneAvamine) {
-            Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
-            mGDU.LooDriveUhendus(this);
-            Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
+        if(Tooriistad.KasLubadaSalvestamine(this)) {
+            GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+            if (bEsimeneAvamine) {
+                Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
+                mGDU.LooDriveUhendus(this);
+                Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
+            }
+            mGDU.setmDriveActivity(this);
         }
-        mGDU.setmDriveActivity(this);
     }
 
     @Override
@@ -185,7 +187,7 @@ public class TeosListActivity extends AppCompatActivity {
                     SharedPreferences settings =
                             getSharedPreferences(getString(R.string.seadete_fail), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("googledrivekonto", accountName);
+                    editor.putString("googlekonto", accountName);
                     editor.apply();
 
                     GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();

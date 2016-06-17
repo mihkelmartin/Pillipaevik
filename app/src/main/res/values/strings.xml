@@ -20,6 +20,12 @@
     <string name="SalvestaLinnukeTekst">Salvestame harjutuse telefoni mikrofoniga</string>
     <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
 
+
+    // Seaded
+    <string name="kasLubadaMikrofonigaSalvestamine">Luba salvestamine ja kuulamine</string>
+    <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
+
+
     <string-array name="sahtli_valikud_ikoonid">
         <item>Päis</item>
         <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_color_24dp</item>

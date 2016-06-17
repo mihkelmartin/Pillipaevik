@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by mihkel on 27.05.2016.
@@ -171,6 +175,21 @@ public final class Tooriistad {
             minutes -= hours * 60;
         }
         return formatDigits(hours) + ":" + formatDigits(minutes);
+    }
+
+    // Helifailide salvestamine
+    public static boolean KasLubadaSalvestamine(Context context){
+        boolean retVal = true;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true);
+        return  retVal;
+    }
+
+    public static boolean kasKasutadaGoogleDrive(Context context){
+        boolean retVal = true;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = sharedPref.getBoolean("kaskasutadagoogledrive", true);
+        return  retVal;
     }
 
     public static void NaitaHoiatust(Activity activity, String pealkiri, String hoiatus) {

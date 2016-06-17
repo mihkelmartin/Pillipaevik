@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 
 public class SeadedActivity extends AppCompatActivity {
 
@@ -26,6 +27,10 @@ public class SeadedActivity extends AppCompatActivity {
     private EditText opetajaepost;
 
     private EditText paevasharjutada;
+
+    private EditText googlekonto;
+    private Switch kasLubadaMikrofonigaSalvestamine;
+    private Switch kaskasutadagoogledrive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,13 @@ public class SeadedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d(getLocalClassName(),"Salvestan ja OnBackPressed");
+        SalvestaAndmed();
+        super.onBackPressed();
+    }
+
     private void AlustaAtribuudid(){
         minueesnimi = ((EditText)findViewById(R.id.minueesnimi));
         minuperenimi = ((EditText)findViewById(R.id.minuperenimi));
@@ -60,6 +72,10 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaperenimi = ((EditText)findViewById(R.id.opetajaperenimi));
         opetajaepost = ((EditText)findViewById(R.id.opetajaepost));
         paevasharjutada = ((EditText)findViewById(R.id.paevasharjutada));
+        googlekonto = ((EditText)findViewById(R.id.googlekonto));
+        kasLubadaMikrofonigaSalvestamine = ((Switch) findViewById(R.id.kasLubadaMikrofonigaSalvestamine));
+        kaskasutadagoogledrive = ((Switch) findViewById(R.id.kasKasutadaGoogleDrive));
+
     }
     private void PaneFookusePassija(){
         SeadedFookusePassija mFP = new SeadedFookusePassija();
@@ -73,6 +89,8 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaperenimi.setOnFocusChangeListener(mFP);
         opetajaepost.setOnFocusChangeListener(mFP);
         paevasharjutada.setOnFocusChangeListener(mFP);
+        kasLubadaMikrofonigaSalvestamine.setOnFocusChangeListener(mFP);
+        kaskasutadagoogledrive.setOnFocusChangeListener(mFP);
     }
     private void TaastaAndmed(){
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
@@ -90,6 +108,10 @@ public class SeadedActivity extends AppCompatActivity {
         if(lszPaevas.equals("0"))
             lszPaevas = "";
         paevasharjutada.setText(lszPaevas);
+        googlekonto.setText(sharedPref.getString("googlekonto", ""));
+        kasLubadaMikrofonigaSalvestamine.setChecked(sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true));
+        kaskasutadagoogledrive.setChecked(sharedPref.getBoolean("kaskasutadagoogledrive", true));
+
     }
     private void SalvestaAndmed(){
 
@@ -114,6 +136,9 @@ public class SeadedActivity extends AppCompatActivity {
             editor.putInt("paevasharjutada", Integer.parseInt(minutid));
         else
             editor.putInt("paevasharjutada", 0);
+        editor.putString("googlekonto", googlekonto.getText().toString());
+        editor.putBoolean("kaslubadamikrofonigasalvestamine", kasLubadaMikrofonigaSalvestamine.isChecked());
+        editor.putBoolean("kaskasutadagoogledrive", kaskasutadagoogledrive.isChecked());
 
 
         editor.commit();

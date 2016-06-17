@@ -44,13 +44,6 @@
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/minuinstrument"
-                android:hint="Minu pill"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:inputType="textCapSentences"/>
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/minuepost"
                 android:hint="Minu e-post"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -75,6 +68,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/klass"
                 android:hint="Klass"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:inputType="textCapSentences"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/minuinstrument"
+                android:hint="Minu pill"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <View
@@ -129,6 +129,42 @@
                 android:layout_marginLeft="@dimen/editext_defaultmargin"
                 android:layout_marginRight="@dimen/editext_defaultmargin"
                 android:background="@color/colorPrimaryDark" />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/googlekonto"
+                android:hint="Google konto"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:inputType="textEmailAddress"/>
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:id="@+id/kasLubadaMikrofonigaSalvestamine"
+                android:textOff="Ei"
+                android:textOn="Jah"
+                android:text="@string/kasLubadaMikrofonigaSalvestamine"
+                android:hint="Kas soovid harjutust mikrofoniga salvestada"/>
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:id="@+id/kasKasutadaGoogleDrive"
+                android:text="@string/kasKasutadaGoogleDrive"
+                android:textOff="Ei"
+                android:textOn="Jah"
+                android:hint="Kas soovid harjutust mikrofoniga salvestada"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
+                android:layout_marginLeft="@dimen/editext_defaultmargin"
+                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:background="@color/colorPrimaryDark" />
+
     </LinearLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>
