@@ -1,13 +1,18 @@
 package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.IntentSender;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.*;
 import com.google.android.gms.drive.*;
 import com.google.android.gms.drive.Drive;
@@ -15,12 +20,17 @@ import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.drive.DriveScopes;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -30,11 +40,13 @@ import java.util.List;
 public class GoogleDriveUhendus  implements
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
+    private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA };
 
     //create an object of GoogleDriveUhendus
     private static GoogleDriveUhendus instance = new GoogleDriveUhendus();
 
     private static GoogleApiClient mGoogleApiClient = null;
+    private static GoogleAccountCredential mCredential = null;
     private static Activity mDriveActivity = null;
     private static DriveId mPilliPaevikKaust = null;
     private static com.google.api.services.drive.Drive mService = null;
@@ -43,7 +55,6 @@ public class GoogleDriveUhendus  implements
     //instantiated
     private GoogleDriveUhendus() {
     }
-
     //Get the only object available
     public static GoogleDriveUhendus getInstance() {
         return instance;
@@ -52,7 +63,9 @@ public class GoogleDriveUhendus  implements
     public static GoogleApiClient GoogleApiKlient() {
         return mGoogleApiClient;
     }
-
+    public static GoogleAccountCredential GoogleApiCredential(){
+        return mCredential;
+    }
     private static DriveId PilliPaevikKaustaDriveId() {
         return mPilliPaevikKaust;
     }
@@ -64,20 +77,52 @@ public class GoogleDriveUhendus  implements
     public void LooDriveUhendus(Activity activity) {
 
         mDriveActivity = activity;
-        mGoogleApiClient = new GoogleApiClient.Builder(activity)
-                .addApi(Drive.API)
-                .addScope(Drive.SCOPE_FILE)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        if(mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(activity)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
         mGoogleApiClient.connect();
     }
-
-    public void KatkestaUhnedus() {
+    public void KatkestaDriveUhendus() {
         if (mGoogleApiClient != null)
             mGoogleApiClient.disconnect();
-        Log.d("KatkestaUhnedus", "KatkestaUhnedus");
+        Log.d("KatkestaDriveUhendus", "KatkestaDriveUhendus");
     }
+
+    public boolean LooDriveRestUhendus(){
+        boolean retVal = false;
+
+        if(mCredential == null)
+            mCredential = GoogleAccountCredential.usingOAuth2(
+                    mDriveActivity , Arrays.asList(SCOPES))
+                    .setBackOff(new ExponentialBackOff());
+
+        if((retVal =  isGooglePlayServicesAvailable())) {
+            Log.d("GoogleDriveUhendus", "Play teenused olemas");
+            if((retVal = (mCredential.getSelectedAccountName() != null))){
+                Log.d("GoogleDriveUhendus", "Konto olemas");
+                if((retVal = isDeviceOnline())){
+                    Log.d("GoogleDriveUhendus", "Oleme internetis. Kõik kombes ühendus olemas.");
+
+                } else {
+                    Log.e("GoogleDriveUhendus", "Internet puudub");
+                }
+            } else {
+                Log.e("GoogleDriveUhendus", "Konto valimata");
+                chooseAccount();
+            }
+        }
+        else
+            Log.e("GoogleDriveUhendus", "Play teenused puuduvad");
+
+        return retVal;
+    }
+
+
 
     public DriveId LooDriveHeliFail(String name) {
         DriveId retVal = null;
@@ -90,22 +135,25 @@ public class GoogleDriveUhendus  implements
                     .setTitle(name)
                     .setMimeType("audio/mp4").build();
             // Create a file in the root folder
-            retVal = PPfolder.createFile(mLocalGAC, changeSet, null).await().getDriveFile().getDriveId();
+            DriveFolder.DriveFileResult fileResult = PPfolder.createFile(mLocalGAC, changeSet, null).await();
+            if(fileResult.getStatus().isSuccess()){
+                retVal = fileResult.getDriveFile().getDriveId();
+                Log.d("LooDriveHeliFail", "Fail loodud: " + retVal.toString());
+            } else {
+                Log.e("LooDriveHeliFail", "Viga faili loomisel: ");
+            }
         }
-        Log.d("LooDriveHeliFail", "Fail loodud: " + retVal.toString());
+
         return retVal;
     }
-
     public String AnnaDriveID(DriveId driveId) {
         Log.d("AnnaDriveID", driveId.encodeToString());
         return driveId.encodeToString();
     }
-
     public DriveId AnnaDriveID(String driveId) {
         Log.d("AnnaDriveID", driveId);
         return DriveId.decodeFromString(driveId);
     }
-
     public String AnnaWebLink(DriveId driveId) {
         String retVal = "";
         GoogleApiClient mLocalGAC = GoogleApiKlient();
@@ -116,7 +164,6 @@ public class GoogleDriveUhendus  implements
         Log.d("AnnaWebLink", "WebLink");
         return retVal;
     }
-
     public void SalvestaDrivei(DriveContents muudetudsisu) {
 
         GoogleApiClient mLocalGAC = GoogleApiKlient();
@@ -130,7 +177,6 @@ public class GoogleDriveUhendus  implements
             muudetudsisu.commit(mLocalGAC, changeSet, executionOptions);
         }
     }
-
     public DriveContents AvaDriveFail(DriveId driveId, int mode) {
         DriveContents retVal = null;
         DriveFile file = driveId.asDriveFile();
@@ -147,7 +193,6 @@ public class GoogleDriveUhendus  implements
 
         return retVal;
     }
-
     public void KustutaDriveFail(String failiDriveID) {
         KustutuaDraivisFailAsyncTask mKDFA = new KustutuaDraivisFailAsyncTask();
         mKDFA.driveId = failiDriveID;
@@ -178,8 +223,6 @@ public class GoogleDriveUhendus  implements
         }
     }
 
-    ;
-
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e("GoogleDriveUhendus", "onConnectionFailed: " + connectionResult.toString());
         if (connectionResult.hasResolution()) {
@@ -201,7 +244,6 @@ public class GoogleDriveUhendus  implements
                 Log.e("GoogleDriveUhendus", "onConnectionFailed lahendust ei ole, veakood :" + connectionResult.getErrorCode());
         }
     }
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
@@ -233,16 +275,13 @@ public class GoogleDriveUhendus  implements
                         metadataBuffer.release();
                         mGoogleApiClient.getConnectionResult(Drive.API);
 
-
-                        GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
                         Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
-                        mGDRU.setmDriveActivity(mDriveActivity);
-                        mGDRU.Uhendu();
+                        LooDriveRestUhendus();
 
                         HttpTransport transport = AndroidHttp.newCompatibleTransport();
                         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
                         mService = new com.google.api.services.drive.Drive.Builder(
-                                transport, jsonFactory, mGDRU.GoogleApiCredential())
+                                transport, jsonFactory, GoogleApiCredential())
                                 .setApplicationName("PilliPaevik")
                                 .build();
                         TeeEelAutoriseering mTeeAutoriseering = new TeeEelAutoriseering();
@@ -272,7 +311,6 @@ public class GoogleDriveUhendus  implements
     public void onConnectionSuspended(int i) {
         Log.e("GoogleDriveUhendus", "onConnectionSuspended: " + i);
     }
-
 
     private class KustutuaDraivisFailAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -312,6 +350,54 @@ public class GoogleDriveUhendus  implements
                 Log.e("GoogleDriveTagasiSide", "Karm Eceptisioon" + e.toString());
             }
             return null;
+        }
+    }
+
+
+    // Ühenduse võimalikkuse testimine
+    private boolean isGooglePlayServicesAvailable() {
+        GoogleApiAvailability apiAvailability =
+                GoogleApiAvailability.getInstance();
+        final int connectionStatusCode =
+                apiAvailability.isGooglePlayServicesAvailable(mDriveActivity);
+        return connectionStatusCode == ConnectionResult.SUCCESS;
+    }
+    private void acquireGooglePlayServices() {
+        GoogleApiAvailability apiAvailability =
+                GoogleApiAvailability.getInstance();
+        final int connectionStatusCode =
+                apiAvailability.isGooglePlayServicesAvailable(mDriveActivity);
+        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
+            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
+        }
+    }
+    void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        Dialog dialog = apiAvailability.getErrorDialog(
+                mDriveActivity,
+                connectionStatusCode,
+                // See on jälle ActivityREsultdi good
+                1010);
+        dialog.show();
+    }
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) mDriveActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+    private void chooseAccount() {
+        String googlekonto =
+                mDriveActivity.getSharedPreferences(mDriveActivity.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
+                        .getString("googlekonto", null);
+        if(googlekonto != null){
+            mCredential.setSelectedAccountName(googlekonto);
+            LooDriveRestUhendus();
+        } else {
+            // Start a dialog from which the user can choose an account
+            mDriveActivity.startActivityForResult(
+                    mCredential.newChooseAccountIntent(),
+                    1001);
         }
     }
 }

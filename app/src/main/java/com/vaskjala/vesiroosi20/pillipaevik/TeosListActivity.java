@@ -19,7 +19,6 @@ import android.widget.*;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.Kuuaruanne;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveRestUhendus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
@@ -101,7 +100,7 @@ public class TeosListActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-        mGDU.KatkestaUhnedus();
+        mGDU.KatkestaDriveUhendus();
         super.onDestroy();
     }
 
@@ -164,6 +163,19 @@ public class TeosListActivity extends AppCompatActivity {
         if( requestCode == 1000) {
             if (resultCode == RESULT_OK) {
                 Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
+                if(data != null && data.getExtras() != null){
+                    Log.d(getLocalClassName(), "Võtame konto nime");
+                    String accountName =
+                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    if (accountName != null) {
+                        Log.d(getLocalClassName(), "Konto nimi:" + accountName);
+                        SharedPreferences settings =
+                                getSharedPreferences(getString(R.string.seadete_fail), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("googlekonto", accountName);
+                        editor.apply();
+                    }
+                }
                 GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
                 GoogleApiClient mGoogleApiClient = mGDU.GoogleApiKlient();
                 if(!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
@@ -190,11 +202,11 @@ public class TeosListActivity extends AppCompatActivity {
                     editor.putString("googlekonto", accountName);
                     editor.apply();
 
-                    GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
-                    GoogleAccountCredential mCredential = mGDRU.GoogleApiCredential();
+                    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance().getInstance();
+                    GoogleAccountCredential mCredential = mGDU.GoogleApiCredential();
                     mCredential.setSelectedAccountName(accountName);
                     Log.d(getLocalClassName(), "Valitud konto: " + accountName);
-                    mGDRU.Uhendu();
+                    mGDU.LooDriveRestUhendus();
                 }
             }
         }

@@ -41,7 +41,6 @@ public class HeliFailDraiviTeenus extends IntentService {
         if(harjutusKord.getHelifailidriveid() == null || harjutusKord.getHelifailidriveid().isEmpty()) {
             mHDI = mGD.LooDriveHeliFail(harjutusKord.getHelifail());
             harjutusKord.setHelifailidriveid(mGD.AnnaDriveID(mHDI));
-            harjutusKord.setHelifailidriveweblink(mGD.AnnaWebLink(mHDI));
             mPP.SalvestaHarjutusKord(getApplicationContext(), harjutusKord);
             Log.d("HeliFailDraiviTeenus","Uus fail loodud");
         } else {

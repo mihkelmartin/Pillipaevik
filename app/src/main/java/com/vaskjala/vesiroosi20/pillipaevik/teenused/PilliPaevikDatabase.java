@@ -190,7 +190,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     public void KustutaTeos(int teosid){
         try {
             synchronized (sPilliPaevikuLukk) {
-                int deletedharjutused = KusututaTeoseHarjutused(teosid);
+                int deletedharjutused = KustutaTeoseHarjutused(teosid);
                 SQLiteDatabase db = this.getWritableDatabase();
                 int deletedrows = db.delete(Teos.Teosekirje.TABLE_NAME, Teos.Teosekirje._ID + "=" + teosid, null);
                 Teos teos = teosedmap.get(teosid);
@@ -240,7 +240,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return deletedrows;
     }
 
-    private int KusututaTeoseHarjutused(int teosid){
+    private int KustutaTeoseHarjutused(int teosid){
         int deletedrows = 0;
         try {
             synchronized (sPilliPaevikuLukk) {
@@ -267,7 +267,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 Log.d("PilliPaevikDatabase","Kustuta teose Harjutused. Teosid:" + teosid + " Ridu kustutatud:" + deletedrows);
             }
         } catch (Exception e){
-            Log.e(LOG, "KusututaTeoseHarjutused " + e);
+            Log.e(LOG, "KustutaTeoseHarjutused " + e);
         }
         return deletedrows;
     }
@@ -373,6 +373,33 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return retVal;
     }
 
+    public int SalvestaHarjutuskorraWebLink(String DriveID, String WebLink){
+
+        int retVal = 0;
+        try {
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getWritableDatabase();
+                ContentValues values = new ContentValues();
+
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK, WebLink);
+                retVal = db.update(HarjutusKord.Harjutuskordkirje.TABLE_NAME, values,
+                            HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + "='" + DriveID + "'", null);
+
+                if (retVal > 0) {
+                    Log.d(LOG, "Harjutuskorrale WebLink lisatud:" + WebLink);
+                } else {
+                    Log.e(LOG, "Harjutuskorda ei leitud. Driveid:" + DriveID);
+                }
+                db.close();
+                BackupManager backupManager = new BackupManager(context);
+                backupManager.dataChanged();
+            }
+        } catch (Exception e){
+            System.out.println("Ei suutnud Harjutuskorda muuta" + e.toString());
+        }
+        return retVal;
+    }
+
     public int ArvutaPerioodiMinutid (Date algus, Date lopp){
 
         int retVal = 0;
@@ -447,8 +474,43 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 // looping through all rows and adding to list
                 if (c.moveToFirst()) {
                     do {
-                        String kirje = "<tr><td>" + c.getString(0) + "</td><td>" +
-                                Tooriistad.KujundaHarjutusteMinutid(c.getInt(1) / 60) + "</td></tr>";
+                        String kirje = c.getString(0) + " " +
+                                Tooriistad.KujundaHarjutusteMinutid(c.getInt(1) / 60);
+                        pList.add(kirje);
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
+            }
+        } catch (Exception e){
+            Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
+        }
+        return pList;
+    }
+
+    // See on aruande jaoks
+    public List<String> HarjutusKorradPerioodis(Date algus, Date lopp){
+
+        List<String> pList = new ArrayList<String>();
+        String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ","+
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ","+
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + "," +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK + " FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + "," + Teos.Teosekirje.TABLE_NAME + " WHERE " +
+                Teos.Teosekirje.TABLE_NAME + "." + Teos.Teosekirje._ID + "=" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " AND date(" +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
+                "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG;
+        Log.d(LOG, selectParing);
+        try{
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                // looping through all rows and adding to list
+                if (c.moveToFirst()) {
+                    do {
+                        String kirje = c.getString(0) + " " + Tooriistad.KujundaKuupaev(Tooriistad.KuupaevStringist(c.getString(1))) + " " +
+                        Tooriistad.KujundaHarjutusteMinutid(c.getInt(2) / 60) + " " + c.getString(3);
                         pList.add(kirje);
                     } while (c.moveToNext());
                 }

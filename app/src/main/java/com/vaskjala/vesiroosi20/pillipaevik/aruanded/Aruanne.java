@@ -90,7 +90,7 @@ public class Aruanne {
     }
 
     private String KoostaKoond(Context context){
-        String koond = "<html><body>";
+        String koond = "";
         koond = koond + "Soovituslik päevane harjutamise aeg : " +
                 Tooriistad.KujundaHarjutusteMinutid(getPaevasharjutada()) +
                 ReaVahetus;
@@ -99,26 +99,28 @@ public class Aruanne {
                 Tooriistad.KujundaHarjutusteMinutid(getPerioodipikkus() * getPaevasharjutada()) +
                 ReaVahetus;
 
-        Date now = new Date();
-        Date algus = Tooriistad.MoodustaKuuAlgusKuupaev(now);
-        Date lopp = Tooriistad.MoodustaKuuLopuKuupaev(now);
+
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        koond = koond + "<b>Tegelik harjutamise aeg perioodil: </b>" +
-                Tooriistad.KujundaHarjutusteMinutid(mPPManager.ArvutaPerioodiMinutid(algus, lopp)) +
+        koond = koond + "Tegelik harjutamise aeg perioodil: " +
+                Tooriistad.KujundaHarjutusteMinutid(mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
                 ReaVahetus + ReaVahetus + ReaVahetus;
 
-        List<String> pList = mPPManager.HarjutusKordadeStatistikaPerioodis(algus, lopp);
-        koond = koond + "<table>";
+        List<String> pList = mPPManager.HarjutusKordadeStatistikaPerioodis(getPerioodialgus(), getPerioodilopp());
         for ( String teoserida : pList){
             koond = koond + teoserida + ReaVahetus;
         }
-        koond = koond + "</table></body></html>";
         Log.d("Aruanne",koond);
         return koond;
     }
 
-    private String KoostaDetailneSisu(){
-        return "";
+    private String KoostaDetailneSisu(Context context){
+        String detail = "";
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
+        List<String> pList =  mPPManager.HarjutusKorradPerioodis(getPerioodialgus(),getPerioodilopp());
+        for ( String teoserida : pList){
+            detail = detail+ teoserida + ReaVahetus;
+        }
+        return detail;
     }
 
     private String KoostaLopp(){
@@ -126,7 +128,7 @@ public class Aruanne {
     }
 
     public String AruandeKoguTekst(Context context){
-        return KoostaKoond(context) + KoostaDetailneSisu() + KoostaLopp();
+        return KoostaKoond(context) + KoostaDetailneSisu(context) + KoostaLopp();
     }
 
     private int getPaevasharjutada() {

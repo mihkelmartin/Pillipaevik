@@ -19,17 +19,18 @@ public class GoogleDriveTagasiSide extends DriveEventService {
     @Override
     public void onCompletion(CompletionEvent event) {
 
+        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
         if (event.getStatus() == CompletionEvent.STATUS_SUCCESS) {
             Log.d("GoogleDriveTagasiSide", "Õnnestus: " + event.getStatus());
             if(event.getDriveId() != null){
                 Log.d("GoogleDriveTagasiSide", "Drive id: " + event.getDriveId() + " Resource id:"
                         + event.getDriveId().getResourceId());
-                GoogleDriveRestUhendus mGDRU = GoogleDriveRestUhendus.getInstance();
+
                 com.google.api.services.drive.Drive mService = null;
                 HttpTransport transport = AndroidHttp.newCompatibleTransport();
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
                 mService = new com.google.api.services.drive.Drive.Builder(
-                        transport, jsonFactory, mGDRU.GoogleApiCredential())
+                        transport, jsonFactory, mGDU.GoogleApiCredential())
                         .setApplicationName("PilliPaevik")
                         .build();
                 com.google.api.services.drive.model.Permission avalikluba =
@@ -47,10 +48,15 @@ public class GoogleDriveTagasiSide extends DriveEventService {
             }
         } else
             Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine");
-        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+
         String retVal = event.getDriveId().asDriveResource().getMetadata(mGDU.GoogleApiKlient()).await().getMetadata().getAlternateLink();
-        if(retVal != null)
+        if(retVal != null) {
+            PilliPaevikDatabase mPP = new PilliPaevikDatabase(getApplicationContext());
+            mPP.SalvestaHarjutuskorraWebLink(event.getDriveId().encodeToString(), retVal);
             Log.e("GoogleDriveTagasiSide", "Faili link:" + retVal);
+        } else
+            Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
+
 
 
         event.dismiss();
