@@ -52,8 +52,8 @@ public class GoogleDriveTagasiSide extends DriveEventService {
         String retVal = event.getDriveId().asDriveResource().getMetadata(mGDU.GoogleApiKlient()).await().getMetadata().getAlternateLink();
         if(retVal != null) {
             PilliPaevikDatabase mPP = new PilliPaevikDatabase(getApplicationContext());
-            mPP.SalvestaHarjutuskorraWebLink(event.getDriveId().encodeToString(), retVal);
-            Log.e("GoogleDriveTagasiSide", "Faili link:" + retVal);
+            mPP.SalvestaHarjutuskorraWebLink(event.getDriveId().toInvariantString(), retVal);
+            Log.d("GoogleDriveTagasiSide", "Faili link:" + retVal);
         } else
             Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
 

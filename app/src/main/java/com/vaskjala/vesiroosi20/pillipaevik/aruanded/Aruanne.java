@@ -109,6 +109,7 @@ public class Aruanne {
         for ( String teoserida : pList){
             koond = koond + teoserida + ReaVahetus;
         }
+        koond = koond + ReaVahetus + ReaVahetus;
         Log.d("Aruanne",koond);
         return koond;
     }
@@ -116,9 +117,19 @@ public class Aruanne {
     private String KoostaDetailneSisu(Context context){
         String detail = "";
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        List<String> pList =  mPPManager.HarjutusKorradPerioodis(getPerioodialgus(),getPerioodilopp());
-        for ( String teoserida : pList){
-            detail = detail+ teoserida + ReaVahetus;
+        List<DetailiKirje> pList =  mPPManager.HarjutusKorradPerioodis(getPerioodialgus(),getPerioodilopp());
+        String kuupaeveelmine = "";
+        for ( DetailiKirje teoserida : pList){
+            String kuupaev = Tooriistad.KujundaKuupaevSonaline(teoserida.getAlgusaeg());
+            if(!kuupaev.equalsIgnoreCase(kuupaeveelmine)){
+                detail = detail + kuupaev + ReaVahetus;
+                kuupaeveelmine = kuupaev;
+            }
+            detail = detail+ teoserida.getNimi() + "\t\t" +
+                    Tooriistad.KujundaHarjutusteMinutidTabloo(teoserida.getPikkussekundites()/60);
+            if (teoserida.getWeblink() != null)
+                detail = detail + "\t" + teoserida.getWeblink();
+            detail = detail + ReaVahetus;
         }
         return detail;
     }

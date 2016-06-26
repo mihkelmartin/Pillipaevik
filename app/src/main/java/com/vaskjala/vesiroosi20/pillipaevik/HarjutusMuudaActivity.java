@@ -228,9 +228,13 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         @Override
         protected DriveContents doInBackground(String... driveIDs) {
             GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-            mGDU.setmDriveActivity(null);
-            DriveId dID = DriveId.decodeFromString(driveIDs[0]);
-            DriveContents dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+            mGDU.setActivity(getParent());
+            DriveId dID = null;
+            DriveContents dFC = null;
+            dID = mGDU.AnnaDriveID(driveIDs[0]);
+            if(dID != null)
+                dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+
             return dFC;
         }
 

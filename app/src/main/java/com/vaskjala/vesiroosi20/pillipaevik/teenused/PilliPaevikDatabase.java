@@ -10,6 +10,7 @@ import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
 import com.vaskjala.vesiroosi20.pillipaevik.PaevaKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.Teos;
+import com.vaskjala.vesiroosi20.pillipaevik.aruanded.DetailiKirje;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     // Logcat tag
     private static final String LOG = "PilliPaevikDatabase";
     // Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     // Database Name
     public static final String DATABASE_NAME = "PilliPaevik";
 
@@ -51,6 +52,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL + " TEXT," +
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + " TEXT," +
             HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK + " TEXT," +
+            HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU + " TEXT," +
             "FOREIGN KEY (" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ") REFERENCES " +
             Teos.Teosekirje.TABLE_NAME + "(" + Teos.Teosekirje._ID + "))";
 
@@ -83,11 +85,14 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        if(oldVersion == 2)
+        if(oldVersion <= 2)
             db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifail TEXT");
-        if(oldVersion == 3 || oldVersion == 4) {
+        if(oldVersion <= 4) {
             db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifailidriveid TEXT");
             db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifailidriveweblink TEXT");
+        }
+        if(oldVersion <= 5) {
+            db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifailidriveidmuutumatu TEXT");
         }
     }
 
@@ -96,7 +101,6 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
     }
-
 
     @SuppressWarnings("SameReturnValue")
     public List<Teos> getAllTeosed(){
@@ -134,7 +138,6 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         }
         return teosed;
     }
-
     @SuppressWarnings("SameReturnValue")
     private HashMap<Integer, Teos> getTeosedHash(){
         return teosedmap;
@@ -219,7 +222,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     HarjutusKord pH = pHarjutused.get(harjutusid);
                     if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
                         GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                        mGDU.setmDriveActivity(null);
+                        mGDU.setActivity(null);
                         mGDU.KustutaDriveFail(pH.getHelifailidriveid());
                     }
 
@@ -250,7 +253,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if(teos != null){
                     // Kustuta Draivist failid
                     GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                    mGDU.setmDriveActivity(null);
+                    mGDU.setActivity(null);
                     List<HarjutusKord> pHarjutused = teos.getHarjustuskorrad(context);
                     for(HarjutusKord pH : pHarjutused) {
                         if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
@@ -311,6 +314,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         harjutuskord.setHelifail(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL)));
                         harjutuskord.setHelifailidriveid(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID)));
                         harjutuskord.setHelifailidriveweblink(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK)));
+                        harjutuskord.setHelifailidriveidmuutumatu(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU)));
                         Harjustuskorrad.add(harjutuskord);
                         Harjutuskorradmap.put(harjutuskord.getId(), harjutuskord);
                         Log.d("getAllHarjutuskorrad", harjutuskord.toString());
@@ -344,6 +348,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL, harjutuskord.getHelifail());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID, harjutuskord.getHelifailidriveid());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK, harjutuskord.getHelifailidriveweblink());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU, harjutuskord.getHelifailidriveidmuutumatu());
 
                 if (bNew)
                     retVal = (int) db.insert(HarjutusKord.Harjutuskordkirje.TABLE_NAME, null, values);
@@ -373,23 +378,28 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return retVal;
     }
 
-    public int SalvestaHarjutuskorraWebLink(String DriveID, String WebLink){
+    public int SalvestaHarjutuskorraWebLink(String DriveIDMuutumatu, String WebLink){
 
         int retVal = 0;
         try {
             synchronized (sPilliPaevikuLukk) {
-                SQLiteDatabase db = this.getWritableDatabase();
-                ContentValues values = new ContentValues();
-
-                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK, WebLink);
-                retVal = db.update(HarjutusKord.Harjutuskordkirje.TABLE_NAME, values,
-                            HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + "='" + DriveID + "'", null);
-
-                if (retVal > 0) {
-                    Log.d(LOG, "Harjutuskorrale WebLink lisatud:" + WebLink);
+                String selectParing = "SELECT " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ","
+                        + HarjutusKord.Harjutuskordkirje._ID + " FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
+                        " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU  + "='" +
+                        DriveIDMuutumatu + "'";
+                Log.d(LOG, selectParing);
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                if(c.moveToFirst()){
+                    HashMap<Integer, HarjutusKord> harjutuskorradmap = getTeos(c.getInt(0)).getHarjutuskorradmap(context);
+                    HarjutusKord harjutusKord = harjutuskorradmap.get(c.getInt(1));
+                    harjutusKord.setHelifailidriveweblink(WebLink);
+                    SalvestaHarjutusKord(context,harjutusKord);
+                    Log.d(LOG, "Harjutuskorrale WebLink lisatud" + DriveIDMuutumatu);
                 } else {
-                    Log.e(LOG, "Harjutuskorda ei leitud. Driveid:" + DriveID);
+                    Log.e(LOG, "Harjutuskorda ei leitud. WebLink lisamata. Driveid:" + DriveIDMuutumatu);
                 }
+                retVal = c.getInt(0);
                 db.close();
                 BackupManager backupManager = new BackupManager(context);
                 backupManager.dataChanged();
@@ -489,9 +499,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     }
 
     // See on aruande jaoks
-    public List<String> HarjutusKorradPerioodis(Date algus, Date lopp){
+    public List<DetailiKirje> HarjutusKorradPerioodis(Date algus, Date lopp){
 
-        List<String> pList = new ArrayList<String>();
+        List<DetailiKirje> pList = new ArrayList<DetailiKirje>();
         String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ","+
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ","+
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + "," +
@@ -509,9 +519,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 // looping through all rows and adding to list
                 if (c.moveToFirst()) {
                     do {
-                        String kirje = c.getString(0) + " " + Tooriistad.KujundaKuupaev(Tooriistad.KuupaevStringist(c.getString(1))) + " " +
-                        Tooriistad.KujundaHarjutusteMinutid(c.getInt(2) / 60) + " " + c.getString(3);
-                        pList.add(kirje);
+                        DetailiKirje pDK = new DetailiKirje(c.getString(0),
+                                Tooriistad.KuupaevStringist(c.getString(1)), c.getInt(2), c.getString(3));
+                        pList.add(pDK);
                     } while (c.moveToNext());
                 }
                 c.close();

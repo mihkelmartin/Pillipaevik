@@ -35,12 +35,13 @@ public class HeliFailDraiviTeenus extends IntentService {
         Log.d("HeliFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
 
         GoogleDriveUhendus mGD = GoogleDriveUhendus.getInstance();
-        mGD.setmDriveActivity(null);
+        mGD.setActivity(null);
         DriveId mHDI = null;
         int writemode = DriveFile.MODE_WRITE_ONLY;
         if(harjutusKord.getHelifailidriveid() == null || harjutusKord.getHelifailidriveid().isEmpty()) {
             mHDI = mGD.LooDriveHeliFail(harjutusKord.getHelifail());
             harjutusKord.setHelifailidriveid(mGD.AnnaDriveID(mHDI));
+            harjutusKord.setHelifailidriveidmuutumatu(mGD.AnnaDriveIDMuutumatu(mHDI));
             mPP.SalvestaHarjutusKord(getApplicationContext(), harjutusKord);
             Log.d("HeliFailDraiviTeenus","Uus fail loodud");
         } else {

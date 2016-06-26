@@ -82,12 +82,12 @@ public class TeosListActivity extends AppCompatActivity {
 
         if(Tooriistad.KasLubadaSalvestamine(this)) {
             GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+            mGDU.setActivity(this);
             if (bEsimeneAvamine) {
                 Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
-                mGDU.LooDriveUhendus(this);
+                mGDU.LooDriveUhendus();
                 Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
             }
-            mGDU.setmDriveActivity(this);
         }
     }
 
@@ -160,37 +160,24 @@ public class TeosListActivity extends AppCompatActivity {
                 Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
             }
         }
-        if( requestCode == 1000) {
+        if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
-                if(data != null && data.getExtras() != null){
-                    Log.d(getLocalClassName(), "Võtame konto nime");
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        Log.d(getLocalClassName(), "Konto nimi:" + accountName);
-                        SharedPreferences settings =
-                                getSharedPreferences(getString(R.string.seadete_fail), Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("googlekonto", accountName);
-                        editor.apply();
-                    }
-                }
                 GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
                 GoogleApiClient mGoogleApiClient = mGDU.GoogleApiKlient();
-                if(!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
-                    Log.e(getLocalClassName(), "Loo drive ühendus uuesti !");
-                    mGDU.setmDriveActivity(this);
-                    mGDU.LooDriveUhendus(this);
+                if(mGoogleApiClient == null) {
+                    Log.d(getLocalClassName(), "Loo drive ühendus uuesti");
+                    mGDU.setActivity(this);
+                    mGDU.LooDriveUhendus();
                 } else
-                    Log.e(getLocalClassName(), "Google Drive uuesti ühendumisel oli ühendumine juba olemas või pooleli !");
+                    Log.e(getLocalClassName(), "Google Drive uuesti ühendumisel oli ühendumine juba olemas");
 
             } else {
                 Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
             }
 
         }
-        if( requestCode == 1001) {
+        if( requestCode == Tooriistad.GOOGLE_DRIVE_REST_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK && data != null &&
                     data.getExtras() != null) {
                 String accountName =
@@ -202,16 +189,20 @@ public class TeosListActivity extends AppCompatActivity {
                     editor.putString("googlekonto", accountName);
                     editor.apply();
 
-                    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance().getInstance();
+                    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
                     GoogleAccountCredential mCredential = mGDU.GoogleApiCredential();
-                    mCredential.setSelectedAccountName(accountName);
+                    if(mCredential != null)
+                        mCredential.setSelectedAccountName(accountName);
+                    else
+                        Log.e(getLocalClassName(), "Konto sättimine kuid Google Credential on null");
+
                     Log.d(getLocalClassName(), "Valitud konto: " + accountName);
                     mGDU.LooDriveRestUhendus();
                 }
             }
         }
-        if( requestCode == 1004){
-            Log.d(getLocalClassName(), "See tuli REST API tagasidiena on ActivityResulti: " + resultCode);
+        if( requestCode == Tooriistad.GOOGLE_DRIVE_REST_UHENDUSE_LUBA){
+            Log.d(getLocalClassName(), "onActivityResult. REST API loa küsimine" + resultCode);
         }
     }
 

@@ -27,6 +27,10 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public final class Tooriistad {
 
+    public static final int GOOGLE_DRIVE_KONTO_VALIMINE = 1000;
+    public static final int GOOGLE_DRIVE_REST_KONTO_VALIMINE = 1001;
+    public static final int GOOGLE_DRIVE_REST_UHENDUSE_LUBA = 1004;
+
     private static final Calendar c = Calendar.getInstance();
     private static final SimpleDateFormat sdfkuupaev = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final SimpleDateFormat sdfkellaaeg = new SimpleDateFormat("HH:mm", Locale.getDefault());

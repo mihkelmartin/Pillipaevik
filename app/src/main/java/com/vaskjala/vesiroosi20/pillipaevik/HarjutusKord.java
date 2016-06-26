@@ -20,6 +20,7 @@ public class HarjutusKord {
     private String helifail;
     private String helifailidriveid;
     private String helifailidriveweblink;
+    private String helifailidriveidmuutumatu;
 
     public static abstract class Harjutuskordkirje implements BaseColumns {
         public static final String TABLE_NAME = "Harjutuskord";
@@ -32,6 +33,7 @@ public class HarjutusKord {
         public static final String COLUMN_NAME_HELIFAIL = "helifail";
         public static final String COLUMN_NAME_HELIFAILIDRIVEID = "helifailidriveid";
         public static final String COLUMN_NAME_HELIFAILIDRIVEWEBLINK = "helifailidriveweblink";
+        public static final String COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU = "helifailidriveidmuutumatu";
     }
 
     public HarjutusKord (){
@@ -113,8 +115,6 @@ public class HarjutusKord {
         }
     }
 
-
-
     public int getPikkussekundites() {
         return pikkussekundites;
     }
@@ -193,6 +193,13 @@ public class HarjutusKord {
         this.helifailidriveweblink = helifailidriveweblink;
     }
 
+    public String getHelifailidriveidmuutumatu() {
+        return helifailidriveidmuutumatu;
+    }
+    public void setHelifailidriveidmuutumatu(String helifailidriveidmuutumatu) {
+        this.helifailidriveidmuutumatu = helifailidriveidmuutumatu;
+    }
+
     public String MoodustaFailiNimi(){
         return String.valueOf(getTeoseid()) + "_" + String.valueOf(getId()) + "_" +
                 Tooriistad.KujundaKuupaevKellaaegFailiNimi(new Date()) + ".mp4";
@@ -202,6 +209,7 @@ public class HarjutusKord {
         return "ID:" + this.id + "Algusaeg:" + this.algusaeg + " Pikkus:" + this.pikkussekundites +
                 " Lopuaeg:" + this.lopuaeg + " Kirjeldus:" + this.harjutusekirjeldus +
                 " Lisatud:" + this.lisatudpaevikusse + " Teoseid:" + this.teoseid + " Helifail:" + this.helifail +
-                " DriveID:" + helifailidriveid + " WebLink:" + helifailidriveweblink;
+                " DriveID:" + helifailidriveid + " WebLink:" + helifailidriveweblink + " DriveIDMuutumatu:" +
+                helifailidriveidmuutumatu;
     }
 }
