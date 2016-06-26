@@ -95,13 +95,13 @@ public class Aruanne {
                 Tooriistad.KujundaHarjutusteMinutid(getPaevasharjutada()) +
                 ReaVahetus;
 
-        koond = koond + "Soovituslik harjutamise aeg perioodil: " +
+        koond = koond + "Soovituslik harjutamise aeg kokku: " +
                 Tooriistad.KujundaHarjutusteMinutid(getPerioodipikkus() * getPaevasharjutada()) +
                 ReaVahetus;
 
 
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        koond = koond + "Tegelik harjutamise aeg perioodil: " +
+        koond = koond + "Tegelik harjutamise aeg kokku: " +
                 Tooriistad.KujundaHarjutusteMinutid(mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
                 ReaVahetus + ReaVahetus + ReaVahetus;
 
@@ -109,7 +109,7 @@ public class Aruanne {
         for ( String teoserida : pList){
             koond = koond + teoserida + ReaVahetus;
         }
-        koond = koond + ReaVahetus + ReaVahetus;
+        koond = koond + ReaVahetus;
         Log.d("Aruanne",koond);
         return koond;
     }
@@ -122,10 +122,10 @@ public class Aruanne {
         for ( DetailiKirje teoserida : pList){
             String kuupaev = Tooriistad.KujundaKuupaevSonaline(teoserida.getAlgusaeg());
             if(!kuupaev.equalsIgnoreCase(kuupaeveelmine)){
-                detail = detail + kuupaev + ReaVahetus;
+                detail = detail + ReaVahetus + kuupaev + ReaVahetus;
                 kuupaeveelmine = kuupaev;
             }
-            detail = detail+ teoserida.getNimi() + "\t\t" +
+            detail = detail+ teoserida.getNimi() + "\t\t\t" +
                     Tooriistad.KujundaHarjutusteMinutidTabloo(teoserida.getPikkussekundites()/60);
             if (teoserida.getWeblink() != null)
                 detail = detail + "\t" + teoserida.getWeblink();

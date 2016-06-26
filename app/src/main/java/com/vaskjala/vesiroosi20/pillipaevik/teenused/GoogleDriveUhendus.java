@@ -84,9 +84,15 @@ public class GoogleDriveUhendus  implements
 
     public static GoogleApiClient GoogleApiKlient() {
         GoogleApiClient retVal = null;
-        if(mGoogleApiClient != null)
-            if(mGoogleApiClient.isConnected())
+        if(mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
                 retVal = mGoogleApiClient;
+            } else {
+                Log.e("GoogleDriveUhendus", "mGoogleApiClient.isConnected() == false");
+            }
+        } else {
+            Log.e("GoogleDriveUhendus", "Anna GoogleApiKlient. mGoogleApiClient == null");
+        }
 
         return retVal;
     }
@@ -231,6 +237,8 @@ public class GoogleDriveUhendus  implements
             else {
                 Log.e("HeliFailDraiviTeenus", "Drive faili ei avatud: " + mDCR.getStatus().getStatusMessage());
             }
+        } else {
+            Log.e("AvaDriveFail", "Viga faili salvestamisel. Drive ühendus puudub");
         }
         return retVal;
     }

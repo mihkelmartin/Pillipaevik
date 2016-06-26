@@ -57,8 +57,6 @@ public class GoogleDriveTagasiSide extends DriveEventService {
         } else
             Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
 
-
-
         event.dismiss();
     }
 
