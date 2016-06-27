@@ -27,6 +27,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.drive.DriveScopes;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class GoogleDriveUhendus  implements
         mGoogleApiClient.connect();
     }
     public void KatkestaDriveUhendus() {
-        Log.d("GoogleDriveUhendus", "KatkestaDriveUhendus");
+        if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "KatkestaDriveUhendus");
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
     }
@@ -88,10 +89,10 @@ public class GoogleDriveUhendus  implements
             if (mGoogleApiClient.isConnected()) {
                 retVal = mGoogleApiClient;
             } else {
-                Log.e("GoogleDriveUhendus", "mGoogleApiClient.isConnected() == false");
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "mGoogleApiClient.isConnected() == false");
             }
         } else {
-            Log.e("GoogleDriveUhendus", "Anna GoogleApiKlient. mGoogleApiClient == null");
+            if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Anna GoogleApiKlient. mGoogleApiClient == null");
         }
 
         return retVal;
@@ -108,12 +109,12 @@ public class GoogleDriveUhendus  implements
                     .setBackOff(new ExponentialBackOff());
 
         if((isGooglePlayServicesAvailable())) {
-            Log.d("GoogleDriveUhendus", "Play teenused olemas");
+            if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Play teenused olemas");
             if((mCredential.getSelectedAccountName() != null)){
-                Log.d("GoogleDriveUhendus", "Konto olemas");
+                if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Konto olemas");
                 if( isDeviceOnline() ){
-                    Log.d("GoogleDriveUhendus", "Oleme internetis. Kõik kombes ühendus olemas.");
-                    Log.d("GoogleDriveUhendus", "Alustan eelautoriseerimisega");
+                    if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Oleme internetis. Kõik kombes ühendus olemas.");
+                    if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Alustan eelautoriseerimisega");
                     HttpTransport transport = AndroidHttp.newCompatibleTransport();
                     JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
                     mService = new com.google.api.services.drive.Drive.Builder(
@@ -122,18 +123,18 @@ public class GoogleDriveUhendus  implements
                             .build();
                     TeeEelAutoriseering mTeeAutoriseering = new TeeEelAutoriseering();
                     mTeeAutoriseering.execute();
-                    Log.d("GoogleDriveUhendus", "Drive ühenduse REST loomine läbi");
+                    if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Drive ühenduse REST loomine läbi");
                     bDriveRestApiValmis = true;
                 } else {
-                    Log.e("GoogleDriveUhendus", "Võrguühendus puudub");
+                    if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Võrguühendus puudub");
                 }
             } else {
-                Log.e("GoogleDriveUhendus", "Konto valimata");
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Konto valimata");
                 chooseAccount();
             }
         }
         else {
-            Log.e("GoogleDriveUhendus", "Play teenused puuduvad");
+            if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Play teenused puuduvad");
             acquireGooglePlayServices();
         }
 
@@ -163,12 +164,12 @@ public class GoogleDriveUhendus  implements
             DriveFolder.DriveFileResult fileResult = PPfolder.createFile(mGAC, changeSet, null).await();
             if(fileResult.getStatus().isSuccess()){
                 retVal = fileResult.getDriveFile().getDriveId();
-                Log.d("LooDriveHeliFail", "Fail loodud: " + retVal.toString());
+                if(BuildConfig.DEBUG) Log.d("LooDriveHeliFail", "Fail loodud: " + retVal.toString());
             } else {
-                Log.e("LooDriveHeliFail", "Viga faili loomisel" + fileResult.getStatus().getStatusMessage());
+                if(BuildConfig.DEBUG) Log.e("LooDriveHeliFail", "Viga faili loomisel" + fileResult.getStatus().getStatusMessage());
             }
         } else {
-            Log.e("LooDriveHeliFail", "Viga faili loomisel. Drive ühendus puudus või Pillipaevik kaust DriveId puudus");
+            if(BuildConfig.DEBUG) Log.e("LooDriveHeliFail", "Viga faili loomisel. Drive ühendus puudus või Pillipaevik kaust DriveId puudus");
         }
 
         return retVal;
@@ -178,18 +179,18 @@ public class GoogleDriveUhendus  implements
         try {
             dID = DriveId.decodeFromString(driveId);
         } catch (IllegalArgumentException e){
-            Log.e("AnnaDriveID", "Sobimatu DriveID!");
+            if(BuildConfig.DEBUG) Log.e("AnnaDriveID", "Sobimatu DriveID!");
         }
         return dID;
     }
     public String AnnaDriveID(DriveId driveId) {
         String retVal = driveId.encodeToString();
-        Log.d("AnnaDriveID", retVal);
+        if(BuildConfig.DEBUG) Log.d("AnnaDriveID", retVal);
         return retVal;
     }
     public String AnnaDriveIDMuutumatu(DriveId driveId) {
         String retVal = driveId.toInvariantString();
-        Log.d("AnnaDriveIDMuutumatu", retVal);
+        if(BuildConfig.DEBUG) Log.d("AnnaDriveIDMuutumatu", retVal);
         return retVal;
     }
     public String AnnaWebLink(DriveId driveId) {
@@ -199,7 +200,7 @@ public class GoogleDriveUhendus  implements
         if (mLocalGAC != null) {
             retVal = driveId.asDriveResource().getMetadata(mLocalGAC).await().getMetadata().getAlternateLink();
         }
-        Log.d("AnnaWebLink", "WebLink");
+        if(BuildConfig.DEBUG) Log.d("AnnaWebLink", "WebLink");
         return retVal;
     }
     public void SalvestaDrivei(DriveContents muudetudsisu) {
@@ -214,12 +215,12 @@ public class GoogleDriveUhendus  implements
                     .build();
             Status result = muudetudsisu.commit(mGAC, changeSet, executionOptions).await();
             if(result.getStatus().isSuccess()){
-                Log.d("SalvestaDrivei", "Drive-i salvestamine õnnestus");
+                if(BuildConfig.DEBUG) Log.d("SalvestaDrivei", "Drive-i salvestamine õnnestus");
             }else {
-                Log.e("SalvestaDrivei", "Drive-i salvestamine ebaõnnestus:" + result.getStatusMessage());
+                if(BuildConfig.DEBUG) Log.e("SalvestaDrivei", "Drive-i salvestamine ebaõnnestus:" + result.getStatusMessage());
             }
         } else {
-            Log.e("SalvestaDrivei", "Viga faili salvestamisel. Drive ühendus puudub");
+            if(BuildConfig.DEBUG) Log.e("SalvestaDrivei", "Viga faili salvestamisel. Drive ühendus puudub");
         }
 
     }
@@ -232,13 +233,13 @@ public class GoogleDriveUhendus  implements
             DriveApi.DriveContentsResult mDCR = file.open(mGAC, mode, null).await();
             if(mDCR.getStatus().isSuccess()) {
                 retVal = mDCR.getDriveContents();
-                Log.d("HeliFailDraiviTeenus", "Drive faili sisu avatud !" + retVal.toString());
+                if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus", "Drive faili sisu avatud !" + retVal.toString());
             }
             else {
-                Log.e("HeliFailDraiviTeenus", "Drive faili ei avatud: " + mDCR.getStatus().getStatusMessage());
+                if(BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus", "Drive faili ei avatud: " + mDCR.getStatus().getStatusMessage());
             }
         } else {
-            Log.e("AvaDriveFail", "Viga faili salvestamisel. Drive ühendus puudub");
+            if(BuildConfig.DEBUG) Log.e("AvaDriveFail", "Viga faili salvestamisel. Drive ühendus puudub");
         }
         return retVal;
     }
@@ -260,15 +261,15 @@ public class GoogleDriveUhendus  implements
                         com.google.android.gms.common.api.Status deleteStatus =
                                 fail.delete(mGAC).await();
                         if (!deleteStatus.isSuccess()) {
-                            Log.e("Kusutatamise AsyncTask", "Ei suuda kustutada: " + deleteStatus.getStatusMessage());
+                            if(BuildConfig.DEBUG) Log.e("Kusutatamise AsyncTask", "Ei suuda kustutada: " + deleteStatus.getStatusMessage());
                             return null;
                         }
                         // Remove stored DriveId.
-                        Log.d("KustutuaDraivist", "Kustutatud " + driveId);
+                        if(BuildConfig.DEBUG) Log.d("KustutuaDraivist", "Kustutatud " + driveId);
                     }
                 }
             } else {
-                Log.e("Kusutatamise AsyncTask", "Drive ühendus puudub");
+                if(BuildConfig.DEBUG) Log.e("Kusutatamise AsyncTask", "Drive ühendus puudub");
             }
             return null;
         }
@@ -276,24 +277,24 @@ public class GoogleDriveUhendus  implements
 
 
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e("GoogleDriveUhendus", "onConnectionFailed: " + connectionResult.toString());
+        if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed: " + connectionResult.toString());
         if (connectionResult.hasResolution()) {
             try {
                 if (mAktiivneActivity != null) {
-                    Log.e("GoogleDriveUhendus", "onConnectionFailed avame loa andmise akent");
+                    if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed avame loa andmise akent");
                     connectionResult.startResolutionForResult(mAktiivneActivity, Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE);
                 }
                 else
-                    Log.e("GoogleDriveUhendus", "onConnectionFailed on lahendus kuid meil ei ole vaadet mille seda näidata");
+                    if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed on lahendus kuid meil ei ole vaadet mille seda näidata");
 
             } catch (IntentSender.SendIntentException e) {
-                Log.e("GoogleDriveUhendus", "onConnectionFailed. Lahendus on, kuid ei suuda lahendada:" + e.toString());
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed. Lahendus on, kuid ei suuda lahendada:" + e.toString());
             }
         } else {
             if (mAktiivneActivity != null)
                 Tooriistad.NaitaHoiatust(mAktiivneActivity, "onConnectionFailed. Google Drive ühenduse viga", "Veakood :" + connectionResult.getErrorCode());
             else
-                Log.e("GoogleDriveUhendus", "onConnectionFailed lahendust ei ole, veakood :" + connectionResult.getErrorCode());
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed lahendust ei ole, veakood :" + connectionResult.getErrorCode());
         }
     }
     @Override
@@ -312,12 +313,12 @@ public class GoogleDriveUhendus  implements
                         // Iterate over the matching Metadata instances in mdResultSet
                         MetadataBuffer metadataBuffer = result.getMetadataBuffer();
                         int count = metadataBuffer.getCount();
-                        Log.d("GoogleDriveUhendus", "Leitud " + PilliPaevikDatabase.DATABASE_NAME + " kaustade arv:" + count);
+                        if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Leitud " + PilliPaevikDatabase.DATABASE_NAME + " kaustade arv:" + count);
                         for (Metadata metadata : metadataBuffer) {
                             if (!metadata.isTrashed()) {
                                 mPilliPaevikKaust = metadata.getDriveId();
                             }
-                            Log.d("GoogleDriveUhendus", metadata.getTitle() + " " + metadata.getDriveId() + " " + metadata.isTrashed());
+                            if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", metadata.getTitle() + " " + metadata.getDriveId() + " " + metadata.isTrashed());
                         }
                         if (count == 0) {
                             MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
@@ -326,7 +327,7 @@ public class GoogleDriveUhendus  implements
                         }
                         metadataBuffer.release();
 
-                        Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
+                        if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
                         LooDriveRestUhendus();
                     }
                 });
@@ -338,18 +339,18 @@ public class GoogleDriveUhendus  implements
             ResultCallback<DriveFolder.DriveFolderResult>() {
                 public void onResult(DriveFolder.DriveFolderResult result) {
                     if (!result.getStatus().isSuccess()) {
-                        Log.e("GoogleDriveUhendus", "Error while trying to create the folder" +
+                        if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Error while trying to create the folder" +
                                 result.getStatus().getStatusMessage());
                         return;
                     }
                     mPilliPaevikKaust = result.getDriveFolder().getDriveId();
-                    Log.d("GoogleDriveUhendus", "Created a folder: " + result.getDriveFolder().getDriveId());
+                    if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Created a folder: " + result.getDriveFolder().getDriveId());
                 }
             };
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.e("GoogleDriveUhendus", "onConnectionSuspended: " + i);
+        if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionSuspended: " + i);
     }
 
 
@@ -360,9 +361,9 @@ public class GoogleDriveUhendus  implements
                 com.google.api.services.drive.model.FileList request = mService.files().list().execute();
             } catch (UserRecoverableAuthIOException e) {
                 mAktiivneActivity.startActivityForResult(e.getIntent(), Tooriistad.GOOGLE_DRIVE_REST_UHENDUSE_LUBA);
-                Log.e("GoogleDriveUhendus", "TeeEelAutoriseering " + e.toString());
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "TeeEelAutoriseering " + e.toString());
             } catch (IOException e) {
-                Log.e("GoogleDriveUhendus", "TeeEelAutoriseering" + e.toString());
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "TeeEelAutoriseering" + e.toString());
             }
             return null;
         }
@@ -406,11 +407,11 @@ public class GoogleDriveUhendus  implements
                 mAktiivneActivity.getSharedPreferences(mAktiivneActivity.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
                         .getString("googlekonto", null);
         if(googlekonto != null && !googlekonto.isEmpty()){
-            Log.d("GoogleDriveUhendus", "Konto võetud seadetest:" + googlekonto);
+            if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Konto võetud seadetest:" + googlekonto);
             mCredential.setSelectedAccountName(googlekonto);
             LooDriveRestUhendus();
         } else {
-            Log.e("GoogleDriveUhendus", "Konto puudub, kuvame valikuakna");
+            if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Konto puudub, kuvame valikuakna");
             // Start a dialog from which the user can choose an account
             mAktiivneActivity.startActivityForResult(
                     mCredential.newChooseAccountIntent(),

@@ -8,6 +8,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 
 import java.io.IOException;
 
@@ -21,9 +22,9 @@ public class GoogleDriveTagasiSide extends DriveEventService {
 
         GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
         if (event.getStatus() == CompletionEvent.STATUS_SUCCESS) {
-            Log.d("GoogleDriveTagasiSide", "Õnnestus: " + event.getStatus());
+            if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Õnnestus: " + event.getStatus());
             if(event.getDriveId() != null){
-                Log.d("GoogleDriveTagasiSide", "Drive id: " + event.getDriveId() + " Resource id:"
+                if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Drive id: " + event.getDriveId() + " Resource id:"
                         + event.getDriveId().getResourceId());
 
                 com.google.api.services.drive.Drive mService = null;
@@ -38,24 +39,24 @@ public class GoogleDriveTagasiSide extends DriveEventService {
                 try {
                     mService.permissions().create(event.getDriveId().getResourceId(), avalikluba).execute();
                 }   catch (UserRecoverableAuthIOException e) {
-                    Log.e("GoogleDriveTagasiSide", "Catchisin hoopis " + e.toString());
+                    if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Catchisin hoopis " + e.toString());
                 }
                 catch (IOException e){
-                    Log.e("GoogleDriveTagasiSide", "Karm Eceptisioon" + e.toString());
+                    if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Karm Eceptisioon" + e.toString());
                 }
             } else {
-                Log.e("GoogleDriveTagasiSide", "Drive id on null");
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Drive id on null");
             }
         } else
-            Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine");
+            if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine");
 
         String retVal = event.getDriveId().asDriveResource().getMetadata(mGDU.GoogleApiKlient()).await().getMetadata().getAlternateLink();
         if(retVal != null) {
             PilliPaevikDatabase mPP = new PilliPaevikDatabase(getApplicationContext());
             mPP.SalvestaHarjutuskorraWebLink(event.getDriveId().toInvariantString(), retVal);
-            Log.d("GoogleDriveTagasiSide", "Faili link:" + retVal);
+            if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Faili link:" + retVal);
         } else
-            Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
+            if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
 
         event.dismiss();
     }

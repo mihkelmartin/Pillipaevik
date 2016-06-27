@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 import java.io.File;
@@ -232,7 +233,7 @@ public final class Tooriistad {
         for(int i=0; i < kuudearv; i++){
             retVal.add(KujundaKuuJaAastaSonaline(c.getTime()));
             c.add(Calendar.MONTH, -1);
-            Log.d("LooAruandeKuud", KujundaKuuJaAastaSonaline(c.getTime()));
+            if(BuildConfig.DEBUG) Log.d("LooAruandeKuud", KujundaKuuJaAastaSonaline(c.getTime()));
         }
         return retVal;
     }
@@ -245,7 +246,7 @@ public final class Tooriistad {
 
         boolean success = true;
         if (!sd.exists()) {
-            Log.d("exportDB", "Soovitakse luua:" + sd.getAbsolutePath());
+            if(BuildConfig.DEBUG) Log.d("exportDB", "Soovitakse luua:" + sd.getAbsolutePath());
             success = sd.mkdir();
         }
         if (success) {
@@ -257,8 +258,8 @@ public final class Tooriistad {
             String backupDBPath = PilliPaevikDatabase.DATABASE_NAME + KujundaKuupaevKellaaegBackup(new Date());
             File currentDB = new File(data, currentDBPath);
             File backupDB = new File(sd, backupDBPath);
-            Log.d("exportDB", "Originaal:" + currentDB.getAbsolutePath());
-            Log.d("exportDB", "Koopia:" + backupDB.getAbsolutePath());
+            if(BuildConfig.DEBUG) Log.d("exportDB", "Originaal:" + currentDB.getAbsolutePath());
+            if(BuildConfig.DEBUG) Log.d("exportDB", "Koopia:" + backupDB.getAbsolutePath());
 
             try {
                 source = new FileInputStream(currentDB).getChannel();
@@ -270,7 +271,7 @@ public final class Tooriistad {
                 e.printStackTrace();
             }
         } else {
-            Log.d("exportDB", "Download kataloogi loomine ei õnnestunud.");
+            if(BuildConfig.DEBUG) Log.d("exportDB", "Download kataloogi loomine ei õnnestunud.");
         }
     }
     // Taastamine
@@ -285,8 +286,8 @@ public final class Tooriistad {
         String currentDBPath = PilliPaevikDatabase.DATABASE_NAME + "Taasta";
         File currentDB = new File(sd, currentDBPath);
         File backupDB = new File(data, backupDBPath);
-        Log.d("importDB", "Varukoopia:" + currentDB.getAbsolutePath());
-        Log.d("importDB", "Taastatud baas:" + backupDB.getAbsolutePath());
+        if(BuildConfig.DEBUG) Log.d("importDB", "Varukoopia:" + currentDB.getAbsolutePath());
+        if(BuildConfig.DEBUG) Log.d("importDB", "Taastatud baas:" + backupDB.getAbsolutePath());
         try {
             source = new FileInputStream(currentDB).getChannel();
             destination = new FileOutputStream(backupDB).getChannel();

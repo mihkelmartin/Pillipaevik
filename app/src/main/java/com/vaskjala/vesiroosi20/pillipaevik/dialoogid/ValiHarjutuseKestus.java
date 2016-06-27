@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 /**
@@ -39,7 +40,7 @@ public class ValiHarjutuseKestus extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        Log.d("Valikuupaev", "Loon pikkusevaliku dialoogi");
+        if(BuildConfig.DEBUG) Log.d("Valikuupaev", "Loon pikkusevaliku dialoogi");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();

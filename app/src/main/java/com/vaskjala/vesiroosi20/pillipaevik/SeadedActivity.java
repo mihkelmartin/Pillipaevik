@@ -48,7 +48,7 @@ public class SeadedActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
-            Log.d(getLocalClassName(),"Salvestan ja Up");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(),"Salvestan ja Up");
             SalvestaAndmed();
         }
         return super.onOptionsItemSelected(item);
@@ -56,7 +56,7 @@ public class SeadedActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d(getLocalClassName(),"Salvestan ja OnBackPressed");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(),"Salvestan ja OnBackPressed");
         SalvestaAndmed();
         super.onBackPressed();
     }
@@ -115,7 +115,7 @@ public class SeadedActivity extends AppCompatActivity {
     }
     private void SalvestaAndmed(){
 
-        Log.d(getLocalClassName(),"Salvestan");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(),"Salvestan");
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 

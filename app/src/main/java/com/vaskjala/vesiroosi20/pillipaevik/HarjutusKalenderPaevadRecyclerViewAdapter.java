@@ -49,19 +49,19 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         public void onClick(View v) {
             if(holder.mItem.bPeaKirje) {
                 if (holder.mItem.bAndmebaasistLaetud)
-                    Log.e("ListiKuulaja", "Juba laetud baasist :" + holder.mItem.kuupaev);
+                    if(BuildConfig.DEBUG) Log.e("ListiKuulaja", "Juba laetud baasist :" + holder.mItem.kuupaev);
                 else {
                     PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(v.getContext());
                     pilliPaevikDatabase.KuupaevaHarjutusKorrad(holder.mItem);
                 }
                 if(holder.mItem.Harjutused != null && !holder.mItem.Harjutused.isEmpty()){
                     if(holder.mItem.bHarjutusedAvatud) {
-                        Log.e("ListiKuulaja", "Eemaldan ja teavitan" );
+                        if(BuildConfig.DEBUG) Log.e("ListiKuulaja", "Eemaldan ja teavitan" );
                         mValues.removeAll(holder.mItem.Harjutused);
                         holder.mItem.bHarjutusedAvatud = false;
                         notifyItemRangeRemoved(holder.getAdapterPosition() + 1, holder.mItem.Harjutused.size() );
                     } else {
-                        Log.e("ListiKuulaja", "Lisan ja teavitan" );
+                        if(BuildConfig.DEBUG) Log.e("ListiKuulaja", "Lisan ja teavitan" );
                         mValues.addAll(holder.getAdapterPosition() + 1, holder.mItem.Harjutused);
                         holder.mItem.bHarjutusedAvatud = true;
                         notifyItemRangeInserted(holder.getAdapterPosition() + 1, holder.mItem.Harjutused.size() );

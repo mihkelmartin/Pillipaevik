@@ -70,9 +70,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         if (savedInstanceState == null) {
             this.teosid = getIntent().getIntExtra("teos_id", 0);
             this.harjutusid = getIntent().getIntExtra("harjutus_id", 0);
-            Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
         } else {
-            Log.d(getLocalClassName(), "Loen savedInstanceState");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teos_id");
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
         }
@@ -82,7 +82,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         Teos teos = mPPManager.getTeos(this.teosid);
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
-        Log.d(getLocalClassName(), "Harjutus : " + this.harjutuskord);
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Harjutus : " + this.harjutuskord);
         mAction.setTitle(teos.getNimi());
         AndmedHarjutuskorrastVaatele();
     }
@@ -93,9 +93,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             if(AndmedHarjutuses()){
                 SalvestaHarjutus();
                 setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_MUUDA), output);
-                Log.d(this.getLocalClassName(), "Harjutus lisatud: " + harjutuskord);
+                if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutus lisatud: " + harjutuskord);
             } else {
-                Log.d(this.getLocalClassName(), "Uus harjutus tühi: " + harjutuskord);
+                if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Uus harjutus tühi: " + harjutuskord);
                 KustutaHarjutus();
             }
             finish();
@@ -130,12 +130,12 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
     @Override
     protected void onStop() {
-        Log.d(getLocalClassName(), "Lõpetan mahamängimise");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetan mahamängimise");
         if (mPlayer != null) {
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
-            Log.d(getLocalClassName(), "Lõpetasin mahamängimise");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetasin mahamängimise");
         }
         super.onStop();
     }
@@ -143,7 +143,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
         savedInstanceState.putInt("teos_id", this.teosid);
         savedInstanceState.putInt("harjutus_id", this.harjutusid);
-        Log.d(getLocalClassName(), "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -155,7 +155,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             SalvestaHarjutus();
             Intent output = new Intent();
             setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
-            Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutuskord.toString());
+            if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutuskord.toString());
         } else {
             KustutaHarjutus();
         }
@@ -187,7 +187,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
         Intent output = new Intent();
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
-        Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
+        if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
     }
 
     public void MangiLugu(View v){
@@ -197,7 +197,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+            if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
         }
     }
 
@@ -208,9 +208,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
         } else {
-            Log.e(this.getLocalClassName(), "kuiEiVastus. Tundmatust kohast tuldud !");
+            if(BuildConfig.DEBUG) Log.e(this.getLocalClassName(), "kuiEiVastus. Tundmatust kohast tuldud !");
         }
     }
     @Override
@@ -219,7 +219,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             KustutaHarjutus();
             finish();
         } else {
-            Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
+            if(BuildConfig.DEBUG) Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
         }
     }
 

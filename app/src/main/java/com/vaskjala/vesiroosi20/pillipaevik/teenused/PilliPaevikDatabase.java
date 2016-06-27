@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
 import com.vaskjala.vesiroosi20.pillipaevik.PaevaKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.Teos;
@@ -79,7 +80,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_HARJUTUSKORD);
             db.execSQL(CREATE_INDEX_TEOSEID);
         } catch (Exception e){
-            Log.e(LOG, "OnCreate:" + e.getMessage());
+            if(BuildConfig.DEBUG) Log.e(LOG, "OnCreate:" + e.getMessage());
         }
     }
     @Override
@@ -108,7 +109,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         try {
             if (teosed.isEmpty()) {
                 String selectParing = "SELECT * FROM " + Teos.Teosekirje.TABLE_NAME + " ORDER BY nimi";
-                Log.d(LOG, selectParing);
+                if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
                 synchronized (sPilliPaevikuLukk) {
                     SQLiteDatabase db = this.getReadableDatabase();
                     Cursor c = db.rawQuery(selectParing, null);
@@ -126,7 +127,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                             teos.setKasutusviis(c.getShort(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS)));
                             teosed.add(teos);
                             teosedmap.put(teos.getId(), teos);
-                            Log.d("getAllTeosed", teos.toString());
+                            if(BuildConfig.DEBUG) Log.d("getAllTeosed", teos.toString());
                         } while (c.moveToNext());
                     }
                     c.close();
@@ -134,7 +135,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 }
             }
         } catch (Exception e){
-            Log.e(LOG, "getAllTeosed " + e);
+            if(BuildConfig.DEBUG) Log.e(LOG, "getAllTeosed " + e);
         }
         return teosed;
     }
@@ -174,11 +175,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         teos.setId(retVal);
                         teosed.add(teos);
                         teosedmap.put(retVal, teos);
-                        Log.d(LOG, "Uus teos lisatud:" + String.valueOf(retVal));
+                        if(BuildConfig.DEBUG) Log.d(LOG, "Uus teos lisatud:" + String.valueOf(retVal));
                     } else
-                        Log.d(LOG, "Muudetud:" + String.valueOf(retVal) + " rida.");
+                        if(BuildConfig.DEBUG) Log.d(LOG, "Muudetud:" + String.valueOf(retVal) + " rida.");
                 } else {
-                    Log.e(LOG, "Ei lisatud ega muudetud ühtegi Teose rida " + String.valueOf(retVal));
+                    if(BuildConfig.DEBUG) Log.e(LOG, "Ei lisatud ega muudetud ühtegi Teose rida " + String.valueOf(retVal));
                 }
                 db.close();
                 BackupManager backupManager = new BackupManager(context);
@@ -200,13 +201,13 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 teosed.remove(teos);
                 teosedmap.remove(teosid);
                 db.close();
-                Log.d("PilliPaevikDatabase","Kustuta teos:" + teosid + " Teose kustutatud:" +
+                if(BuildConfig.DEBUG) Log.d("PilliPaevikDatabase","Kustuta teos:" + teosid + " Teose kustutatud:" +
                         deletedrows + " Harjutusi:" + deletedharjutused);
                 BackupManager backupManager = new BackupManager(context);
                 backupManager.dataChanged();
             }
         } catch (Exception e){
-            Log.e(LOG, "KustutaTeos " + e);
+            if(BuildConfig.DEBUG) Log.e(LOG, "KustutaTeos " + e);
         }
     }
 
@@ -228,16 +229,16 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
 
                     teos.clearHarjutus(harjutusid);
                 } else {
-                    Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
+                    if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
                 }
                 db.close();
                 BackupManager backupManager = new BackupManager(context);
                 backupManager.dataChanged();
-                Log.d("PilliPaevikDatabase","Kustuta teose Harjutus. Teosid:" + teosid + " Harjutus:" + harjutusid +
+                if(BuildConfig.DEBUG) Log.d("PilliPaevikDatabase","Kustuta teose Harjutus. Teosid:" + teosid + " Harjutus:" + harjutusid +
                         " Ridu kustutatud:" + deletedrows);
             }
         } catch (Exception e){
-            Log.e(LOG, "KusututaHarjutus " + e);
+            if(BuildConfig.DEBUG) Log.e(LOG, "KusututaHarjutus " + e);
         }
 
         return deletedrows;
@@ -262,15 +263,15 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     }
                     teos.clearHarjutuskorrad();
                 } else {
-                    Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
+                    if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
                 }
                 db.close();
                 BackupManager backupManager = new BackupManager(context);
                 backupManager.dataChanged();
-                Log.d("PilliPaevikDatabase","Kustuta teose Harjutused. Teosid:" + teosid + " Ridu kustutatud:" + deletedrows);
+                if(BuildConfig.DEBUG) Log.d("PilliPaevikDatabase","Kustuta teose Harjutused. Teosid:" + teosid + " Ridu kustutatud:" + deletedrows);
             }
         } catch (Exception e){
-            Log.e(LOG, "KustutaTeoseHarjutused " + e);
+            if(BuildConfig.DEBUG) Log.e(LOG, "KustutaTeoseHarjutused " + e);
         }
         return deletedrows;
     }
@@ -295,7 +296,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         String selectParing = "SELECT * FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
                 " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + String.valueOf(teoseid) +
                 " ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + " DESC";
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
 
         try{
             synchronized (sPilliPaevikuLukk) {
@@ -317,14 +318,14 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         harjutuskord.setHelifailidriveidmuutumatu(c.getString(c.getColumnIndex(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU)));
                         Harjustuskorrad.add(harjutuskord);
                         Harjutuskorradmap.put(harjutuskord.getId(), harjutuskord);
-                        Log.d("getAllHarjutuskorrad", harjutuskord.toString());
+                        if(BuildConfig.DEBUG) Log.d("getAllHarjutuskorrad", harjutuskord.toString());
                     } while (c.moveToNext());
                 }
                 c.close();
                 db.close();
             }
         } catch (Exception e){
-            Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
         }
     }
 
@@ -361,12 +362,12 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         harjutuskord.setId(retVal);
                         harjutuskorrad.add(harjutuskord);
                         harjutuskorradmap.put(retVal, harjutuskord);
-                        Log.d(LOG, "Harjutuskord lisatud:" + harjutuskord.toString());
+                        if(BuildConfig.DEBUG) Log.d(LOG, "Harjutuskord lisatud:" + harjutuskord.toString());
                     } else {
-                        Log.d(LOG, "Harjutuskord muudetud:" + harjutuskord.toString());
+                        if(BuildConfig.DEBUG) Log.d(LOG, "Harjutuskord muudetud:" + harjutuskord.toString());
                     }
                 } else {
-                    Log.e(LOG, "Ei lisatud ega muudetud ühtegi Harjutuskorrad rida " + String.valueOf(retVal));
+                    if(BuildConfig.DEBUG) Log.e(LOG, "Ei lisatud ega muudetud ühtegi Harjutuskorrad rida " + String.valueOf(retVal));
                 }
                 db.close();
                 BackupManager backupManager = new BackupManager(context);
@@ -387,7 +388,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         + HarjutusKord.Harjutuskordkirje._ID + " FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
                         " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU  + "='" +
                         DriveIDMuutumatu + "'";
-                Log.d(LOG, selectParing);
+                if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
                 SQLiteDatabase db = this.getReadableDatabase();
                 Cursor c = db.rawQuery(selectParing, null);
                 if(c.moveToFirst()){
@@ -395,9 +396,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     HarjutusKord harjutusKord = harjutuskorradmap.get(c.getInt(1));
                     harjutusKord.setHelifailidriveweblink(WebLink);
                     SalvestaHarjutusKord(context,harjutusKord);
-                    Log.d(LOG, "Harjutuskorrale WebLink lisatud" + DriveIDMuutumatu);
+                    if(BuildConfig.DEBUG) Log.d(LOG, "Harjutuskorrale WebLink lisatud" + DriveIDMuutumatu);
                 } else {
-                    Log.e(LOG, "Harjutuskorda ei leitud. WebLink lisamata. Driveid:" + DriveIDMuutumatu);
+                    if(BuildConfig.DEBUG) Log.e(LOG, "Harjutuskorda ei leitud. WebLink lisamata. Driveid:" + DriveIDMuutumatu);
                 }
                 retVal = c.getInt(0);
                 db.close();
@@ -419,7 +420,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "')";
 
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
         try {
             synchronized (sPilliPaevikuLukk) {
                 SQLiteDatabase db = this.getReadableDatabase();
@@ -431,9 +432,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e){
-            Log.e(LOG, "ArvutaPerioodiMinutid " + e);
+            if(BuildConfig.DEBUG) Log.e(LOG, "ArvutaPerioodiMinutid " + e);
         }
-        Log.d("ArvutaPerioodiMinutid", "retVal:" + retVal);
+        if(BuildConfig.DEBUG) Log.d("ArvutaPerioodiMinutid", "retVal:" + retVal);
         return retVal;
 
     }
@@ -444,7 +445,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +
                 "), COUNT(*) FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
                 " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + String.valueOf(teoseid);
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
 
         try{
             synchronized (sPilliPaevikuLukk) {
@@ -454,13 +455,13 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if (c.moveToFirst()) {
                     retVal[0] = c.getInt(0);
                     retVal[1] = c.getInt(1);
-                    Log.d("TeoseHarjutusKordad....", "Sekundeid:" + retVal[0] + " Kordi:" + retVal[1]);
+                    if(BuildConfig.DEBUG) Log.d("TeoseHarjutusKordad....", "Sekundeid:" + retVal[0] + " Kordi:" + retVal[1]);
                 }
                 c.close();
                 db.close();
             }
         } catch (Exception e){
-            Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
         }
         return retVal;
     }
@@ -476,7 +477,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') GROUP BY " + Teos.Teosekirje.COLUMN_NAME_NIMI;
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
         try{
             synchronized (sPilliPaevikuLukk) {
                 SQLiteDatabase db = this.getReadableDatabase();
@@ -493,7 +494,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e){
-            Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
         }
         return pList;
     }
@@ -511,7 +512,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(algus) +
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG;
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
         try{
             synchronized (sPilliPaevikuLukk) {
                 SQLiteDatabase db = this.getReadableDatabase();
@@ -528,7 +529,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e){
-            Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
         }
         return pList;
     }
@@ -545,7 +546,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(paevaKirje.kuupaev) +
                 "') ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + " DESC";
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
         try{
             synchronized (sPilliPaevikuLukk) {
                 SQLiteDatabase db = this.getReadableDatabase();
@@ -555,7 +556,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if (c.moveToFirst()) {
                     paevaKirje.Harjutused = new ArrayList<PaevaKirje>();
                     do {
-                        Log.e("KuupaevaHarjutusKorrad", c.getString(0) + " " + c.getInt(1) + " " + c.getInt(2));
+                        if(BuildConfig.DEBUG) Log.e("KuupaevaHarjutusKorrad", c.getString(0) + " " + c.getInt(1) + " " + c.getInt(2));
                         PaevaKirje pPK = new PaevaKirje(paevaKirje.kuupaev, paevaKirje.kordadearv, paevaKirje.pikkussekundites);
                         pPK.Teos = c.getString(0);
                         pPK.harjutusepikkus = c.getInt(1);
@@ -568,7 +569,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e){
-            Log.e("KuupaevaHarjutusKorrad", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("KuupaevaHarjutusKorrad", "Ei suuda lugeda" + e.toString());
         }
     }
 
@@ -582,7 +583,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(lopp) + "') " +
                 "GROUP BY date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ")";
-        Log.d(LOG, selectParing);
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
         try{
             synchronized (sPilliPaevikuLukk) {
                 SQLiteDatabase db = this.getReadableDatabase();
@@ -601,7 +602,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e){
-            Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("TeoseHarjutusKordade...", "Ei suuda lugeda" + e.toString());
         }
         return pList;
     }
@@ -611,7 +612,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
 
         try{
 
-            Log.d(LOG, selectParing);
+            if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor c = db.rawQuery(selectParing, null);
@@ -619,13 +620,13 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             if (c.moveToFirst()) {
 
                 do {
-                   Log.d("getAllHarjutuskorrad",c.getString(0) + " " + c.getString(1) + c.getString(2));
+                   if(BuildConfig.DEBUG) Log.d("getAllHarjutuskorrad",c.getString(0) + " " + c.getString(1) + c.getString(2));
                 } while (c.moveToNext());
             }
             c.close();
             db.close();
         } catch (Exception e){
-            Log.e("PilliPaevikTestMeetod", "Ei suuda lugeda" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("PilliPaevikTestMeetod", "Ei suuda lugeda" + e.toString());
         }
     }
 }

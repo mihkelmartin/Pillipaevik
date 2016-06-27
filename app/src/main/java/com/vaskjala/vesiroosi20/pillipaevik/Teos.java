@@ -75,11 +75,11 @@ public class Teos implements Comparable<Teos> {
         if(Harjutuskorradmap != null) {
             harjutus = Harjutuskorradmap.get(harjutusid);
             Harjutuskorradmap.remove(harjutusid);
-            Log.d("Teos","Eemaldasinme Harjutuse Mapist. Harjutus:"+ harjutusid);
+            if(BuildConfig.DEBUG) Log.d("Teos","Eemaldasinme Harjutuse Mapist. Harjutus:"+ harjutusid);
         }
         if(Harjustuskorrad != null && harjutus != null){
             Harjustuskorrad.remove(harjutus);
-            Log.d("Teos","Eemaldasinme Harjutuse Setist. Harjutus:"+ harjutusid);
+            if(BuildConfig.DEBUG) Log.d("Teos","Eemaldasinme Harjutuse Setist. Harjutus:"+ harjutusid);
         }
 
     }

@@ -58,11 +58,11 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         mAction.setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
             this.teosid = getIntent().getIntExtra("teos_id", 0);
             this.harjutusid = getIntent().getIntExtra("harjutus_id", 0);
         } else {
-            Log.d(getLocalClassName(), "Loen saveInstants");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen saveInstants");
             this.teosid = savedInstanceState.getInt("teos_id");
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
         }
@@ -72,7 +72,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         Teos teos = mPPManager.getTeos(this.teosid);
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
-        Log.d(getLocalClassName(), "Harjutus : " + this.harjutuskord);
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Harjutus : " + this.harjutuskord);
         mAction.setTitle(teos.getNimi());
 
         if (this.harjutuskord == null && this.harjutusid == -1) {
@@ -86,7 +86,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
 
         savedInstanceState.putInt("teos_id", this.teosid);
         savedInstanceState.putInt("harjutus_id", this.harjutusid);
-        Log.d(getLocalClassName(), "onSaveInstanceState " + this.teosid + " " + this.harjutusid);
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onSaveInstanceState " + this.teosid + " " + this.harjutusid);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -102,9 +102,9 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
                     harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
                 SalvestaHarjutus();
                 setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_TEHTUD_LISATUD), output);
-                Log.d(this.getLocalClassName(), "Harjutus lisatud: " + harjutuskord);
+                if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutus lisatud: " + harjutuskord);
             } else {
-                Log.d(this.getLocalClassName(), "Uus harjutus tühi: " + harjutuskord);
+                if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Uus harjutus tühi: " + harjutuskord);
                 KustutaHarjutus();
             }
             finish();
@@ -136,7 +136,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
             SalvestaHarjutus();
             Intent output = new Intent();
             setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_TEHTUD_LISATUD), output);
-            Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutuskord.toString());
+            if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutuskord.toString());
         } else {
             KustutaHarjutus();
         }
@@ -165,7 +165,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
         Intent output = new Intent();
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
-        Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
+        if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
     }
     private boolean AndmedHarjutuses(){
         return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
@@ -252,11 +252,11 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
     public void kuiEiVastus(DialogFragment dialog) {
 
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
         } else if (dialog.getTag().equals("Kestusemuutus")) {
-            Log.d(getLocalClassName(), "Kestuse muutus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Kestuse muutus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
         } else {
-            Log.e(this.getLocalClassName(), "kuiEiVastus. Tundmatust kohast tuldud !");
+            if(BuildConfig.DEBUG) Log.e(this.getLocalClassName(), "kuiEiVastus. Tundmatust kohast tuldud !");
         }
 
     }
@@ -273,9 +273,9 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
                 this.harjutuskord.setPikkussekundites(uuskestus * 60);
             AndmedHarjutuskorrastVaatele();
             SalvestaHarjutus();
-            Log.d(getLocalClassName(), "Kestuse muutus, uus pikkus:" + uuskestus + " min. " + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Kestuse muutus, uus pikkus:" + uuskestus + " min. " + this.harjutusid + " Dialog :" + dialog.getTag());
         } else {
-            Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
+            if(BuildConfig.DEBUG) Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
         }
 
     }

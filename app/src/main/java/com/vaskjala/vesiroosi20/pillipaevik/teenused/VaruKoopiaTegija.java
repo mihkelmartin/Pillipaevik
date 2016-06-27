@@ -3,6 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 import android.app.backup.*;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class VaruKoopiaTegija extends BackupAgentHelper {
     // Allocate a helper and add it to the backup agent
     @Override
     public void onCreate() {
-        Log.d("VaruKoopiaTegija","onCreate");
+        if(BuildConfig.DEBUG) Log.d("VaruKoopiaTegija","onCreate");
         SharedPreferencesBackupHelper helperSP =
                 new SharedPreferencesBackupHelper(this, PREFS);
         addHelper(PREFS_BACKUP_KEY, helperSP);

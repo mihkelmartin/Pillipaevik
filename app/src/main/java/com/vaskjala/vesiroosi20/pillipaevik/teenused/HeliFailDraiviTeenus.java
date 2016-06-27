@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
 import com.vaskjala.vesiroosi20.pillipaevik.Teos;
 
@@ -32,7 +33,7 @@ public class HeliFailDraiviTeenus extends IntentService {
         Teos teos = mPP.getTeos(workIntent.getIntExtra("teosid",0));
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         harjutusKord = harjutuskorradmap.get(workIntent.getIntExtra("harjutusid",0));
-        Log.d("HeliFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
+        if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
 
         GoogleDriveUhendus mGD = GoogleDriveUhendus.getInstance();
         mGD.setActivity(null);
@@ -43,12 +44,12 @@ public class HeliFailDraiviTeenus extends IntentService {
             harjutusKord.setHelifailidriveid(mGD.AnnaDriveID(mHDI));
             harjutusKord.setHelifailidriveidmuutumatu(mGD.AnnaDriveIDMuutumatu(mHDI));
             mPP.SalvestaHarjutusKord(getApplicationContext(), harjutusKord);
-            Log.d("HeliFailDraiviTeenus","Uus fail loodud");
+            if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus","Uus fail loodud");
         } else {
             mHDI = DriveId.decodeFromString(harjutusKord.getHelifailidriveid());
             // TODO Tegelikult READ_WRITE kui oskaks lisada
             writemode = DriveFile.MODE_WRITE_ONLY;
-            Log.d("HeliFailDraiviTeenus","Lisame olemasolevale failile");
+            if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus","Lisame olemasolevale failile");
         }
         DriveContents mFD = mGD.AvaDriveFail(mHDI, writemode);
 
@@ -61,7 +62,7 @@ public class HeliFailDraiviTeenus extends IntentService {
                 out.write(buf, 0, len);
             }
         } catch (IOException e) {
-            Log.e("HeliFailDraiviTeenus","Lugemise/Kirjutamise viga :" + e.toString());
+            if(BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus","Lugemise/Kirjutamise viga :" + e.toString());
         }
         mGD.SalvestaDrivei(mFD);
 
@@ -71,9 +72,9 @@ public class HeliFailDraiviTeenus extends IntentService {
         File dir = getFilesDir();
         File file = new File(dir, harjutusKord.getHelifail());
         if(file.delete())
-            Log.d("HeliFailDraiviTeenus","Telefonis oleva fail kustutatud :" + getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
+            if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus","Telefonis oleva fail kustutatud :" + getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
         else
-            Log.e("HeliFailDraiviTeenus","Telefonis oleva faili kustutamise viga !");
+            if(BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus","Telefonis oleva faili kustutamise viga !");
 
     }
 

@@ -54,13 +54,13 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         savedInstanceState.putLong("kulunudaeg", this.kulunudaeg);
         savedInstanceState.putBoolean("taimertootab", this.taimertootab);
         savedInstanceState.putBoolean("kasSalvestame", this.bkasSalvestame);
-        Log.d("HarjutusUusActivity", "onSaveInstanceState " + this.harjutusid + " " + this.stardiaeg + " " +
+        if(BuildConfig.DEBUG) Log.d("HarjutusUusActivity", "onSaveInstanceState " + this.harjutusid + " " + this.stardiaeg + " " +
                 this.kulunudaeg + " Taimer sees:" +this.taimertootab + " Kas salvestame: " + bkasSalvestame);
 
         super.onSaveInstanceState(savedInstanceState);
     }
     protected void onStop() {
-        Log.d("HarjutusUusActivity", "On Stop");
+        if(BuildConfig.DEBUG) Log.d("HarjutusUusActivity", "On Stop");
         SeisataLindistaja();
         if(taimertootab)
             handler.removeCallbacks(runnable);
@@ -80,7 +80,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
         this.teosid = getIntent().getIntExtra("teos_id", 0);
         this.harjutusid = getIntent().getIntExtra("harjutusid", 0);
-        Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
+        if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
 
         mPPManager = new PilliPaevikDatabase(getApplicationContext());
         Teos teos = mPPManager.getTeos(this.teosid);
@@ -94,19 +94,19 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             this.harjutus = new HarjutusKord(this.teosid);
             mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
             this.harjutusid = this.harjutus.getId();
-            Log.d(this.getLocalClassName(), "Uus harjutus loodud : " + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Uus harjutus loodud : " + this.harjutusid);
         }else {
             this.harjutusid = savedInstanceState.getInt("harjutusid");
             this.stardiaeg = savedInstanceState.getLong("stardiaeg");
             this.kulunudaeg = savedInstanceState.getLong("kulunudaeg");
             this.taimertootab = savedInstanceState.getBoolean("taimertootab");
             this.bkasSalvestame = savedInstanceState.getBoolean("kasSalvestame");
-            Log.d(this.getLocalClassName(), "Loen savedinstantsist :" + this.harjutusid + " " +
+            if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Loen savedinstantsist :" + this.harjutusid + " " +
                     this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
 
             HashMap<Integer, HarjutusKord> harjutuskorradmap  = teos.getHarjutuskorradmap(getApplicationContext());
             this.harjutus = harjutuskorradmap.get(this.harjutusid);
-            Log.d(this.getLocalClassName(), "Harjutus taastatud teose kaudu : " + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutus taastatud teose kaudu : " + this.harjutusid);
 
             if(taimertootab)
                 kaivitaTimerNupp.setText("Katkesta");
@@ -132,7 +132,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 SalvestaHarjutus();
                 Intent output = new Intent();
                 setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
-                Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
+                if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
             } else {
                 KustutaHarjutus();
             }
@@ -165,7 +165,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             SalvestaHarjutus();
             Intent output = new Intent();
             setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
-            Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
+            if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutus.toString());
         } else {
             KustutaHarjutus();
         }
@@ -187,7 +187,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     }
     private void KustutaHarjutus(){
         mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
-        Log.d(this.getLocalClassName(), "Uus harjutuskord kustutatud : " + this.harjutusid);
+        if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Uus harjutuskord kustutatud : " + this.harjutusid);
         Intent output = new Intent();
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA), output);
     }
@@ -244,7 +244,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         if(KasVoimalikSalvestada() && bkasSalvestame) {
             if(harjutus.getHelifail() == null || harjutus.getHelifail().isEmpty())
                 harjutus.setHelifail(harjutus.MoodustaFailiNimi());
-            Log.d(getLocalClassName(), "Fail:" + harjutus.getHelifail());
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Fail:" + harjutus.getHelifail());
             mRecorder = new MediaRecorder();
             try {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -256,12 +256,12 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } catch (Exception e) {
                 mRecorder = null;
-                Log.e(getLocalClassName(), "prepare() failed" + e.toString());
+                if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "prepare() failed" + e.toString());
             }
         }
     }
     private void SeisataLindistaja() {
-        Log.d(getLocalClassName(), "Lõpetan lindistamise");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetan lindistamise");
         if (mRecorder != null) {
             mRecorder.stop();
             mRecorder.release();
@@ -274,7 +274,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             intent.putExtra("teosid", harjutus.getTeoseid());
             intent.putExtra("harjutusid", harjutus.getId());
             startService(intent);
-            Log.d(getLocalClassName(), "Lõpetasin lindistamise");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetasin lindistamise");
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         }
@@ -297,7 +297,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
-        Log.d("TeosActivity", "Kustutamine katkestatud:" + this.teosid);
+        if(BuildConfig.DEBUG) Log.d("TeosActivity", "Kustutamine katkestatud:" + this.teosid);
     }
     @Override
     public void kuiJahVastus(DialogFragment dialog) {

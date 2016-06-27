@@ -39,7 +39,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.d("Peaaken", "onCreate");
+        if(BuildConfig.DEBUG) Log.d("Peaaken", "onCreate");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teos_list);
@@ -76,7 +76,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
 
     @Override
     protected void onStart() {
-        Log.d(getLocalClassName(), "onStart");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onStart");
         super.onStart();
         // TODO Asünkroonselt
         PaevaHarjutusteProgress();
@@ -88,9 +88,9 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
             mGDU.setActivity(this);
             if (bEsimeneAvamine) {
-                Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
                 mGDU.LooDriveUhendus();
-                Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
             }
         }
     }
@@ -116,18 +116,18 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        Log.d("cek", "item selected");
+        if(BuildConfig.DEBUG) Log.d("cek", "item selected");
         if (mDrawerToggle.onOptionsItemSelected(item)) {
-            Log.d("Peaaken", "Sahtel valitud");
+            if(BuildConfig.DEBUG) Log.d("Peaaken", "Sahtel valitud");
             return true;
         }
         if(item.getItemId()==R.id.seaded){
-            Log.d("TeosListActivity", "Seaded vajutatud");
+            if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
             Intent intent = new Intent(this, SeadedActivity.class);
             startActivity(intent);
         }
         if(item.getItemId()==R.id.lisateos){
-            Log.d("TeosListActivity", "Lisateos vajutatud");
+            if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Lisateos vajutatud");
             Intent intent = new Intent(this, TeosActivity.class);
             intent.putExtra("item_id", -1);
             startActivityForResult(intent,getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA));
@@ -141,43 +141,43 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
-                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
                 mMainAdapter.SordiTeosed();
                 mMainAdapter.notifyDataSetChanged();
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
-                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Pos:" + itemposition);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Pos:" + itemposition);
                 mMainAdapter.notifyItemRemoved(itemposition);
             }
         }
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
-                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud");
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud");
                 mMainAdapter.SordiTeosed();
                 mMainAdapter.notifyDataSetChanged();
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
-                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamisel kustutati");
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamisel kustutati");
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_UUS_LOOMATA)) {
-                Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
             }
         }
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
-                Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
                 GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
                 GoogleApiClient mGoogleApiClient = mGDU.GoogleApiKlient();
                 if(mGoogleApiClient == null) {
-                    Log.d(getLocalClassName(), "Loo drive ühendus uuesti");
+                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loo drive ühendus uuesti");
                     mGDU.setActivity(this);
                     mGDU.LooDriveUhendus();
                 } else
-                    Log.e(getLocalClassName(), "Google Drive uuesti ühendumisel oli ühendumine juba olemas");
+                    if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Google Drive uuesti ühendumisel oli ühendumine juba olemas");
 
             } else {
-                Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
             }
 
         }
@@ -198,15 +198,15 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                     if(mCredential != null)
                         mCredential.setSelectedAccountName(accountName);
                     else
-                        Log.e(getLocalClassName(), "Konto sättimine kuid Google Credential on null");
+                        if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Konto sättimine kuid Google Credential on null");
 
-                    Log.d(getLocalClassName(), "Valitud konto: " + accountName);
+                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Valitud konto: " + accountName);
                     mGDU.LooDriveRestUhendus();
                 }
             }
         }
         if( requestCode == Tooriistad.GOOGLE_DRIVE_REST_UHENDUSE_LUBA){
-            Log.d(getLocalClassName(), "onActivityResult. REST API loa küsimine" + resultCode);
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onActivityResult. REST API loa küsimine" + resultCode);
         }
     }
 
@@ -250,7 +250,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 intent.putExtra("item_id", holder.mItem.getId());
                 intent.putExtra("item_position", holder.getLayoutPosition());
                 startActivityForResult(intent, getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
-                Log.d("TeosListActivity", "Teos valitud : " + holder.mItem.getId() + " Holder position: " +
+                if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Teos valitud : " + holder.mItem.getId() + " Holder position: " +
                         holder.getLayoutPosition() + " Intent: " +
                         getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
             }
@@ -373,8 +373,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                         imageView.setImageResource(getResources().getIdentifier(mSahtliValikud[0][position], null, null));
                         TextView textView = (TextView) (returnview.findViewById(R.id.drawertextid));
                         textView.setText(mSahtliValikud[1][position]);
-                        Log.d("mDrawerList.setAdapter", mSahtliValikud[0][position]);
-                        Log.d("mDrawerList.setAdapter", mSahtliValikud[1][position]);
+                        if(BuildConfig.DEBUG) Log.d("mDrawerList.setAdapter", mSahtliValikud[0][position]);
+                        if(BuildConfig.DEBUG) Log.d("mDrawerList.setAdapter", mSahtliValikud[1][position]);
                     }
                 }
                 return returnview;
@@ -450,10 +450,10 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("ValiAruandeKuu")) {
-            Log.d(getLocalClassName(), "Aruande kuu valimisel OK vajutatud");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Aruande kuu valimisel OK vajutatud");
             String kuujaaastastr= dialog.getArguments().getString("kuujaaasta");
             Date kuujaaasta = Tooriistad.KuupaevKuuJaAastaSonalineStringist(kuujaaastastr);
-            Log.d(getLocalClassName(), kuujaaastastr);
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), kuujaaastastr);
 
             Kuuaruanne ka = new Kuuaruanne(getApplicationContext());
             ka.setAruandeperioodinimi(kuujaaastastr);
@@ -476,7 +476,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("ValiAruandeKuu")) {
-            Log.d(getLocalClassName(), "Aruande kuu valimisel Loobu vajutatud");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Aruande kuu valimisel Loobu vajutatud");
         }
 
     }
