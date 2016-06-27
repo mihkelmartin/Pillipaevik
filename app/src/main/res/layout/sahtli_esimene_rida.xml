@@ -7,6 +7,6 @@
               android:background="@color/primary_material_light">
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:layout_gravity="left|center_vertical"
-                   android:src="@drawable/ic_pillipaevik_app_vaike"/>
+                   android:layout_gravity="start|center_vertical"
+                   android:src="@drawable/ic_pillipaevik_vaike"/>
 </LinearLayout>

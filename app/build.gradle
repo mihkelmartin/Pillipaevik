@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        PillipaevikGooglePlay {
+            keyAlias 'Pillipaevik'
+            keyPassword 'kAta3012'
+            storeFile file('C:/Users/mihkel/Sertifikaadid/android.jks')
+            storePassword 'igeT1201'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
@@ -12,9 +19,8 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        GooglePlay {
+            signingConfig signingConfigs.PillipaevikGooglePlay
         }
     }
     compileOptions {
