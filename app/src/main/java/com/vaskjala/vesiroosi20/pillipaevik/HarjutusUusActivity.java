@@ -10,10 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -256,6 +253,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 mRecorder.prepare();
                 mRecorder.start();
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } catch (Exception e) {
                 mRecorder = null;
                 Log.e(getLocalClassName(), "prepare() failed" + e.toString());
@@ -277,6 +275,8 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             intent.putExtra("harjutusid", harjutus.getId());
             startService(intent);
             Log.d(getLocalClassName(), "Lõpetasin lindistamise");
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         }
     }
 

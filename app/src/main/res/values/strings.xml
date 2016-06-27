@@ -21,6 +21,13 @@
     <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
 
 
+    // Dialoogid
+    <string name="vali_aruande_kuu">Vali aruande kuu</string>
+    <integer name="kuudearv">6</integer>
+
+    <string name="ok">OK</string>
+    <string name="loobu">Loobu</string>
+
     // Seaded
     <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
@@ -57,5 +64,6 @@
     <integer name="TEOS_ACTIVITY_RETURN_UUS_LOOMATA">11</integer>
 
     <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
+
 
 </resources>

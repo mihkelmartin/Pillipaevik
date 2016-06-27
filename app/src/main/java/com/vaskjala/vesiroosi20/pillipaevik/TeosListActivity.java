@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,13 +20,16 @@ import android.widget.*;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.Kuuaruanne;
+import com.vaskjala.vesiroosi20.pillipaevik.aruanded.ValiAruandeKuu;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
+import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.ValiHarjutuseKestus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.*;
 
-public class TeosListActivity extends AppCompatActivity {
+public class TeosListActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private SimpleItemRecyclerViewAdapter mMainAdapter;
@@ -211,6 +215,8 @@ public class TeosListActivity extends AppCompatActivity {
         mMainAdapter = new SimpleItemRecyclerViewAdapter(teosed);
         recyclerView.setAdapter(mMainAdapter);
     }
+
+
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -428,26 +434,49 @@ public class TeosListActivity extends AppCompatActivity {
                     startActivity(i);
                     break;
                 case 2 :
-                    Kuuaruanne ka = new Kuuaruanne(getApplicationContext());
-                    ka.setAruandeperioodinimi("2016 juuni");
-                    Date now = new Date();
-                    ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(now));
-                    ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(now));
-                    i = new Intent(Intent.ACTION_SEND);
-                    i.setType("text/plain");
-                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{ka.getOpetajaepost()});
-                    i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
-                    i.putExtra(Intent.EXTRA_TEXT, ka.AruandeKoguTekst(getApplicationContext()));
-                    try {
-                        startActivity(Intent.createChooser(i, "Saada aruanne..."));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(getParent(), "E-posti äppi ei paista olevat ....", Toast.LENGTH_SHORT).show();
-                    }
+                    Bundle args = new Bundle();
+                    DialogFragment valiAruandeKuu = new ValiAruandeKuu();
+                    valiAruandeKuu.setArguments(args);
+                    valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
                     break;
                 default:
                     break;
             }
             mDrawerLayout.closeDrawer(mDrawerList);
+        }
+
+    }
+
+    @Override
+    public void kuiJahVastus(DialogFragment dialog) {
+        if (dialog.getTag().equals("ValiAruandeKuu")) {
+            Log.d(getLocalClassName(), "Aruande kuu valimisel OK vajutatud");
+            String kuujaaastastr= dialog.getArguments().getString("kuujaaasta");
+            Date kuujaaasta = Tooriistad.KuupaevKuuJaAastaSonalineStringist(kuujaaastastr);
+            Log.d(getLocalClassName(), kuujaaastastr);
+
+            Kuuaruanne ka = new Kuuaruanne(getApplicationContext());
+            ka.setAruandeperioodinimi(kuujaaastastr);
+            ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(kuujaaasta));
+            ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(kuujaaasta));
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{ka.getOpetajaepost()});
+            i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
+            i.putExtra(Intent.EXTRA_TEXT, ka.AruandeKoguTekst(getApplicationContext()));
+            try {
+                startActivity(Intent.createChooser(i, "Saada aruanne..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(getParent(), "E-posti rakendus puudub...", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    @Override
+    public void kuiEiVastus(DialogFragment dialog) {
+        if (dialog.getTag().equals("ValiAruandeKuu")) {
+            Log.d(getLocalClassName(), "Aruande kuu valimisel Loobu vajutatud");
         }
 
     }

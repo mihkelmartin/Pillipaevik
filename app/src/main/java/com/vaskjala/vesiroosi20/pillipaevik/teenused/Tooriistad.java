@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
@@ -16,9 +17,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -38,6 +37,7 @@ public final class Tooriistad {
     private static final SimpleDateFormat sdfkuupaevkellaaegBackup = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevkellaaegFailiNimi = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevSonaline = new SimpleDateFormat("EEEE, MMM d", Locale.getDefault());
+    private static final SimpleDateFormat sdfkuuJaaastaSonaline = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
 
 
     public static Date KuupaevStringist(String kuupaev){
@@ -64,11 +64,26 @@ public final class Tooriistad {
         return retVal;
     }
 
+    public static Date KuupaevKuuJaAastaSonalineStringist(String kuupaev){
+
+        Date retVal = null;
+        try {
+            retVal = sdfkuuJaaastaSonaline.parse(kuupaev);
+        } catch (ParseException pe) {
+            System.out.println("ERROR: could not parse date in string \"" +
+                    sdfkuuJaaastaSonaline + "\"");
+        }
+        return retVal;
+    }
+
     public static String KujundaKuupaev(Date kuupaev){
         return sdfkuupaev.format(kuupaev);
     }
     public static String KujundaKuupaevSonaline(Date kuupaev){
         return sdfkuupaevSonaline.format(kuupaev);
+    }
+    public static String KujundaKuuJaAastaSonaline(Date kuupaev){
+        return sdfkuuJaaastaSonaline.format(kuupaev);
     }
 
     public static String KujundaKellaaeg(Date kuupaev){
@@ -207,6 +222,19 @@ public final class Tooriistad {
                     }
                 });
         alertDialog.show();
+    }
+
+    public static List<String> LooAruandeKuud(int kuudearv){
+        List<String> retVal = new ArrayList<String>();
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+
+        for(int i=0; i < kuudearv; i++){
+            retVal.add(KujundaKuuJaAastaSonaline(c.getTime()));
+            c.add(Calendar.MONTH, -1);
+            Log.d("LooAruandeKuud", KujundaKuuJaAastaSonaline(c.getTime()));
+        }
+        return retVal;
     }
 
     // Varukoopia
