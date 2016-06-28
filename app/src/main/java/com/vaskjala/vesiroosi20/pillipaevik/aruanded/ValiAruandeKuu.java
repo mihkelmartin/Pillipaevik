@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ValiAruandeKuu extends DialogFragment {
 
-    LihtsaKusimuseKuulaja mListener;
+    private LihtsaKusimuseKuulaja mListener;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override

@@ -4,7 +4,6 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

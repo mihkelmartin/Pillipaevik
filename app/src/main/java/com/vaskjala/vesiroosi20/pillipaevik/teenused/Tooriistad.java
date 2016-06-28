@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;

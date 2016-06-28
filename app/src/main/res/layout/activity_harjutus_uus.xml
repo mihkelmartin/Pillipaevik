@@ -53,7 +53,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:id="@+id/mikrofoniluliti"
-                    android:drawableLeft="@drawable/ic_mic_off_black_24dp"
+                    android:drawableLeft="@drawable/ic_mic_off_black_18dp"
                     android:onClick="LulitaMikrofon"/>
         </LinearLayout>
         <TextView

@@ -17,7 +17,7 @@
                     android:id="@+id/teos_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:navigationIcon="@drawable/ic_drawer"
+                    android:navigationIcon="@drawable/ic_menu_black_18dp"
                     android:elevation="10dp"
                     android:theme="@style/Pillipaevik"
                     app:popupTheme="@style/Pillipaevik"/>
@@ -71,7 +71,7 @@
                            android:scaleType="centerCrop"
                            android:scaleX="0.5"
                            android:scaleY="0.5"
-                           android:src="@drawable/ic_replay_black_24dp"/>
+                           android:src="@drawable/ic_replay_black_18dp"/>
                 <TextView android:id="@+id/teoseharjutustearv"
                           android:layout_width="wrap_content"
                           android:layout_height="match_parent"
@@ -88,7 +88,7 @@
                            android:scaleType="centerCrop"
                            android:scaleX="0.5"
                            android:scaleY="0.5"
-                           android:src="@drawable/ic_query_builder_black_24dp"/>
+                           android:src="@drawable/ic_query_builder_black_18dp"/>
                 <TextView android:id="@+id/teoseharjutustekestus"
                           android:layout_width="wrap_content"
                           android:layout_height="match_parent"

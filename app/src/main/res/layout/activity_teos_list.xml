@@ -23,7 +23,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:navigationIcon="@drawable/ic_drawer"
+                    android:navigationIcon="@drawable/ic_menu_black_18dp"
                     android:elevation="10dp"
                     android:theme="@style/Pillipaevik"
                     app:popupTheme="@style/Pillipaevik"/>

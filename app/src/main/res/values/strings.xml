@@ -4,11 +4,11 @@
     <string name="title_activity_seaded">SeadedActivity</string>
     <string name="seadete_fail">seadete_fail</string>
     <string name="title_teos">Teos</string>
-    <string name="seaded">Seaded...</string>
+    <string name="seaded">Seaded…</string>
     <string name="seaded_tiitel">Seaded</string>
-    <string name="kusututa">Kusututa...</string>
-    <string name="AlustaUutHarjutust">Alusta uut...</string>
-    <string name="LisaTehtudHarjutus">Lisa tehtud ...</string>
+    <string name="kusututa">Kusututa…</string>
+    <string name="AlustaUutHarjutust">Alusta uut…</string>
+    <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
     <string name="rakenduse_pealkiri">Pillipäevik</string>
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
@@ -17,7 +17,6 @@
     <string name="eisaamuutaharjutustjuhend">
     Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
     </string>
-    <string name="SalvestaLinnukeTekst">Salvestame harjutuse telefoni mikrofoniga</string>
     <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
 
 
@@ -35,8 +34,8 @@
 
     <string-array name="sahtli_valikud_ikoonid">
         <item>Päis</item>
-        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_color_24dp</item>
-        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_week_color_24dp</item>
+        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_black_18dp</item>
+        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_week_black_18dp</item>
     </string-array>
     <string-array name="sahtli_valikud">
         <item>Päis</item>

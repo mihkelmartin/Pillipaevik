@@ -94,7 +94,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         HarjutusteStatistika ();
     }
 
-    public void LooHarjutusteAdapter(){
+    private void LooHarjutusteAdapter(){
         List<HarjutusKord> harjutuskorrad = this.teos.getHarjustuskorrad(getApplicationContext());
         pHarjutusedAdapter=
                 new HarjutuskorradAdapter(getApplicationContext(),
@@ -104,7 +104,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         HarjutusteList.setAdapter(pHarjutusedAdapter);
 
     }
-    public void AndmedTeosesse (Teos teos) {
+    private void AndmedTeosesse(Teos teos) {
 
         String nimi = ((EditText)findViewById(R.id.nimi)).getText().toString();
         String autor = ((EditText) findViewById(R.id.autor)).getText().toString();
@@ -188,7 +188,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             }
         }
     }
-    public class HarjutusedListiPassija implements  ListView.OnItemClickListener {
+    private class HarjutusedListiPassija implements  ListView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -234,7 +234,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             return convertView;
         }
     }
-    public class HarjutusComparator implements Comparator<HarjutusKord>{
+    private class HarjutusComparator implements Comparator<HarjutusKord>{
         @Override
         public int compare(HarjutusKord lhs, HarjutusKord rhs) {
             return rhs.getAlgusaeg().compareTo(lhs.getAlgusaeg());
@@ -368,17 +368,17 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
     }
 
     // Reeglid
-    boolean KasTeosSalvestatud() {
+    private boolean KasTeosSalvestatud() {
         return this.teosid != -1;
     }
-    boolean KasNimiOlemas(){
+    private boolean KasNimiOlemas(){
         boolean retVal;
         EditText TeosNimiLahter = ((EditText)findViewById(R.id.nimi));
         String TeosNimiString = TeosNimiLahter.getText().toString();
         retVal = !TeosNimiString.isEmpty();
         return  retVal;
     }
-    boolean KasNimiUnikaalne(){
+    private boolean KasNimiUnikaalne(){
         boolean retVal = false;
         boolean bNimiOlemas = KasNimiOlemas();
         if(bNimiOlemas) {

@@ -43,7 +43,7 @@ public class GoogleDriveUhendus  implements
     private static final String[] SCOPES = { DriveScopes.DRIVE_METADATA };
 
     //create an object of GoogleDriveUhendus
-    private static GoogleDriveUhendus instance = new GoogleDriveUhendus();
+    private static final GoogleDriveUhendus instance = new GoogleDriveUhendus();
 
     private static GoogleApiClient mGoogleApiClient = null;
     private static GoogleAccountCredential mCredential = null;
@@ -339,7 +339,7 @@ public class GoogleDriveUhendus  implements
 
     }
 
-    ResultCallback<DriveFolder.DriveFolderResult> folderCreatedCallback = new
+    private final ResultCallback<DriveFolder.DriveFolderResult> folderCreatedCallback = new
             ResultCallback<DriveFolder.DriveFolderResult>() {
                 public void onResult(DriveFolder.DriveFolderResult result) {
                     if (!result.getStatus().isSuccess()) {
@@ -391,7 +391,7 @@ public class GoogleDriveUhendus  implements
             showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
         }
     }
-    void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
+    private void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
                 mAktiivneActivity,

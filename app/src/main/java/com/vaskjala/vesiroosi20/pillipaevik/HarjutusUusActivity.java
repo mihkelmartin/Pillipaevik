@@ -249,7 +249,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             try {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                mRecorder.setOutputFile(getFilesDir().getPath().toString() + "/" + harjutus.getHelifail());
+                mRecorder.setOutputFile(getFilesDir().getPath() + "/" + harjutus.getHelifail());
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 mRecorder.prepare();
                 mRecorder.start();
@@ -280,17 +280,17 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         }
     }
 
-    void SeadistaMikrofoniNupp(){
+    private void SeadistaMikrofoniNupp(){
         if(bkasSalvestame){
             mikrofoniLulitiNupp.setText("Sees");
-            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_24dp, null), null, null, null);
+            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_18dp, null), null, null, null);
         } else {
             mikrofoniLulitiNupp.setText("Väljas");
-            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_24dp, null), null, null, null);
+            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_18dp, null), null, null, null);
         }
     }
 
-    boolean KasVoimalikSalvestada(){
+    private boolean KasVoimalikSalvestada(){
         return true;
     }
 

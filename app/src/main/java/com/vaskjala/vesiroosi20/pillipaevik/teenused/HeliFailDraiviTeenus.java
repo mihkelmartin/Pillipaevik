@@ -55,7 +55,7 @@ public class HeliFailDraiviTeenus extends IntentService {
 
         try {
             FileOutputStream out = new FileOutputStream(mFD.getParcelFileDescriptor().getFileDescriptor());
-            FileInputStream in  = new FileInputStream(getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
+            FileInputStream in  = new FileInputStream(getFilesDir().getPath() + "/" + harjutusKord.getHelifail());
             byte[] buf = new byte[2048];
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -73,7 +73,7 @@ public class HeliFailDraiviTeenus extends IntentService {
         File file = new File(dir, harjutusKord.getHelifail());
         if(file.delete()) {
             if (BuildConfig.DEBUG)
-                Log.d("HeliFailDraiviTeenus", "Telefonis oleva fail kustutatud :" + getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
+                Log.d("HeliFailDraiviTeenus", "Telefonis oleva fail kustutatud :" + getFilesDir().getPath() + "/" + harjutusKord.getHelifail());
         }
         else {
             if (BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus", "Telefonis oleva faili kustutamise viga !");

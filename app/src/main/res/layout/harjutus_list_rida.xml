@@ -23,7 +23,7 @@
                android:scaleType="centerCrop"
                android:scaleX="0.5"
                android:scaleY="0.5"
-               android:src="@drawable/ic_library_music_black_24dp"/>
+               android:src="@drawable/ic_library_music_black_18dp"/>
     <TextView android:id="@+id/harjutuslist_kestus"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"

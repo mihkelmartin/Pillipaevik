@@ -11,10 +11,7 @@ import android.widget.TimePicker;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by mihkel on 19.05.2016.

@@ -25,7 +25,7 @@
                        android:scaleType="centerInside"
                        android:scaleX="0.5"
                        android:scaleY="0.5"
-                       android:src="@drawable/ic_replay_black_24dp"/>
+                       android:src="@drawable/ic_replay_black_18dp"/>
             <TextView android:id="@+id/paevakalenderharjutustearv"
                       android:layout_width="36sp"
                       android:layout_height="match_parent"
@@ -44,7 +44,7 @@
                        android:scaleType="centerInside"
                        android:scaleX="0.5"
                        android:scaleY="0.5"
-                       android:src="@drawable/ic_query_builder_black_24dp"/>
+                       android:src="@drawable/ic_query_builder_black_18dp"/>
             <TextView android:id="@+id/paevakalenderharjutustekestus"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"

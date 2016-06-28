@@ -5,7 +5,7 @@
     <item
             android:id="@+id/kustutateos"
             android:title="@string/kusututa"
-            android:icon="@drawable/ic_delete_black_24dp"
+            android:icon="@drawable/ic_delete_black_18dp"
             app:showAsAction="ifRoom"/>
     <item
             android:id="@+id/alustauut"
@@ -15,7 +15,7 @@
     <item
             android:id="@+id/lisatehtud"
             android:title="@string/LisaTehtudHarjutus"
-            android:icon="@drawable/ic_add_black_24dp"
+            android:icon="@drawable/ic_add_black_18dp"
             app:showAsAction="ifRoom"/>
 
 </menu>

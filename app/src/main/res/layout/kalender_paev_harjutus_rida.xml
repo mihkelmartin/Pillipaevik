@@ -9,7 +9,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentLeft="true"
-              android:layout_toLeftOf="@+id/harjutuslisti_pilt"
+              android:layout_toLeftOf="@+id/kalender_paev_harjutus_helifaili_pilt"
               android:singleLine="true"
               android:paddingLeft="24dp"
               android:textAppearance="?android:attr/textAppearanceSmall"
@@ -23,7 +23,7 @@
                android:scaleType="centerCrop"
                android:scaleX="0.5"
                android:scaleY="0.5"
-               android:src="@drawable/ic_library_music_black_24dp"/>
+               android:src="@drawable/ic_library_music_black_18dp"/>
     <TextView android:id="@+id/kalender_paev_harjutus_harjutuse_kestus"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"

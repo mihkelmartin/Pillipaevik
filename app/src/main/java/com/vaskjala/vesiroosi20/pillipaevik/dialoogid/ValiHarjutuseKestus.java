@@ -19,7 +19,7 @@ import com.vaskjala.vesiroosi20.pillipaevik.R;
 public class ValiHarjutuseKestus extends DialogFragment {
 
     // Use this instance of the interface to deliver action events
-    LihtsaKusimuseKuulaja mListener;
+    private LihtsaKusimuseKuulaja mListener;
     private NumberPicker kestus;
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
