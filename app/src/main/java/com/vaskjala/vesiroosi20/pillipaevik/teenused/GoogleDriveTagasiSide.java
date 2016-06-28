@@ -31,7 +31,7 @@ public class GoogleDriveTagasiSide extends DriveEventService {
                 HttpTransport transport = AndroidHttp.newCompatibleTransport();
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
                 mService = new com.google.api.services.drive.Drive.Builder(
-                        transport, jsonFactory, mGDU.GoogleApiCredential())
+                        transport, jsonFactory, GoogleDriveUhendus.GoogleApiCredential())
                         .setApplicationName("PilliPaevik")
                         .build();
                 com.google.api.services.drive.model.Permission avalikluba =
@@ -47,16 +47,18 @@ public class GoogleDriveTagasiSide extends DriveEventService {
             } else {
                 if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Drive id on null");
             }
-        } else
-            if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine");
+        } else {
+            if (BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine");
+        }
 
-        String retVal = event.getDriveId().asDriveResource().getMetadata(mGDU.GoogleApiKlient()).await().getMetadata().getAlternateLink();
+        String retVal = event.getDriveId().asDriveResource().getMetadata(GoogleDriveUhendus.GoogleApiKlient()).await().getMetadata().getAlternateLink();
         if(retVal != null) {
             PilliPaevikDatabase mPP = new PilliPaevikDatabase(getApplicationContext());
             mPP.SalvestaHarjutuskorraWebLink(event.getDriveId().toInvariantString(), retVal);
             if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Faili link:" + retVal);
-        } else
-            if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
+        } else {
+            if (BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ei saanud WebLinki");
+        }
 
         event.dismiss();
     }

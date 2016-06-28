@@ -123,7 +123,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                             teos.setAutor(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_AUTOR)));
                             teos.setKommentaar(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR)));
                             teos.setHinnang(c.getShort((c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_HINNANG))));
-                            teos.setLisatudpaevikusse(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE)));
+                            teos.setLisatudpaevikusse(Tooriistad.KuupaevKellaAegStringist(c.getString(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE))));
                             teos.setKasutusviis(c.getShort(c.getColumnIndex(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS)));
                             teosed.add(teos);
                             teosedmap.put(teos.getId(), teos);
@@ -162,7 +162,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 values.put(Teos.Teosekirje.COLUMN_NAME_AUTOR, teos.getAutor());
                 values.put(Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR, teos.getKommentaar());
                 values.put(Teos.Teosekirje.COLUMN_NAME_HINNANG, teos.getHinnang());
-                values.put(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE, teos.getLisatudpaevikusseAsString());
+                values.put(Teos.Teosekirje.COLUMN_NAME_LISATUDPAEVIKUSSE, Tooriistad.KujundaKuupaevKellaaeg(teos.getLisatudpaevikusse()));
                 values.put(Teos.Teosekirje.COLUMN_NAME_KASUTUSVIIS, teos.getKasutusviis());
                 if (bNew)
                     retVal = (int) db.insert(Teos.Teosekirje.TABLE_NAME, null, values);
@@ -186,7 +186,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 backupManager.dataChanged();
             }
         } catch (Exception e){
-            System.out.println("Ei suutnud salvestada " +  teos.toString() + " " + e.toString());
+            if(BuildConfig.DEBUG) Log.e(LOG, "Ei suutnud Teost salvestada " +  teos.toString() + " " + e.toString());
         }
         return retVal;
     }
@@ -223,11 +223,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     HarjutusKord pH = pHarjutused.get(harjutusid);
                     if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
                         GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                        mGDU.setActivity(null);
+                        GoogleDriveUhendus.setActivity(null);
                         mGDU.KustutaDriveFail(pH.getHelifailidriveid());
                     }
 
-                    teos.clearHarjutus(harjutusid);
+                    teos.EemaldaHarjutusHulkadest(harjutusid);
                 } else {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
                 }
@@ -254,14 +254,14 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if(teos != null){
                     // Kustuta Draivist failid
                     GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                    mGDU.setActivity(null);
+                    GoogleDriveUhendus.setActivity(null);
                     List<HarjutusKord> pHarjutused = teos.getHarjustuskorrad(context);
                     for(HarjutusKord pH : pHarjutused) {
                         if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
                             mGDU.KustutaDriveFail(pH.getHelifailidriveid());
                         }
                     }
-                    teos.clearHarjutuskorrad();
+                    teos.EemaldaHarjutuskorradHulkadest();
                 } else {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
                 }
@@ -344,7 +344,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES, harjutuskord.getPikkussekundites());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LOPUAEG, Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getLopuaeg()));
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HARJUTUSEKIRJELDUS, harjutuskord.getHarjutusekirjeldus());
-                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE, harjutuskord.getLisatudpaevikusseAsString());
+                values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_LISATUDPAEVIKUSSE, Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getLisatudpaevikusse()));
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID, harjutuskord.getTeoseid());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL, harjutuskord.getHelifail());
                 values.put(HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID, harjutuskord.getHelifailidriveid());
@@ -374,7 +374,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 backupManager.dataChanged();
             }
         } catch (Exception e){
-            System.out.println("Ei suutnud salvestada " + e.toString());
+            if(BuildConfig.DEBUG) Log.e(LOG, "Ei suutnud salvestada " + e.toString());
         }
         return retVal;
     }
@@ -401,12 +401,13 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     if(BuildConfig.DEBUG) Log.e(LOG, "Harjutuskorda ei leitud. WebLink lisamata. Driveid:" + DriveIDMuutumatu);
                 }
                 retVal = c.getInt(0);
+                c.close();
                 db.close();
                 BackupManager backupManager = new BackupManager(context);
                 backupManager.dataChanged();
             }
         } catch (Exception e){
-            System.out.println("Ei suutnud Harjutuskorda muuta" + e.toString());
+            if(BuildConfig.DEBUG) Log.e(LOG, "Ei suutnud Harjutuskorda muuta" + e.toString());
         }
         return retVal;
     }

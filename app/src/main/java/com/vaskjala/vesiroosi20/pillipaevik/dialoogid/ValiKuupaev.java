@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.widget.DatePicker;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,15 +34,9 @@ public class ValiKuupaev extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        if(BuildConfig.DEBUG) Log.d("Valikuupaev", "Loon kuupäevavaliku dialoogi");
+        if(BuildConfig.DEBUG) Log.d("Valikuupaev", "Loon kuupäeva valiku dialoogi");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        try{
-         c.setTime(sdf.parse(getArguments().getString("datetime")));
-        } catch (ParseException pe) {
-            System.out.println(pe);
-        }
-
+        c.setTime(Tooriistad.KuupaevKellaAegStringist(getArguments().getString("datetime")));
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);

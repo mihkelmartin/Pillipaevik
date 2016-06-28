@@ -9,6 +9,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,15 +32,9 @@ public class ValiKellaaeg extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        if(BuildConfig.DEBUG) Log.d("Valikellaaeg", "Loon kellaaja dialoogi");
+        if(BuildConfig.DEBUG) Log.d("Valikellaaeg", "Loon kellaaja valiku dialoogi");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        try{
-         c.setTime(sdf.parse(getArguments().getString("datetime")));
-        } catch (ParseException pe) {
-            System.out.println(pe);
-        }
-
+        c.setTime(Tooriistad.KuupaevKellaAegStringist(getArguments().getString("datetime")));
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
@@ -53,6 +48,6 @@ public class ValiKellaaeg extends DialogFragment
         // Kellaaega sätitakse minuti täpsusega. Nulli sekundid.
         c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), hour, minute, 0);
         KuupaevaOmanik.AegMuudetud(c.getTime(), getArguments().getBoolean("muudaalgust"));
-        if(BuildConfig.DEBUG) Log.d("Valikuupaev", hour + ":" + minute + " " + c.getTime());
+        if(BuildConfig.DEBUG) Log.d("ValiKellaaeg", hour + ":" + minute + " " + c.getTime());
     }
 }

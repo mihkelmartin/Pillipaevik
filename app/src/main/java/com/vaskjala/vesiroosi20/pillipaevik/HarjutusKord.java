@@ -152,14 +152,8 @@ public class HarjutusKord {
         this.harjutusekirjeldus = harjutusekirjeldus;
     }
 
-    public String getLisatudpaevikusseAsString(){
-        String result = "";
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(lisatudpaevikusse != null)
-            result = format.format(lisatudpaevikusse);
-
-        return result;
+    public Date getLisatudpaevikusse() {
+        return lisatudpaevikusse;
     }
     public void setLisatudpaevikusse(Date lisatudpaevikusse) {
         this.lisatudpaevikusse = lisatudpaevikusse;

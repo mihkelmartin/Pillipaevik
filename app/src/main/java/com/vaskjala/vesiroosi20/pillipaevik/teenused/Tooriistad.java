@@ -38,6 +38,7 @@ public final class Tooriistad {
     private static final SimpleDateFormat sdfkuupaevkellaaegBackup = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevkellaaegFailiNimi = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
     private static final SimpleDateFormat sdfkuupaevSonaline = new SimpleDateFormat("EEEE, MMM d", Locale.getDefault());
+    private static final SimpleDateFormat sdfkuupaevSonalineLuhike = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
     private static final SimpleDateFormat sdfkuuJaaastaSonaline = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
 
 
@@ -47,8 +48,7 @@ public final class Tooriistad {
         try {
             retVal = sdfkuupaev.parse(kuupaev);
         } catch (ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    sdfkuupaev + "\"");
+            if(BuildConfig.DEBUG) Log.d("Tooriistad", "KuupaevStringist. Ei suuda kujundada stringist kuupäeva:" + sdfkuupaev);
         }
         return retVal;
     }
@@ -59,8 +59,7 @@ public final class Tooriistad {
         try {
             retVal = sdfkuupaevkellaaeg.parse(kuupaev);
         } catch (ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    sdfkuupaev + "\"");
+            if(BuildConfig.DEBUG) Log.d("Tooriistad", "KuupaevKellaAegStringist. Ei suuda kujundada stringist kuupäeva:" + sdfkuupaev);
         }
         return retVal;
     }
@@ -71,8 +70,7 @@ public final class Tooriistad {
         try {
             retVal = sdfkuuJaaastaSonaline.parse(kuupaev);
         } catch (ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    sdfkuuJaaastaSonaline + "\"");
+            if(BuildConfig.DEBUG) Log.d("Tooriistad", "KuupaevKuuJaAastaSonalineStringist. Ei suuda kujundada stringist kuupäeva:" + sdfkuuJaaastaSonaline);
         }
         return retVal;
     }
@@ -83,6 +81,10 @@ public final class Tooriistad {
     public static String KujundaKuupaevSonaline(Date kuupaev){
         return sdfkuupaevSonaline.format(kuupaev);
     }
+    public static String KujundaKuupaevSonalineLuhike(Date kuupaev){
+        return sdfkuupaevSonalineLuhike.format(kuupaev);
+    }
+
     public static String KujundaKuuJaAastaSonaline(Date kuupaev){
         return sdfkuuJaaastaSonaline.format(kuupaev);
     }
@@ -184,8 +186,7 @@ public final class Tooriistad {
         }
         String strtunnid = (hours == 0) ? "" : (hours == 1) ? hours + " tund" : hours + " tundi";
         String strminutid = (minutes == 0) ? "" : (minutes == 1) ? minutes + " minut" : minutes + " minutit";
-        String kokku = strtunnid + " " + strminutid;
-        return kokku;
+        return strtunnid + " " + strminutid;
     }
     public static String KujundaHarjutusteMinutidTabloo (int minutid ) {
         long hours = 0, minutes = minutid;

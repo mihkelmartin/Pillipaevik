@@ -65,14 +65,14 @@ public class GoogleDriveUhendus  implements
         GoogleDriveUhendus.mAktiivneActivity = mDriveActivity;
     }
 
-    public void LooDriveUhendus() {
+    public static void LooDriveUhendus() {
 
         if(mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(mAktiivneActivity)
                     .addApi(Drive.API)
                     .addScope(Drive.SCOPE_FILE)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
+                    .addConnectionCallbacks(getInstance())
+                    .addOnConnectionFailedListener(getInstance())
                     .build();
         }
         mGoogleApiClient.connect();
@@ -216,7 +216,7 @@ public class GoogleDriveUhendus  implements
             Status result = muudetudsisu.commit(mGAC, changeSet, executionOptions).await();
             if(result.getStatus().isSuccess()){
                 if(BuildConfig.DEBUG) Log.d("SalvestaDrivei", "Drive-i salvestamine õnnestus");
-            }else {
+            } else {
                 if(BuildConfig.DEBUG) Log.e("SalvestaDrivei", "Drive-i salvestamine ebaõnnestus:" + result.getStatusMessage());
             }
         } else {
@@ -264,7 +264,6 @@ public class GoogleDriveUhendus  implements
                             if(BuildConfig.DEBUG) Log.e("Kusutatamise AsyncTask", "Ei suuda kustutada: " + deleteStatus.getStatusMessage());
                             return null;
                         }
-                        // Remove stored DriveId.
                         if(BuildConfig.DEBUG) Log.d("KustutuaDraivist", "Kustutatud " + driveId);
                     }
                 }
@@ -284,17 +283,22 @@ public class GoogleDriveUhendus  implements
                     if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed avame loa andmise akent");
                     connectionResult.startResolutionForResult(mAktiivneActivity, Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE);
                 }
-                else
-                    if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed on lahendus kuid meil ei ole vaadet mille seda näidata");
+                else {
+                    if (BuildConfig.DEBUG)
+                        Log.e("GoogleDriveUhendus", "onConnectionFailed on lahendus kuid meil ei ole vaadet mille seda näidata");
+                }
 
             } catch (IntentSender.SendIntentException e) {
                 if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed. Lahendus on, kuid ei suuda lahendada:" + e.toString());
             }
         } else {
-            if (mAktiivneActivity != null)
+            if (mAktiivneActivity != null) {
                 Tooriistad.NaitaHoiatust(mAktiivneActivity, "onConnectionFailed. Google Drive ühenduse viga", "Veakood :" + connectionResult.getErrorCode());
-            else
-                if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionFailed lahendust ei ole, veakood :" + connectionResult.getErrorCode());
+            }
+            else {
+                if (BuildConfig.DEBUG)
+                    Log.e("GoogleDriveUhendus", "onConnectionFailed lahendust ei ole, veakood :" + connectionResult.getErrorCode());
+            }
         }
     }
     @Override

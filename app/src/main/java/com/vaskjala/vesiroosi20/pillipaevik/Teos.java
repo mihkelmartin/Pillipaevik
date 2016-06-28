@@ -62,14 +62,14 @@ public class Teos implements Comparable<Teos> {
         return Harjutuskorradmap;
     }
 
-    public void clearHarjutuskorrad() {
+    public void EemaldaHarjutuskorradHulkadest() {
         if(Harjustuskorrad != null)
             Harjustuskorrad.clear();
         if(Harjutuskorradmap != null)
             Harjutuskorradmap.clear();
     }
 
-    public void clearHarjutus(int harjutusid) {
+    public void EemaldaHarjutusHulkadest(int harjutusid) {
 
         HarjutusKord harjutus = null;
         if(Harjutuskorradmap != null) {
@@ -122,30 +122,8 @@ public class Teos implements Comparable<Teos> {
     public Date getLisatudpaevikusse() {
         return lisatudpaevikusse;
     }
-    public String getLisatudpaevikusseAsString() {
-
-        String result = "";
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(lisatudpaevikusse != null)
-            result = format.format(lisatudpaevikusse);
-
-        return result;
-    }
     public void setLisatudpaevikusse(Date lisatudpaevikusse) {
         this.lisatudpaevikusse = lisatudpaevikusse;
-    }
-    public void setLisatudpaevikusse(String lisatudpaevikusse) {
-        SimpleDateFormat format =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            this.lisatudpaevikusse = format.parse(lisatudpaevikusse);
-        }
-        catch(ParseException pe) {
-            System.out.println("ERROR: could not parse date in string \"" +
-                    lisatudpaevikusse + "\"");
-        }
-
     }
 
     public short getKasutusviis() {

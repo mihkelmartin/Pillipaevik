@@ -48,8 +48,9 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         }
         public void onClick(View v) {
             if(holder.mItem.bPeaKirje) {
-                if (holder.mItem.bAndmebaasistLaetud)
-                    if(BuildConfig.DEBUG) Log.e("ListiKuulaja", "Juba laetud baasist :" + holder.mItem.kuupaev);
+                if (holder.mItem.bAndmebaasistLaetud) {
+                    if (BuildConfig.DEBUG) Log.e("ListiKuulaja", "Juba laetud baasist :" + holder.mItem.kuupaev);
+                }
                 else {
                     PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(v.getContext());
                     pilliPaevikDatabase.KuupaevaHarjutusKorrad(holder.mItem);
@@ -74,7 +75,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
     public void onBindViewHolder(final HarjutusKalenderPaevadRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         if(holder.mItem.bPeaKirje) {
-            holder.mKuupaev.setText(Tooriistad.KujundaKuupaevSonaline(holder.mItem.kuupaev));
+            holder.mKuupaev.setText(Tooriistad.KujundaKuupaevSonalineLuhike(holder.mItem.kuupaev));
             holder.mHarjutusteArv.setText(String.valueOf(holder.mItem.kordadearv));
             holder.mHarjutusteKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(holder.mItem.pikkussekundites/60));
 

@@ -36,7 +36,7 @@ public class HeliFailDraiviTeenus extends IntentService {
         if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
 
         GoogleDriveUhendus mGD = GoogleDriveUhendus.getInstance();
-        mGD.setActivity(null);
+        GoogleDriveUhendus.setActivity(null);
         DriveId mHDI = null;
         int writemode = DriveFile.MODE_WRITE_ONLY;
         if(harjutusKord.getHelifailidriveid() == null || harjutusKord.getHelifailidriveid().isEmpty()) {
@@ -71,10 +71,13 @@ public class HeliFailDraiviTeenus extends IntentService {
         // TODO Allolev Tooriistadessse
         File dir = getFilesDir();
         File file = new File(dir, harjutusKord.getHelifail());
-        if(file.delete())
-            if(BuildConfig.DEBUG) Log.d("HeliFailDraiviTeenus","Telefonis oleva fail kustutatud :" + getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
-        else
-            if(BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus","Telefonis oleva faili kustutamise viga !");
+        if(file.delete()) {
+            if (BuildConfig.DEBUG)
+                Log.d("HeliFailDraiviTeenus", "Telefonis oleva fail kustutatud :" + getFilesDir().getPath().toString() + "/" + harjutusKord.getHelifail());
+        }
+        else {
+            if (BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus", "Telefonis oleva faili kustutamise viga !");
+        }
 
     }
 
