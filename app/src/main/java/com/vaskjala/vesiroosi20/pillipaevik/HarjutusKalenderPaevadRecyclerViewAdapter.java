@@ -1,5 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,20 +70,28 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
                         notifyItemRangeInserted(holder.getAdapterPosition() + 1, holder.mItem.Harjutused.size() );
                     }
                 }
+            } else {
+                // TODO Mis siis kui kustutab samal ajal ära
+                // Activitys saab kuulata onActivityResulti ja siis otsustada kas kustutati
+                Intent intent = new Intent(v.getContext(), HarjutusMuudaActivity.class);
+                intent.putExtra("teos_id", holder.mItem.teosid);
+                intent.putExtra("harjutus_id", holder.mItem.harjutusid);
+                if(BuildConfig.DEBUG) Log.d("TeosActivity", "Avan olemasolevat harjutust. Teosid : " + holder.mItem.teosid +
+                        " Harjutus:" + holder.mItem.harjutusid);
+                ((Activity)v.getContext()).startActivityForResult(intent,
+                        v.getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_MUUDA));
             }
         }
     }
     @Override
     public void onBindViewHolder(final HarjutusKalenderPaevadRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+        HarjutusKalenderPaevadRecyclerViewAdapter.ListiKuulaja pLK =
+                new HarjutusKalenderPaevadRecyclerViewAdapter.ListiKuulaja(holder);
         if(holder.mItem.bPeaKirje) {
             holder.mKuupaev.setText(Tooriistad.KujundaKuupaevSonalineLuhike(holder.mItem.kuupaev));
             holder.mHarjutusteArv.setText(String.valueOf(holder.mItem.kordadearv));
             holder.mHarjutusteKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(holder.mItem.pikkussekundites/60));
-
-            HarjutusKalenderPaevadRecyclerViewAdapter.ListiKuulaja pLK =
-                    new HarjutusKalenderPaevadRecyclerViewAdapter.ListiKuulaja(holder);
-            holder.mView.setOnClickListener(pLK);
         } else {
             holder.mTeoseNimi.setText(holder.mItem.Teos);
             if(holder.mItem.DriveId == null || holder.mItem.DriveId.isEmpty())
@@ -90,6 +100,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
                 holder.mHeliFailiPilt.setVisibility(View.VISIBLE);
             holder.mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(holder.mItem.harjutusepikkus/60));
         }
+        holder.mView.setOnClickListener(pLK);
     }
     @Override
     public int getItemCount() {

@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Alusta"
-                android:drawableLeft="@drawable/ic_fiber_manual_record_red_24dp"
+                android:drawableLeft="@drawable/ic_fiber_manual_record_red_18dp"
                 android:id="@+id/kaivitataimernupp"
                 android:onClick="KaivitaTaimer"/>
             <Button

@@ -32,7 +32,6 @@ public class HarjutusteKalendriLeht extends Fragment {
         HarjutusKalenderPaevadRecyclerViewAdapter mMainAdapter =
                 new HarjutusKalenderPaevadRecyclerViewAdapter(pPaevadeList);
         ((RecyclerView)rootView).setAdapter(mMainAdapter);
-        Bundle args = getArguments();
         return rootView;
     }
 

@@ -20,14 +20,13 @@ public class GoogleDriveTagasiSide extends DriveEventService {
     @Override
     public void onCompletion(CompletionEvent event) {
 
-        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
         if (event.getStatus() == CompletionEvent.STATUS_SUCCESS) {
             if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Õnnestus: " + event.getStatus());
             if(event.getDriveId() != null){
                 if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Drive id: " + event.getDriveId() + " Resource id:"
                         + event.getDriveId().getResourceId());
 
-                com.google.api.services.drive.Drive mService = null;
+                com.google.api.services.drive.Drive mService;
                 HttpTransport transport = AndroidHttp.newCompatibleTransport();
                 JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
                 mService = new com.google.api.services.drive.Drive.Builder(

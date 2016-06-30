@@ -15,9 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
@@ -44,6 +42,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     private TextView lopukuupaevlahter;
     private TextView lopukellaaeglahter;
     private TextView pikkusminutiteslahter;
+    private CheckBox weblinkaruandele;
 
     private MediaPlayer mPlayer;
     private DriveContents mHeliFailDrive = null;
@@ -60,6 +59,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         lopukuupaevlahter = (TextView) findViewById(R.id.lopukuupaev);
         lopukellaaeglahter = (TextView) findViewById(R.id.lopukellaaeg);
         pikkusminutiteslahter = (TextView) findViewById(R.id.pikkusminutites);
+        weblinkaruandele = (CheckBox) findViewById(R.id.weblinkaruandele);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.harjutus_toolbar);
         setSupportActionBar(toolbar);
@@ -163,6 +163,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
     private void AndmedHarjutusse() {
         this.harjutuskord.setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
+        int uWebLinkAruandele = weblinkaruandele.isChecked() ? 1 : 0;
+        this.harjutuskord.setWeblinkaruandele(uWebLinkAruandele);
     }
     private void AndmedHarjutuskorrastVaatele() {
         harjutusekirjelduslahter.setText(harjutuskord.getHarjutusekirjeldus());
@@ -170,7 +172,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
         lopukuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getLopuaeg()));
         lopukellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getLopuaeg()));
-        pikkusminutiteslahter.setText(String.valueOf(harjutuskord.getPikkusminutites()));
+        pikkusminutiteslahter.setText(String.valueOf(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
+        weblinkaruandele.setChecked(harjutuskord.getWeblinkaruandele()==1);
     }
     private void SalvestaHarjutus (){
         // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
@@ -189,6 +192,19 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
         if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
     }
+    private boolean AndmedHarjutuses(){
+        return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
+    }
+
+    public void KustutaSalvestusKlikk(View v){
+        Bundle args = new Bundle();
+        args.putString("kysimus", "Kustutad salvetuse ?");
+        args.putString("jahvastus", "Jah");
+        args.putString("eivastus", "Ei");
+        DialogFragment newFragment = new LihtneKusimus();
+        newFragment.setArguments(args);
+        newFragment.show(getSupportFragmentManager(), "KustutaSalvestus");
+    }
 
     public void MangiLugu(View v){
         mPlayer = new MediaPlayer();
@@ -201,15 +217,16 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         }
     }
 
-    private boolean AndmedHarjutuses(){
-        return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
-    }
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
-        } else {
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "KustutaHarjutus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+        } else
+        if(dialog.getTag().equals("KustutaSalvestus")) {
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "KustutaSalvestus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+        }
+        else {
             if(BuildConfig.DEBUG) Log.e(this.getLocalClassName(), "kuiEiVastus. Tundmatust kohast tuldud !");
         }
     }
@@ -218,9 +235,27 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         if (dialog.getTag().equals("KustutaHarjutus")) {
             KustutaHarjutus();
             finish();
-        } else {
+        } else
+        if(dialog.getTag().equals("KustutaSalvestus")) {
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "KustutaSalvestus vastus Jah.");
+            RelativeLayout salvestusriba = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
+            salvestusriba.setVisibility(RelativeLayout.GONE);
+            KustutaSalvestus();
+        }
+        else {
             if(BuildConfig.DEBUG) Log.e(this.getLocalClassName(), "kuiJahVastus. Tundmatust kohast tuldud !");
         }
+    }
+
+    private void KustutaSalvestus(){
+        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
+        mGDU.setActivity(this);
+        mGDU.KustutaDriveFail(harjutuskord.getHelifailidriveid());
+        Tooriistad.KustutaKohalikFail(getFilesDir(),harjutuskord.getHelifail());
+        harjutuskord.TuhjendaSalvestuseValjad();
+        SalvestaHarjutus ();
+        RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
+        mangilugu.setVisibility(RelativeLayout.GONE);
     }
 
     private class AvaFailMangimiseks extends AsyncTask<String, Void, DriveContents> {
@@ -229,7 +264,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         protected DriveContents doInBackground(String... driveIDs) {
             GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
             GoogleDriveUhendus.setActivity(getParent());
-            DriveId dID = null;
+            DriveId dID;
             DriveContents dFC = null;
             dID = mGDU.AnnaDriveID(driveIDs[0]);
             if(dID != null)
@@ -242,13 +277,11 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
             if(dFC != null){
                 mHeliFailDrive = dFC;
-                Button mangilugu = (Button) findViewById(R.id.mangilugu);
-                mangilugu.setVisibility(Button.VISIBLE);
+                RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
+                mangilugu.setVisibility(RelativeLayout.VISIBLE);
             }
-
             super.onPostExecute(dFC);
         }
-
     }
 
 }

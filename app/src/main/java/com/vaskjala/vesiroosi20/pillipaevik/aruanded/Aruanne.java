@@ -87,38 +87,52 @@ public class Aruanne {
 
     public String Teema(Context context){
         return context.getString(R.string.app_name) + "u " + aruandenimi + " - " + minueesnimi +
-                " " + minuperenimi + ", " + opilaseinstrument + " " + aruandeperioodinimi;
+                " " + minuperenimi + ", " + opilaseinstrument + ", " + aruandeperioodinimi;
     }
 
     private String KoostaKoond(Context context){
-        String koond = "";
+        String koond = "Kokkuvõte" + ReaVahetus + ReaVahetus;
         koond = koond + "Soovituslik päevane harjutamise aeg : " +
                 Tooriistad.KujundaHarjutusteMinutid(getPaevasharjutada()) +
                 ReaVahetus;
 
-        koond = koond + "Soovituslik harjutamise aeg kokku: " +
+        koond = koond + "Soovituslik harjutamise aeg kokku : " +
                 Tooriistad.KujundaHarjutusteMinutid(getPerioodipikkus() * getPaevasharjutada()) +
                 ReaVahetus;
 
 
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        koond = koond + "Tegelik harjutamise aeg kokku: " +
+        koond = koond + "Tegelik harjutamise aeg kokku : " +
                 Tooriistad.KujundaHarjutusteMinutid(mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
-                ReaVahetus + ReaVahetus + ReaVahetus;
+                ReaVahetus + ReaVahetus;
 
         List<String> pList = mPPManager.HarjutusKordadeStatistikaPerioodis(getPerioodialgus(), getPerioodilopp());
         for ( String teoserida : pList){
             koond = koond + teoserida + ReaVahetus;
         }
         koond = koond + ReaVahetus;
-        if(BuildConfig.DEBUG) Log.d("Aruanne",koond);
         return koond;
     }
 
     private String KoostaDetailneSisu(Context context){
         String detail = "";
+        String formaat = "%-30s%s";
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
         List<DetailiKirje> pList =  mPPManager.HarjutusKorradPerioodis(getPerioodialgus(),getPerioodilopp());
+
+        for ( DetailiKirje teoserida : pList){
+            if(teoserida.getWeblink() != null && !teoserida.getWeblink().isEmpty() &&
+                    teoserida.getWeblinkaruandele() == 1){
+                String kuupaev = Tooriistad.KujundaKuupaevSonaline(teoserida.getAlgusaeg());
+                detail = detail + String.format(formaat,teoserida.getNimi(),kuupaev) + " " +
+                        teoserida.getWeblink() +
+                        ReaVahetus;
+            }
+        }
+        if(!detail.isEmpty())
+            detail = "Salvestatud harjutused" + ReaVahetus + ReaVahetus + detail + ReaVahetus + ReaVahetus +
+                    "Aruanne päevade kaupa" + ReaVahetus;
+
         String kuupaeveelmine = "";
         for ( DetailiKirje teoserida : pList){
             String kuupaev = Tooriistad.KujundaKuupaevSonaline(teoserida.getAlgusaeg());
@@ -126,17 +140,16 @@ public class Aruanne {
                 detail = detail + ReaVahetus + kuupaev + ReaVahetus;
                 kuupaeveelmine = kuupaev;
             }
-            detail = detail+ teoserida.getNimi() + "\t\t\t" +
-                    Tooriistad.KujundaHarjutusteMinutidTabloo(teoserida.getPikkussekundites()/60);
-            if (teoserida.getWeblink() != null)
-                detail = detail + "\t" + teoserida.getWeblink();
-            detail = detail + ReaVahetus;
+            detail = detail + String.format(formaat,teoserida.getNimi(),
+                            Tooriistad.KujundaHarjutusteMinutid(Tooriistad.ArvutaMinutidUmardaUles(teoserida.getPikkussekundites())))
+                    + ReaVahetus;
         }
-        return detail;
+        return detail + ReaVahetus;
     }
 
     private String KoostaLopp(){
-        return "";
+        return "Tervitades, " + ReaVahetus +
+                minueesnimi + " " + minuperenimi + " Pillipäeviku vahendusel";
     }
 
     public String AruandeKoguTekst(Context context){

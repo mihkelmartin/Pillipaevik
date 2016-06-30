@@ -152,7 +152,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
         lopukuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getLopuaeg()));
         lopukellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getLopuaeg()));
-        pikkusminutiteslahter.setText(String.valueOf(harjutuskord.getPikkusminutites()));
+        pikkusminutiteslahter.setText(String.valueOf(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
     }
     private void SalvestaHarjutus (){
 
@@ -238,7 +238,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         Bundle args = new Bundle();
         DialogFragment muudaKestustFragment = new ValiHarjutuseKestus();
         args.putInt("maksimum",this.harjutuskord.ArvutaPikkusMinutites());
-        args.putInt("kestus", this.harjutuskord.getPikkusminutites());
+        args.putInt("kestus", this.harjutuskord.ArvutaPikkusminutitesUmardaUles());
         // Kui nimi on antud siis tuleb see harjutuskord objekti viia sest
         // kui tagasi tullakse siis viikse andmed objektist vaatele
         AndmedHarjutusse();
@@ -269,7 +269,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
             finish();
         } else  if (dialog.getTag().equals("Kestusemuutus")) {
             int uuskestus = dialog.getArguments().getInt("kestus");
-            if(harjutuskord.getPikkusminutites() != uuskestus)
+            if(harjutuskord.ArvutaPikkusminutitesUmardaUles() != uuskestus)
                 this.harjutuskord.setPikkussekundites(uuskestus * 60);
             AndmedHarjutuskorrastVaatele();
             SalvestaHarjutus();

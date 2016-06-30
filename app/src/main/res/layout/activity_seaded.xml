@@ -164,6 +164,12 @@
                 android:layout_marginLeft="@dimen/editext_defaultmargin"
                 android:layout_marginRight="@dimen/editext_defaultmargin"
                 android:background="@color/colorPrimaryDark" />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/googlelitsents"
+                android:editable="false"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     </LinearLayout>
     </ScrollView>

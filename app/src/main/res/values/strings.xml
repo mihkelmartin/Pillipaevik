@@ -1,17 +1,18 @@
 <resources>
     <string name="app_name">Pillipäevik</string>
-    <string name="title_harjutua_detail">Harjutus</string>
-    <string name="title_activity_seaded">SeadedActivity</string>
-    <string name="seadete_fail">seadete_fail</string>
-    <string name="title_teos">Teos</string>
-    <string name="seaded">Seaded…</string>
+    <string name="rakenduse_pealkiri">Pillipäevik</string>
+
     <string name="seaded_tiitel">Seaded</string>
+    <string name="seadete_fail">seadete_fail</string>
+    <string name="seaded">Seaded…</string>
+
     <string name="kusututa">Kusututa…</string>
     <string name="AlustaUutHarjutust">Alusta uut…</string>
     <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
-    <string name="rakenduse_pealkiri">Pillipäevik</string>
+
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
+
     <string name="stopper">00:00:00</string>
     <string name="vaikimisisharjutusekirjeldus">Mängisin lugu</string>
     <string name="eisaamuutaharjutustjuhend">
@@ -24,12 +25,25 @@
     <string name="vali_aruande_kuu">Vali aruande kuu</string>
     <integer name="kuudearv">6</integer>
 
+    // Nupud
     <string name="ok">OK</string>
     <string name="loobu">Loobu</string>
 
-    // Seaded
+    <string name="alusta">Alusta</string>
+    <string name="katkesta">Katkesta</string>
+    <string name="jatka">Jätka</string>
+    <string name="sees">Sees</string>
+    <string name="valjas">Väljas</string>
+
+
+
+    // Seaded Activity
     <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
+
+    // HarjutusMuudaActivity
+
+    <string name="WebLinkAruandeleCheckBoxText">Link aruandel</string>
 
 
     <string-array name="sahtli_valikud_ikoonid">

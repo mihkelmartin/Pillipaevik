@@ -20,6 +20,7 @@ public class HarjutusKord {
     private String helifailidriveid;
     private String helifailidriveweblink;
     private String helifailidriveidmuutumatu;
+    private int weblinkaruandele;
 
     public static abstract class Harjutuskordkirje implements BaseColumns {
         public static final String TABLE_NAME = "Harjutuskord";
@@ -33,6 +34,7 @@ public class HarjutusKord {
         public static final String COLUMN_NAME_HELIFAILIDRIVEID = "helifailidriveid";
         public static final String COLUMN_NAME_HELIFAILIDRIVEWEBLINK = "helifailidriveweblink";
         public static final String COLUMN_NAME_HELIFAILIDRIVEIDMUUTUMATU = "helifailidriveidmuutumatu";
+        public static final String COLUMN_NAME_WEBLINKARUANDELE = "weblinkaruandele";
     }
 
     public HarjutusKord (){
@@ -137,8 +139,8 @@ public class HarjutusKord {
         return retVal;
     }
 
-    public int getPikkusminutites(){
-        return (int)Math.ceil((double)getPikkussekundites() / 60.0);
+    public int ArvutaPikkusminutitesUmardaUles(){
+        return Tooriistad.ArvutaMinutidUmardaUles(getPikkussekundites());
     }
     public int ArvutaPikkusMinutites(){
         return (int)(ArvutaPikkusSekundites() / 60.0);
@@ -193,9 +195,24 @@ public class HarjutusKord {
         this.helifailidriveidmuutumatu = helifailidriveidmuutumatu;
     }
 
+    public int getWeblinkaruandele() {
+        return weblinkaruandele;
+    }
+    public void setWeblinkaruandele(int weblinkaruandele) {
+        this.weblinkaruandele = weblinkaruandele;
+    }
+
     public String MoodustaFailiNimi(){
         return String.valueOf(getTeoseid()) + "_" + String.valueOf(getId()) + "_" +
                 Tooriistad.KujundaKuupaevKellaaegFailiNimi(new Date()) + ".mp4";
+    }
+
+    public void TuhjendaSalvestuseValjad(){
+        setHelifail(null);
+        setHelifailidriveid(null);
+        setHelifailidriveidmuutumatu(null);
+        setHelifailidriveweblink(null);
+        setWeblinkaruandele(0);
     }
 
     public String toString(){
@@ -203,6 +220,6 @@ public class HarjutusKord {
                 " Lopuaeg:" + this.lopuaeg + " Kirjeldus:" + this.harjutusekirjeldus +
                 " Lisatud:" + this.lisatudpaevikusse + " Teoseid:" + this.teoseid + " Helifail:" + this.helifail +
                 " DriveID:" + helifailidriveid + " WebLink:" + helifailidriveweblink + " DriveIDMuutumatu:" +
-                helifailidriveidmuutumatu;
+                helifailidriveidmuutumatu + " WebLink aruandele:" + weblinkaruandele;
     }
 }

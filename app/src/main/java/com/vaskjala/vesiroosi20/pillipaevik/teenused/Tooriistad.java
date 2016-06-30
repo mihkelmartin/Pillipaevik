@@ -197,16 +197,21 @@ public final class Tooriistad {
         return formatDigits(hours) + ":" + formatDigits(minutes);
     }
 
+    // Aja arvutused
+    public static int ArvutaMinutidUmardaUles(int sekundid) {
+        return (int) Math.ceil((double) sekundid / 60.0);
+    }
+
     // Helifailide salvestamine
     public static boolean KasLubadaSalvestamine(Context context){
-        boolean retVal = true;
+        boolean retVal;
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
         retVal = sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true);
         return  retVal;
     }
 
     public static boolean kasKasutadaGoogleDrive(Context context){
-        boolean retVal = true;
+        boolean retVal;
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
         retVal = sharedPref.getBoolean("kaskasutadagoogledrive", true);
         return  retVal;
@@ -252,8 +257,8 @@ public final class Tooriistad {
         if (success) {
 
             File data = Environment.getDataDirectory();
-            FileChannel source=null;
-            FileChannel destination=null;
+            FileChannel source;
+            FileChannel destination;
             String currentDBPath = "/data/"+ context.getPackageName() +"/databases/"+PilliPaevikDatabase.DATABASE_NAME;
             String backupDBPath = PilliPaevikDatabase.DATABASE_NAME + KujundaKuupaevKellaaegBackup(new Date());
             File currentDB = new File(data, currentDBPath);
@@ -280,8 +285,8 @@ public final class Tooriistad {
                 File.separator + PilliPaevikDatabase.DATABASE_NAME+
                 File.separator );
         File data = Environment.getDataDirectory();
-        FileChannel source=null;
-        FileChannel destination=null;
+        FileChannel source;
+        FileChannel destination;
         String backupDBPath = "/data/"+ context.getPackageName() +"/databases/"+PilliPaevikDatabase.DATABASE_NAME;
         String currentDBPath = PilliPaevikDatabase.DATABASE_NAME + "Taasta";
         File currentDB = new File(sd, currentDBPath);
@@ -298,6 +303,21 @@ public final class Tooriistad {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static boolean KustutaKohalikFail(File dir, String failinimi){
+        boolean retVal;
+        File file = new File(dir, failinimi);
+        if(file.delete()) {
+            if (BuildConfig.DEBUG) Log.d("Tooriistad", "Kohalik fail kustutatud :" + dir.getPath() + "/" + failinimi);
+            retVal = true;
+        }
+        else {
+            if (BuildConfig.DEBUG) Log.e("Tooriistad", "Kohaliku faili kustutamisel viga !");
+            retVal = false;
+        }
+        return retVal;
     }
 
 }

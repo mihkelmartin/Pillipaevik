@@ -18,6 +18,8 @@ public class PaevaKirje {
     public List<PaevaKirje> Harjutused;
 
     // Harjutuse andmed
+    public int teosid;
+    public int harjutusid;
     public String Teos;
     public int harjutusepikkus;
     public String DriveId;

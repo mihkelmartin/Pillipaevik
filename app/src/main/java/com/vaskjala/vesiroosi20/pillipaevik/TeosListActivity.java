@@ -83,7 +83,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         // https://developers.google.com/android/guides/api-client#handle_connection_failures
 
         if(Tooriistad.KasLubadaSalvestamine(this)) {
-            GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
             GoogleDriveUhendus.setActivity(this);
             if (bEsimeneAvamine) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
@@ -457,17 +456,17 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             ka.setAruandeperioodinimi(kuujaaastastr);
             ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(kuujaaasta));
             ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(kuujaaasta));
+            String aruandekogutekst = ka.AruandeKoguTekst(getApplicationContext());
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{ka.getOpetajaepost()});
             i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
-            i.putExtra(Intent.EXTRA_TEXT, ka.AruandeKoguTekst(getApplicationContext()));
+            i.putExtra(Intent.EXTRA_TEXT, aruandekogutekst);
             try {
                 startActivity(Intent.createChooser(i, "Saada aruanne..."));
             } catch (android.content.ActivityNotFoundException ex) {
                 Toast.makeText(getParent(), "E-posti rakendus puudub...", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
@@ -476,7 +475,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         if (dialog.getTag().equals("ValiAruandeKuu")) {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Aruande kuu valimisel Loobu vajutatud");
         }
-
     }
 
     private void PaevaHarjutusteProgress(){

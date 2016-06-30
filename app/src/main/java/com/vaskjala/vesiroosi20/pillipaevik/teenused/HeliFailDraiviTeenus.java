@@ -61,24 +61,11 @@ public class HeliFailDraiviTeenus extends IntentService {
             while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
+            mGD.SalvestaDrivei(mFD);
+            Tooriistad.KustutaKohalikFail(getFilesDir(), harjutusKord.getHelifail());
         } catch (IOException e) {
             if(BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus","Lugemise/Kirjutamise viga :" + e.toString());
         }
-        mGD.SalvestaDrivei(mFD);
-
-        // TODO Kui Draivi tegemine ei õnnestunud siis ei tohi kustutada
-        // Ja siis tuleb hiljem draivi teha
-        // TODO Allolev Tooriistadessse
-        File dir = getFilesDir();
-        File file = new File(dir, harjutusKord.getHelifail());
-        if(file.delete()) {
-            if (BuildConfig.DEBUG)
-                Log.d("HeliFailDraiviTeenus", "Telefonis oleva fail kustutatud :" + getFilesDir().getPath() + "/" + harjutusKord.getHelifail());
-        }
-        else {
-            if (BuildConfig.DEBUG) Log.e("HeliFailDraiviTeenus", "Telefonis oleva faili kustutamise viga !");
-        }
-
     }
 
     public void setHarjutusKord(HarjutusKord harjutusKord) {

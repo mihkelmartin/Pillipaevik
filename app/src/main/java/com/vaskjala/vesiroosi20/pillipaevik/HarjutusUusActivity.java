@@ -109,9 +109,9 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutus taastatud teose kaudu : " + this.harjutusid);
 
             if(taimertootab)
-                kaivitaTimerNupp.setText("Katkesta");
+                kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
             else
-                kaivitaTimerNupp.setText("Jätka");
+                kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
 
             // Taimer on pausil, kuid on juba lugenud aega
             if(!taimertootab && kulunudaeg != 0) {
@@ -214,12 +214,12 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             SeisataLindistaja();
             SeisataTaimer();
             mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
-            kaivitaTimerNupp.setText("Jätka");
+            kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
         } else {
             mikrofoniLulitiNupp.setEnabled(false);
             KaivitaLindistaja();
             KaivitaTaimer();
-            kaivitaTimerNupp.setText("Katkesta");
+            kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
         }
     }
 
@@ -282,10 +282,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
     private void SeadistaMikrofoniNupp(){
         if(bkasSalvestame){
-            mikrofoniLulitiNupp.setText("Sees");
+            mikrofoniLulitiNupp.setText(getResources().getText(R.string.sees));
             mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_18dp, null), null, null, null);
         } else {
-            mikrofoniLulitiNupp.setText("Väljas");
+            mikrofoniLulitiNupp.setText(getResources().getText(R.string.valjas));
             mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_18dp, null), null, null, null);
         }
     }

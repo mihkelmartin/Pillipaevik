@@ -7,17 +7,19 @@ import java.util.Date;
  */
 public class DetailiKirje {
 
-    public DetailiKirje(String nimi, Date algusaeg, int pikkussekundites, String weblink){
+    public DetailiKirje(String nimi, Date algusaeg, int pikkussekundites, String weblink, int weblinkaruandele){
         this.nimi = nimi;
         this.algusaeg = algusaeg;
         this.pikkussekundites = pikkussekundites;
         this.weblink = weblink;
+        this.weblinkaruandele = weblinkaruandele;
     }
 
     private String nimi;
     private Date algusaeg;
     private int pikkussekundites;
     private String weblink;
+    private int weblinkaruandele;
 
     public Date getAlgusaeg() {
         return algusaeg;
@@ -33,5 +35,9 @@ public class DetailiKirje {
 
     public String getWeblink() {
         return weblink;
+    }
+
+    public int getWeblinkaruandele() {
+        return weblinkaruandele;
     }
 }
