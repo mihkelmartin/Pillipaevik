@@ -21,9 +21,7 @@ import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -209,6 +207,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     public void MangiLugu(View v){
         mPlayer = new MediaPlayer();
         try {
+            mPlayer.reset();
             mPlayer.setDataSource(mHeliFailDrive.getParcelFileDescriptor().getFileDescriptor());
             mPlayer.prepare();
             mPlayer.start();
@@ -248,9 +247,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
 
     private void KustutaSalvestus(){
-        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-        mGDU.setActivity(this);
-        mGDU.KustutaDriveFail(harjutuskord.getHelifailidriveid());
+        Intent intent = new Intent(this, KustutaFailDraivistTeenus.class);
+        intent.putExtra("driveid", harjutuskord.getHelifailidriveid());
+        startService(intent);
         Tooriistad.KustutaKohalikFail(getFilesDir(),harjutuskord.getHelifail());
         harjutuskord.TuhjendaSalvestuseValjad();
         SalvestaHarjutus ();
@@ -262,8 +261,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
         @Override
         protected DriveContents doInBackground(String... driveIDs) {
-            GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-            GoogleDriveUhendus.setActivity(getParent());
+            GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), true, null);
+            mGDU.LooDriveUhendusAsunkroonselt();
             DriveId dID;
             DriveContents dFC = null;
             dID = mGDU.AnnaDriveID(driveIDs[0]);

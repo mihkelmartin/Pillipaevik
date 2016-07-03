@@ -3,6 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 import android.app.backup.BackupManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -24,7 +25,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     // Sünkroniseerimiseks
     static final Object sPilliPaevikuLukk = new Object();
 
-    private static Context context;
+    private Context context;
 
     // Logcat tag
     private static final String LOG = "PilliPaevikDatabase";
@@ -65,12 +66,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     private static final List<Teos> teosed = new ArrayList<Teos>();
     private static final HashMap<Integer, Teos> teosedmap = new HashMap<Integer, Teos>();
 
-    public static void setContext(Context context) {
-        PilliPaevikDatabase.context = context;
-    }
-
     public PilliPaevikDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -145,6 +143,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     }
     @SuppressWarnings("SameReturnValue")
     private HashMap<Integer, Teos> getTeosedHash(){
+        if(teosedmap.isEmpty())
+            getAllTeosed();
+
         return teosedmap;
     }
 
@@ -225,12 +226,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if(teos != null){
                     HashMap<Integer, HarjutusKord> pHarjutused = teos.getHarjutuskorradmap(context);
                     HarjutusKord pH = pHarjutused.get(harjutusid);
-                    if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
-                        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                        GoogleDriveUhendus.setActivity(null);
-                        mGDU.KustutaDriveFail(pH.getHelifailidriveid());
-                    }
-
+                    Intent intent = new Intent(context, KustutaFailDraivistTeenus.class);
+                    intent.putExtra("driveid", pH.getHelifailidriveid());
+                    context.startService(intent);
                     teos.EemaldaHarjutusHulkadest(harjutusid);
                 } else {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
@@ -256,14 +254,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + teosid, null);
                 Teos teos = teosedmap.get(teosid);
                 if(teos != null){
-                    // Kustuta Draivist failid
-                    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                    GoogleDriveUhendus.setActivity(null);
                     List<HarjutusKord> pHarjutused = teos.getHarjustuskorrad(context);
                     for(HarjutusKord pH : pHarjutused) {
-                        if(pH.getHelifailidriveid() != null && !pH.getHelifailidriveid().isEmpty()) {
-                            mGDU.KustutaDriveFail(pH.getHelifailidriveid());
-                        }
+                        Intent intent = new Intent(context, KustutaFailDraivistTeenus.class);
+                        intent.putExtra("driveid", pH.getHelifailidriveid());
+                        context.startService(intent);
                     }
                     teos.EemaldaHarjutuskorradHulkadest();
                 } else {

@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.HeliFailDraiviTeenus;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.LisaFailDraiviTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
@@ -270,7 +270,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             // TODO ON CONNECTIONFAILED ON TEOSLISTACTITIVY KÜLJES
             // TODO JA PANEBKI PANGE VIST SELLEPÄRAST !!!!
 
-            Intent intent = new Intent(this, HeliFailDraiviTeenus.class);
+            Intent intent = new Intent(this, LisaFailDraiviTeenus.class);
             intent.putExtra("teosid", harjutus.getTeoseid());
             intent.putExtra("harjutusid", harjutus.getId());
             startService(intent);

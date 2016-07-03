@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.Kuuaruanne;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.ValiAruandeKuu;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
@@ -37,6 +36,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        // TODO TUNDUB, ET IKKAGI HÄVINEB KUI PIKALT SEISAB TAUSTAL !! MIS TEHA
         if(BuildConfig.DEBUG) Log.d("Peaaken", "onCreate");
 
         super.onCreate(savedInstanceState);
@@ -67,8 +67,10 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
-        if(savedInstanceState != null )
+        if(savedInstanceState != null ) {
+            if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "savedInstanceState != null");
             bEsimeneAvamine = false;
+        }
 
     }
 
@@ -83,11 +85,10 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         // https://developers.google.com/android/guides/api-client#handle_connection_failures
 
         if(Tooriistad.KasLubadaSalvestamine(this)) {
-            GoogleDriveUhendus.setActivity(this);
             if (bEsimeneAvamine) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
-                GoogleDriveUhendus.LooDriveUhendus();
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive ühenduse loomine läbi");
+                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), false, this);
+                mGDU.LooDriveUhendus();
             }
         }
     }
@@ -100,8 +101,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
 
     @Override
     protected void onDestroy() {
-        GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-        mGDU.KatkestaDriveUhendus();
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onDestroy");
         super.onDestroy();
     }
 
@@ -164,14 +164,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
-                if(GoogleDriveUhendus.GoogleApiKlient() == null) {
-                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loo drive ühendus uuesti");
-                    GoogleDriveUhendus.setActivity(this);
-                    GoogleDriveUhendus.LooDriveUhendus();
-                } else {
-                    if (BuildConfig.DEBUG) Log.e(getLocalClassName(), "Google Drive uuesti ühendumisel oli ühendumine juba olemas");
-                }
-
+                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), false, this);
+                mGDU.LooDriveUhendus();
             } else {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
             }
@@ -188,17 +182,10 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("googlekonto", accountName);
                     editor.apply();
-
-                    GoogleDriveUhendus mGDU = GoogleDriveUhendus.getInstance();
-                    GoogleAccountCredential mCredential = GoogleDriveUhendus.GoogleApiCredential();
-                    if(mCredential != null) {
-                        mCredential.setSelectedAccountName(accountName);
-                    } else {
-                        if (BuildConfig.DEBUG) Log.e(getLocalClassName(), "Konto sättimine kuid Google Credential on null");
-                    }
-
-                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Valitud konto: " + accountName);
-                    mGDU.LooDriveRestUhendus();
+                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Valitud konto: " + accountName +
+                            ". Loome ühenduse uuesti, nüüd saab getSharedPreferences-dest");
+                    GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), false, this);
+                    mGDU.SeadistaDriveRestUhendus();
                 }
             }
         }

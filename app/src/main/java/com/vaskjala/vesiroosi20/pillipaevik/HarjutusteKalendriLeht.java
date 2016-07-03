@@ -40,7 +40,7 @@ public class HarjutusteKalendriLeht extends Fragment {
         Calendar c = Calendar.getInstance();
         Calendar calgus = Calendar.getInstance();
         calgus.add(Calendar.DAY_OF_MONTH, -1 * paevi);
-        PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(getContext());
+        PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(getContext().getApplicationContext());
         HashMap<Long, PaevaKirje> mHM = pilliPaevikDatabase.HarjutusteStatistikaPerioodisPaevaKaupa(calgus.getTime(),c.getTime());
 
         c.setTime(Tooriistad.HetkeKuupaevNullitudKellaAjaga());

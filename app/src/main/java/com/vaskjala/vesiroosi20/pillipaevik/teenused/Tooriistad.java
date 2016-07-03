@@ -301,7 +301,7 @@ public final class Tooriistad {
             destination.close();
             currentDB.delete();
         } catch(IOException e) {
-            e.printStackTrace();
+            if(BuildConfig.DEBUG) Log.e("importDB", "Faili ei leitud. Otsiti:" + backupDB.getAbsolutePath()+ "/" + currentDBPath);
         }
     }
 

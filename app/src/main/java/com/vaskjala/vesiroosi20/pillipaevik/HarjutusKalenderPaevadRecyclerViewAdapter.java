@@ -54,7 +54,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
                     if (BuildConfig.DEBUG) Log.e("ListiKuulaja", "Juba laetud baasist :" + holder.mItem.kuupaev);
                 }
                 else {
-                    PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(v.getContext());
+                    PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(v.getContext().getApplicationContext());
                     pilliPaevikDatabase.KuupaevaHarjutusKorrad(holder.mItem);
                 }
                 if(holder.mItem.Harjutused != null && !holder.mItem.Harjutused.isEmpty()){

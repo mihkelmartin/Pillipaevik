@@ -22,7 +22,10 @@
             android:supportsRtl="true"
             android:theme="@style/Pillipaevik">
         <service
-                android:name=".teenused.HeliFailDraiviTeenus"
+                android:name=".teenused.LisaFailDraiviTeenus"
+                android:exported="false"/>
+        <service
+                android:name=".teenused.KustutaFailDraivistTeenus"
                 android:exported="false"/>
         <service android:name=".teenused.GoogleDriveTagasiSide" android:exported="true">
             <intent-filter>
