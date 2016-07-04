@@ -351,7 +351,6 @@ public class GoogleDriveUhendus  implements
             }
         }
     }
-    @Override
     public void onConnected(@Nullable Bundle bundle) {
 
         if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "onConnected algus");
@@ -409,7 +408,6 @@ public class GoogleDriveUhendus  implements
         if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "onConnectionSuspended: " + i);
     }
 
-
     private class TeeEelAutoriseering extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -424,7 +422,6 @@ public class GoogleDriveUhendus  implements
             return null;
         }
     }
-
 
     // Ühenduse võimalikkuse testimine
     private boolean isGooglePlayServicesAvailable() {

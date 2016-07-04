@@ -129,13 +129,6 @@
                 android:layout_marginLeft="@dimen/editext_defaultmargin"
                 android:layout_marginRight="@dimen/editext_defaultmargin"
                 android:background="@color/colorPrimaryDark" />
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/googlekonto"
-                android:hint="Google konto"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:inputType="textEmailAddress"/>
         <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,6 +149,14 @@
                 android:textOff="Ei"
                 android:textOn="Jah"
                 android:hint="Kas soovid harjutust mikrofoniga salvestada"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/googlekonto"
+                android:hint="Google konto"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:inputType="textEmailAddress"
+                android:enabled="false"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"

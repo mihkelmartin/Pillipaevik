@@ -241,7 +241,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     }
 
     private void KaivitaLindistaja(){
-        if(KasVoimalikSalvestada() && bkasSalvestame) {
+        if(bkasSalvestame) {
             if(harjutus.getHelifail() == null || harjutus.getHelifail().isEmpty())
                 harjutus.setHelifail(harjutus.MoodustaFailiNimi());
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Fail:" + harjutus.getHelifail());
@@ -266,34 +266,33 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;
-            // TODO MIS SIIS KUI ÜHENDUST EI OLE HETKEL
-            // TODO ON CONNECTIONFAILED ON TEOSLISTACTITIVY KÜLJES
-            // TODO JA PANEBKI PANGE VIST SELLEPÄRAST !!!!
 
-            Intent intent = new Intent(this, LisaFailDraiviTeenus.class);
-            intent.putExtra("teosid", harjutus.getTeoseid());
-            intent.putExtra("harjutusid", harjutus.getId());
-            startService(intent);
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetasin lindistamise");
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            if(Tooriistad.kasKasutadaGoogleDrive(getApplicationContext())) {
+                Intent intent = new Intent(this, LisaFailDraiviTeenus.class);
+                intent.putExtra("teosid", harjutus.getTeoseid());
+                intent.putExtra("harjutusid", harjutus.getId());
+                startService(intent);
+                if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetasin lindistamise");
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
 
         }
     }
 
     private void SeadistaMikrofoniNupp(){
-        if(bkasSalvestame){
-            mikrofoniLulitiNupp.setText(getResources().getText(R.string.sees));
-            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_18dp, null), null, null, null);
+        if(Tooriistad.KasLubadaSalvestamine(getApplicationContext())) {
+            if (bkasSalvestame) {
+                mikrofoniLulitiNupp.setText(getResources().getText(R.string.sees));
+                mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_18dp, null), null, null, null);
+            } else {
+                mikrofoniLulitiNupp.setText(getResources().getText(R.string.valjas));
+                mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_18dp, null), null, null, null);
+            }
         } else {
-            mikrofoniLulitiNupp.setText(getResources().getText(R.string.valjas));
-            mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_18dp, null), null, null, null);
+            mikrofoniLulitiNupp.setVisibility(Button.GONE);
         }
     }
-
-    private boolean KasVoimalikSalvestada(){
-        return true;
-    }
-
+    
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {

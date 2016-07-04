@@ -143,7 +143,10 @@ public class SeadedActivity extends AppCompatActivity {
         editor.putString("googlekonto", googlekonto.getText().toString());
         editor.putBoolean("kaslubadamikrofonigasalvestamine", kasLubadaMikrofonigaSalvestamine.isChecked());
         editor.putBoolean("kaskasutadagoogledrive", kaskasutadagoogledrive.isChecked());
-
+        if(kaskasutadagoogledrive.isChecked())
+            editor.putString("googlekonto", googlekonto.getText().toString());
+        else
+            editor.putString("googlekonto", "");
 
         editor.commit();
         BackupManager backupManager = new BackupManager(this);
