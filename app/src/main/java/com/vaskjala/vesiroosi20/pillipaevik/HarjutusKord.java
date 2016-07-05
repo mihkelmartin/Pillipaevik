@@ -75,8 +75,6 @@ public class HarjutusKord {
         this.algusaeg = algusaeg;
     }
     private void TeavitaAlguseMuutusest(){
-        if(BuildConfig.DEBUG) Log.d("Harjutuskord","algusaeg muutus");
-
         if(getLopuaeg() == null) {
             setLopuaeg(getAlgusaeg());
         }
@@ -105,8 +103,6 @@ public class HarjutusKord {
         this.lopuaeg = lopuaeg;
     }
     private void TeavitaLopuMuutusest(){
-        if(BuildConfig.DEBUG) Log.d("Harjutuskord","lopuaeg muutus");
-
         if(getAlgusaeg() == null) {
             setAlgusaeg(getLopuaeg());
         }

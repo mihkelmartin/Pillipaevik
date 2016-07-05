@@ -489,7 +489,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     do {
                         String formaat = "%-30s%s";
                         String kirje = String.format(formaat,c.getString(0),
-                                Tooriistad.KujundaHarjutusteMinutid(c.getInt(1) / 60));
+                                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), c.getInt(1) / 60));
                         pList.add(kirje);
                     } while (c.moveToNext());
                 }

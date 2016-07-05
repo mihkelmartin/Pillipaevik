@@ -13,19 +13,14 @@ import android.support.v4.app.DialogFragment;
 public class LihtneKusimus extends DialogFragment {
 
 
-    // Use this instance of the interface to deliver action events
     private LihtsaKusimuseKuulaja mListener;
 
-    // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             mListener = (LihtsaKusimuseKuulaja) activity;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
                     + " LihtsaKusimuseKuulaja peab olema implementeeritud");
         }
@@ -33,7 +28,6 @@ public class LihtneKusimus extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         String kysimus = getArguments().getString("kysimus","");
         String jahvastus = getArguments().getString("jahvastus","");
         String eivastus = getArguments().getString("eivastus","");
@@ -49,7 +43,6 @@ public class LihtneKusimus extends DialogFragment {
                         mListener.kuiEiVastus(LihtneKusimus.this);
                     }
                 });
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 }

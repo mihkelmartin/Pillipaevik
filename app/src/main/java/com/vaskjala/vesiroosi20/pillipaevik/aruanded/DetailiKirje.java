@@ -24,19 +24,15 @@ public class DetailiKirje {
     public Date getAlgusaeg() {
         return algusaeg;
     }
-
     public String getNimi() {
         return nimi;
     }
-
     public int getPikkussekundites() {
         return pikkussekundites;
     }
-
     public String getWeblink() {
         return weblink;
     }
-
     public int getWeblinkaruandele() {
         return weblinkaruandele;
     }

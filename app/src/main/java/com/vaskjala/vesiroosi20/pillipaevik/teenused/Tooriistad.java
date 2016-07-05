@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
+import com.vaskjala.vesiroosi20.pillipaevik.PaevaKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public final class Tooriistad {
     public static final int GOOGLE_DRIVE_KONTO_VALIMINE = 1000;
     public static final int GOOGLE_DRIVE_REST_KONTO_VALIMINE = 1001;
     public static final int GOOGLE_DRIVE_REST_UHENDUSE_LUBA = 1004;
+    public static final int GOOGLE_PLAY_TEENUSTE_VEAAKEN = 1010;
 
     private static final Calendar c = Calendar.getInstance();
     private static final SimpleDateFormat sdfkuupaev = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -51,7 +53,6 @@ public final class Tooriistad {
         }
         return retVal;
     }
-
     public static Date KuupaevKellaAegStringist(String kuupaev){
 
         Date retVal = null;
@@ -62,7 +63,6 @@ public final class Tooriistad {
         }
         return retVal;
     }
-
     public static Date KuupaevKuuJaAastaSonalineStringist(String kuupaev){
 
         Date retVal = null;
@@ -83,7 +83,6 @@ public final class Tooriistad {
     public static String KujundaKuupaevSonalineLuhike(Date kuupaev){
         return sdfkuupaevSonalineLuhike.format(kuupaev);
     }
-
     public static String KujundaKuuJaAastaSonaline(Date kuupaev){
         return sdfkuuJaaastaSonaline.format(kuupaev);
     }
@@ -149,7 +148,7 @@ public final class Tooriistad {
         return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24);
     }
 
-    public static String formatElapsedTime(long now) {
+    public static String KujundaAeg(long now) {
         long hours = 0, minutes = 0, seconds = 0, tenths = 0;
         StringBuilder sb = new StringBuilder();
         if (now < 1000) {
@@ -167,24 +166,29 @@ public final class Tooriistad {
             now -= seconds * 1000;
             tenths = (now / 100);
         }
-         sb.append(formatDigits(hours)).append(":")
-                .append(formatDigits(minutes)).append(":")
-                .append(formatDigits(seconds));
+         sb.append(KujundaNumbrid(hours)).append(":")
+                .append(KujundaNumbrid(minutes)).append(":")
+                .append(KujundaNumbrid(seconds));
         return sb.toString();
     }
-    public static String formatDigits(long num) {
+    public static String KujundaNumbrid(long num) {
         return (num < 10) ? "0" + num : Long.valueOf(num).toString();
     }
 
-    public static String KujundaHarjutusteMinutid (int minutid ) {
+    public static String KujundaHarjutusteMinutid (Context context, int minutid ) {
         long hours = 0, minutes = minutid;
 
         if (minutes >= 60) {
             hours = minutes / 60;
             minutes -= hours * 60;
         }
-        String strtunnid = (hours == 0) ? "" : (hours == 1) ? hours + " tund" : hours + " tundi";
-        String strminutid = (minutes == 0) ? "" : (minutes == 1) ? minutes + " minut" : minutes + " minutit";
+        String tund = context.getString(R.string.tund);
+        String tundi = context.getString(R.string.tundi);
+        String minut = context.getString(R.string.minut);
+        String minutit = context.getString(R.string.minutit);
+
+        String strtunnid = (hours == 0) ? "" : (hours == 1) ? hours + " " + tund : hours + " " + tundi;
+        String strminutid = (minutes == 0) ? "" : (minutes == 1) ? minutes + " " + minut : minutes + " " + minutit;
         return strtunnid + " " + strminutid;
     }
     public static String KujundaHarjutusteMinutidTabloo (int minutid ) {
@@ -194,7 +198,7 @@ public final class Tooriistad {
             hours = minutes / 60;
             minutes -= hours * 60;
         }
-        return formatDigits(hours) + ":" + formatDigits(minutes);
+        return KujundaNumbrid(hours) + ":" + KujundaNumbrid(minutes);
     }
 
     // Aja arvutused
@@ -241,6 +245,32 @@ public final class Tooriistad {
             if(BuildConfig.DEBUG) Log.d("LooAruandeKuud", KujundaKuuJaAastaSonaline(c.getTime()));
         }
         return retVal;
+    }
+    public static List<PaevaKirje> LooKuupaevad(Context context, int paevi){
+
+        List<PaevaKirje> mPL = new ArrayList<PaevaKirje>();
+        Calendar c = Calendar.getInstance();
+        Calendar calgus = Calendar.getInstance();
+        calgus.add(Calendar.DAY_OF_MONTH, -1 * paevi);
+
+        PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(context);
+        HashMap<Long, PaevaKirje> mHM = pilliPaevikDatabase.HarjutusteStatistikaPerioodisPaevaKaupa(calgus.getTime(),c.getTime());
+
+        c.setTime(Tooriistad.HetkeKuupaevNullitudKellaAjaga());
+        c.add(Calendar.DAY_OF_MONTH, 1);
+
+        for(int i = 0; i< paevi ; i++) {
+            c.add(Calendar.DAY_OF_MONTH, -1);
+            PaevaKirje mPK = new PaevaKirje(c.getTime(), 0, 0);
+            PaevaKirje mAndmebaasist = mHM.get(c.getTimeInMillis());
+            if(mAndmebaasist != null) {
+                mPK.kordadearv = mAndmebaasist.kordadearv;
+                mPK.pikkussekundites = mAndmebaasist.pikkussekundites;
+            }
+            mPL.add(mPK);
+        }
+        return  mPL;
+
     }
 
     // Varukoopia
@@ -304,7 +334,6 @@ public final class Tooriistad {
             if(BuildConfig.DEBUG) Log.e("importDB", "Faili ei leitud. Otsiti:" + backupDB.getAbsolutePath()+ "/" + currentDBPath);
         }
     }
-
 
     public static boolean KustutaKohalikFail(File dir, String failinimi){
         boolean retVal;

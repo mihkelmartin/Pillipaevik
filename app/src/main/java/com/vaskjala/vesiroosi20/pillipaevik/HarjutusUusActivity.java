@@ -115,7 +115,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
             // Taimer on pausil, kuid on juba lugenud aega
             if(!taimertootab && kulunudaeg != 0) {
-                timer.setText(String.valueOf(Tooriistad.formatElapsedTime(kulunudaeg)));
+                timer.setText(String.valueOf(Tooriistad.KujundaAeg(kulunudaeg)));
             }
         }
         SeadistaMikrofoniNupp();
@@ -140,9 +140,9 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         }
         if(item.getItemId() == R.id.kustutaharjutus){
             Bundle args = new Bundle();
-            args.putString("kysimus","Kustutad Harjutuse ?");
-            args.putString("jahvastus","Jah");
-            args.putString("eivastus","Ei");
+            args.putString("kysimus",getString(R.string.dialog_kas_kustuta_harjutuse_kusimus));
+            args.putString("jahvastus",getString(R.string.jah));
+            args.putString("eivastus",getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "Kustuta Harjutus");
@@ -197,7 +197,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         @Override
         public void run() {
             long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
-            timer.setText(String.valueOf( Tooriistad.formatElapsedTime(aeg)));
+            timer.setText(String.valueOf( Tooriistad.KujundaAeg(aeg)));
             handler.postDelayed(this, viiv);
         }
     };
@@ -256,7 +256,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } catch (Exception e) {
                 mRecorder = null;
-                if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "prepare() failed" + e.toString());
+                if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Lindistamist ei suudetud alustada:" + e.toString());
             }
         }
     }

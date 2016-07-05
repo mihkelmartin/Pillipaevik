@@ -180,10 +180,10 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
                 v.clearFocus();
                 TeosNimiLahter.requestFocus();
                 if(!bNimiOlemas)
-                    Snackbar.make(v, "Anna teosele nimi", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, getString(R.string.snackbar_anna_teosele_nimi), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 if(bNimiOlemas && !bNimiUnikaalne)
-                    Snackbar.make(v, "Sellise nimega teos juba on", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, R.string.snackbar_teos_juba_olemas, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
             }
         }
@@ -223,7 +223,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             TextView kuupaev = (TextView) convertView.findViewById(R.id.harjutuslist_kuupaev);
 
             kirjeldus.setText(harjutuskord.getHarjutusekirjeldus());
-            String pikkus = Tooriistad.formatElapsedTime(harjutuskord.getPikkussekundites()*1000);
+            String pikkus = Tooriistad.KujundaAeg(harjutuskord.getPikkussekundites()*1000);
             kestus.setText(pikkus);
             kuupaev.setText(Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg()));
             if(harjutuskord.getHelifailidriveid() == null || harjutuskord.getHelifailidriveid().isEmpty())
@@ -244,7 +244,8 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
     private void HarjutusteStatistika (){
         int[] stat = mPPManager.TeoseHarjutusKordadeStatistika(this.teosid);
         ((TextView) findViewById(R.id.teoseharjutustearv)).setText(String.valueOf(stat[1]));
-        ((TextView) findViewById(R.id.teoseharjutustekestus)).setText(Tooriistad.KujundaHarjutusteMinutid(stat[0]/60));
+        ((TextView) findViewById(R.id.teoseharjutustekestus))
+                .setText(Tooriistad.KujundaHarjutusteMinutid(getApplicationContext(), stat[0]/60));
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -274,11 +275,11 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
                     TeosNimiLahter.setText(teos.getNimi());
                 } else {
                     if (!KasNimiOlemas()) {
-                        Snackbar.make(findViewById(R.id.nimi), "Nimi tühi", Snackbar.LENGTH_LONG)
+                        Snackbar.make(findViewById(R.id.nimi), getString(R.string.snackbar_nimi_tuhi), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
                         if (!KasNimiUnikaalne()) {
-                            Snackbar.make(findViewById(R.id.nimi), "Selline nimi juba olemas", Snackbar.LENGTH_LONG)
+                            Snackbar.make(findViewById(R.id.nimi), getString(R.string.snackbar_teos_juba_olemas), Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
 
                         }
@@ -298,9 +299,9 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
 
         if(item.getItemId() == R.id.kustutateos){
             Bundle args = new Bundle();
-            args.putString("kysimus","Kustutad teose ja kõik selle teose harjutused ?");
-            args.putString("jahvastus","Jah");
-            args.putString("eivastus","Ei");
+            args.putString("kysimus",getString(R.string.dialog_kas_kustuta_teose_kusimus));
+            args.putString("jahvastus",getString(R.string.jah));
+            args.putString("eivastus",getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "Kustuta teos");

@@ -111,9 +111,9 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         }
         if (item.getItemId() == R.id.kustutaharjutus) {
             Bundle args = new Bundle();
-            args.putString("kysimus", "Kustutad Harjutuse ?");
-            args.putString("jahvastus", "Jah");
-            args.putString("eivastus", "Ei");
+            args.putString("kysimus", getString(R.string.dialog_kas_kustuta_harjutuse_kusimus));
+            args.putString("jahvastus", getString(R.string.jah));
+            args.putString("eivastus", getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "KustutaHarjutus");
@@ -175,7 +175,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
     private String AjaMuutusKeelatud(Date kuupaev) {
         String retVal = "";
         if (kuupaev.after(Calendar.getInstance().getTime()))
-            retVal = "Uus aeg on tulevikus! Aega ei muudetud!";
+            retVal = getString(R.string.ajamuutmine_aeg_tulevikus);
 
         return retVal;
     }

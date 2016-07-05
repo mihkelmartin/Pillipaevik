@@ -36,7 +36,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // TODO TUNDUB, ET IKKAGI HÄVINEB KUI PIKALT SEISAB TAUSTAL !! MIS TEHA
         if(BuildConfig.DEBUG) Log.d("Peaaken", "onCreate");
 
         super.onCreate(savedInstanceState);
@@ -84,10 +83,11 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         KuuHarjutusteProgress();
         // https://developers.google.com/android/guides/api-client#handle_connection_failures
 
-        if(Tooriistad.KasLubadaSalvestamine(this)) {
+        if(Tooriistad.KasLubadaSalvestamine(getApplicationContext()) &&
+                Tooriistad.kasKasutadaGoogleDrive(getApplicationContext())) {
             if (bEsimeneAvamine) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
-                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), false, this);
+                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                 mGDU.LooDriveUhendus();
             }
         }
@@ -113,7 +113,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if(BuildConfig.DEBUG) Log.d("cek", "item selected");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "item selected");
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             if(BuildConfig.DEBUG) Log.d("Peaaken", "Sahtel valitud");
             return true;
@@ -164,7 +164,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
-                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), false, this);
+                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                 mGDU.LooDriveUhendus();
             } else {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
@@ -184,7 +184,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                     editor.apply();
                     if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Valitud konto: " + accountName +
                             ". Loome ühenduse uuesti, nüüd saab getSharedPreferences-dest");
-                    GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), false, this);
+                    GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                     mGDU.SeadistaDriveRestUhendus();
                 }
             }
@@ -357,8 +357,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                         imageView.setImageResource(getResources().getIdentifier(mSahtliValikud[0][position], null, null));
                         TextView textView = (TextView) (returnview.findViewById(R.id.drawertextid));
                         textView.setText(mSahtliValikud[1][position]);
-                        if(BuildConfig.DEBUG) Log.d("mDrawerList.setAdapter", mSahtliValikud[0][position]);
-                        if(BuildConfig.DEBUG) Log.d("mDrawerList.setAdapter", mSahtliValikud[1][position]);
                     }
                 }
                 return returnview;
@@ -443,16 +441,16 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             ka.setAruandeperioodinimi(kuujaaastastr);
             ka.setPerioodialgus(Tooriistad.MoodustaKuuAlgusKuupaev(kuujaaasta));
             ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(kuujaaasta));
-            String aruandekogutekst = ka.AruandeKoguTekst(getApplicationContext());
+            String aruandekogutekst = ka.AruandeKoguTekst();
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{ka.getOpetajaepost()});
-            i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema(getApplicationContext()));
+            i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema());
             i.putExtra(Intent.EXTRA_TEXT, aruandekogutekst);
             try {
-                startActivity(Intent.createChooser(i, "Saada aruanne..."));
+                startActivity(Intent.createChooser(i, getString(R.string.aruanne_saada)));
             } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(getParent(), "E-posti rakendus puudub...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getParent(), getString(R.string.aruanne_eposti_rakendus_puudub), Toast.LENGTH_SHORT).show();
             }
         }
     }

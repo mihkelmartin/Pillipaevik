@@ -23,7 +23,7 @@ public class GoogleDriveTagasiSide extends DriveEventService {
         if (event.getStatus() == CompletionEvent.STATUS_SUCCESS) {
             if(BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Õnnestus: " + event.getStatus());
             if(event.getDriveId() != null){
-                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), true, null);
+                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), null);
                 if(mGDU.LooDriveUhendusAsunkroonselt()) {
                     if (BuildConfig.DEBUG) Log.d("GoogleDriveTagasiSide", "Drive id: " + event.getDriveId());
                     mGDU.DriveFailAvalikuks(event.getDriveId());
@@ -33,8 +33,9 @@ public class GoogleDriveTagasiSide extends DriveEventService {
                         mPP.SalvestaHarjutuskorraWebLink(event.getDriveId().toInvariantString(), retVal);
                     }
                 }
+                mGDU.KatkestaDriveUhendus();
             } else {
-                if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Drive == null");
+                if(BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "DriveId==null");
             }
         } else {
             if (BuildConfig.DEBUG) Log.e("GoogleDriveTagasiSide", "Ebaõnnestumine: " + event.getStatus());

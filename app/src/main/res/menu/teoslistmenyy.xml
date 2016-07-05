@@ -8,6 +8,6 @@
             app:showAsAction="ifRoom"/>
     <item
             android:id="@+id/seaded"
-            android:title="@string/seaded"
+            android:title="@string/seaded_menyy"
             app:showAsAction="never"/>
 </menu>

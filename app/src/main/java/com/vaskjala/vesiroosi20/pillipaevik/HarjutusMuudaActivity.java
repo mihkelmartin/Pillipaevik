@@ -100,9 +100,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         }
         if (item.getItemId() == R.id.kustutaharjutus) {
             Bundle args = new Bundle();
-            args.putString("kysimus", "Kustutad Harjutuse ?");
-            args.putString("jahvastus", "Jah");
-            args.putString("eivastus", "Ei");
+            args.putString("kysimus", getString(R.string.dialog_kas_kustuta_harjutuse_kusimus));
+            args.putString("jahvastus", getString(R.string.jah));
+            args.putString("eivastus", getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
             newFragment.show(getSupportFragmentManager(), "KustutaHarjutus");
@@ -177,7 +177,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
         String kirjeldus = harjutusekirjelduslahter.getText().toString();
         if (kirjeldus.isEmpty())
-            harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
+            harjutusekirjelduslahter.setText(getString(R.string.vaikimisisharjutusekirjeldus));
 
         AndmedHarjutusse();
         if(mPPManager == null)
@@ -196,9 +196,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
     public void KustutaSalvestusKlikk(View v){
         Bundle args = new Bundle();
-        args.putString("kysimus", "Kustutad salvetuse ?");
-        args.putString("jahvastus", "Jah");
-        args.putString("eivastus", "Ei");
+        args.putString("kysimus", getString(R.string.dialog_kas_kustuta_salvestuse_kusimus));
+        args.putString("jahvastus", getString(R.string.jah));
+        args.putString("eivastus", getString(R.string.ei));
         DialogFragment newFragment = new LihtneKusimus();
         newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(), "KustutaSalvestus");
@@ -261,14 +261,14 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
         @Override
         protected DriveContents doInBackground(String... driveIDs) {
-            GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), true, null);
-            mGDU.LooDriveUhendusAsunkroonselt();
-            DriveId dID;
             DriveContents dFC = null;
-            dID = mGDU.AnnaDriveID(driveIDs[0]);
-            if(dID != null)
+            GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), null);
+            if(mGDU.LooDriveUhendusAsunkroonselt()) {
+                DriveId dID;
+                dID = mGDU.AnnaDriveID(driveIDs[0]);
                 dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
-
+            }
+            mGDU.KatkestaDriveUhendus();
             return dFC;
         }
 

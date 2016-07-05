@@ -28,7 +28,7 @@ public class ValiKellaaeg extends DialogFragment
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
+
         if(BuildConfig.DEBUG) Log.d("Valikellaaeg", "Loon kellaaja valiku dialoogi");
 
         c.setTime(Tooriistad.KuupaevKellaAegStringist(getArguments().getString("datetime")));
@@ -37,7 +37,6 @@ public class ValiKellaaeg extends DialogFragment
 
         if(BuildConfig.DEBUG) Log.d("ValikKellaaeg",hour + ":" + minute + " 24H" + DateFormat.is24HourFormat(getActivity()));
 
-        // Create a new instance of DatePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
     }

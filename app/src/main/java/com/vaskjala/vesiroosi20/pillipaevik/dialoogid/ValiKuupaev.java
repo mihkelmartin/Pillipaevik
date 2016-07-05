@@ -31,7 +31,7 @@ public class ValiKuupaev extends DialogFragment
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
+
         if(BuildConfig.DEBUG) Log.d("Valikuupaev", "Loon kuupäeva valiku dialoogi");
 
         c.setTime(Tooriistad.KuupaevKellaAegStringist(getArguments().getString("datetime")));
@@ -39,7 +39,6 @@ public class ValiKuupaev extends DialogFragment
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 

@@ -1,11 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik.aruanded;
 
-
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
@@ -23,8 +19,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class Aruanne {
 
     private final static String ReaVahetus = System.getProperty("line.separator");
-    public String aruandekogutekst;
 
+    private Context context;
     private String aruandenimi;
     private String aruandeperioodinimi;
     private Date perioodialgus;
@@ -41,6 +37,7 @@ public class Aruanne {
 
     public Aruanne(Context context, String aruandenimi){
 
+        this.context = context;
         this.aruandenimi = aruandenimi;
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
         this.minueesnimi = sharedPref.getString("minueesnimi","");
@@ -55,55 +52,51 @@ public class Aruanne {
     public void setAruandenimi(String aruandenimi) {
         this.aruandenimi = aruandenimi;
     }
-
     public void setAruandeperioodinimi(String aruandeperioodinimi) {
         this.aruandeperioodinimi = aruandeperioodinimi;
     }
-
     private int getPerioodipikkus() {
         perioodipikkus = Tooriistad.KaheKuupaevaVahePaevades(perioodialgus, perioodilopp);
         return perioodipikkus;
     }
-
     public Date getPerioodialgus() {
         return perioodialgus;
     }
-
     public void setPerioodialgus(Date perioodialgus) {
         this.perioodialgus = perioodialgus;
     }
-
     public Date getPerioodilopp() {
         return perioodilopp;
     }
-
     public void setPerioodilopp(Date perioodilopp) {
         this.perioodilopp = perioodilopp;
     }
-
     public String getOpetajaepost() {
         return opetajaepost;
     }
-
-    public String Teema(Context context){
-        return context.getString(R.string.app_name) + "u " + aruandenimi + " - " + minueesnimi +
-                " " + minuperenimi + ", " + opilaseinstrument + ", " + aruandeperioodinimi;
+    private int getPaevasharjutada() {
+        return paevasharjutada;
     }
 
-    private String KoostaKoond(Context context){
-        String koond = "Kokkuvõte" + ReaVahetus + ReaVahetus;
-        koond = koond + "Soovituslik päevane harjutamise aeg : " +
-                Tooriistad.KujundaHarjutusteMinutid(getPaevasharjutada()) +
+    public String Teema(){
+        return context.getString(R.string.app_name) + " " + aruandenimi + " - " + minueesnimi +
+                " " + minuperenimi + ", " + opilaseinstrument + ", " + aruandeperioodinimi;
+    }
+    private String KoostaKoond(){
+        String koond = context.getString(R.string.aruanne_koondi_pealkiri) + ReaVahetus + ReaVahetus;
+        koond = koond + context.getString(R.string.aruanne_soovituslik_harjutamise_aeg) +
+                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), getPaevasharjutada()) +
                 ReaVahetus;
 
-        koond = koond + "Soovituslik harjutamise aeg kokku : " +
-                Tooriistad.KujundaHarjutusteMinutid(getPerioodipikkus() * getPaevasharjutada()) +
+        koond = koond + context.getString(R.string.aruanne_soovituslik_harjutamise_aeg_kokku) +
+                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), getPerioodipikkus() * getPaevasharjutada()) +
                 ReaVahetus;
 
 
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        koond = koond + "Tegelik harjutamise aeg kokku : " +
-                Tooriistad.KujundaHarjutusteMinutid(mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
+        koond = koond + context.getString(R.string.aruanne_tegelik_harjutamise_aeg_kokku) +
+                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(),
+                        mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
                 ReaVahetus + ReaVahetus;
 
         List<String> pList = mPPManager.HarjutusKordadeStatistikaPerioodis(getPerioodialgus(), getPerioodilopp());
@@ -113,8 +106,7 @@ public class Aruanne {
         koond = koond + ReaVahetus;
         return koond;
     }
-
-    private String KoostaDetailneSisu(Context context){
+    private String KoostaDetailneSisu(){
         String detail = "";
         String formaat = "%-30s%s";
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
@@ -130,8 +122,8 @@ public class Aruanne {
             }
         }
         if(!detail.isEmpty())
-            detail = "Salvestatud harjutused" + ReaVahetus + ReaVahetus + detail + ReaVahetus + ReaVahetus +
-                    "Aruanne päevade kaupa" + ReaVahetus;
+            detail = context.getString(R.string.aruanne_salvestatud_harjutused) + ReaVahetus + ReaVahetus + detail + ReaVahetus + ReaVahetus +
+                    context.getString(R.string.aruanne_paevade_kaupa) + ReaVahetus;
 
         String kuupaeveelmine = "";
         for ( DetailiKirje teoserida : pList){
@@ -140,23 +132,22 @@ public class Aruanne {
                 detail = detail + ReaVahetus + kuupaev + ReaVahetus;
                 kuupaeveelmine = kuupaev;
             }
-            detail = detail + String.format(formaat,teoserida.getNimi(),
-                            Tooriistad.KujundaHarjutusteMinutid(Tooriistad.ArvutaMinutidUmardaUles(teoserida.getPikkussekundites())))
+            detail = detail + String
+                    .format(formaat,teoserida.getNimi(),
+                        Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(),
+                                Tooriistad.ArvutaMinutidUmardaUles(teoserida.getPikkussekundites())))
                     + ReaVahetus;
         }
         return detail + ReaVahetus;
     }
-
     private String KoostaLopp(){
-        return "Tervitades, " + ReaVahetus +
-                minueesnimi + " " + minuperenimi + " Pillipäeviku vahendusel";
+        return context.getString(R.string.aruanne_tervitades) + ReaVahetus +
+                minueesnimi + " " + minuperenimi + context.getString(R.string.aruanne_pillipaeviku_vahendusel);
     }
 
-    public String AruandeKoguTekst(Context context){
-        return KoostaKoond(context) + KoostaDetailneSisu(context) + KoostaLopp();
+    public String AruandeKoguTekst(){
+        return KoostaKoond() + KoostaDetailneSisu() + KoostaLopp();
     }
 
-    private int getPaevasharjutada() {
-        return paevasharjutada;
-    }
+
 }

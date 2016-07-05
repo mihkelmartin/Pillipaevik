@@ -39,7 +39,7 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
     public class HarjutusteKalenderAdapter extends FragmentPagerAdapter {
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Lehekülg " + position;
+            return "" + position;
         }
 
         public HarjutusteKalenderAdapter(FragmentManager fm) {
@@ -50,7 +50,6 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Fragment fragment = new HarjutusteKalendriLeht();
             Bundle args = new Bundle();
-            // Our object is just an integer :-P
             fragment.setArguments(args);
             return fragment;
         }
