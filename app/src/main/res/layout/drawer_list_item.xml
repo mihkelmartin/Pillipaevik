@@ -11,8 +11,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="@dimen/pildikeste_vahendamine_50persent"
+            android:scaleY="@dimen/pildikeste_vahendamine_50persent"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_menu_black_18dp"
             />
@@ -21,9 +21,9 @@
               android:id="@+id/drawertextid"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:textSize="15sp"
+              android:layout_marginStart="@dimen/horisontaalne_aaris"
+              android:layout_marginEnd="@dimen/horisontaalne_aaris"
               android:gravity="center_vertical"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
+              android:textSize="@dimen/sahtli_tekstide_font"
               android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
 </LinearLayout>

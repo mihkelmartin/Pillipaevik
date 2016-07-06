@@ -17,7 +17,6 @@
                 android:id="@+id/uusharjutus_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:elevation="10dp"
                 android:theme="@style/Pillipaevik"
                 app:popupTheme="@style/Pillipaevik"/>
 
@@ -31,10 +30,10 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/vertikaalne_aaris"
+            android:layout_marginBottom="@dimen/vertikaalne_aaris"
             android:id="@+id/harjutusekirjeldus"
-            android:hint="Kirjuta siia mida plaanid harjutada ..."
+            android:hint="@string/harjutuse_kirjeldus_vihje"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <LinearLayout android:layout_width="match_parent"
@@ -44,8 +43,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Alusta"
-                android:drawableLeft="@drawable/ic_fiber_manual_record_red_18dp"
+                android:text="@string/alusta"
+                android:drawableStart="@drawable/ic_fiber_manual_record_red_18dp"
                 android:id="@+id/kaivitataimernupp"
                 android:onClick="KaivitaTaimer"/>
             <Button
@@ -53,16 +52,16 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:id="@+id/mikrofoniluliti"
-                    android:drawableLeft="@drawable/ic_mic_off_black_18dp"
+                    android:drawableStart="@drawable/ic_mic_off_black_18dp"
                     android:onClick="LulitaMikrofon"/>
         </LinearLayout>
         <TextView
-                android:textColor="#004254"
+                android:textColor="@color/taimeri_teksti_varv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="60sp"
+                android:textSize="@dimen/stopperi_font"
                 android:text="@string/stopper"
                 android:id="@+id/timer"/>
     </LinearLayout>

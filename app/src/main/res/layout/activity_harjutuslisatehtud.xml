@@ -17,7 +17,6 @@
                 android:id="@+id/harjutus_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:elevation="10dp"
                 android:theme="@style/Pillipaevik"
                 app:popupTheme="@style/Pillipaevik"/>
 
@@ -34,7 +33,7 @@
             android:layout_height="wrap_content"
             android:singleLine="false"
             android:id="@+id/harjutusekirjeldus"
-            android:hint="Kirjuta mida harjutasid ..."
+            android:hint="@string/harjutuse_mida_harjutasid_vihje"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <TableLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
@@ -43,19 +42,19 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:textStyle="bold"
-                      android:text="Harjutus algas : "/>
+                      android:text="@string/harjutus_algas"/>
             <TextView android:id="@+id/alguskuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       style="@android:style/Widget.Holo.Spinner"
                       android:onClick="MuudaKuupaeva"/>
             <TextView android:id="@+id/alguskellaaeg"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       style="@android:style/Widget.Holo.Spinner"
                       android:onClick="MuudaKuupaeva"/>
         </TableRow>
@@ -65,19 +64,19 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:textStyle="bold"
-                      android:text="Harjutus lõppes : "/>
+                      android:text="@string/harjutus_loppes"/>
             <TextView android:id="@+id/lopukuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       style="@android:style/Widget.Holo.Spinner"
                       android:onClick="MuudaKuupaeva"/>
             <TextView android:id="@+id/lopukellaaeg"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       style="@android:style/Widget.Holo.Spinner"
                       android:onClick="MuudaKuupaeva"/>
         </TableRow>
@@ -87,25 +86,22 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:textStyle="bold"
-                      android:text="Kestus : "/>
+                      android:text="@string/harjutuse_kestus"/>
             <TextView android:id="@+id/pikkusminutites"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="12dp"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       style="@android:style/Widget.Holo.Spinner"
                       android:text=""
                       android:onClick="MuudaPikkust"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="0dp"
-                      android:layout_margin="12dp"
-                      android:text="minutit"/>
+                      android:layout_margin="@dimen/horisontaalne_aaris"
+                      android:text="@string/harjutus_minutit"/>
         </TableRow>
         </TableLayout>
-
     </LinearLayout>
-
-
 </android.support.design.widget.CoordinatorLayout>

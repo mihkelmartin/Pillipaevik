@@ -23,7 +23,10 @@ import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
@@ -43,7 +46,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     private CheckBox weblinkaruandele;
 
     private MediaPlayer mPlayer;
-    private DriveContents mHeliFailDrive = null;
+    private FileDescriptor mHeliFail = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,10 +121,24 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     @Override
     protected void onStart() {
 
-        if(harjutuskord!= null && harjutuskord.getHelifailidriveid() != null &&
-                !harjutuskord.getHelifailidriveid().isEmpty()) {
-            AvaFailMangimiseks mAFM = new AvaFailMangimiseks();
-            mAFM.execute(harjutuskord.getHelifailidriveid());
+        if(Tooriistad.kasKasutadaGoogleDrive(getApplicationContext())) {
+            if (harjutuskord != null && harjutuskord.getHelifailidriveid() != null &&
+                    !harjutuskord.getHelifailidriveid().isEmpty()) {
+                AvaFailMangimiseks mAFM = new AvaFailMangimiseks();
+                mAFM.execute(harjutuskord.getHelifailidriveid());
+            }
+        } else if(Tooriistad.KasLubadaSalvestamine(getApplicationContext())){
+            if (harjutuskord != null && harjutuskord.getHelifail() != null &&
+                    !harjutuskord.getHelifail().isEmpty()) {
+                try {
+                    FileInputStream in = new FileInputStream(getFilesDir().getPath() + "/" + harjutuskord.getHelifail());
+                    mHeliFail = in.getFD();
+                    RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
+                    mangilugu.setVisibility(RelativeLayout.VISIBLE);
+                } catch (IOException e){
+                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Helifaili avamise viga: " + e.toString());
+                }
+            }
         }
         super.onStart();
     }
@@ -130,7 +147,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     protected void onStop() {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetan mahamängimise");
         if (mPlayer != null) {
-            mPlayer.stop();
+            if(mPlayer.isPlaying())
+                mPlayer.stop();
+            mPlayer.reset();
             mPlayer.release();
             mPlayer = null;
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetasin mahamängimise");
@@ -205,14 +224,37 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
 
     public void MangiLugu(View v){
-        mPlayer = new MediaPlayer();
-        try {
-            mPlayer.reset();
-            mPlayer.setDataSource(mHeliFailDrive.getParcelFileDescriptor().getFileDescriptor());
-            mPlayer.prepare();
-            mPlayer.start();
-        } catch (IOException e) {
-            if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+
+        if(v.getId() == R.id.stopp){
+            if (mPlayer != null) {
+                if(mPlayer.isPlaying())
+                    mPlayer.stop();
+                mPlayer.reset();
+                mPlayer.release();
+                mPlayer = null;
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetasin mahamängimise");
+            }
+        } else {
+            if (mPlayer != null) {
+                mPlayer.stop();
+                try {
+                    mPlayer.prepare();
+                    mPlayer.start();
+                } catch (IOException e) {
+                    if (BuildConfig.DEBUG) Log.e(getLocalClassName(), "Viga uuesti algusest alustamise" + e.toString());
+                }
+                if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alustasin mängimist algusest");
+            } else {
+                mPlayer = new MediaPlayer();
+                try {
+                    mPlayer.reset();
+                    mPlayer.setDataSource(mHeliFail);
+                    mPlayer.prepare();
+                    mPlayer.start();
+                } catch (IOException e) {
+                    if (BuildConfig.DEBUG) Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+                }
+            }
         }
     }
 
@@ -275,7 +317,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         protected void onPostExecute(DriveContents dFC) {
 
             if(dFC != null){
-                mHeliFailDrive = dFC;
+                mHeliFail = dFC.getParcelFileDescriptor().getFileDescriptor();
                 RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
                 mangilugu.setVisibility(RelativeLayout.VISIBLE);
             }

@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="accent_material_light_1">#d6d8de</color>
     <color name="primary_material_light">#546eff</color>
+
+    <color name="taimeri_teksti_varv">#004254</color>
+
 </resources>

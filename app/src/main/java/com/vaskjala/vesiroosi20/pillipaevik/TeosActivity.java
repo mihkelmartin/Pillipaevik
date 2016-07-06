@@ -64,7 +64,6 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         EditText mAutor = ((EditText) findViewById(R.id.autor));
         EditText mKommentaar = ((EditText) findViewById(R.id.kommentaar));
         mHinnang = ((RatingBar) findViewById(R.id.hinnaguriba));
-        RadioGroup mKasutusViis = ((RadioGroup) findViewById(R.id.kasutusviis));
         mNimi.setOnFocusChangeListener(mFP);
         mAutor.setOnFocusChangeListener(mFP);
         mKommentaar.setOnFocusChangeListener(mFP);
@@ -81,16 +80,9 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             mAutor.setText(this.teos.getAutor());
             mKommentaar.setText(this.teos.getKommentaar());
             mHinnang.setRating(this.teos.getHinnang());
-            if (this.teos.getKasutusviis() == 1)
-                mKasutusViis.check(R.id.Kasutusel);
-            else if (this.teos.getKasutusviis() == 2)
-                mKasutusViis.check(R.id.Arhiivis);
 
             LooHarjutusteAdapter();
         }
-        if(this.bUueTeoseLoomine)
-            findViewById(R.id.kasutusviis).setVisibility(View.GONE);
-
         HarjutusteStatistika ();
     }
 
@@ -110,11 +102,6 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         String autor = ((EditText) findViewById(R.id.autor)).getText().toString();
         String kommentaar = ((EditText) findViewById(R.id.kommentaar)).getText().toString();
         short hinnang = (short) mHinnang.getRating();
-        short kasutusviis = 1;
-        if( ((RadioGroup)findViewById(R.id.kasutusviis)).getCheckedRadioButtonId()== R.id.Kasutusel )
-            kasutusviis = 1;
-        if( ((RadioGroup)findViewById(R.id.kasutusviis)).getCheckedRadioButtonId()== R.id.Arhiivis)
-            kasutusviis = 2;
         if(teos.getLisatudpaevikusse() == null )
             teos.setLisatudpaevikusse(Calendar.getInstance().getTime());
 
@@ -122,7 +109,6 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         teos.setAutor(autor);
         teos.setKommentaar(kommentaar);
         teos.setHinnang(hinnang);
-        teos.setKasutusviis(kasutusviis);
 
         if(BuildConfig.DEBUG) Log.d("TeosActivity", "Andmed teosesse: " + teos.toString());
 

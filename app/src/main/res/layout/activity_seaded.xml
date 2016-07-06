@@ -31,139 +31,138 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/minueesnimi"
-            android:hint="Minu eesnimi"
+            android:hint="@string/minu_eesnimi_vihje"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/minuperenimi"
-                android:hint="Minu perekonnanimi"
+                android:hint="@string/minu_perenimi_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/minuepost"
-                android:hint="Minu e-post"
+                android:hint="@string/minu_e_post_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
-                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
-                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/muusikakool"
-                android:hint="Muusikakooli nimi"
+                android:hint="@string/muusikakooli_nimi_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/klass"
-                android:hint="Klass"
+                android:hint="@string/klass_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/minuinstrument"
-                android:hint="Minu pill"
+                android:hint="@string/pill_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
-                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
-                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/opetajaeesnimi"
-                android:hint="Minu õpetaja eesnimi"
+                android:hint="@string/opetaja_eesnimi_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/opetajaperenimi"
-                android:hint="Minu õpetaja perekonnanimi"
+                android:hint="@string/opetaja_perenimi_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/opetajaepost"
-                android:hint="Minu õpetaja e-post"
+                android:hint="@string/opetaja_e_post_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
-                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
-                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/paevasharjutada"
-                android:hint="Mitu minutit tahan päevas harjutada"
+                android:hint="@string/harjutamise_norm_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="number"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
-                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
-                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
         <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:id="@+id/kasLubadaMikrofonigaSalvestamine"
-                android:textOff="Ei"
-                android:textOn="Jah"
+                android:textOff="@string/ei"
+                android:textOn="@string/jah"
                 android:text="@string/kasLubadaMikrofonigaSalvestamine"
-                android:hint="Kas soovid harjutust mikrofoniga salvestada"/>
+        android:onClick="KasSalvestameMikrofoniga"/>
         <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:id="@+id/kasKasutadaGoogleDrive"
                 android:text="@string/kasKasutadaGoogleDrive"
-                android:textOff="Ei"
-                android:textOn="Jah"
-                android:hint="Kas soovid harjutust mikrofoniga salvestada"/>
+                android:textOff="@string/ei"
+                android:textOn="@string/jah"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/googlekonto"
-                android:hint="Google konto"
+                android:hint="@string/google_konto_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"
                 android:enabled="false"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
-                android:layout_marginTop="@dimen/eraldusjoone_ylemine"
-                android:layout_marginBottom="@dimen/eraldusjoone_alumine"
-                android:layout_marginLeft="@dimen/editext_defaultmargin"
-                android:layout_marginRight="@dimen/editext_defaultmargin"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
+                android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
         <EditText
                 android:layout_width="match_parent"

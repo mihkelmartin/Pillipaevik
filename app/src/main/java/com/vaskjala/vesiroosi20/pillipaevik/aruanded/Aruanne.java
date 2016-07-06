@@ -79,7 +79,7 @@ public class Aruanne {
     }
 
     public String Teema(){
-        return context.getString(R.string.app_name) + " " + aruandenimi + " - " + minueesnimi +
+        return context.getString(R.string.rakenduse_pealkiri) + " " + aruandenimi + " - " + minueesnimi +
                 " " + minuperenimi + ", " + opilaseinstrument + ", " + aruandeperioodinimi;
     }
     private String KoostaKoond(){

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Pillipäevik</string>
     <string name="rakenduse_pealkiri">Pillipäevik</string>
 
     <string name="tund">tund</string>
@@ -8,27 +7,16 @@
     <string name="minutit">minutit</string>
 
 
-    // Teos Activity
-    <string name="snackbar_anna_teosele_nimi">Anna teosele nimi</string>
-    <string name="snackbar_teos_juba_olemas">Sellise nimega teos juba on</string>
-    <string name="snackbar_nimi_tuhi">Nimi tühi</string>
-    <string name="dialog_kas_kustuta_teose_kusimus">Kustutad teose ja kõik selle teose harjutused ?</string>
-
-
-
-    <string name="kusututa">Kusututa…</string>
-    <string name="AlustaUutHarjutust">Alusta uut…</string>
-    <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
-
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
 
-    <string name="stopper">00:00:00</string>
-    <string name="vaikimisisharjutusekirjeldus">Mängisin lugu</string>
-    <string name="eisaamuutaharjutustjuhend">
-    Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
-    </string>
-    <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
+
+    // Menüüd
+    <string name="seaded_menyy">Seaded…</string>
+    <string name="lisa_teos">Lisa teos…</string>
+    <string name="kusututa">Kusututa…</string>
+    <string name="AlustaUutHarjutust">Alusta uut…</string>
+    <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
 
 
     // Dialoogid
@@ -65,10 +53,38 @@
     // Seaded Activity
     <string name="seaded_tiitel">Seaded</string>
     <string name="seadete_fail">seadete_fail</string>
-    <string name="seaded_menyy">Seaded…</string>
-
+    <string name="minu_eesnimi_vihje">Minu eesnimi</string>
+    <string name="minu_perenimi_vihje">Minu perekonnanimi</string>
+    <string name="minu_e_post_vihje">Minu e-post</string>
+    <string name="muusikakooli_nimi_vihje">Muusikakooli nimi</string>
+    <string name="klass_vihje">Klass</string>
+    <string name="pill_vihje">Minu pill</string>
+    <string name="opetaja_eesnimi_vihje">Minu õpetaja eesnimi</string>
+    <string name="opetaja_perenimi_vihje">Minu õpetaja perekonnanimi</string>
+    <string name="opetaja_e_post_vihje">Minu õpetaja e-post</string>
+    <string name="harjutamise_norm_vihje">Mitu minutit tahan päevas harjutada</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
+    <string name="google_konto_vihje">Google konto</string>
+
+    // HarjutusteKalenderActivity
+    <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
+
+
+    // Teos Activity
+    <string name="snackbar_anna_teosele_nimi">Anna teosele nimi</string>
+    <string name="snackbar_teos_juba_olemas">Sellise nimega teos juba on</string>
+    <string name="snackbar_nimi_tuhi">Nimi tühi</string>
+    <string name="dialog_kas_kustuta_teose_kusimus">Kustutad teose ja kõik selle teose harjutused ?</string>
+
+    <string name="nimi_vihje">Nimi. Näiteks Mazurka</string>
+    <string name="autor_vihje">Autor. Näiteks Beethoven</string>
+    <string name="kommentaar_vihje">Lisa kommentaar</string>
+
+    <string name="tana">Täna</string>
+    <string name="nadal">Nädal</string>
+    <string name="kuu">Kuu</string>
+
 
     // Harjutuse/Salvestuse kustutamise dialoog
     <string name="dialog_kas_kustuta_harjutuse_kusimus">Kustutad Harjutuse ?</string>
@@ -77,10 +93,27 @@
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">Uus aeg on tulevikus! Aega ei muudetud!</string>
 
+    // HarjutusLooUusActivity
+
+    <string name="harjutuse_kirjeldus_vihje">Mida plaanid harjutada ...</string>
+    <string name="stopper">00:00:00</string>
+    <string name="vaikimisisharjutusekirjeldus">Mängisin lugu</string>
+
+    // HarjutusLisaTehtudActivity
+
+    <string name="harjutuse_mida_harjutasid_vihje">Mida harjutasid ...</string>
+    <string name="harjutus_algas">Harjutus algas : </string>
+    <string name="harjutus_loppes">Harjutus lõppes : </string>
+    <string name="harjutuse_kestus">Kestus : </string>
+    <string name="harjutus_minutit">minutit</string>
+
 
     // HarjutusMuudaActivity
 
-    <string name="WebLinkAruandeleCheckBoxText">Link aruandel</string>
+    <string name="link_aruandel_kysimus">Link aruandel</string>
+    <string name="eisaamuutaharjutustjuhend">
+        Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
+    </string>
 
 
     // Pealehe sahtel
@@ -117,6 +150,5 @@
     <integer name="TEOS_ACTIVITY_RETURN_UUS_LOOMATA">11</integer>
 
     <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
-
 
 </resources>

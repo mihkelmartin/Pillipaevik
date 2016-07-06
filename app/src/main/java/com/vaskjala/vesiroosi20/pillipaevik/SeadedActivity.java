@@ -159,4 +159,9 @@ public class SeadedActivity extends AppCompatActivity {
         }
     }
 
+    public void KasSalvestameMikrofoniga(View v){
+        if(!kasLubadaMikrofonigaSalvestamine.isChecked()){
+            kaskasutadagoogledrive.setChecked(false);
+        }
+    }
 }

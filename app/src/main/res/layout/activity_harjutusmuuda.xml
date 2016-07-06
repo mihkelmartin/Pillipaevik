@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:singleLine="false"
             android:id="@+id/harjutusekirjeldus"
-            android:hint="Kirjuta mida harjutasid ..."
+            android:hint="@string/harjutuse_mida_harjutasid_vihje"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <TableLayout android:id="@+id/HarjutusTabel"
@@ -46,17 +46,17 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:textStyle="bold"
-                      android:text="Harjutus algas : "/>
+                      android:text="@string/harjutus_algas"/>
             <TextView android:id="@+id/alguskuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"/>
+                      android:layout_margin="@dimen/horisontaalne_aaris"/>
             <TextView android:id="@+id/alguskellaaeg"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"/>
+                      android:layout_margin="@dimen/horisontaalne_aaris"/>
         </TableRow>
 
         <TableRow android:layout_width="wrap_content"
@@ -64,17 +64,17 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:textStyle="bold"
-                      android:text="Harjutus lõppes : "/>
+                      android:text="@string/harjutus_loppes"/>
             <TextView android:id="@+id/lopukuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"/>
+                      android:layout_margin="@dimen/horisontaalne_aaris"/>
             <TextView android:id="@+id/lopukellaaeg"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"/>
+                      android:layout_margin="@dimen/horisontaalne_aaris"/>
         </TableRow>
 
         <TableRow android:layout_width="wrap_content"
@@ -82,24 +82,23 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:textStyle="bold"
-                      android:text="Kestus : "/>
+                      android:text="@string/harjutuse_kestus"/>
             <TextView android:id="@+id/pikkusminutites"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_joondus"/>
+                      android:layout_margin="@dimen/horisontaalne_aaris"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_marginLeft="0dp"
-                      android:layout_margin="@dimen/horisontaalne_joondus"
+                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:text="minutit"/>
         </TableRow>
         </TableLayout>
         <RelativeLayout android:id="@+id/SalvestuseRiba"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/horisontaalne_joondus"
+                        android:layout_margin="@dimen/horisontaalne_aaris"
                         android:layout_below="@id/HarjutusTabel"
                         android:visibility="gone">
             <ImageView android:id="@+id/salvestusepilt"
@@ -127,7 +126,7 @@
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
                       android:layout_toRightOf="@+id/stopp"
-                      android:text="@string/WebLinkAruandeleCheckBoxText"/>
+                      android:text="@string/link_aruandel_kysimus"/>
             <ImageButton android:id="@+id/kustutasalvestus"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
