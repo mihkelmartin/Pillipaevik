@@ -52,7 +52,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
         } else {
             if(BuildConfig.DEBUG) Log.d("TeosActivity", "Loen saveinstantsist");
             this.teosid = savedInstanceState.getInt("teoseid");
-            this.itemposition = savedInstanceState.getInt("itemposition");
+            this.itemposition = savedInstanceState.getInt("item_position");
             this.bUueTeoseLoomine = savedInstanceState.getBoolean("uusteos");
         }
         mPPManager = new PilliPaevikDatabase(getApplicationContext());
@@ -130,11 +130,11 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
                 if(this.teos != null){
                     if(lahter != TeosNimiLahter.getId()){
                         AndmedTeosesse(teos);
-                        mPPManager.SalvestaTeos(teos);
+                        teos.Salvesta(getApplicationContext());
                     } else {
                         if(bNimiOlemas && bNimiUnikaalne) {
                             AndmedTeosesse(teos);
-                            mPPManager.SalvestaTeos(teos);
+                            teos.Salvesta(getApplicationContext());
                         } else {
                             if(BuildConfig.DEBUG) Log.d("TeosActivity", "Fookus nimelt ära ning nimi tühi või korduv. Nimi olemas: " +
                             bNimiOlemas + " Unikaalne:" + bNimiUnikaalne);
@@ -147,7 +147,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
                         if(bNimiOlemas && bNimiUnikaalne) {
                             teos = new Teos();
                             AndmedTeosesse(teos);
-                            mPPManager.SalvestaTeos(teos);
+                            teos.Salvesta(getApplicationContext());
                             TeosActivity.this.teos = teos;
                             TeosActivity.this.teosid = teos.getId();
                             if(BuildConfig.DEBUG) Log.d("TeosActivity", "Uus teos lisatud:  " + teosid);
@@ -212,10 +212,10 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             String pikkus = Tooriistad.KujundaAeg(harjutuskord.getPikkussekundites()*1000);
             kestus.setText(pikkus);
             kuupaev.setText(Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg()));
-            if(harjutuskord.getHelifailidriveid() == null || harjutuskord.getHelifailidriveid().isEmpty())
-                convertView.findViewById(R.id.harjutuslisti_pilt).setVisibility(View.GONE);
-            else
+            if(harjutuskord.KasKuvadaSalvestusePilt(getApplicationContext()))
                 convertView.findViewById(R.id.harjutuslisti_pilt).setVisibility(View.VISIBLE);
+            else
+                convertView.findViewById(R.id.harjutuslisti_pilt).setVisibility(View.GONE);
 
             return convertView;
         }
@@ -237,7 +237,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current game state
         savedInstanceState.putInt("teoseid", this.teosid);
-        savedInstanceState.putInt("itemposition", this.itemposition);
+        savedInstanceState.putInt("item_position", this.itemposition);
         savedInstanceState.putBoolean("uusteos", this.bUueTeoseLoomine);
 
         if(BuildConfig.DEBUG) Log.d("TeosActivity", "onSaveInstanceState :" + this.teosid + " " + this.itemposition );
@@ -277,7 +277,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
                     if(BuildConfig.DEBUG) Log.d("TeosActivity", "Menüü valik vajutatud. Nimi olemas ja unikaalne, kuid Teos salvetamata. Loome uue ja salvestame." + item.getItemId());
                     this.teos = new Teos();
                     AndmedTeosesse(this.teos);
-                    mPPManager.SalvestaTeos(this.teos);
+                    teos.Salvesta(getApplicationContext());
                     this.teosid = teos.getId();
                 }
             }
@@ -313,7 +313,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             if(bUueTeoseLoomine) {
                 if (KasTeosSalvestatud()) {
                     AndmedTeosesse(this.teos);
-                    mPPManager.SalvestaTeos(this.teos);
+                    teos.Salvesta(getApplicationContext());
                     result = getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD);
                     if(BuildConfig.DEBUG) Log.d("TeosActivity", "Result tagasi UUS LISATUD");
                 } else {
@@ -323,7 +323,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
             }
             else {
                 AndmedTeosesse(this.teos);
-                mPPManager.SalvestaTeos(this.teos);
+                teos.Salvesta(getApplicationContext());
                 result = getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD);
                 intent.putExtra("item_position", itemposition);
                 if(BuildConfig.DEBUG) Log.d("TeosActivity", "Result tagasi MUUDETUD");
@@ -384,7 +384,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
 
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
-        mPPManager.KustutaTeos(this.teosid);
+        teos.Kustuta(getApplicationContext());
         Intent output = new Intent();
         output.putExtra("item_position", this.itemposition);
         if(BuildConfig.DEBUG) Log.d("TeosActivity", "Tagasi kustutamisega. Pos:" + this.itemposition);

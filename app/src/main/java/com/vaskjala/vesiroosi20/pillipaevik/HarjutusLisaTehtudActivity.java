@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 public class HarjutusLisaTehtudActivity extends AppCompatActivity implements AjaMuutuseTeavitus, LihtsaKusimuseKuulaja {
 
-    private PilliPaevikDatabase mPPManager;
     private int teosid;
     private int harjutusid;
     private HarjutusKord harjutuskord;
@@ -68,7 +67,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
         }
 
 
-        mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         Teos teos = mPPManager.getTeos(this.teosid);
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
@@ -157,12 +156,10 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Aja
     private void SalvestaHarjutus (){
 
         AndmedHarjutusse();
-        if(mPPManager == null)
-            mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        mPPManager.SalvestaHarjutusKord(getApplicationContext(),this.harjutuskord);
+        harjutuskord.Salvesta(getApplicationContext());
     }
     private void KustutaHarjutus(){
-        mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
+        harjutuskord.Kustuta(getApplicationContext());
         Intent output = new Intent();
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
         if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);

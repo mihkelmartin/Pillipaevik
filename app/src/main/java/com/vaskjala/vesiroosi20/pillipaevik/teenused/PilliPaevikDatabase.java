@@ -3,16 +3,17 @@ package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 import android.app.backup.BackupManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
-import com.vaskjala.vesiroosi20.pillipaevik.PaevaKirje;
+import com.vaskjala.vesiroosi20.pillipaevik.kalender.HarjutuskordKirje;
+import com.vaskjala.vesiroosi20.pillipaevik.kalender.KalendriKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.Teos;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.DetailiKirje;
+import com.vaskjala.vesiroosi20.pillipaevik.kalender.PaevaKirje;
 
 import java.util.*;
 
@@ -216,7 +217,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public int KusututaHarjutus (int teosid, int harjutusid){
+    public int KustutaHarjutus(int teosid, int harjutusid){
         int deletedrows = 0;
         try {
             synchronized (sPilliPaevikuLukk) {
@@ -224,11 +225,6 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje._ID+ "=" + harjutusid, null);
                 Teos teos = teosedmap.get(teosid);
                 if(teos != null){
-                    HashMap<Integer, HarjutusKord> pHarjutused = teos.getHarjutuskorradmap(context);
-                    HarjutusKord pH = pHarjutused.get(harjutusid);
-                    Intent intent = new Intent(context, KustutaFailDraivistTeenus.class);
-                    intent.putExtra("driveid", pH.getHelifailidriveid());
-                    context.startService(intent);
                     teos.EemaldaHarjutusHulkadest(harjutusid);
                 } else {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
@@ -240,7 +236,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         " Ridu kustutatud:" + deletedrows);
             }
         } catch (Exception e){
-            if(BuildConfig.DEBUG) Log.e(LOG, "KusututaHarjutus " + e);
+            if(BuildConfig.DEBUG) Log.e(LOG, "KustutaHarjutus " + e);
         }
 
         return deletedrows;
@@ -254,12 +250,6 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 deletedrows = db.delete(HarjutusKord.Harjutuskordkirje.TABLE_NAME, HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + teosid, null);
                 Teos teos = teosedmap.get(teosid);
                 if(teos != null){
-                    List<HarjutusKord> pHarjutused = teos.getHarjustuskorrad(context);
-                    for(HarjutusKord pH : pHarjutused) {
-                        Intent intent = new Intent(context, KustutaFailDraivistTeenus.class);
-                        intent.putExtra("driveid", pH.getHelifailidriveid());
-                        context.startService(intent);
-                    }
                     teos.EemaldaHarjutuskorradHulkadest();
                 } else {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
@@ -329,7 +319,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public int SalvestaHarjutusKord(Context context, HarjutusKord harjutuskord){
+    public int SalvestaHarjutusKord(HarjutusKord harjutuskord){
 
         int retVal = 0;
         List<HarjutusKord> harjutuskorrad = getTeos(harjutuskord.getTeoseid()).getHarjustuskorrad(context);
@@ -396,7 +386,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     HashMap<Integer, HarjutusKord> harjutuskorradmap = getTeos(c.getInt(0)).getHarjutuskorradmap(context);
                     HarjutusKord harjutusKord = harjutuskorradmap.get(c.getInt(1));
                     harjutusKord.setHelifailidriveweblink(WebLink);
-                    SalvestaHarjutusKord(context,harjutusKord);
+                    harjutusKord.Salvesta(context);
                     if(BuildConfig.DEBUG) Log.d(LOG, "Harjutuskorrale WebLink lisatud" + DriveIDMuutumatu);
                 } else {
                     if(BuildConfig.DEBUG) Log.e(LOG, "Harjutuskorda ei leitud. WebLink lisamata. Driveid:" + DriveIDMuutumatu);
@@ -541,15 +531,10 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
 
     public void KuupaevaHarjutusKorrad(PaevaKirje paevaKirje){
 
-        String selectParing = "SELECT " + Teos.Teosekirje.COLUMN_NAME_NIMI + ","+
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES + ","+
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + ","+
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ","+
-                HarjutusKord.Harjutuskordkirje.TABLE_NAME + "." + HarjutusKord.Harjutuskordkirje._ID + " FROM "
-                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + "," + Teos.Teosekirje.TABLE_NAME + " WHERE " +
-                Teos.Teosekirje.TABLE_NAME + "." + Teos.Teosekirje._ID + "=" +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + " AND date(" +
-                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(paevaKirje.kuupaev) +
+        String selectParing = "SELECT " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ","+
+                HarjutusKord.Harjutuskordkirje._ID + " FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
+                " WHERE date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") >= date('" + Tooriistad.KujundaKuupaev(paevaKirje.kuupaev) +
                 "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
                 ") <= date('" + Tooriistad.KujundaKuupaev(paevaKirje.kuupaev) +
                 "') ORDER BY " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + " DESC";
@@ -561,16 +546,12 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 // looping through all rows and adding to list
                 paevaKirje.bAndmebaasistLaetud = true;
                 if (c.moveToFirst()) {
-                    paevaKirje.Harjutused = new ArrayList<PaevaKirje>();
+                    paevaKirje.Harjutused = new ArrayList<HarjutuskordKirje>();
                     do {
-                        if(BuildConfig.DEBUG) Log.e("KuupaevaHarjutusKorrad", c.getString(0) + " " + c.getInt(1) + " " + c.getInt(2));
-                        PaevaKirje pPK = new PaevaKirje(paevaKirje.kuupaev, paevaKirje.kordadearv, paevaKirje.pikkussekundites);
-                        pPK.Teos = c.getString(0);
-                        pPK.harjutusepikkus = c.getInt(1);
-                        pPK.DriveId = c.getString(2);
-                        pPK.teosid = c.getInt(3);
-                        pPK.harjutusid = c.getInt(4);
-                        pPK.bPeaKirje = false;
+                        if(BuildConfig.DEBUG) Log.e("KuupaevaHarjutusKorrad", c.getInt(0) + " " + c.getInt(1));
+                        Teos teos = getTeos(c.getInt(0));
+                        HarjutusKord harjutusKord = teos.getHarjutuskorradmap(context).get(c.getInt(1));
+                        HarjutuskordKirje pPK = new HarjutuskordKirje(KalendriKirje.Tyyp.HARJUTUS, teos.getNimi(), harjutusKord);
                         paevaKirje.Harjutused.add(pPK);
                     } while (c.moveToNext());
                 }
@@ -582,9 +563,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public HashMap<Long, PaevaKirje> HarjutusteStatistikaPerioodisPaevaKaupa(Date algus, Date lopp){
+    public HashMap<Long, KalendriKirje> HarjutusteStatistikaPerioodisPaevaKaupa(Date algus, Date lopp){
 
-        HashMap<Long, PaevaKirje> pList = new HashMap<Long, PaevaKirje>();
+        HashMap<Long, KalendriKirje> pList = new HashMap<Long, KalendriKirje>();
         String selectParing = "SELECT date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + "), COUNT(*),SUM("+
                 HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +") FROM "
                 + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE date(" +
@@ -603,7 +584,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                         Date pDate = Tooriistad.KuupaevStringist(c.getString(0));
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(pDate);
-                        PaevaKirje kirje = new PaevaKirje(pDate, c.getInt(1), c.getInt(2));
+                        PaevaKirje kirje = new PaevaKirje(KalendriKirje.Tyyp.PAEV, "", pDate, c.getInt(1), c.getInt(2));
                         pList.put(Long.valueOf(cal.getTimeInMillis()),kirje);
                     } while (c.moveToNext());
                 }

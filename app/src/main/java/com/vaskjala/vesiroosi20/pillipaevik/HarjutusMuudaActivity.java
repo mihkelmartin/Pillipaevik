@@ -31,10 +31,10 @@ import java.util.HashMap;
 
 public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
-    private PilliPaevikDatabase mPPManager;
     private int teosid;
     private int harjutusid;
     private HarjutusKord harjutuskord;
+    private int itemposition;
 
     // Vaate lahtrid
     private EditText harjutusekirjelduslahter;
@@ -71,15 +71,17 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         if (savedInstanceState == null) {
             this.teosid = getIntent().getIntExtra("teos_id", 0);
             this.harjutusid = getIntent().getIntExtra("harjutus_id", 0);
+            this.itemposition = getIntent().getIntExtra("item_position", 0);
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
         } else {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teos_id");
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
+            this.itemposition = savedInstanceState.getInt("item_position");
         }
 
 
-        mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         Teos teos = mPPManager.getTeos(this.teosid);
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
         this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
@@ -91,6 +93,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
         if (item.getItemId() == android.R.id.home) {
             Intent output = new Intent();
+            output.putExtra("item_position", itemposition);
             if(AndmedHarjutuses()){
                 SalvestaHarjutus();
                 setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_MUUDA), output);
@@ -160,6 +163,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
         savedInstanceState.putInt("teos_id", this.teosid);
         savedInstanceState.putInt("harjutus_id", this.harjutusid);
+        savedInstanceState.putInt("item_position", this.itemposition);
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
 
         super.onSaveInstanceState(savedInstanceState);
@@ -171,6 +175,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         if(AndmedHarjutuses()) {
             SalvestaHarjutus();
             Intent output = new Intent();
+            output.putExtra("item_position", itemposition);
             setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD), output);
             if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord : " + this.harjutuskord.toString());
         } else {
@@ -199,13 +204,12 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             harjutusekirjelduslahter.setText(getString(R.string.vaikimisisharjutusekirjeldus));
 
         AndmedHarjutusse();
-        if(mPPManager == null)
-            mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        mPPManager.SalvestaHarjutusKord(getApplicationContext(),this.harjutuskord);
+        harjutuskord.Salvesta(getApplicationContext());
     }
     private void KustutaHarjutus(){
-        mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
+        harjutuskord.Kustuta(getApplicationContext());
         Intent output = new Intent();
+        output.putExtra("item_position", itemposition);
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), output);
         if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Harjutuskord kustutatud : " + this.harjutusid);
     }

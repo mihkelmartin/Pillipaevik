@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.vaskjala.vesiroosi20.pillipaevik.kalender.HarjutusteKalenderActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.Kuuaruanne;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.ValiAruandeKuu;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
@@ -113,7 +114,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "item selected");
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             if(BuildConfig.DEBUG) Log.d("Peaaken", "Sahtel valitud");
             return true;

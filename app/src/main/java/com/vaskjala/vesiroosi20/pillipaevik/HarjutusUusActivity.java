@@ -26,7 +26,6 @@ import java.util.HashMap;
 
 public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
-    private PilliPaevikDatabase mPPManager;
     private int teosid;
     private int harjutusid;
     private HarjutusKord harjutus;
@@ -82,7 +81,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         this.harjutusid = getIntent().getIntExtra("harjutusid", 0);
         if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
 
-        mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         Teos teos = mPPManager.getTeos(this.teosid);
         mAction.setTitle(teos.getNimi());
 
@@ -92,7 +91,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
         if (savedInstanceState == null) {
             this.harjutus = new HarjutusKord(this.teosid);
-            mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
+            harjutus.Salvesta(getApplicationContext());
             this.harjutusid = this.harjutus.getId();
             if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Uus harjutus loodud : " + this.harjutusid);
         }else {
@@ -183,10 +182,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             ETharjutusekirjeldus.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
 
         AndmedHarjutusse(this.harjutus);
-        mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
+        harjutus.Salvesta(getApplicationContext());
     }
     private void KustutaHarjutus(){
-        mPPManager.KusututaHarjutus(this.teosid, this.harjutusid);
+        harjutus.Kustuta(getApplicationContext());
         if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Uus harjutuskord kustutatud : " + this.harjutusid);
         Intent output = new Intent();
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA), output);
@@ -213,7 +212,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             mikrofoniLulitiNupp.setEnabled(true);
             SeisataLindistaja();
             SeisataTaimer();
-            mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
+            harjutus.Salvesta(getApplicationContext());
             kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
         } else {
             mikrofoniLulitiNupp.setEnabled(false);
@@ -226,7 +225,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     private void KaivitaTaimer(){
         if(stardiaeg == 0) {
             harjutus.setAlgusaeg(Tooriistad.HetkeKuupaevNullitudSekunditega());
-            mPPManager.SalvestaHarjutusKord(getApplicationContext(), this.harjutus);
+            harjutus.Salvesta(getApplicationContext());
         }
         taimertootab = true;
         this.stardiaeg = System.currentTimeMillis();

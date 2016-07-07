@@ -16,7 +16,6 @@
                 android:id="@+id/seaded_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:elevation="10dp"
                 android:theme="@style/Pillipaevik"
                 app:popupTheme="@style/Pillipaevik"/>
     </android.support.design.widget.AppBarLayout>
@@ -130,7 +129,7 @@
                 android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
         <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/tekstilahtri_aaris"
                 android:layout_marginRight="@dimen/tekstilahtri_aaris"
@@ -140,7 +139,7 @@
                 android:text="@string/kasLubadaMikrofonigaSalvestamine"
         android:onClick="KasSalvestameMikrofoniga"/>
         <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/tekstilahtri_aaris"
                 android:layout_marginRight="@dimen/tekstilahtri_aaris"
@@ -164,11 +163,10 @@
                 android:layout_marginLeft="@dimen/tekstilahtri_aaris"
                 android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
-        <EditText
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/googlelitsents"
-                android:editable="false"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     </LinearLayout>

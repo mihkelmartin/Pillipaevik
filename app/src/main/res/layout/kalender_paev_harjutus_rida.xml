@@ -18,7 +18,7 @@
     <ImageView android:id="@+id/kalender_paev_harjutus_helifaili_pilt"
                android:layout_width="wrap_content"
                android:layout_height="match_parent"
-               android:layout_toLeftOf="@+id/kalender_paev_harjutus_harjutuse_kestus"
+               android:layout_toStartOf="@+id/kalender_paev_harjutus_harjutuse_kestus"
                android:scaleType="centerCrop"
                android:scaleX="@dimen/pildikeste_vahendamine_50persent"
                android:scaleY="@dimen/pildikeste_vahendamine_50persent"

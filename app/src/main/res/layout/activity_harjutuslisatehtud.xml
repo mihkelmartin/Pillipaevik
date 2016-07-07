@@ -31,6 +31,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:singleLine="false"
             android:id="@+id/harjutusekirjeldus"
             android:hint="@string/harjutuse_mida_harjutasid_vihje"
@@ -98,7 +100,7 @@
                       android:onClick="MuudaPikkust"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_marginLeft="0dp"
+                      android:layout_marginStart="0dp"
                       android:layout_margin="@dimen/horisontaalne_aaris"
                       android:text="@string/harjutus_minutit"/>
         </TableRow>

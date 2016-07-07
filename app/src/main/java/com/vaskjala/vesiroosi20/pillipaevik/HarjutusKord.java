@@ -1,7 +1,10 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.content.Context;
+import android.content.Intent;
 import android.provider.BaseColumns;
-import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.KustutaFailDraivistTeenus;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.Calendar;
@@ -209,6 +212,44 @@ public class HarjutusKord {
         setHelifailidriveidmuutumatu(null);
         setHelifailidriveweblink(null);
         setWeblinkaruandele(0);
+    }
+    public void Salvesta(Context context){
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
+        mPPManager.SalvestaHarjutusKord(this);
+    }
+    public void Kustuta(Context context){
+
+        KustutaFailid(context);
+
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
+        mPPManager.KustutaHarjutus(getTeoseid(), getId());
+    }
+    public void KustutaFailid(Context context){
+
+        Tooriistad.KustutaKohalikFail(context.getFilesDir(),getHelifail());
+
+        Intent intent = new Intent(context, KustutaFailDraivistTeenus.class);
+        intent.putExtra("driveid", getHelifailidriveid());
+        context.startService(intent);
+
+    }
+
+    public boolean KasKuvadaSalvestusePilt(Context context){
+        boolean retVal;
+        if(Tooriistad.KasLubadaSalvestamine(context)){
+            if(getHelifail() != null && !getHelifail().isEmpty()){
+                retVal = true;
+            } else {
+                retVal = false;
+            }
+            if(Tooriistad.kasKasutadaGoogleDrive(context) && getHelifailidriveid() != null && !getHelifailidriveid().isEmpty()){
+                retVal = true;
+            }
+        }
+        else{
+            retVal = false;
+        }
+        return retVal;
     }
 
     public String toString(){

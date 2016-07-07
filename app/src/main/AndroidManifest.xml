@@ -94,7 +94,7 @@
                     android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"/>
         </activity>
         <activity
-                android:name=".HarjutusteKalenderActivity"
+                android:name=".kalender.HarjutusteKalenderActivity"
                 android:label="@string/title_activity_harjutuste_kalender"
                 android:parentActivityName=".TeosListActivity"
                 android:theme="@style/Pillipaevik"

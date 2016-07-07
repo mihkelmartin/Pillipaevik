@@ -5,40 +5,33 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
-                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.HarjutusteKalenderActivity">
+                                                 tools:context=".kalender.HarjutusteKalenderActivity">
 
 
-    <RelativeLayout
-            android:id="@+id/kalendri_pea_layout"
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".HarjutusteKalenderActivity">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.design.widget.AppBarLayout
-                android:id="@+id/app_bar"
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/kalender_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay">
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:navigationIcon="@drawable/ic_menu_black_18dp"
+                android:theme="@style/Pillipaevik"
+                app:popupTheme="@style/Pillipaevik"/>
 
-            <android.support.v7.widget.Toolbar
-                    android:id="@+id/kalender_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_alignParentTop="true"
-                    android:navigationIcon="@drawable/ic_menu_black_18dp"
-                    android:theme="@style/Pillipaevik"
-                    app:popupTheme="@style/Pillipaevik"/>
+    </android.support.design.widget.AppBarLayout>
 
-        </android.support.design.widget.AppBarLayout>
-
-
-        <android.support.v4.view.ViewPager
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/app_bar"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView android:id="@+id/kalendri_tabel"
+                                            android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusteKalenderActivity"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            app:layoutManager="LinearLayoutManager"
+                                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                            tools:context=".kalender.HarjutusteKalenderActivity"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,8 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
-import com.vaskjala.vesiroosi20.pillipaevik.PaevaKirje;
+import com.vaskjala.vesiroosi20.pillipaevik.kalender.KalendriKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
+import com.vaskjala.vesiroosi20.pillipaevik.kalender.PaevaKirje;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -246,31 +247,27 @@ public final class Tooriistad {
         }
         return retVal;
     }
-    public static List<PaevaKirje> LooKuupaevad(Context context, int paevi){
 
-        List<PaevaKirje> mPL = new ArrayList<PaevaKirje>();
+    public static void LooKuupaevad(Context context, int paevi, List<KalendriKirje> mPL){
+
         Calendar c = Calendar.getInstance();
         Calendar calgus = Calendar.getInstance();
         calgus.add(Calendar.DAY_OF_MONTH, -1 * paevi);
 
         PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(context);
-        HashMap<Long, PaevaKirje> mHM = pilliPaevikDatabase.HarjutusteStatistikaPerioodisPaevaKaupa(calgus.getTime(),c.getTime());
+        HashMap<Long, KalendriKirje> mHM = pilliPaevikDatabase.HarjutusteStatistikaPerioodisPaevaKaupa(calgus.getTime(),c.getTime());
 
         c.setTime(Tooriistad.HetkeKuupaevNullitudKellaAjaga());
         c.add(Calendar.DAY_OF_MONTH, 1);
 
         for(int i = 0; i< paevi ; i++) {
             c.add(Calendar.DAY_OF_MONTH, -1);
-            PaevaKirje mPK = new PaevaKirje(c.getTime(), 0, 0);
-            PaevaKirje mAndmebaasist = mHM.get(c.getTimeInMillis());
-            if(mAndmebaasist != null) {
-                mPK.kordadearv = mAndmebaasist.kordadearv;
-                mPK.pikkussekundites = mAndmebaasist.pikkussekundites;
+            KalendriKirje mPK = mHM.get(c.getTimeInMillis());
+            if(mPK == null) {
+                mPK = new PaevaKirje(KalendriKirje.Tyyp.PAEV, "", c.getTime(), 0, 0);
             }
             mPL.add(mPK);
         }
-        return  mPL;
-
     }
 
     // Varukoopia
@@ -337,13 +334,19 @@ public final class Tooriistad {
 
     public static boolean KustutaKohalikFail(File dir, String failinimi){
         boolean retVal;
-        File file = new File(dir, failinimi);
-        if(file.delete()) {
-            if (BuildConfig.DEBUG) Log.d("Tooriistad", "Kohalik fail kustutatud :" + dir.getPath() + "/" + failinimi);
-            retVal = true;
-        }
-        else {
-            if (BuildConfig.DEBUG) Log.e("Tooriistad", "Kohaliku faili kustutamisel viga !");
+
+        if(failinimi != null) {
+            File file = new File(dir, failinimi);
+            if (file.delete()) {
+                if (BuildConfig.DEBUG)
+                    Log.d("Tooriistad", "Kohalik fail kustutatud :" + dir.getPath() + "/" + failinimi);
+                retVal = true;
+            } else {
+                if (BuildConfig.DEBUG) Log.e("Tooriistad", "Kohaliku faili kustutamisel viga !");
+                retVal = false;
+            }
+        } else {
+            if (BuildConfig.DEBUG) Log.e("Tooriistad", "Kohaliku faili kustutamisel viga. failinimi==null!");
             retVal = false;
         }
         return retVal;

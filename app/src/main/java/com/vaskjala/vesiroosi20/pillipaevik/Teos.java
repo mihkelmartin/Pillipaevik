@@ -1,9 +1,11 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.KustutaFailDraivistTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 
 import java.util.*;
@@ -37,6 +39,10 @@ public class Teos implements Comparable<Teos> {
         public static final String COLUMN_NAME_HINNANG = "hinnang";
         public static final String COLUMN_NAME_LISATUDPAEVIKUSSE = "lisatudpaevikusse";
         public static final String COLUMN_NAME_KASUTUSVIIS = "kasutusviis";
+    }
+
+    public Teos(){
+
     }
 
     private void LoadHarjustuskorrad(Context context) {
@@ -131,9 +137,23 @@ public class Teos implements Comparable<Teos> {
         this.kasutusviis = kasutusviis;
     }
 
-    public Teos(){
-
+    public void Salvesta(Context context){
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
+        mPPManager.SalvestaTeos(this);
     }
+    public void Kustuta(Context context){
+        KustutaHarjutusteFailid(context);
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
+        mPPManager.KustutaTeos(getId());
+    }
+
+    public void KustutaHarjutusteFailid(Context context){
+        List<HarjutusKord> pHarjutused = getHarjustuskorrad(context);
+        for(HarjutusKord pH : pHarjutused) {
+            pH.KustutaFailid(context);
+        }
+    }
+
 
     public String toString(){
         return "ID:" + id + "Nimi:" + this.nimi + " Autor:" + this.autor +

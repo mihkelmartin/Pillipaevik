@@ -17,7 +17,6 @@
                 android:id="@+id/harjutus_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:elevation="10dp"
                 android:theme="@style/Pillipaevik"
                 app:popupTheme="@style/Pillipaevik"/>
 
@@ -32,6 +31,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:singleLine="false"
             android:id="@+id/harjutusekirjeldus"
             android:hint="@string/harjutuse_mida_harjutasid_vihje"
@@ -92,7 +93,7 @@
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_margin="@dimen/horisontaalne_aaris"
-                      android:text="minutit"/>
+                      android:text="@string/minutit"/>
         </TableRow>
         </TableLayout>
         <RelativeLayout android:id="@+id/SalvestuseRiba"
@@ -111,13 +112,13 @@
             <ImageButton android:id="@+id/mangi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/salvestusepilt"
+                    android:layout_toEndOf="@+id/salvestusepilt"
                     android:src="@drawable/ic_play_arrow_black_18dp"
                     android:onClick="MangiLugu"/>
             <ImageButton android:id="@+id/stopp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/mangi"
+                    android:layout_toEndOf="@+id/mangi"
                     android:clickable="false"
                     android:src="@drawable/ic_stop_black_18dp"
                     android:onClick="MangiLugu"/>
@@ -125,7 +126,7 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_centerVertical="true"
-                      android:layout_toRightOf="@+id/stopp"
+                      android:layout_toEndOf="@+id/stopp"
                       android:text="@string/link_aruandel_kysimus"/>
             <ImageButton android:id="@+id/kustutasalvestus"
                          android:layout_width="wrap_content"
