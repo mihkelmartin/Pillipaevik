@@ -4,9 +4,9 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -61,7 +61,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
 
         mPPManager = new PilliPaevikDatabase(getApplicationContext());
 
-        setupDrawer(toolbar);
+        SeadistaNaviVaade(toolbar);
 
         View recyclerView = findViewById(R.id.harjutua_list);
         assert recyclerView != null;
@@ -71,7 +71,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "savedInstanceState != null");
             bEsimeneAvamine = false;
         }
-
     }
 
     @Override
@@ -93,17 +92,80 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             }
         }
     }
-
     @Override
     protected void onStop() {
         bEsimeneAvamine = false;
         super.onStop();
     }
-
     @Override
     protected void onDestroy() {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onDestroy");
         super.onDestroy();
+    }
+
+    private void SeadistaNaviVaade(Toolbar toolbar){
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar, R.string.ava_sahtel,
+                R.string.sule_sahtel
+        ) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        NavigationView navivaade = (NavigationView) findViewById(R.id.sahtli_navivaade);
+        navivaade.setNavigationItemSelectedListener(new NaviMenyyKuulaja(navivaade, mDrawerLayout));
+
+    }
+    public class NaviMenyyKuulaja implements NavigationView.OnNavigationItemSelectedListener
+    {
+        private NavigationView navigationView;
+        private DrawerLayout drawerLayout;
+        NaviMenyyKuulaja(NavigationView navigationView, DrawerLayout drawerLayout){
+            this.navigationView = navigationView;
+            this.drawerLayout = drawerLayout;
+        }
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            Intent i;
+            switch (item.getItemId()) {
+                case R.id.harjutuste_kalender :
+                    i = new Intent(navigationView.getContext(), HarjutusteKalenderActivity.class);
+                    startActivity(i);
+                    break;
+                case R.id.saada_aruanne :
+                    Bundle args = new Bundle();
+                    DialogFragment valiAruandeKuu = new ValiAruandeKuu();
+                    valiAruandeKuu.setArguments(args);
+                    valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
+                    break;
+                case R.id.seaded :
+                    if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
+                    Intent intentSeaded = new Intent(navigationView.getContext(), SeadedActivity.class);
+                    startActivity(intentSeaded);
+                    break;
+                case R.id.teave :
+                    if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
+                    Intent intentTeave = new Intent(navigationView.getContext(), TeaveActivity.class);
+                    startActivity(intentTeave);
+                    break;
+                default:
+                    break;
+            }
+            drawerLayout.closeDrawer(navigationView);
+            return false;
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,18 +180,12 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             if(BuildConfig.DEBUG) Log.d("Peaaken", "Sahtel valitud");
             return true;
         }
-        if(item.getItemId()==R.id.seaded){
-            if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
-            Intent intent = new Intent(this, SeadedActivity.class);
-            startActivity(intent);
-        }
         if(item.getItemId()==R.id.lisateos){
             if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Lisateos vajutatud");
             Intent intent = new Intent(this, TeosActivity.class);
             intent.putExtra("item_id", -1);
             startActivityForResult(intent,getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA));
         }
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }
@@ -287,147 +343,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             }
         }
     }
-    private void setupDrawer (Toolbar toolbar) {
-        DrawerLayout mDrawerLayout;
-        ListView mDrawerList;
 
-        final String[][] mSahtliValikud = new String[2][];
-        mSahtliValikud[0] = getResources().getStringArray(R.array.sahtli_valikud_ikoonid);
-        mSahtliValikud[1] = getResources().getStringArray(R.array.sahtli_valikud);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(mDrawerLayout,mDrawerList));
-
-        mDrawerList.setAdapter(new ListAdapter() {
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return true;
-            }
-
-            @Override
-            public boolean isEnabled(int position) {
-                return true;
-            }
-
-            @Override
-            public void registerDataSetObserver(DataSetObserver observer) {
-
-            }
-
-            @Override
-            public void unregisterDataSetObserver(DataSetObserver observer) {
-
-            }
-
-            @Override
-            public int getCount() {
-                return mSahtliValikud[0].length;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View returnview = null;
-                if(convertView != null)
-                    returnview = convertView;
-                if(returnview == null) {
-                    if(position == 0){
-                        returnview = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.sahtli_esimene_rida, parent, false);
-                    } else {
-                        returnview = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.drawer_list_item, parent, false);
-                        ImageView imageView = (ImageView) (returnview.findViewById(R.id.drawerimageid));
-                        imageView.setImageResource(getResources().getIdentifier(mSahtliValikud[0][position], null, null));
-                        TextView textView = (TextView) (returnview.findViewById(R.id.drawertextid));
-                        textView.setText(mSahtliValikud[1][position]);
-                    }
-                }
-                return returnview;
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                return 0;
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return 1;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-        });
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, toolbar, R.string.ava_sahtel,
-                R.string.sule_sahtel
-        ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-
-    }
-    public class DrawerItemClickListener implements ListView.OnItemClickListener {
-        DrawerLayout mDrawerLayout;
-        ListView mDrawerList;
-
-        DrawerItemClickListener(DrawerLayout dL, ListView lV) {
-            mDrawerLayout = dL;
-            mDrawerList = lV;
-        }
-
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-            Intent i;
-            switch (position) {
-                case 1 :
-                    i = new Intent(view.getContext(), HarjutusteKalenderActivity.class);
-                    startActivity(i);
-                    break;
-                case 2 :
-                    Bundle args = new Bundle();
-                    DialogFragment valiAruandeKuu = new ValiAruandeKuu();
-                    valiAruandeKuu.setArguments(args);
-                    valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
-                    break;
-                default:
-                    break;
-            }
-            mDrawerLayout.closeDrawer(mDrawerList);
-        }
-
-    }
 
     @Override
     public void kuiJahVastus(DialogFragment dialog) {

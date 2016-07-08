@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="false"
+                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.SeadedActivity">
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/teave_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Pillipaevik"
+                app:popupTheme="@style/Pillipaevik"/>
+    </android.support.design.widget.AppBarLayout>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/horisontaalne_aaris"
+                  android:layout_marginEnd="@dimen/horisontaalne_aaris">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tekstilahtri_aaris"
+                android:text="@string/teave_google_kasutus"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
+                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                android:background="@color/colorPrimaryDark" />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/googlelitsents"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

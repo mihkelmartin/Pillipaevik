@@ -7,8 +7,4 @@
             android:title="@string/lisa_teos"
             android:icon="@drawable/ic_add_black_18dp"
             app:showAsAction="ifRoom"/>
-    <item
-            android:id="@+id/seaded"
-            android:title="@string/seaded_menyy"
-            app:showAsAction="never"/>
 </menu>

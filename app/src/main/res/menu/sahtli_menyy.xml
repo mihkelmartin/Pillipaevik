@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+            android:id="@+id/peamine"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/harjutuste_kalender"
+                android:icon="@drawable/ic_date_range_black_18dp"
+                android:title="@string/menyyvalik_harjutuste_kalender"/>
+        <item
+                android:id="@+id/saada_aruanne"
+                android:icon="@drawable/ic_description_black_18dp"
+                android:title="@string/menyyvalik_saada_aruanne"/>
+    </group>
+
+    <group
+            android:id="@+id/alumine"
+            android:checkableBehavior="none">
+
+        <item
+                android:id="@+id/seaded"
+                android:icon="@drawable/ic_settings_black_18dp"
+                android:title="@string/menyyvalik_saada_satted" >
+        </item>
+        <item
+                android:id="@+id/teave"
+                android:icon="@drawable/ic_info_black_18dp"
+                android:title="@string/menyyvalik_saada_teave" >
+        </item>
+    </group>
+</menu>

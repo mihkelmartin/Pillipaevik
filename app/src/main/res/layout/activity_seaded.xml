@@ -163,12 +163,6 @@
                 android:layout_marginLeft="@dimen/tekstilahtri_aaris"
                 android:layout_marginRight="@dimen/tekstilahtri_aaris"
                 android:background="@color/colorPrimaryDark" />
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/googlelitsents"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-
     </LinearLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

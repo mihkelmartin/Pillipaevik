@@ -30,7 +30,6 @@ public class SeadedActivity extends AppCompatActivity {
 
     private EditText paevasharjutada;
 
-    private TextView googlelitsents;
     private EditText googlekonto;
     private Switch kasLubadaMikrofonigaSalvestamine;
     private Switch kaskasutadagoogledrive;
@@ -46,7 +45,6 @@ public class SeadedActivity extends AppCompatActivity {
         AlustaAtribuudid();
         TaastaAndmed();
         PaneFookusePassija();
-        googlelitsents.setText( GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(this));
 
     }
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -76,7 +74,6 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaperenimi = ((EditText)findViewById(R.id.opetajaperenimi));
         opetajaepost = ((EditText)findViewById(R.id.opetajaepost));
         paevasharjutada = ((EditText)findViewById(R.id.paevasharjutada));
-        googlelitsents = ((TextView)findViewById(R.id.googlelitsents));
         googlekonto = ((EditText)findViewById(R.id.googlekonto));
         kasLubadaMikrofonigaSalvestamine = ((Switch) findViewById(R.id.kasLubadaMikrofonigaSalvestamine));
         kaskasutadagoogledrive = ((Switch) findViewById(R.id.kasKasutadaGoogleDrive));

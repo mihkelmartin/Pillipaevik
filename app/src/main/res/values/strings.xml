@@ -12,7 +12,6 @@
 
 
     // Menüüd
-    <string name="seaded_menyy">Seaded…</string>
     <string name="lisa_teos">Lisa teos…</string>
     <string name="kusututa">Kusututa…</string>
     <string name="AlustaUutHarjutust">Alusta uut…</string>
@@ -67,6 +66,10 @@
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
     <string name="google_konto_vihje">Google konto</string>
 
+    // Teave Activity
+    <string name="teave_tiitel">Teave rakenduse kohta</string>
+    <string name="teave_google_kasutus">Pillipäevik kasutab Google teenuseid. All Google teenuste kasutustingimused</string>
+
     // HarjutusteKalenderActivity
     <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
 
@@ -117,16 +120,10 @@
 
 
     // Pealehe sahtel
-    <string-array name="sahtli_valikud_ikoonid">
-        <item>Päis</item>
-        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_day_black_18dp</item>
-        <item>com.vaskjala.vesiroosi20.pillipaevik:drawable/ic_view_week_black_18dp</item>
-    </string-array>
-    <string-array name="sahtli_valikud">
-        <item>Päis</item>
-        <item>Harjutuste kalender</item>
-        <item>Saada aruanne</item>
-    </string-array>
+    <string name="menyyvalik_harjutuste_kalender">Harjutuste kalender</string>
+    <string name="menyyvalik_saada_aruanne">Saada aruanne</string>
+    <string name="menyyvalik_saada_satted">Seaded</string>
+    <string name="menyyvalik_saada_teave">Teave</string>
 
     // Activitite tagasiside koodid
     <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>
