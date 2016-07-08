@@ -27,6 +27,9 @@
         <service
                 android:name=".teenused.KustutaFailDraivistTeenus"
                 android:exported="false"/>
+        <service
+                android:name=".teenused.KorrastaDraivFailidTeenus"
+                android:exported="false"/>
         <service android:name=".teenused.GoogleDriveTagasiSide" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.drive.events.HANDLE_EVENT"/>

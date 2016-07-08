@@ -21,9 +21,7 @@ import com.vaskjala.vesiroosi20.pillipaevik.kalender.HarjutusteKalenderActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.Kuuaruanne;
 import com.vaskjala.vesiroosi20.pillipaevik.aruanded.ValiAruandeKuu;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
 import java.util.*;
 
@@ -89,6 +87,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
                 GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                 mGDU.LooDriveUhendus();
+                Intent intent = new Intent(this, KorrastaDraivFailidTeenus.class);
+                startService(intent);
             }
         }
     }
@@ -125,6 +125,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         mDrawerToggle.syncState();
 
         NavigationView navivaade = (NavigationView) findViewById(R.id.sahtli_navivaade);
+        navivaade.setItemIconTintList(null);
         navivaade.setNavigationItemSelectedListener(new NaviMenyyKuulaja(navivaade, mDrawerLayout));
 
     }

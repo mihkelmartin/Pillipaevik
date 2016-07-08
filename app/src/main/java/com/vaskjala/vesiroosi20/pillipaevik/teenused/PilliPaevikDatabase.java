@@ -492,6 +492,64 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return pList;
     }
 
+    public List<HarjutusKord> LeiaDraivistPuuduvadFailid(){
+
+        List<HarjutusKord> pList = new ArrayList<HarjutusKord>();
+        String selectParing = "SELECT " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + ","
+                + HarjutusKord.Harjutuskordkirje._ID + " FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE " +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL + " IS NOT NULL AND " +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + " IS NULL";
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
+        try{
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                if (c.moveToFirst()) {
+                    do {
+                        HashMap<Integer, HarjutusKord> harjutuskorradmap = getTeos(c.getInt(0)).getHarjutuskorradmap(context);
+                        HarjutusKord harjutusKord = harjutuskorradmap.get(c.getInt(1));
+                        if(BuildConfig.DEBUG) Log.d("LeiaDraivistPuuduvadFa", "Harjutuskord: " + harjutusKord.toString());
+                        pList.add(harjutusKord);
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
+            }
+        } catch (Exception e){
+            if(BuildConfig.DEBUG) Log.e("LeiaDraivistPuuduvadFa", "Ei suuda lugeda" + e.toString());
+        }
+        return pList;
+    }
+
+    public List<String> LeiaDraivistIlmaLingitaFailid(){
+
+        List<String> pList = new ArrayList<String>();
+        String selectParing = "SELECT " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + " FROM "
+                + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " WHERE " +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAIL + " IS NOT NULL AND " +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEID + " IS NOT NULL AND " +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_HELIFAILIDRIVEWEBLINK + " IS NULL";
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
+        try{
+            synchronized (sPilliPaevikuLukk) {
+                SQLiteDatabase db = this.getReadableDatabase();
+                Cursor c = db.rawQuery(selectParing, null);
+                // looping through all rows and adding to list
+                if (c.moveToFirst()) {
+                    do {
+                        pList.add(c.getString(0));
+                    } while (c.moveToNext());
+                }
+                c.close();
+                db.close();
+            }
+        } catch (Exception e){
+            if(BuildConfig.DEBUG) Log.e("LeiaDraivistIlma", "Ei suuda lugeda" + e.toString());
+        }
+        return pList;
+    }
+
     // See on aruande jaoks
     public List<DetailiKirje> HarjutusKorradPerioodis(Date algus, Date lopp){
 
