@@ -33,12 +33,14 @@
                      xmlns:tools="http://schemas.android.com/tools"
                      android:layout_width="match_parent"
                      android:layout_height="match_parent"
+                     android:background="@color/accent_material_light_1"
                      app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <TableLayout android:id="@+id/harjutatudprogresstabel"
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          android:layout_marginLeft="@dimen/horisontaalne_aaris"
                          android:layout_marginRight="@dimen/horisontaalne_aaris"
+                         android:background="@color/accent_material_light_1"
                          android:layout_alignParentBottom="true">
             <TableRow android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -148,8 +150,6 @@
                                                     android:name="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content"
-                                                    android:layout_marginLeft="@dimen/horisontaalne_aaris"
-                                                    android:layout_marginRight="@dimen/horisontaalne_aaris"
                                                     android:layout_above="@+id/harjutatudprogresstabel"
                                                     android:layout_alignParentTop="true"
                                                     tools:context=".TeosListActivity"
@@ -164,6 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="@drawable/kitarrtransp"
             app:headerLayout="@layout/navivaate_tiitel"
             app:menu="@menu/sahtli_menyy" />
 </android.support.v4.widget.DrawerLayout>

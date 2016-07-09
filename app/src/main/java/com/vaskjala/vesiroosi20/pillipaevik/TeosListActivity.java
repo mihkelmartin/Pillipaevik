@@ -40,14 +40,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teos_list);
 
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
-        String minueesnimi = sharedPref.getString("minueesnimi", "");
-        String tiitel = getString(R.string.rakenduse_pealkiri);
-        if(!minueesnimi.isEmpty()) {
-            tiitel = tiitel + " - " + minueesnimi;
-        }
-
-        this.setTitle(tiitel);
+        this.setTitle(getString(R.string.rakenduse_pealkiri));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,8 +80,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
                 GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                 mGDU.LooDriveUhendus();
-                Intent intent = new Intent(this, KorrastaDraivFailidTeenus.class);
-                startService(intent);
+                //Intent intent = new Intent(this, KorrastaDraivFailidTeenus.class);
+                //startService(intent);
             }
         }
     }
@@ -127,7 +120,17 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         NavigationView navivaade = (NavigationView) findViewById(R.id.sahtli_navivaade);
         navivaade.setItemIconTintList(null);
         navivaade.setNavigationItemSelectedListener(new NaviMenyyKuulaja(navivaade, mDrawerLayout));
-
+        View header = navivaade.getHeaderView(0);
+        TextView mOpilane = (TextView)header.findViewById(R.id.navitiitli_nimevali);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
+        String nimi = sharedPref.getString("minueesnimi", "");
+        if(!nimi.isEmpty()) {
+            String perenimi = sharedPref.getString("minuperenimi", "");
+            if (!perenimi.isEmpty()) {
+                nimi = nimi + " " + perenimi;
+            }
+        }
+        mOpilane.setText(nimi);
     }
     public class NaviMenyyKuulaja implements NavigationView.OnNavigationItemSelectedListener
     {

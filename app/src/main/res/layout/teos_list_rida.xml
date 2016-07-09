@@ -4,56 +4,84 @@
               android:layout_height="wrap_content"
               android:minHeight="@dimen/tabeli_rea_korgus"
               android:orientation="horizontal">
-
-    <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="start|center_vertical"
-            android:layout_weight="1"
-            android:textAppearance="?attr/textAppearanceListItem"/>
     <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="center_vertical"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:background="@color/accent_material_light_1"
+                  android:orientation="vertical">
+        <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/horisontaalne_aaris"
+                android:gravity="start|center_vertical"
+                android:singleLine="true"
+                android:layout_weight="1"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textStyle="bold"/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:background="@android:color/white"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
                   android:layout_weight="0"
-                  android:orientation="horizontal">
+                  android:background="@color/primary_material_light"
+                  android:orientation="vertical">
         <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal"
-                      android:layout_weight="1">
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_weight="0"
-                       android:scaleType="centerInside"
-                       android:scaleX="@dimen/pildikeste_vahendamine_50persent"
-                       android:scaleY="@dimen/pildikeste_vahendamine_50persent"
-                       android:src="@drawable/ic_replay_black_18dp"/>
-            <TextView android:id="@+id/teoslistteoseharjutustearv"
-                      android:layout_width="@dimen/korduste_arvu_laius"
-                      android:layout_height="match_parent"
-                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                      android:gravity="end|center_vertical"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
                       android:layout_weight="1"
-                      android:text="0"/>
+                      android:orientation="horizontal">
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:orientation="horizontal"
+                          android:layout_weight="1">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:layout_weight="0"
+                           android:scaleType="centerInside"
+                           android:scaleX="@dimen/pildikeste_vahendamine_teoslist"
+                           android:scaleY="@dimen/pildikeste_vahendamine_teoslist"
+                           android:background="@color/primary_material_light"
+                           android:src="@drawable/ic_replay_white_18dp"/>
+                <TextView android:id="@+id/teoslistteoseharjutustearv"
+                          android:layout_width="@dimen/korduste_arvu_laius"
+                          android:layout_height="match_parent"
+                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                          android:gravity="center_horizontal|center_vertical"
+                          android:layout_weight="1"
+                          android:background="@color/primary_material_light"
+                          android:textColor="@android:color/white"
+                          android:text="0"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:orientation="horizontal"
+                          android:layout_weight="1">
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:layout_weight="0"
+                           android:scaleType="centerInside"
+                           android:scaleX="@dimen/pildikeste_vahendamine_teoslist"
+                           android:scaleY="@dimen/pildikeste_vahendamine_teoslist"
+                           android:background="@color/primary_material_light"
+                           android:src="@drawable/ic_query_builder_white_18dp"/>
+                <TextView android:id="@+id/teoslistteoseharjutustekestus"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:gravity="start|center_vertical"
+                          android:layout_weight="1"
+                          android:paddingEnd="8dp"
+                          android:background="@color/primary_material_light"
+                          android:textColor="@android:color/white"
+                          android:text="00:00"/>
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal"
-                      android:layout_weight="1">
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       android:layout_weight="0"
-                       android:scaleType="centerInside"
-                       android:scaleX="@dimen/pildikeste_vahendamine_50persent"
-                       android:scaleY="@dimen/pildikeste_vahendamine_50persent"
-                       android:src="@drawable/ic_query_builder_black_18dp"/>
-            <TextView android:id="@+id/teoslistteoseharjutustekestus"
-                      android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:gravity="start|center_vertical"
-                      android:layout_weight="1"
-                      android:paddingEnd="8dp"
-                      android:text="00:00"/>
-        </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:background="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>

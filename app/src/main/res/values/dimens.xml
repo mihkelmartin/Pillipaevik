@@ -5,6 +5,7 @@
     <dimen name="sahtli_tekstide_font">15sp</dimen>
     <dimen name="harjutus_listi_tekstide_font">12sp</dimen>
 
+
     <!-- Äärised -->
     <dimen name="horisontaalne_aaris">12dp</dimen>
     <dimen name="vertikaalne_aaris">16dp</dimen>
@@ -15,11 +16,13 @@
     <dimen name="eraldusjoone_alumine_aaris">8dp</dimen>
     <dimen name="eraldusjoone_ylemine_aaris">8dp</dimen>
 
+    <dimen name="navivaate_tiitli_korgus">128dp</dimen>
 
-    <dimen name="tabeli_rea_korgus">40sp</dimen>
+    <dimen name="tabeli_rea_korgus">60sp</dimen>
 
     <dimen name="korduste_arvu_laius">36sp</dimen>
 
     <item name="pildikeste_vahendamine_50persent" format="float" type="dimen">0.5</item>
+    <item name="pildikeste_vahendamine_teoslist" format="float" type="dimen">0.85</item>
 
 </resources>
