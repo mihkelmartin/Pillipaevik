@@ -25,24 +25,26 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/horisontaalne_aaris"
-                  android:layout_marginEnd="@dimen/horisontaalne_aaris">
+                  android:layout_height="wrap_content">
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tekstilahtri_aaris"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:text="@string/teave_google_kasutus"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
-                android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
-                android:background="@color/colorPrimaryDark" />
+                android:layout_marginBottom="@dimen/eraldusjoone_paksus"
+                android:background="@android:color/black" />
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/googlelitsents"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>

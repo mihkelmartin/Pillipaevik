@@ -258,28 +258,38 @@ public class GoogleDriveUhendus  implements
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-        if(mCredential == null) {
-            mCredential = GoogleAccountCredential.usingOAuth2(
-                    mApplicationContext, Arrays.asList(SCOPES))
-                    .setBackOff(new ExponentialBackOff());
-            SeadistaKontoSeadetest();
-        }
+        if(isDeviceOnline()) {
+            if (mCredential == null) {
+                mCredential = GoogleAccountCredential.usingOAuth2(
+                        mApplicationContext, Arrays.asList(SCOPES))
+                        .setBackOff(new ExponentialBackOff());
+                SeadistaKontoSeadetest();
+            }
 
-        mService = new com.google.api.services.drive.Drive.Builder(
-                transport, jsonFactory, mCredential)
-                .setApplicationName("PilliPaevik")
-                .build();
+            mService = new com.google.api.services.drive.Drive.Builder(
+                    transport, jsonFactory, mCredential)
+                    .setApplicationName("PilliPaevik")
+                    .build();
 
-        com.google.api.services.drive.model.Permission avalikluba =
-                new com.google.api.services.drive.model.Permission().setType("anyone").setRole("reader");
-        try {
-            mService.permissions().create(driveId.getResourceId(), avalikluba).execute();
-        } catch (UserRecoverableAuthIOException e) {
-            if (BuildConfig.DEBUG)
-                Log.e("GoogleDriveTagasiSide", "DriveFailAvalikuks. UserRecoverableAuthIOException:" + e.toString());
-        } catch (IOException e) {
-            if (BuildConfig.DEBUG)
-                Log.e("GoogleDriveTagasiSide", "DriveFailAvalikuks. IOException:" + e.toString());
+            com.google.api.services.drive.model.Permission avalikluba =
+                    new com.google.api.services.drive.model.Permission().setType("anyone").setRole("reader");
+
+            String driveIdStr = driveId.getResourceId();
+            if(driveIdStr != null) {
+                try {
+                    mService.permissions().create(driveIdStr, avalikluba).execute();
+                } catch (UserRecoverableAuthIOException e) {
+                    if (BuildConfig.DEBUG)
+                        Log.e("GoogleDriveUhendus", "DriveFailAvalikuks. UserRecoverableAuthIOException:" + e.toString());
+                } catch (IOException e) {
+                    if (BuildConfig.DEBUG)
+                        Log.e("GoogleDriveUhendus", "DriveFailAvalikuks. IOException:" + e.toString());
+                }
+            } else {
+                Log.e("GoogleDriveUhendus", "DriveFailAvalikuks. getResourceId == null");
+            }
+        } else {
+            Log.e("GoogleDriveUhendus", "DriveFailAvalikuks. Internetiühendus puudub ");
         }
     }
     public void KustutaDriveFail(String failiDriveID) {
@@ -431,7 +441,7 @@ public class GoogleDriveUhendus  implements
     }
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr =
-                (ConnectivityManager) mAktiivneActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) mApplicationContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }

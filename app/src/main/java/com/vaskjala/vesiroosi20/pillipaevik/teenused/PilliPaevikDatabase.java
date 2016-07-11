@@ -606,7 +606,7 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 if (c.moveToFirst()) {
                     paevaKirje.Harjutused = new ArrayList<HarjutuskordKirje>();
                     do {
-                        if(BuildConfig.DEBUG) Log.e("KuupaevaHarjutusKorrad", c.getInt(0) + " " + c.getInt(1));
+                        if(BuildConfig.DEBUG) Log.d("KuupaevaHarjutusKorrad", c.getInt(0) + " " + c.getInt(1));
                         Teos teos = getTeos(c.getInt(0));
                         HarjutusKord harjutusKord = teos.getHarjutuskorradmap(context).get(c.getInt(1));
                         HarjutuskordKirje pPK = new HarjutuskordKirje(KalendriKirje.Tyyp.HARJUTUS, teos.getNimi(), harjutusKord);

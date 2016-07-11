@@ -80,8 +80,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
                 GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                 mGDU.LooDriveUhendus();
-                //Intent intent = new Intent(this, KorrastaDraivFailidTeenus.class);
-                //startService(intent);
+                Intent intent = new Intent(this, KorrastaDraivFailidTeenus.class);
+                startService(intent);
             }
         }
     }
@@ -142,6 +142,9 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         }
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
+
+            drawerLayout.closeDrawer(navigationView);
+
             Intent i;
             switch (item.getItemId()) {
                 case R.id.harjutuste_kalender :
@@ -167,7 +170,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 default:
                     break;
             }
-            drawerLayout.closeDrawer(navigationView);
             return false;
         }
     }

@@ -20,7 +20,7 @@
     <ImageView android:id="@+id/harjutuslisti_pilt"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:layout_toStartOf="@+id/harjutuslist_kuupaev"
+               android:layout_toStartOf="@+id/harjutuslist_kestus"
                android:scaleType="centerCrop"
                android:scaleX="@dimen/pildikeste_vahendamine_uldine"
                android:scaleY="@dimen/pildikeste_vahendamine_uldine"

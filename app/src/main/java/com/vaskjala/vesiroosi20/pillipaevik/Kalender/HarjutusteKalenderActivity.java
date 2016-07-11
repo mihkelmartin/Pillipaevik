@@ -1,7 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik.kalender;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v7.app.ActionBar;
@@ -36,12 +36,8 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
         ActionBar mAction = getSupportActionBar();
         mAction.setDisplayHomeAsUpEnabled(true);
 
-        pPaevadeList = new ArrayList<KalendriKirje>();
-        Tooriistad.LooKuupaevad(getApplicationContext(), 60, pPaevadeList);
-
-        RecyclerView mKalendriTabel = (RecyclerView) findViewById(R.id.kalendri_tabel);
-        mMainAdapter = new HarjutusKalenderPaevadRecyclerViewAdapter(pPaevadeList);
-        mKalendriTabel.setAdapter(mMainAdapter);
+        LaeKalendriAndmed laeKalendriAndmed = new LaeKalendriAndmed();
+        laeKalendriAndmed.execute();
 
     }
     @Override
@@ -61,6 +57,22 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
                 Tooriistad.LooKuupaevad(getApplicationContext(), 60, pPaevadeList);
                 mMainAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    private class LaeKalendriAndmed extends AsyncTask<Void, Void, Void> {
+
+        protected Void doInBackground(Void ... params) {
+            pPaevadeList = new ArrayList<KalendriKirje>();
+            Tooriistad.LooKuupaevad(getApplicationContext(), 60, pPaevadeList);
+            mMainAdapter = new HarjutusKalenderPaevadRecyclerViewAdapter(pPaevadeList);
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            RecyclerView mKalendriTabel = (RecyclerView) findViewById(R.id.kalendri_tabel);
+            mKalendriTabel.setAdapter(mMainAdapter);
+            super.onPostExecute(result);
         }
     }
 }

@@ -39,7 +39,7 @@ public class KorrastaDraivFailidTeenus extends IntentService {
                         for (String driveIdStr : pListWebLink) {
                             DriveId driveId = mGD.AnnaDriveID(driveIdStr);
                             if (driveId != null) {
-                                if (BuildConfig.DEBUG) Log.d("KorrastaDraivFailidTe..", "Wenlingi tegemine Drive idle: " + driveIdStr);
+                                if (BuildConfig.DEBUG) Log.d("KorrastaDraivFailidTe..", "Weblingi tegemine Drive idle: " + driveIdStr);
                                 mGD.DriveFailAvalikuks(driveId);
                                 String retVal = mGD.AnnaWebLink(driveId);
                                 if (retVal != null) {
@@ -58,6 +58,7 @@ public class KorrastaDraivFailidTeenus extends IntentService {
                     GoogleDriveUhendus mGD = new GoogleDriveUhendus(getApplicationContext(), null);
                     if (mGD.LooDriveUhendusAsunkroonselt()) {
                         for (HarjutusKord harjutusKord : pListFail) {
+                            if(BuildConfig.DEBUG) Log.d("KorrastaDraivFailidTe..", "Harjutuskord fail Draivi:"+ harjutusKord.toString());
                             Intent intent = new Intent(this, LisaFailDraiviTeenus.class);
                             intent.putExtra("teosid", harjutusKord.getTeoseid());
                             intent.putExtra("harjutusid", harjutusKord.getId());

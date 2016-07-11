@@ -45,7 +45,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     private TextView pikkusminutiteslahter;
     private CheckBox weblinkaruandele;
 
-    private MediaPlayer mPlayer;
+    private MediaPlayer mPlayer = null;
     private FileDescriptor mHeliFail = null;
 
     @Override
@@ -246,6 +246,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
                     mPlayer.start();
                 } catch (IOException e) {
                     if (BuildConfig.DEBUG) Log.e(getLocalClassName(), "Viga uuesti algusest alustamise" + e.toString());
+                    mPlayer = null;
                 }
                 if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alustasin mängimist algusest");
             } else {
@@ -257,6 +258,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
                     mPlayer.start();
                 } catch (IOException e) {
                     if (BuildConfig.DEBUG) Log.e(getLocalClassName(), "Viga mahamängimisel" + e.toString());
+                    mPlayer = null;
                 }
             }
         }
