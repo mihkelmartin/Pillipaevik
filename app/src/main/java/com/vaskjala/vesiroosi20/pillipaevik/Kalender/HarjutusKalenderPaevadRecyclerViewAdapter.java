@@ -144,6 +144,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
     public class ViewHolderHarjutus extends ViewHolder {
 
         public TextView mTeoseNimi = null;
+        public TextView mHarjutuseKirjeldus = null;
         public ImageView mHeliFailiPilt = null;
         public TextView mHarjutuseKestus = null;
 
@@ -154,6 +155,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
             mTeoseNimi = (TextView) view.findViewById(R.id.kalender_paev_harjutus_teosenimi);
             mHeliFailiPilt = (ImageView) view.findViewById(R.id.kalender_paev_harjutus_helifaili_pilt);
             mHarjutuseKestus = (TextView) view.findViewById(R.id.kalender_paev_harjutus_harjutuse_kestus);
+            mHarjutuseKirjeldus = (TextView) view.findViewById(R.id.kalender_paev_harjutus_harjutuse_kirjeldus);
         }
 
         @Override
@@ -161,11 +163,12 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
             HarjutuskordKirje hHKK = (HarjutuskordKirje)mItem;
             super.AndmedVaatele();
             mTeoseNimi.setText(hHKK.getTiitel());
+            mHarjutuseKirjeldus.setText(hHKK.harjutusKord.getHarjutusekirjeldus());
             if(hHKK.harjutusKord.KasKuvadaSalvestusePilt(mView.getContext().getApplicationContext()))
                 mHeliFailiPilt.setVisibility(View.VISIBLE);
             else
                 mHeliFailiPilt.setVisibility(View.GONE);
-            mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(hHKK.harjutusKord.getPikkussekundites()/60));
+            mHarjutuseKestus.setText(Tooriistad.KujundaAeg(hHKK.harjutusKord.getPikkussekundites()*1000));
         }
 
         @Override

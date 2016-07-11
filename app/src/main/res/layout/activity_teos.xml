@@ -22,12 +22,9 @@
                     app:popupTheme="@style/Pillipaevik"/>
 
     </android.support.design.widget.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/horisontaalne_aaris"
-        android:layout_marginRight="@dimen/horisontaalne_aaris"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <EditText
@@ -35,6 +32,8 @@
             android:hint="@string/nimi_vihje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tekstilahtri_aaris"
+            android:layout_marginEnd="@dimen/tekstilahtri_aaris"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:inputType="textCapSentences"/>
         <EditText
@@ -42,6 +41,8 @@
             android:hint="@string/autor_vihje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tekstilahtri_aaris"
+            android:layout_marginEnd="@dimen/tekstilahtri_aaris"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:inputType="textCapSentences"/>
         <EditText
@@ -49,76 +50,77 @@
                 android:hint="@string/kommentaar_vihje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tekstilahtri_aaris"
+                android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
-        <View   android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
-                android:background="@color/colorPrimaryDark" />
-
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal">
-            <LinearLayout android:layout_width="wrap_content"
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="?attr/actionBarSize"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/horisontaalne_aaris"
+                        android:paddingEnd="@dimen/horisontaalne_aaris"
+                        android:background="@color/tabeli_rea_andmed">
+            <LinearLayout android:id="@+id/harjutustearvkast"
+                          android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:orientation="horizontal"
-                          android:layout_weight="1">
+                          android:layout_alignParentStart="true"
+                          android:orientation="horizontal">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:scaleType="centerCrop"
-                           android:scaleX="@dimen/pildikeste_vahendamine_50persent"
-                           android:scaleY="@dimen/pildikeste_vahendamine_50persent"
-                           android:src="@drawable/ic_replay_black_18dp"/>
+                           android:src="@drawable/ic_replay_white_18dp"/>
                 <TextView android:id="@+id/teoseharjutustearv"
-                          android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:gravity="center_vertical|start"
+                          android:layout_width="@dimen/korduste_arvu_laius"
+                          android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:layout_gravity="center_vertical"
+                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                          android:textColor="@android:color/white"
                           android:text="0"/>
             </LinearLayout>
-            <LinearLayout android:layout_width="wrap_content"
+            <LinearLayout android:id="@+id/harjutustekestuskast"
+                          android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:orientation="horizontal"
-                          android:layout_weight="2">
+                          android:layout_toRightOf="@+id/harjutustearvkast"
+                          android:orientation="horizontal">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:scaleType="centerCrop"
-                           android:scaleX="@dimen/pildikeste_vahendamine_50persent"
-                           android:scaleY="@dimen/pildikeste_vahendamine_50persent"
-                           android:src="@drawable/ic_query_builder_black_18dp"/>
+                           android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                           android:src="@drawable/ic_query_builder_white_18dp"/>
                 <TextView android:id="@+id/teoseharjutustekestus"
                           android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:layout_marginStart="@dimen/tekstilahtri_aaris"
-                          android:gravity="center_vertical|start"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical"
+                          android:gravity="center_vertical"
+                          android:textColor="@android:color/white"
                           android:text="00:00"/>
                 </LinearLayout>
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:orientation="horizontal"
-                        android:layout_weight="4">
-                <RatingBar
-                        android:id="@+id/hinnaguriba"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:progressTint="@color/colorAccent"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:indeterminate="false"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:stepSize="1"
-                        android:rating="3"
-                        android:onClick="MuudaHinnangut"/>
-            </LinearLayout>
-        </LinearLayout>
+            <RatingBar
+                    android:id="@+id/hinnaguriba"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_vertical"
+                    android:progressTint="@color/colorAccent"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:indeterminate="false"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:rating="3"
+                    android:onClick="MuudaHinnangut"/>
+        </RelativeLayout>
         <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/eraldusjoone_paksus"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@android:color/white"/>
         <ListView android:id="@+id/harjutuslist"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
+                  android:background="@color/tabeli_rea_taust"
                   android:choiceMode="singleChoice"
-                  android:dividerHeight="@dimen/eraldusjoone_paksus"/>
+                  android:dividerHeight="@dimen/eraldusjoone_paksus"
+                  android:divider="@android:color/white"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

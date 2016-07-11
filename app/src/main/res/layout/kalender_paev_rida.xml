@@ -2,58 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginStart="@dimen/horisontaalne_aaris"
-              android:layout_marginEnd="@dimen/horisontaalne_aaris"
-              android:minHeight="@dimen/tabeli_rea_korgus"
+              android:minHeight="?attr/actionBarSize"
               android:orientation="horizontal">
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:background="@color/tabeli_rea_taust"
+                  android:orientation="vertical">
     <TextView
             android:id="@+id/kuupaev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/horisontaalne_aaris"
+            android:paddingTop="@dimen/tekstilahtri_aaris"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:textAppearance="?attr/textAppearanceListItem"/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:background="@android:color/white"/>
+    </LinearLayout>
+    <View
+            android:layout_width="@dimen/eraldusjoone_paksus"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="0"
+                  android:background="@color/tabeli_rea_andmed"
+                  android:orientation="vertical">
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/tekstilahtri_aaris"
+                  android:layout_marginEnd="@dimen/horisontaalne_aaris"
                   android:layout_gravity="center_vertical"
-                  android:layout_weight="0"
+                  android:layout_weight="1"
                   android:orientation="horizontal">
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
                       android:orientation="horizontal"
                       android:layout_weight="1">
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_weight="0"
-                       android:scaleType="centerInside"
-                       android:scaleX="@dimen/pildikeste_vahendamine_50persent"
-                       android:scaleY="@dimen/pildikeste_vahendamine_50persent"
-                       android:src="@drawable/ic_replay_black_18dp"/>
+                       android:src="@drawable/ic_replay_white_18dp"/>
             <TextView android:id="@+id/paevakalenderharjutustearv"
                       android:layout_width="@dimen/korduste_arvu_laius"
-                      android:layout_height="match_parent"
+                      android:layout_height="wrap_content"
                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                      android:gravity="end|center_vertical"
-                      android:layout_weight="1"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="center_horizontal"
+                      android:textColor="@android:color/white"
                       android:text="0"/>
         </LinearLayout>
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
                       android:orientation="horizontal"
                       android:layout_weight="1">
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:scaleType="centerInside"
-                       android:layout_weight="0"
-                       android:scaleX="@dimen/pildikeste_vahendamine_50persent"
-                       android:scaleY="@dimen/pildikeste_vahendamine_50persent"
-                       android:src="@drawable/ic_query_builder_black_18dp"/>
+                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                       android:src="@drawable/ic_query_builder_white_18dp"/>
             <TextView android:id="@+id/paevakalenderharjutustekestus"
                       android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:gravity="start|center_vertical"
-                      android:layout_weight="1"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="start|center_vertical"
+                      android:textColor="@android:color/white"
                       android:text="00:00"/>
         </LinearLayout>
+    </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:background="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>

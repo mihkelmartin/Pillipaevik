@@ -33,14 +33,16 @@
                      xmlns:tools="http://schemas.android.com/tools"
                      android:layout_width="match_parent"
                      android:layout_height="match_parent"
-                     android:background="@color/accent_material_light_1"
+                     android:background="@color/tabeli_rea_taust"
                      app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <TableLayout android:id="@+id/harjutatudprogresstabel"
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
                          android:layout_marginLeft="@dimen/horisontaalne_aaris"
                          android:layout_marginRight="@dimen/horisontaalne_aaris"
-                         android:background="@color/accent_material_light_1"
+                         android:layout_marginTop="@dimen/horisontaalne_aaris"
+                         android:layout_marginBottom="@dimen/horisontaalne_aaris"
+                         android:background="@color/tabeli_rea_taust"
                          android:layout_alignParentBottom="true">
             <TableRow android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -146,12 +148,22 @@
                               android:text=""/>
                 </TableRow>
             </TableLayout>
+            <View   android:id="@+id/uleminejoon"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/eraldusjoone_paksus"
+                    android:layout_alignParentTop="true"
+                    android:background="@android:color/white"/>
+            <View   android:id="@+id/aluminejoon"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/eraldusjoone_paksus"
+                    android:layout_above="@+id/harjutatudprogresstabel"
+                    android:background="@android:color/white"/>
             <android.support.v7.widget.RecyclerView android:id="@+id/harjutua_list"
                                                     android:name="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content"
-                                                    android:layout_above="@+id/harjutatudprogresstabel"
-                                                    android:layout_alignParentTop="true"
+                                                    android:layout_above="@+id/aluminejoon"
+                                                    android:layout_below="@+id/uleminejoon"
                                                     tools:context=".TeosListActivity"
                                                     app:layoutManager="LinearLayoutManager"
                                                     tools:listitem="@layout/teos_list_rida"/>

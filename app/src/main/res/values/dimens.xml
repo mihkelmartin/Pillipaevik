@@ -2,8 +2,6 @@
 <resources>
 
     <dimen name="stopperi_font">60sp</dimen>
-    <dimen name="sahtli_tekstide_font">15sp</dimen>
-    <dimen name="harjutus_listi_tekstide_font">12sp</dimen>
 
 
     <!-- Äärised -->
@@ -18,11 +16,8 @@
 
     <dimen name="navivaate_tiitli_korgus">128dp</dimen>
 
-    <dimen name="tabeli_rea_korgus">60sp</dimen>
-
     <dimen name="korduste_arvu_laius">36sp</dimen>
 
-    <item name="pildikeste_vahendamine_50persent" format="float" type="dimen">0.5</item>
-    <item name="pildikeste_vahendamine_teoslist" format="float" type="dimen">0.85</item>
+    <item name="pildikeste_vahendamine_uldine" format="float" type="dimen">0.85</item>
 
 </resources>
