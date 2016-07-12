@@ -174,7 +174,6 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         @Override
         public void onClick(View v) {
             HarjutuskordKirje mHKK = (HarjutuskordKirje)mItem;
-            // TODO Mis siis kui kustutab samal ajal ära
             // Activitys saab kuulata onActivityResulti ja siis otsustada kas kustutati
             Intent intent = new Intent(v.getContext(), HarjutusMuudaActivity.class);
             intent.putExtra("teos_id", mHKK.harjutusKord.getTeoseid());
