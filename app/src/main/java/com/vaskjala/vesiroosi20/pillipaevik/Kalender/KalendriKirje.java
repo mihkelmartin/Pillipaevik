@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class KalendriKirje {
 
-    public enum Tyyp {KUU, PAEV, HARJUTUS};
+    public enum Tyyp {KUU, PAEV, HARJUTUS}
 
     private Tyyp tyyp;
     private String tiitel;

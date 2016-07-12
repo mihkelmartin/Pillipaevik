@@ -2,6 +2,8 @@
 <resources>
 
     <dimen name="stopperi_font">60sp</dimen>
+    <dimen name="korduste_arvu_laius">36sp</dimen>
+    <dimen name="vaike_font_abitekstide_jaoks">12sp</dimen>
 
 
     <!-- Äärised -->
@@ -11,12 +13,12 @@
     <dimen name="harjutuste_kalendri_harjutuse_rea_aaris">24dp</dimen>
 
     <dimen name="eraldusjoone_paksus">2dp</dimen>
+    <dimen name="peene_eraldusjoone_paksus">1dp</dimen>
     <dimen name="eraldusjoone_alumine_aaris">8dp</dimen>
     <dimen name="eraldusjoone_ylemine_aaris">8dp</dimen>
 
     <dimen name="navivaate_tiitli_korgus">128dp</dimen>
 
-    <dimen name="korduste_arvu_laius">36sp</dimen>
 
     <item name="pildikeste_vahendamine_uldine" format="float" type="dimen">0.85</item>
 

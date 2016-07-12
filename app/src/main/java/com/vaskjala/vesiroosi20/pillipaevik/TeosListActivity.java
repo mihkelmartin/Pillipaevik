@@ -1,6 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -152,10 +153,17 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                     startActivity(i);
                     break;
                 case R.id.saada_aruanne :
-                    Bundle args = new Bundle();
-                    DialogFragment valiAruandeKuu = new ValiAruandeKuu();
-                    valiAruandeKuu.setArguments(args);
-                    valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
+                    if(KasAruanneLubatud()) {
+                        Bundle args = new Bundle();
+                        DialogFragment valiAruandeKuu = new ValiAruandeKuu();
+                        valiAruandeKuu.setArguments(args);
+                        valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
+                    } else {
+                        Tooriistad.NaitaHoiatust((Activity) navigationView.getContext(),
+                                getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
+                                getString(R.string.aruande_tegemise_keeldumise_pohjus));
+
+                    }
                     break;
                 case R.id.seaded :
                     if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
@@ -350,6 +358,19 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         }
     }
 
+    private boolean KasAruanneLubatud(){
+        boolean retVal;
+        Context context=getApplicationContext();
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        if(sharedPref.getString("minueesnimi","").isEmpty() ||
+                 sharedPref.getString("minuperenimi","").isEmpty() ||
+                 sharedPref.getString("minuinstrument","").isEmpty()){
+            retVal = false;
+        } else {
+            retVal = true;
+        }
+        return retVal;
+    }
 
     @Override
     public void kuiJahVastus(DialogFragment dialog) {

@@ -17,6 +17,7 @@
             android:paddingTop="@dimen/tekstilahtri_aaris"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceListItem"/>
         <View
                 android:layout_width="match_parent"

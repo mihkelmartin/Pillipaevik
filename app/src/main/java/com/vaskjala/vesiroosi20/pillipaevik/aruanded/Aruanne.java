@@ -84,20 +84,22 @@ public class Aruanne {
     }
     private String KoostaKoond(){
         String koond = context.getString(R.string.aruanne_koondi_pealkiri) + ReaVahetus + ReaVahetus;
-        koond = koond + context.getString(R.string.aruanne_soovituslik_harjutamise_aeg) +
-                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), getPaevasharjutada()) +
-                ReaVahetus;
-
-        koond = koond + context.getString(R.string.aruanne_soovituslik_harjutamise_aeg_kokku) +
-                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), getPerioodipikkus() * getPaevasharjutada()) +
-                ReaVahetus;
-
-
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
-        koond = koond + context.getString(R.string.aruanne_tegelik_harjutamise_aeg_kokku) +
-                Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(),
-                        mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
-                ReaVahetus + ReaVahetus;
+
+        if(getPaevasharjutada() > 0) {
+            koond = koond + context.getString(R.string.aruanne_soovituslik_harjutamise_aeg) +
+                    Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), getPaevasharjutada()) +
+                    ReaVahetus;
+
+            koond = koond + context.getString(R.string.aruanne_soovituslik_harjutamise_aeg_kokku) +
+                    Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(), getPerioodipikkus() * getPaevasharjutada()) +
+                    ReaVahetus;
+
+            koond = koond + context.getString(R.string.aruanne_tegelik_harjutamise_aeg_kokku) +
+                    Tooriistad.KujundaHarjutusteMinutid(context.getApplicationContext(),
+                            mPPManager.ArvutaPerioodiMinutid(getPerioodialgus(), getPerioodilopp())) +
+                    ReaVahetus + ReaVahetus;
+        }
 
         List<String> pList = mPPManager.HarjutusKordadeStatistikaPerioodis(getPerioodialgus(), getPerioodilopp());
         for ( String teoserida : pList){

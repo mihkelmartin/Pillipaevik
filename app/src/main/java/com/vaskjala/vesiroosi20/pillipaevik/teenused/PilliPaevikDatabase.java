@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.kalender.HarjutuskordKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.kalender.KalendriKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.Teos;
@@ -79,6 +80,29 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_TEOS);
             db.execSQL(CREATE_TABLE_HARJUTUSKORD);
             db.execSQL(CREATE_INDEX_TEOSEID);
+
+            String lisanaidisteos = "INSERT INTO " + Teos.Teosekirje.TABLE_NAME + " VALUES(1,'" +
+                    context.getString(R.string.naidislugu) + "','" +
+                    context.getString(R.string.looautor) + "','" +
+                    context.getString(R.string.lookommentaar) + "', 5 , datetime('now') , 1 " +
+                    ")";
+            String lisanaidisharjutus1 = "INSERT INTO " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
+                    " VALUES(1, datetime('now'), 300, datetime('now','+5 minutes'),'" +
+                    context.getString(R.string.harjutusekirjeldus1) + "', datetime('now'), 1 , null, null, null, null, 0" +
+                    ")";
+            String lisanaidisharjutus2 = "INSERT INTO " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
+                    " VALUES(2, datetime('now','+10 minutes'), 600, datetime('now','+20 minutes'),'" +
+                    context.getString(R.string.harjutusekirjeldus2) + "', datetime('now'), 1 , null, null, null, null, 0" +
+                    ")";
+            String lisanaidisharjutus3 = "INSERT INTO " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
+                    " VALUES(3, datetime('now','+25 minutes'), 900, datetime('now','+40 minutes'),'" +
+                    context.getString(R.string.harjutusekirjeldus3) + "', datetime('now'), 1 , null, null, null, null, 0" +
+                    ")";
+            db.execSQL(lisanaidisteos);
+            db.execSQL(lisanaidisharjutus1);
+            db.execSQL(lisanaidisharjutus2);
+            db.execSQL(lisanaidisharjutus3);
+
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "OnCreate:" + e.getMessage());
         }
@@ -86,18 +110,6 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        if(oldVersion <= 2)
-            db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifail TEXT");
-        if(oldVersion <= 4) {
-            db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifailidriveid TEXT");
-            db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifailidriveweblink TEXT");
-        }
-        if(oldVersion <= 5) {
-            db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN helifailidriveidmuutumatu TEXT");
-        }
-        if(oldVersion <= 6) {
-            db.execSQL("ALTER TABLE Harjutuskord ADD COLUMN weblinkaruandele INTEGER");
-        }
     }
 
     @Override

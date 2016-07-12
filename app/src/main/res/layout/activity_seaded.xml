@@ -29,127 +29,139 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:id="@+id/minueesnimi"
             android:hint="@string/minu_eesnimi_vihje"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/minuperenimi"
                 android:hint="@string/minu_perenimi_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/minuepost"
                 android:hint="@string/minu_e_post_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_height="@dimen/peene_eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
                 android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@android:color/black" />
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/muusikakool"
                 android:hint="@string/muusikakooli_nimi_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/klass"
                 android:hint="@string/klass_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/minuinstrument"
                 android:hint="@string/pill_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_height="@dimen/peene_eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
                 android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@android:color/black" />
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/opetajaeesnimi"
                 android:hint="@string/opetaja_eesnimi_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/opetajaperenimi"
                 android:hint="@string/opetaja_perenimi_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/opetajaepost"
                 android:hint="@string/opetaja_e_post_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_height="@dimen/peene_eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
                 android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@android:color/black" />
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/paevasharjutada"
                 android:hint="@string/harjutamise_norm_vihje"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="number"/>
         <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_height="@dimen/peene_eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
                 android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@android:color/black" />
         <Switch
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/kasLubadaMikrofonigaSalvestamine"
                 android:textOff="@string/ei"
                 android:textOn="@string/jah"
                 android:text="@string/kasLubadaMikrofonigaSalvestamine"
-        android:onClick="KasSalvestameMikrofoniga"/>
+                android:onClick="KasSalvestameMikrofoniga"/>
         <Switch
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/kasKasutadaGoogleDrive"
                 android:text="@string/kasKasutadaGoogleDrive"
                 android:textOff="@string/ei"
                 android:textOn="@string/jah"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/horisontaalne_aaris"
+                  android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                  android:singleLine="false"
+                  android:textSize="@dimen/vaike_font_abitekstide_jaoks"
+                  android:textAppearance="?android:textAppearanceSmall"
+                  android:text="@string/GoogleDriveVajalikkus"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/googlekonto"
                 android:hint="@string/google_konto_vihje"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -157,12 +169,10 @@
                 android:enabled="false"/>
         <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_height="@dimen/peene_eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
                 android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
-                android:layout_marginLeft="@dimen/tekstilahtri_aaris"
-                android:layout_marginRight="@dimen/tekstilahtri_aaris"
-                android:background="@color/colorPrimaryDark" />
+                android:background="@android:color/black" />
     </LinearLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

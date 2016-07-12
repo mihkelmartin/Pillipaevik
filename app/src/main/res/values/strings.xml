@@ -10,6 +10,15 @@
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
 
+    // Näidisandmed andmebaasi
+    <string name="naidislugu">Seitsme Tuule Poole</string>
+    <string name="looautor">Stig Rasta, Fred Krieger, Karl-Erik Taukar, Heiti Kender</string>
+    <string name="lookommentaar">Raadio 2 Aastahitt 2013</string>
+
+    <string name="harjutusekirjeldus1">Esimene harjutus</string>
+    <string name="harjutusekirjeldus2">Harjutasin akorde</string>
+    <string name="harjutusekirjeldus3">Mängisin lugu 5 korda</string>
+
 
     // Menüüd
     <string name="lisa_teos">Lisa teos…</string>
@@ -48,6 +57,10 @@
     <string name="aruanne_tervitades">Tervitades, </string>
     <string name="aruanne_pillipaeviku_vahendusel"> Pillipäeviku vahendusel</string>
 
+    <string name="aruande_tegemise_hoiatuse_pealkiri">Aruannet ei saa teha</string>
+    <string name="aruande_tegemise_keeldumise_pohjus">Täida seadetes eesnimi, perekonnanimi ja instument !</string>
+
+
 
     // Seaded Activity
     <string name="seaded_tiitel">Seaded</string>
@@ -64,7 +77,9 @@
     <string name="harjutamise_norm_vihje">Mitu minutit tahan päevas harjutada</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
+    <string name="GoogleDriveVajalikkus">Google Drive on vajalik aruannetele salvestiste lisamiseks</string>
     <string name="google_konto_vihje">Google konto</string>
+
 
     // Teave Activity
     <string name="teave_tiitel">Teave rakenduse kohta</string>

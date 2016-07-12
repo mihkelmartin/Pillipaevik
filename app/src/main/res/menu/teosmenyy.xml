@@ -10,7 +10,7 @@
     <item
             android:id="@+id/alustauut"
             android:title="@string/AlustaUutHarjutust"
-            android:icon="@drawable/ic_fiber_manual_record_red_18dp"
+            android:icon="@drawable/ic_query_builder_black_18dp"
             app:showAsAction="ifRoom"/>
     <item
             android:id="@+id/lisatehtud"
