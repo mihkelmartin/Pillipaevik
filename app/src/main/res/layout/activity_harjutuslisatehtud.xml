@@ -22,7 +22,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -39,7 +39,9 @@
             android:hint="@string/harjutuse_mida_harjutasid_vihje"
             android:inputType="textCapSentences|textMultiLine"/>
 
-        <TableLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TableLayout android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/harjutusekirjeldus">
         <TableRow android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal">
@@ -106,5 +108,11 @@
                       android:text="@string/harjutus_minutit"/>
         </TableRow>
         </TableLayout>
-    </LinearLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+                  android:layout_margin="12dp"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:text="@string/lisatehtudharjutustjuhend"/>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

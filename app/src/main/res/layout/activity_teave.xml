@@ -36,7 +36,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_height="@dimen/peene_eraldusjoone_paksus"
                 android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
                 android:layout_marginBottom="@dimen/eraldusjoone_paksus"
                 android:background="@android:color/black" />

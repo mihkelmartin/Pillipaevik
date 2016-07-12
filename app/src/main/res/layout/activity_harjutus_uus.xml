@@ -22,7 +22,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
@@ -38,9 +38,11 @@
             android:hint="@string/harjutuse_kirjeldus_vihje"
             android:inputType="textCapSentences|textMultiLine"/>
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal">
+        <LinearLayout android:id="@+id/nupud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/harjutusekirjeldus"
+                android:orientation="horizontal">
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -57,15 +59,24 @@
                     android:drawableStart="@drawable/ic_mic_off_black_18dp"
                     android:onClick="LulitaMikrofon"/>
         </LinearLayout>
+        <TextView android:id="@+id/juhend"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+                  android:layout_margin="12dp"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:text="@string/uusharjutustjuhend"/>
         <TextView
                 android:textColor="@color/taimeri_teksti_varv"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_below="@id/nupud"
+                android:layout_alignTop="@id/nupud"
+                android:layout_alignBottom="@id/juhend"
                 android:gravity="center"
                 android:textSize="@dimen/stopperi_font"
                 android:text="@string/stopper"
                 android:id="@+id/timer"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
