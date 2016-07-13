@@ -131,13 +131,13 @@
 
     <string name="link_aruandel_kysimus">Link aruandel</string>
     <string name="eisaamuutaharjutustjuhend">
-        Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
+        Harjutuse algusaega, lõpuaega ja kestvust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
     </string>
     <string name="lisatehtudharjutustjuhend">
         Lisa harjutus mille tegid kui Pillipäevik ei olnud käepärast. Peale algus- ja lõpuaja sisestamist saad harjutamise tegelikku pikkust vajadusel vähendada.
     </string>
     <string name="uusharjutustjuhend">
-        Kui Seadetes on lubatud Salvestamine ja kuulamine siis saad telefoni mikrofoniga harjutamist salvestada. Kui lubatud on Google Drive kasutamine saad salvestisi aruannetele lisada.
+        Kui seadetes on lubatud salvestamine ja kuulamine siis saad telefoni mikrofoniga harjutamist salvestada. Kui lubatud on Google Drive kasutamine saad salvestisi aruannetele lisada.
     </string>
 
 

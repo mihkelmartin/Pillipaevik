@@ -1,5 +1,5 @@
 <resources>
-    <string name="rakenduse_pealkiri">Diary of a Player</string>
+    <string name="rakenduse_pealkiri">Musician´s Diary</string>
 
     <string name="tund">hour</string>
     <string name="tundi">hours</string>
@@ -53,12 +53,12 @@
     <string name="aruanne_soovituslik_harjutamise_aeg_kokku">Recommended total practice time : </string>
     <string name="aruanne_tegelik_harjutamise_aeg_kokku">Actual total practice time : </string>
     <string name="aruanne_salvestatud_harjutused">Recorded exercises</string>
-    <string name="aruanne_paevade_kaupa">Aruanne päevade kaupa</string>
-    <string name="aruanne_tervitades">Tervitades, </string>
-    <string name="aruanne_pillipaeviku_vahendusel"> Pillipäeviku vahendusel</string>
+    <string name="aruanne_paevade_kaupa">Report by day</string>
+    <string name="aruanne_tervitades">Greetings, </string>
+    <string name="aruanne_pillipaeviku_vahendusel"> via Musicians Diary</string>
 
-    <string name="aruande_tegemise_hoiatuse_pealkiri">Aruannet ei saa teha</string>
-    <string name="aruande_tegemise_keeldumise_pohjus">Täida seadetes eesnimi, perekonnanimi ja instument !</string>
+    <string name="aruande_tegemise_hoiatuse_pealkiri">Unable to create report</string>
+    <string name="aruande_tegemise_keeldumise_pohjus">Fill in your first name,surname and instrument in the settings!</string>
 
 
 
@@ -110,42 +110,42 @@
     <string name="dialog_kas_kustuta_salvestuse_kusimus">Delete recording ?</string>
 
     // Aja muutmise dialoogid
-    <string name="ajamuutmine_aeg_tulevikus">Uus aeg on tulevikus! Aega ei muudetud!</string>
+    <string name="ajamuutmine_aeg_tulevikus">You have chosen a future time! The time wasn´t changed!</string>
 
     // HarjutusLooUusActivity
 
-    <string name="harjutuse_kirjeldus_vihje">Mida plaanid harjutada …</string>
+    <string name="harjutuse_kirjeldus_vihje">What are you planning to practice …</string>
     <string name="stopper">00:00:00</string>
-    <string name="vaikimisisharjutusekirjeldus">Mängisin lugu</string>
+    <string name="vaikimisisharjutusekirjeldus">I played</string>
 
     // HarjutusLisaTehtudActivity
 
-    <string name="harjutuse_mida_harjutasid_vihje">Mida harjutasid …</string>
-    <string name="harjutus_algas">Harjutus algas : </string>
-    <string name="harjutus_loppes">Harjutus lõppes : </string>
-    <string name="harjutuse_kestus">Kestus : </string>
-    <string name="harjutus_minutit">minutit</string>
+    <string name="harjutuse_mida_harjutasid_vihje">What did you practice …</string>
+    <string name="harjutus_algas">Practice started :</string>
+    <string name="harjutus_loppes">Practice ended : </string>
+    <string name="harjutuse_kestus">Duration : </string>
+    <string name="harjutus_minutit">minutes</string>
 
 
     // HarjutusMuudaActivity
 
     <string name="link_aruandel_kysimus">Link aruandel</string>
     <string name="eisaamuutaharjutustjuhend">
-        Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
+        Only the name of the practice session can be altered. To change practice times, delete this session and create a new one.
     </string>
     <string name="lisatehtudharjutustjuhend">
-        Lisa harjutus mille tegid kui Pillipäevik ei olnud käepärast. Peale algus- ja lõpuaja sisestamist saad harjutamise tegelikku pikkust vajadusel vähendada.
+        Add a practice session you had without the Musicians Diary. In addition to entering a starting and ending point, you are able to decrease the practice duration if necessary.
     </string>
     <string name="uusharjutustjuhend">
-        Kui Seadetes on lubatud Salvestamine ja kuulamine siis saad telefoni mikrofoniga harjutamist salvestada. Kui lubatud on Google Drive kasutamine saad salvestisi aruannetele lisada.
+        If recording and listening is allowed in the settings you can record your practice with a microphone. If using Google Drive is allowed you can add recordings to reports.
     </string>
 
 
     // Pealehe sahtel
-    <string name="menyyvalik_harjutuste_kalender">Harjutuste kalender</string>
-    <string name="menyyvalik_saada_aruanne">Saada aruanne</string>
-    <string name="menyyvalik_saada_satted">Seaded</string>
-    <string name="menyyvalik_saada_teave">Teave</string>
+    <string name="menyyvalik_harjutuste_kalender">Practice calendar</string>
+    <string name="menyyvalik_saada_aruanne">Send report</string>
+    <string name="menyyvalik_saada_satted">Settings</string>
+    <string name="menyyvalik_saada_teave">Information</string>
 
     // Activitite tagasiside koodid
     <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>

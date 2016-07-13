@@ -1,151 +1,151 @@
 <resources>
-    <string name="rakenduse_pealkiri">Pillipäevik</string>
+    <string name="rakenduse_pealkiri">Pelimannin päiväkirja</string>
 
-    <string name="tund">tund</string>
-    <string name="tundi">tundi</string>
-    <string name="minut">minut</string>
-    <string name="minutit">minutit</string>
+    <string name="tund">tunti</string>
+    <string name="tundi">tuntia</string>
+    <string name="minut">minuutti</string>
+    <string name="minutit">minuuttia</string>
 
 
-    <string name="ava_sahtel">Ava</string>
-    <string name="sule_sahtel">Sulge</string>
+    <string name="ava_sahtel">Avaa</string>
+    <string name="sule_sahtel">Sulje</string>
 
     // Näidisandmed andmebaasi
-    <string name="naidislugu">Seitsme Tuule Poole</string>
-    <string name="looautor">Stig Rasta, Fred Krieger, Karl-Erik Taukar, Heiti Kender</string>
-    <string name="lookommentaar">Raadio 2 Aastahitt 2013</string>
+    <string name="naidislugu">The House Of The Rising Sun</string>
+    <string name="looautor">Amerikkalainen kansanlaulu</string>
+    <string name="lookommentaar">Tunnettu myös kuin Rising Sun Blues</string>
 
-    <string name="harjutusekirjeldus1">Esimene harjutus</string>
-    <string name="harjutusekirjeldus2">Harjutasin akorde</string>
-    <string name="harjutusekirjeldus3">Mängisin lugu 5 korda</string>
+    <string name="harjutusekirjeldus1">Ensimmäinen harjoitus</string>
+    <string name="harjutusekirjeldus2">Harjoittelin sointuja</string>
+    <string name="harjutusekirjeldus3">Soitin kappaletta 5 kertaa</string>
 
 
     // Menüüd
-    <string name="lisa_teos">Lisa teos…</string>
-    <string name="kusututa">Kusututa…</string>
-    <string name="AlustaUutHarjutust">Alusta uut…</string>
-    <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
+    <string name="lisa_teos">Lisää kappale…</string>
+    <string name="kusututa">poista…</string>
+    <string name="AlustaUutHarjutust">Aloita uusi…</string>
+    <string name="LisaTehtudHarjutus">Lisää tehty …</string>
 
 
     // Dialoogid
-    <string name="vali_aruande_kuu">Vali aruande kuu</string>
+    <string name="vali_aruande_kuu">Valitse raportin kuukausi</string>
     <integer name="kuudearv">6</integer>
 
     // Nupud
     <string name="ok">OK</string>
-    <string name="loobu">Loobu</string>
-    <string name="jah">Jah</string>
+    <string name="loobu">Peruuta</string>
+    <string name="jah">Kyllä</string>
     <string name="ei">Ei</string>
 
-    <string name="alusta">Alusta</string>
-    <string name="katkesta">Katkesta</string>
-    <string name="jatka">Jätka</string>
-    <string name="sees">Sees</string>
-    <string name="valjas">Väljas</string>
+    <string name="alusta">Aloita</string>
+    <string name="katkesta">Keskeytä</string>
+    <string name="jatka">Jatka</string>
+    <string name="sees">Päällä</string>
+    <string name="valjas">Pois</string>
 
 
     // Aruanded
-    <string name="aruanne_saada">Saada aruanne…</string>
-    <string name="aruanne_eposti_rakendus_puudub">E-posti rakendus puudub…</string>
+    <string name="aruanne_saada">Lähetä raportti…</string>
+    <string name="aruanne_eposti_rakendus_puudub">Sähköpostisovellus puuttuu…</string>
 
-    <string name="aruanne_koondi_pealkiri">Kokkuvõte</string>
-    <string name="aruanne_soovituslik_harjutamise_aeg">Soovituslik päevane harjutamise aeg : </string>
-    <string name="aruanne_soovituslik_harjutamise_aeg_kokku">Soovituslik harjutamise aeg kokku : </string>
-    <string name="aruanne_tegelik_harjutamise_aeg_kokku">Tegelik harjutamise aeg kokku : </string>
-    <string name="aruanne_salvestatud_harjutused">Salvestatud harjutused</string>
-    <string name="aruanne_paevade_kaupa">Aruanne päevade kaupa</string>
-    <string name="aruanne_tervitades">Tervitades, </string>
-    <string name="aruanne_pillipaeviku_vahendusel"> Pillipäeviku vahendusel</string>
+    <string name="aruanne_koondi_pealkiri">Yhteenveto</string>
+    <string name="aruanne_soovituslik_harjutamise_aeg">Suositeltava päivittäinen harjoitteluaika : </string>
+    <string name="aruanne_soovituslik_harjutamise_aeg_kokku">Suositeltava harjoitteluaika yhteensä : </string>
+    <string name="aruanne_tegelik_harjutamise_aeg_kokku">Varsinainen harjoitteluaika yhteensä : </string>
+    <string name="aruanne_salvestatud_harjutused">Nauhoitetut harjoitukset</string>
+    <string name="aruanne_paevade_kaupa">Raportit päivän mukaan</string>
+    <string name="aruanne_tervitades">Terveisin, </string>
+    <string name="aruanne_pillipaeviku_vahendusel"> Pelimannin päiväkirjan välityksellä</string>
 
-    <string name="aruande_tegemise_hoiatuse_pealkiri">Aruannet ei saa teha</string>
-    <string name="aruande_tegemise_keeldumise_pohjus">Täida seadetes eesnimi, perekonnanimi ja instument !</string>
+    <string name="aruande_tegemise_hoiatuse_pealkiri">Raporttia ei pysty luomaan</string>
+    <string name="aruande_tegemise_keeldumise_pohjus">Täytä asetuksissa etunimi, sukunimi ja soitin !</string>
 
 
 
     // Seaded Activity
-    <string name="seaded_tiitel">Seaded</string>
+    <string name="seaded_tiitel">Asetukset</string>
     <string name="seadete_fail">seadete_fail</string>
-    <string name="minu_eesnimi_vihje">Minu eesnimi</string>
-    <string name="minu_perenimi_vihje">Minu perekonnanimi</string>
-    <string name="minu_e_post_vihje">Minu e-post</string>
-    <string name="muusikakooli_nimi_vihje">Muusikakooli nimi</string>
-    <string name="klass_vihje">Klass</string>
-    <string name="pill_vihje">Minu pill</string>
-    <string name="opetaja_eesnimi_vihje">Minu õpetaja eesnimi</string>
-    <string name="opetaja_perenimi_vihje">Minu õpetaja perekonnanimi</string>
-    <string name="opetaja_e_post_vihje">Minu õpetaja e-post</string>
-    <string name="harjutamise_norm_vihje">Mitu minutit tahan päevas harjutada</string>
-    <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
-    <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
-    <string name="GoogleDriveVajalikkus">Google Drive on vajalik aruannetele salvestiste lisamiseks</string>
-    <string name="google_konto_vihje">Google konto</string>
+    <string name="minu_eesnimi_vihje">Etunimeni</string>
+    <string name="minu_perenimi_vihje">Sukunimeni</string>
+    <string name="minu_e_post_vihje">Sähköpostiosoitteeni</string>
+    <string name="muusikakooli_nimi_vihje">Musiikkiopiston nimi</string>
+    <string name="klass_vihje">Luokka</string>
+    <string name="pill_vihje">Soittimeni</string>
+    <string name="opetaja_eesnimi_vihje">Opettajani etunimi</string>
+    <string name="opetaja_perenimi_vihje">Opettajani sukunimi</string>
+    <string name="opetaja_e_post_vihje">Opettajani sähköposti</string>
+    <string name="harjutamise_norm_vihje">Monta minuuttia haluan päivässä harjoitella</string>
+    <string name="kasLubadaMikrofonigaSalvestamine">Nauhoittaminen ja kuunteleminen</string>
+    <string name="kasKasutadaGoogleDrive">Tallenna Google Driveen</string>
+    <string name="GoogleDriveVajalikkus">Google Drive on välttämätön raporttiin nauhoitusten lisäämiseksi</string>
+    <string name="google_konto_vihje">Google tili</string>
 
 
     // Teave Activity
-    <string name="teave_tiitel">Teave rakenduse kohta</string>
-    <string name="teave_laen">Laen…</string>
-    <string name="teave_google_kasutus">Pillipäevik kasutab Google teenuseid. All Google teenuste kasutustingimused</string>
+    <string name="teave_tiitel">Sovelluksen tiedot</string>
+    <string name="teave_laen">Lataan…</string>
+    <string name="teave_google_kasutus">Pelimannin päiväkirja käyttää Googlen palveluita. Alhaalla Googlen palvelujen käyttöehdot</string>
 
     // HarjutusteKalenderActivity
-    <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>
+    <string name="title_activity_harjutuste_kalender">Harjoittelukalenteri</string>
 
 
     // Teos Activity
-    <string name="snackbar_anna_teosele_nimi">Anna teosele nimi</string>
-    <string name="snackbar_teos_juba_olemas">Sellise nimega teos juba on</string>
-    <string name="snackbar_nimi_tuhi">Nimi tühi</string>
-    <string name="dialog_kas_kustuta_teose_kusimus">Kustutad teose ja kõik selle teose harjutused ?</string>
+    <string name="snackbar_anna_teosele_nimi">Anna kappaleelle nimi</string>
+    <string name="snackbar_teos_juba_olemas">Samanniminen kappale on jo olemassa</string>
+    <string name="snackbar_nimi_tuhi">Nimi tyhjä</string>
+    <string name="dialog_kas_kustuta_teose_kusimus">Poistat kappaleen ja kaikki sen harjoitukset ?</string>
 
-    <string name="nimi_vihje">Nimi. Näiteks Mazurka</string>
-    <string name="autor_vihje">Autor. Näiteks Beethoven</string>
-    <string name="kommentaar_vihje">Lisa kommentaar</string>
+    <string name="nimi_vihje">Kappaleen nimi</string>
+    <string name="autor_vihje">Tekijä</string>
+    <string name="kommentaar_vihje">Lisää kommentti</string>
 
-    <string name="tana">Täna</string>
-    <string name="nadal">Nädal</string>
-    <string name="kuu">Kuu</string>
+    <string name="tana">Tänään</string>
+    <string name="nadal">Viikko</string>
+    <string name="kuu">Kuukausi</string>
 
 
     // Harjutuse/Salvestuse kustutamise dialoog
-    <string name="dialog_kas_kustuta_harjutuse_kusimus">Kustutad Harjutuse ?</string>
-    <string name="dialog_kas_kustuta_salvestuse_kusimus">Kustutad salvetuse ?</string>
+    <string name="dialog_kas_kustuta_harjutuse_kusimus">Poistat harjoituksen ?</string>
+    <string name="dialog_kas_kustuta_salvestuse_kusimus">Poistat nauhoituksen ?</string>
 
     // Aja muutmise dialoogid
-    <string name="ajamuutmine_aeg_tulevikus">Uus aeg on tulevikus! Aega ei muudetud!</string>
+    <string name="ajamuutmine_aeg_tulevikus">Valitsemasi aika on tulevaisuudessa! Aikaa ei muutettu!</string>
 
     // HarjutusLooUusActivity
 
-    <string name="harjutuse_kirjeldus_vihje">Mida plaanid harjutada …</string>
+    <string name="harjutuse_kirjeldus_vihje">Mitä aiot harjoitella …</string>
     <string name="stopper">00:00:00</string>
-    <string name="vaikimisisharjutusekirjeldus">Mängisin lugu</string>
+    <string name="vaikimisisharjutusekirjeldus">Harjoittelin kappaletta</string>
 
     // HarjutusLisaTehtudActivity
 
-    <string name="harjutuse_mida_harjutasid_vihje">Mida harjutasid …</string>
-    <string name="harjutus_algas">Harjutus algas : </string>
-    <string name="harjutus_loppes">Harjutus lõppes : </string>
-    <string name="harjutuse_kestus">Kestus : </string>
-    <string name="harjutus_minutit">minutit</string>
+    <string name="harjutuse_mida_harjutasid_vihje">Mitä harjoittelit …</string>
+    <string name="harjutus_algas">Harjoittelu alkoi : </string>
+    <string name="harjutus_loppes">Harjoittelu loppui : </string>
+    <string name="harjutuse_kestus">Kesto : </string>
+    <string name="harjutus_minutit">minuutit</string>
 
 
     // HarjutusMuudaActivity
 
-    <string name="link_aruandel_kysimus">Link aruandel</string>
+    <string name="link_aruandel_kysimus">Linkki raporttiin</string>
     <string name="eisaamuutaharjutustjuhend">
-        Harjutuse algusaega, lõpuaega ja kestust muuta ei saa. Muutmise asemel kustuta käesolev harjutus ja loo uus sobiva algusaja, lõpuaja ja kestusega harjutus.
+        Voit muuttaa vain harjoituksen nimeä. Aikojen ja keston muuttamiseksi poista harjoitus ja luo uusi.
     </string>
     <string name="lisatehtudharjutustjuhend">
-        Lisa harjutus mille tegid kui Pillipäevik ei olnud käepärast. Peale algus- ja lõpuaja sisestamist saad harjutamise tegelikku pikkust vajadusel vähendada.
+        Lisää harjoitus, jonka teit ilman Pelimannin päiväkirjaa. Alku- ja loppuaikojen asetuksen jälkeen voit vielä vähentää varsinaista harjoitteluaikaa.
     </string>
     <string name="uusharjutustjuhend">
-        Kui Seadetes on lubatud Salvestamine ja kuulamine siis saad telefoni mikrofoniga harjutamist salvestada. Kui lubatud on Google Drive kasutamine saad salvestisi aruannetele lisada.
+        Jos asetuksissa on sallittu nauhoittaminen ja kuunteleminen niin voit nauhoittaa harjoittelua puhelimen mikrofonilla. Jos Google Driven käyttö on sallittu, voit lisätä nauhoitteita raportteihin.
     </string>
 
 
     // Pealehe sahtel
-    <string name="menyyvalik_harjutuste_kalender">Harjutuste kalender</string>
-    <string name="menyyvalik_saada_aruanne">Saada aruanne</string>
-    <string name="menyyvalik_saada_satted">Seaded</string>
-    <string name="menyyvalik_saada_teave">Teave</string>
+    <string name="menyyvalik_harjutuste_kalender">Harjoittelukalenteri</string>
+    <string name="menyyvalik_saada_aruanne">Lähetä raportti</string>
+    <string name="menyyvalik_saada_satted">Asetukset</string>
+    <string name="menyyvalik_saada_teave">Tiedot</string>
 
     // Activitite tagasiside koodid
     <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>

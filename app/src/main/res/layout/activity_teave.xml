@@ -47,8 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                android:id="@+id/googlelitsents"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
+                android:id="@+id/googlelitsents"/>
     </LinearLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>
