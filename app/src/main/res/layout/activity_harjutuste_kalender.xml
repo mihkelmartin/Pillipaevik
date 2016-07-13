@@ -26,12 +26,28 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView android:id="@+id/kalendri_tabel"
-                                            android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusteKalenderActivity"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            app:layoutManager="LinearLayoutManager"
-                                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                            tools:context=".kalender.HarjutusteKalenderActivity"/>
-
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/pillipaevik_peamine_taust"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <View   android:id="@+id/uleminejoon"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/white"/>
+        <View   android:id="@+id/aluminejoon"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/white"/>
+        <android.support.v7.widget.RecyclerView android:id="@+id/kalendri_tabel"
+                                                android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusteKalenderActivity"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_above="@+id/aluminejoon"
+                                                android:layout_below="@+id/uleminejoon"
+                                                app:layoutManager="LinearLayoutManager"
+                                                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                                tools:context=".kalender.HarjutusteKalenderActivity"/>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

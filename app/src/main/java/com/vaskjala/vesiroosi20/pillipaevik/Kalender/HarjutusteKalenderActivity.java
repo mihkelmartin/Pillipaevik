@@ -25,7 +25,7 @@ import java.util.List;
 public class HarjutusteKalenderActivity extends AppCompatActivity {
 
     private HarjutusKalenderPaevadRecyclerViewAdapter mMainAdapter = null;
-    List<KalendriKirje> pPaevadeList;
+    List<KalendriKirje> pPaevadeList = new ArrayList<KalendriKirje>();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +36,14 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
         ActionBar mAction = getSupportActionBar();
         mAction.setDisplayHomeAsUpEnabled(true);
 
+        RecyclerView mKalendriTabel = (RecyclerView) findViewById(R.id.kalendri_tabel);
+        mMainAdapter = new HarjutusKalenderPaevadRecyclerViewAdapter(pPaevadeList);
+        mKalendriTabel.setAdapter(mMainAdapter);
+
         LaeKalendriAndmed laeKalendriAndmed = new LaeKalendriAndmed();
         laeKalendriAndmed.execute();
-
     }
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -63,15 +67,12 @@ public class HarjutusteKalenderActivity extends AppCompatActivity {
     private class LaeKalendriAndmed extends AsyncTask<Void, Void, Void> {
 
         protected Void doInBackground(Void ... params) {
-            pPaevadeList = new ArrayList<KalendriKirje>();
             Tooriistad.LooKuupaevad(getApplicationContext(), 60, pPaevadeList);
-            mMainAdapter = new HarjutusKalenderPaevadRecyclerViewAdapter(pPaevadeList);
             return null;
         }
 
         protected void onPostExecute(Void result) {
-            RecyclerView mKalendriTabel = (RecyclerView) findViewById(R.id.kalendri_tabel);
-            mKalendriTabel.setAdapter(mMainAdapter);
+            mMainAdapter.notifyDataSetChanged();
             super.onPostExecute(result);
         }
     }

@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:minHeight="?attr/actionBarSize"
-              android:background="@color/tabeli_rea_taust"
+              android:background="@color/pillipaevik_peamine_taust"
               android:orientation="vertical">
         <RelativeLayout
                         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="@dimen/harjutuste_kalendri_harjutuse_rea_aaris"
                         android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                        android:background="@color/tabeli_rea_taust">
+                        android:background="@color/pillipaevik_peamine_taust">
             <TextView android:id="@+id/kalender_paev_harjutus_teosenimi"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"

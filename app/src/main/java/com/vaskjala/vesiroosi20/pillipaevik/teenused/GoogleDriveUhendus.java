@@ -461,9 +461,14 @@ public class GoogleDriveUhendus  implements
                 .getSharedPreferences(mApplicationContext.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
                 .getString("googlekonto", null);
         if(googlekonto != null && !googlekonto.isEmpty()) {
-            if (BuildConfig.DEBUG) Log.d("DriveFailAvalikuks", "Konto võetud seadetest:" + googlekonto);
+            if (BuildConfig.DEBUG) Log.d("SeadistaKontoSeadetest", "Konto võetud seadetest:" + googlekonto);
             mCredential.setSelectedAccountName(googlekonto);
-            retVal = true;
+            if(mCredential.getSelectedAccount() != null) {
+                retVal = true;
+            } else {
+                retVal = false;
+                if (BuildConfig.DEBUG) Log.e("SeadistaKontoSeadetest", "Kontot ei õnnestunud sättida. Õigused puuduvad ?" + googlekonto);
+            }
         }
         return retVal;
     }

@@ -28,7 +28,8 @@
                   android:layout_height="match_parent"
                   android:layout_marginStart="@dimen/horisontaalne_aaris"
                   android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                  app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    android:background="@color/pillipaevik_peamine_taust"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

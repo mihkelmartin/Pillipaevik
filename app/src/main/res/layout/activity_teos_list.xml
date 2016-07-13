@@ -33,7 +33,7 @@
                      xmlns:tools="http://schemas.android.com/tools"
                      android:layout_width="match_parent"
                      android:layout_height="match_parent"
-                     android:background="@color/tabeli_rea_taust"
+                     android:background="@color/pillipaevik_peamine_taust"
                      app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <TableLayout android:id="@+id/harjutatudprogresstabel"
                          android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                          android:layout_marginRight="@dimen/horisontaalne_aaris"
                          android:layout_marginTop="@dimen/horisontaalne_aaris"
                          android:layout_marginBottom="@dimen/horisontaalne_aaris"
-                         android:background="@color/tabeli_rea_taust"
+                         android:background="@color/pillipaevik_peamine_taust"
                          android:layout_alignParentBottom="true">
             <TableRow android:layout_width="match_parent"
                         android:layout_height="wrap_content"

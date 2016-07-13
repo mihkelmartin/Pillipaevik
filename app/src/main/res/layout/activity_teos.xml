@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/pillipaevik_peamine_taust"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <EditText
             android:id="@+id/nimi"
@@ -117,7 +118,7 @@
         <ListView android:id="@+id/harjutuslist"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:background="@color/tabeli_rea_taust"
+                  android:background="@color/pillipaevik_peamine_taust"
                   android:choiceMode="singleChoice"
                   android:dividerHeight="@dimen/eraldusjoone_paksus"
                   android:divider="@android:color/white"/>
