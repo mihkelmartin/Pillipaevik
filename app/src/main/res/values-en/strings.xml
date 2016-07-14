@@ -136,7 +136,7 @@
 
     // HarjutusMuudaActivity
 
-    <string name="link_aruandel_kysimus">Link aruandel</string>
+    <string name="link_aruandel_kysimus">On report</string>
     <string name="eisaamuutaharjutustjuhend">
         Only the name of the practice session can be altered. To change practice times, delete this session and create a new one.
     </string>
