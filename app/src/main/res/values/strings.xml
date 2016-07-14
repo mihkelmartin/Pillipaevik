@@ -6,9 +6,13 @@
     <string name="minut">minut</string>
     <string name="minutit">minutit</string>
 
-
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
+
+    // Google Drive ühenduse viga
+    <string name="google_drive_uhenduse_vea_pealkiri">Viga Google Drive seadistamisel</string>
+    <string name="google_drive_uhenduse_vea_tekst">Kontrolli telefoni seadetest kas rakendusele on antud vajalikud load</string>
+
 
     // Näidisandmed andmebaasi
     <string name="naidislugu">Seitsme Tuule Poole</string>
@@ -112,6 +116,7 @@
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">Uus aeg on tulevikus! Aega ei muudetud!</string>
+    <string name="muuda_harjutuse_kestust">Vali harjutuse kestus</string>
 
     // HarjutusLooUusActivity
 

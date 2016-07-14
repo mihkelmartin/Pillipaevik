@@ -10,6 +10,11 @@
     <string name="ava_sahtel">Open</string>
     <string name="sule_sahtel">Close</string>
 
+    // Google Drive ühenduse viga
+    <string name="google_drive_uhenduse_vea_pealkiri">Google Drive configuration error!</string>
+    <string name="google_drive_uhenduse_vea_tekst">Check application permissions from system Settings</string>
+
+
     // Näidisandmed andmebaasi
     <string name="naidislugu">Love me like You do</string>
     <string name="looautor">Ellie Goulding</string>
@@ -112,6 +117,7 @@
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">You have chosen a future time! The time wasn´t changed!</string>
+    <string name="muuda_harjutuse_kestust">Choose duration</string>
 
     // HarjutusLooUusActivity
 

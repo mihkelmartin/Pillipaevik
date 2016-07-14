@@ -10,6 +10,11 @@
     <string name="ava_sahtel">Avaa</string>
     <string name="sule_sahtel">Sulje</string>
 
+    // Google Drive ühenduse viga
+    <string name="google_drive_uhenduse_vea_pealkiri">Google Drive asetusvirhe!</string>
+    <string name="google_drive_uhenduse_vea_tekst">Tarkista sovelluksen oikeudet laitteen asetuksista</string>
+
+
     // Näidisandmed andmebaasi
     <string name="naidislugu">The House Of The Rising Sun</string>
     <string name="looautor">Amerikkalainen kansanlaulu</string>
@@ -112,6 +117,7 @@
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">Valitsemasi aika on tulevaisuudessa! Aikaa ei muutettu!</string>
+    <string name="muuda_harjutuse_kestust">Valitse harjoittelun kesto</string>
 
     // HarjutusLooUusActivity
 

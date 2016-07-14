@@ -120,7 +120,7 @@ public class GoogleDriveUhendus  implements
         return mPilliPaevikKaust;
     }
 
-    public void SeadistaDriveRestUhendus(){
+    public void SeadistaDriveRestUhendus(boolean besimenekord){
 
         if(mCredential == null)
             mCredential = GoogleAccountCredential.usingOAuth2(mApplicationContext, Arrays.asList(SCOPES))
@@ -146,7 +146,7 @@ public class GoogleDriveUhendus  implements
                 }
             } else {
                 if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Konto valimata");
-                chooseAccount();
+                chooseAccount(besimenekord);
             }
         }
         else {
@@ -375,7 +375,7 @@ public class GoogleDriveUhendus  implements
                         KatkestaDriveUhendus();
 
                         if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "Alusta Drive REST ühenduse loomisega");
-                        SeadistaDriveRestUhendus();
+                        SeadistaDriveRestUhendus(true);
                     }
                 });
 
@@ -446,17 +446,21 @@ public class GoogleDriveUhendus  implements
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
-    private void chooseAccount() {
+    private void chooseAccount(boolean besimenekord) {
         if(SeadistaKontoSeadetest()){
-            // TODO SIIA ET TEINE KORD
-            SeadistaDriveRestUhendus();
+            SeadistaDriveRestUhendus(besimenekord);
         } else {
-            // TODO Kui kanda edasi mitmendat korda teeme siis siin võiks teisel korral näidata teadet
-            // ja jätta ActivityResult ära
-            if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Konto puudub, kuvame valikuakna");
-            mAktiivneActivity.startActivityForResult(
-                    mCredential.newChooseAccountIntent(),
-                    Tooriistad.GOOGLE_DRIVE_REST_KONTO_VALIMINE);
+            if(besimenekord) {
+                if (BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Konto puudub, kuvame valikuakna");
+                mAktiivneActivity.startActivityForResult(
+                        mCredential.newChooseAccountIntent(),
+                        Tooriistad.GOOGLE_DRIVE_REST_KONTO_VALIMINE);
+            } else {
+                if (BuildConfig.DEBUG) Log.e("chooseAccount", "Kontot ei õnnestunud sättida. Õigused puuduvad või mõni muu viga?");
+                Tooriistad.NaitaHoiatust((Activity) mAktiivneActivity,
+                        mApplicationContext.getString(R.string.google_drive_uhenduse_vea_pealkiri),
+                        mApplicationContext.getString(R.string.google_drive_uhenduse_vea_tekst));
+            }
         }
     }
     private boolean SeadistaKontoSeadetest(){

@@ -42,6 +42,7 @@ public class ValiHarjutuseKestus extends DialogFragment {
         View v = inflater.inflate(R.layout.dialoog_kestus, null);
 
         builder.setView(v)
+                .setTitle(R.string.muuda_harjutuse_kestust)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

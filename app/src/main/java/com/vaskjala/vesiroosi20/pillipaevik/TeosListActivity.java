@@ -255,15 +255,12 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                     if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Valitud konto: " + accountName +
                             ". Loome ühenduse uuesti, nüüd saab getSharedPreferences-dest");
                     GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
-                    // TODO Siia äkki parameeter, et MITTE ESIMENE KORD
-                    mGDU.SeadistaDriveRestUhendus();
+                    mGDU.SeadistaDriveRestUhendus(false);
                 } else {
-                    // TODO Kui accountname = null kuna siia tullakse ja kuna alla
+                    if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "GOOGLE_DRIVE_REST_KONTO_VALIMINE Valitud konto accountName != null ");
                 }
             } else {
-                // TODO Kui valik jäeti tegemata või tuli muul põhjusel tühi tagasi
-                // Näita sõnumi mingi tekstiga
-                // Võibolla tulekski siia tuua see pikem tekst
+                if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "GOOGLE_DRIVE_REST_KONTO_VALIMINE resultCode ei ole OK või data == null");
             }
         }
         if( requestCode == Tooriistad.GOOGLE_DRIVE_REST_UHENDUSE_LUBA){

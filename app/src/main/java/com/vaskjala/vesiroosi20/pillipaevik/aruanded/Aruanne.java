@@ -144,7 +144,7 @@ public class Aruanne {
     }
     private String KoostaLopp(){
         return context.getString(R.string.aruanne_tervitades) + ReaVahetus +
-                minueesnimi + " " + minuperenimi + context.getString(R.string.aruanne_pillipaeviku_vahendusel);
+                minueesnimi + " " + minuperenimi + " " + context.getString(R.string.aruanne_pillipaeviku_vahendusel);
     }
 
     public String AruandeKoguTekst(){
