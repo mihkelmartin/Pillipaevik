@@ -201,6 +201,7 @@ public class GoogleDriveUhendus  implements
         String retVal = null;
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            // TODO asDriveResurce ei pruugi midagi tagasi anda
             retVal = driveId.asDriveResource().getMetadata(mGoogleApiClient).await().getMetadata().getAlternateLink();
             if(retVal == null){
                 if(BuildConfig.DEBUG) Log.e("AnnaWebLink", "WebLinki ei saadud");
@@ -447,8 +448,11 @@ public class GoogleDriveUhendus  implements
     }
     private void chooseAccount() {
         if(SeadistaKontoSeadetest()){
+            // TODO SIIA ET TEINE KORD
             SeadistaDriveRestUhendus();
         } else {
+            // TODO Kui kanda edasi mitmendat korda teeme siis siin võiks teisel korral näidata teadet
+            // ja jätta ActivityResult ära
             if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", "Konto puudub, kuvame valikuakna");
             mAktiivneActivity.startActivityForResult(
                     mCredential.newChooseAccountIntent(),

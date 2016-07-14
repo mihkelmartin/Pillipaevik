@@ -33,8 +33,9 @@
             android:hint="@string/nimi_vihje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tekstilahtri_aaris"
-            android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+            android:layout_marginTop="@dimen/tekstilahtri_aaris"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:inputType="textCapSentences"/>
         <EditText
@@ -42,8 +43,8 @@
             android:hint="@string/autor_vihje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tekstilahtri_aaris"
-            android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:inputType="textCapSentences"/>
         <EditText
@@ -51,8 +52,9 @@
                 android:hint="@string/kommentaar_vihje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tekstilahtri_aaris"
-                android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                android:layout_marginBottom="@dimen/vertikaalne_aaris"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:inputType="textCapSentences"/>
         <RelativeLayout android:layout_width="match_parent"
