@@ -94,6 +94,7 @@
     <string name="snackbar_anna_teosele_nimi">Anna kappaleelle nimi</string>
     <string name="snackbar_teos_juba_olemas">Samanniminen kappale on jo olemassa</string>
     <string name="snackbar_nimi_tuhi">Nimi tyhjä</string>
+    <string name="dialog_kas_kustuta_teose_pealkiri">Poista kappale?</string>
     <string name="dialog_kas_kustuta_teose_kusimus">Poistat kappaleen ja kaikki sen harjoitukset ?</string>
 
     <string name="nimi_vihje">Kappaleen nimi</string>

@@ -94,6 +94,7 @@
     <string name="snackbar_anna_teosele_nimi">Give a name to a song</string>
     <string name="snackbar_teos_juba_olemas">A song with given name already exists</string>
     <string name="snackbar_nimi_tuhi">Name is empty</string>
+    <string name="dialog_kas_kustuta_teose_pealkiri">Delete song?</string>
     <string name="dialog_kas_kustuta_teose_kusimus">You are about to delete a song and all its exercises. Delete ?</string>
 
     <string name="nimi_vihje">Name. For example Yesterday</string>

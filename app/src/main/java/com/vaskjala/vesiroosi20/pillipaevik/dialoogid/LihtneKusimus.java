@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
 
 /**
  * Created by mihkel on 24.05.2016.
@@ -28,11 +29,14 @@ public class LihtneKusimus extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        String pealkiri = getArguments().getString("pealkiri","");
         String kysimus = getArguments().getString("kysimus","");
         String jahvastus = getArguments().getString("jahvastus","");
         String eivastus = getArguments().getString("eivastus","");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(kysimus)
+        builder.setTitle(pealkiri)
+                .setMessage(kysimus)
                 .setPositiveButton(jahvastus, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mListener.kuiJahVastus(LihtneKusimus.this);

@@ -285,6 +285,7 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
 
         if(item.getItemId() == R.id.kustutateos){
             Bundle args = new Bundle();
+            args.putString("pealkiri",getString(R.string.dialog_kas_kustuta_teose_pealkiri));
             args.putString("kysimus",getString(R.string.dialog_kas_kustuta_teose_kusimus));
             args.putString("jahvastus",getString(R.string.jah));
             args.putString("eivastus",getString(R.string.ei));

@@ -94,7 +94,8 @@
     <string name="snackbar_anna_teosele_nimi">Anna teosele nimi</string>
     <string name="snackbar_teos_juba_olemas">Sellise nimega teos juba on</string>
     <string name="snackbar_nimi_tuhi">Nimi tühi</string>
-    <string name="dialog_kas_kustuta_teose_kusimus">Kustutad teose ja kõik selle teose harjutused ?</string>
+    <string name="dialog_kas_kustuta_teose_pealkiri">Kustutad teose?</string>
+    <string name="dialog_kas_kustuta_teose_kusimus">Kustutad lõplikult teose ja kõik selle teose harjutused?</string>
 
     <string name="nimi_vihje">Nimi. Näiteks Mazurka</string>
     <string name="autor_vihje">Autor. Näiteks Beethoven</string>
@@ -106,8 +107,8 @@
 
 
     // Harjutuse/Salvestuse kustutamise dialoog
-    <string name="dialog_kas_kustuta_harjutuse_kusimus">Kustutad Harjutuse ?</string>
-    <string name="dialog_kas_kustuta_salvestuse_kusimus">Kustutad salvetuse ?</string>
+    <string name="dialog_kas_kustuta_harjutuse_kusimus">Kustutad harjutuse?</string>
+    <string name="dialog_kas_kustuta_salvestuse_kusimus">Kustutad salvetuse?</string>
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">Uus aeg on tulevikus! Aega ei muudetud!</string>
