@@ -201,12 +201,21 @@ public class GoogleDriveUhendus  implements
         String retVal = null;
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            // TODO asDriveResurce ei pruugi midagi tagasi anda
-            retVal = driveId.asDriveResource().getMetadata(mGoogleApiClient).await().getMetadata().getAlternateLink();
-            if(retVal == null){
-                if(BuildConfig.DEBUG) Log.e("AnnaWebLink", "WebLinki ei saadud");
+            DriveResource driveResource = driveId.asDriveResource();
+            if(driveResource !=  null) {
+                DriveResource.MetadataResult metadataResult = driveResource.getMetadata(mGoogleApiClient).await();
+                if(metadataResult.getStatus().isSuccess()) {
+                    retVal = metadataResult.getMetadata().getAlternateLink();
+                    if (retVal == null) {
+                        if (BuildConfig.DEBUG) Log.e("AnnaWebLink", "WebLinki ei saadud");
+                    } else {
+                        if (BuildConfig.DEBUG) Log.d("AnnaWebLink", "WebLink: " + retVal);
+                    }
+                } else {
+                    if(BuildConfig.DEBUG) Log.e("AnnaWebLink", "driveResource ei andnud metadatat:" + metadataResult.getStatus().getStatusMessage());
+                }
             } else {
-                if(BuildConfig.DEBUG) Log.d("AnnaWebLink", "WebLink: " + retVal);
+                if(BuildConfig.DEBUG) Log.e("AnnaWebLink", "driveResource == null");
             }
         } else{
             if(BuildConfig.DEBUG) Log.e("AnnaWebLink", "Drive ühendus puudus");
