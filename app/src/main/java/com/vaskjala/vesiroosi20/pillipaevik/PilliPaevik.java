@@ -1,7 +1,10 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.AndmebaasiVarukoopiaTegija;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.KorrastaDraivFailidTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
@@ -14,7 +17,8 @@ public class PilliPaevik extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Tooriistad.exportDB(getApplicationContext());
+        Intent intent = new Intent(this, AndmebaasiVarukoopiaTegija.class);
+        startService(intent);
         Tooriistad.importDB(getApplicationContext());
     }
 }

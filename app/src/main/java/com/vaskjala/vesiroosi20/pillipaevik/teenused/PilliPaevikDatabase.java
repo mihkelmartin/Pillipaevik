@@ -200,9 +200,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     if(BuildConfig.DEBUG) Log.e(LOG, "Ei lisatud ega muudetud ühtegi Teose rida " + String.valueOf(retVal));
                 }
                 db.close();
-                BackupManager backupManager = new BackupManager(context);
-                backupManager.dataChanged();
             }
+            BackupManager backupManager = new BackupManager(context);
+            backupManager.dataChanged();
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "Ei suutnud Teost salvestada " +  teos.toString() + " " + e.toString());
         }
@@ -221,9 +221,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 db.close();
                 if(BuildConfig.DEBUG) Log.d("PilliPaevikDatabase","Kustuta teos:" + teosid + " Teose kustutatud:" +
                         deletedrows + " Harjutusi:" + deletedharjutused);
-                BackupManager backupManager = new BackupManager(context);
-                backupManager.dataChanged();
             }
+            BackupManager backupManager = new BackupManager(context);
+            backupManager.dataChanged();
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "KustutaTeos " + e);
         }
@@ -242,11 +242,11 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui kustutatakse harjutust:" + harjutusid + " Teosid:" + teosid);
                 }
                 db.close();
-                BackupManager backupManager = new BackupManager(context);
-                backupManager.dataChanged();
                 if(BuildConfig.DEBUG) Log.d("PilliPaevikDatabase","Kustuta teose Harjutus. Teosid:" + teosid + " Harjutus:" + harjutusid +
                         " Ridu kustutatud:" + deletedrows);
             }
+            BackupManager backupManager = new BackupManager(context);
+            backupManager.dataChanged();
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "KustutaHarjutus " + e);
         }
@@ -267,10 +267,10 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     if(BuildConfig.DEBUG) Log.e("PilliPaevikDatabase","Teost ei leidu hulgas kui harjutusi kustutatakse. Teosid:" + teosid);
                 }
                 db.close();
-                BackupManager backupManager = new BackupManager(context);
-                backupManager.dataChanged();
                 if(BuildConfig.DEBUG) Log.d("PilliPaevikDatabase","Kustuta teose Harjutused. Teosid:" + teosid + " Ridu kustutatud:" + deletedrows);
             }
+            BackupManager backupManager = new BackupManager(context);
+            backupManager.dataChanged();
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "KustutaTeoseHarjutused " + e);
         }
@@ -373,9 +373,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     if(BuildConfig.DEBUG) Log.e(LOG, "Ei lisatud ega muudetud ühtegi Harjutuskorrad rida " + String.valueOf(retVal));
                 }
                 db.close();
-                BackupManager backupManager = new BackupManager(context);
-                backupManager.dataChanged();
             }
+            BackupManager backupManager = new BackupManager(context);
+            backupManager.dataChanged();
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "Ei suutnud salvestada " + e.toString());
         }
@@ -406,9 +406,9 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                 retVal = c.getInt(0);
                 c.close();
                 db.close();
-                BackupManager backupManager = new BackupManager(context);
-                backupManager.dataChanged();
             }
+            BackupManager backupManager = new BackupManager(context);
+            backupManager.dataChanged();
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e(LOG, "Ei suutnud Harjutuskorda muuta" + e.toString());
         }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     private SimpleItemRecyclerViewAdapter mMainAdapter;
     private PilliPaevikDatabase mPPManager;
     private boolean bEsimeneAvamine = true;
+    private final Handler mHandler = new Handler();
+    private Runnable mSahtliHilisKaivitaja = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,10 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
+                if (mSahtliHilisKaivitaja != null) {
+                    mHandler.post(mSahtliHilisKaivitaja);
+                    mSahtliHilisKaivitaja = null;
+                }
                 super.onDrawerClosed(view);
             }
 
@@ -149,31 +156,51 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             Intent i;
             switch (item.getItemId()) {
                 case R.id.harjutuste_kalender :
-                    i = new Intent(navigationView.getContext(), HarjutusteKalenderActivity.class);
-                    startActivity(i);
+                    mSahtliHilisKaivitaja = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent i = new Intent(navigationView.getContext(), HarjutusteKalenderActivity.class);
+                            startActivity(i);
+                        }
+                    };
                     break;
                 case R.id.saada_aruanne :
-                    if(KasAruanneLubatud()) {
-                        Bundle args = new Bundle();
-                        DialogFragment valiAruandeKuu = new ValiAruandeKuu();
-                        valiAruandeKuu.setArguments(args);
-                        valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
-                    } else {
-                        Tooriistad.NaitaHoiatust((Activity) navigationView.getContext(),
-                                getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
-                                getString(R.string.aruande_tegemise_keeldumise_pohjus));
+                    mSahtliHilisKaivitaja = new Runnable() {
+                        @Override
+                        public void run() {
+                            if(KasAruanneLubatud()) {
+                                Bundle args = new Bundle();
+                                DialogFragment valiAruandeKuu = new ValiAruandeKuu();
+                                valiAruandeKuu.setArguments(args);
+                                valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
+                            } else {
+                                Tooriistad.NaitaHoiatust((Activity) navigationView.getContext(),
+                                        getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
+                                        getString(R.string.aruande_tegemise_keeldumise_pohjus));
 
-                    }
+                            }
+                        }
+                    };
                     break;
                 case R.id.seaded :
                     if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
-                    Intent intentSeaded = new Intent(navigationView.getContext(), SeadedActivity.class);
-                    startActivity(intentSeaded);
+                    mSahtliHilisKaivitaja = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intentSeaded = new Intent(navigationView.getContext(), SeadedActivity.class);
+                            startActivity(intentSeaded);
+                        }
+                    };
                     break;
                 case R.id.teave :
                     if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
-                    Intent intentTeave = new Intent(navigationView.getContext(), TeaveActivity.class);
-                    startActivity(intentTeave);
+                    mSahtliHilisKaivitaja = new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intentTeave = new Intent(navigationView.getContext(), TeaveActivity.class);
+                            startActivity(intentTeave);
+                        }
+                    };
                     break;
                 default:
                     break;

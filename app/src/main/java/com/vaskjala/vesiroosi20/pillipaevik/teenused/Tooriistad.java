@@ -33,6 +33,8 @@ public final class Tooriistad {
     public static final int GOOGLE_DRIVE_REST_UHENDUSE_LUBA = 1004;
     public static final int GOOGLE_PLAY_TEENUSTE_VEAAKEN = 1010;
 
+    public static final int ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV = 15;
+
     private static final Calendar c = Calendar.getInstance();
     private static final SimpleDateFormat sdfkuupaev = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final SimpleDateFormat sdfkellaaeg = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -294,17 +296,32 @@ public final class Tooriistad {
             if(BuildConfig.DEBUG) Log.d("exportDB", "Koopia:" + backupDB.getAbsolutePath());
 
             try {
-                source = new FileInputStream(currentDB).getChannel();
-                destination = new FileOutputStream(backupDB).getChannel();
-                destination.transferFrom(source, 0, source.size());
-                source.close();
-                destination.close();
+                synchronized (PilliPaevikDatabase.sPilliPaevikuLukk) {
+                    if(BuildConfig.DEBUG) Log.d("exportDB", "Sünkroniseeritud osas tegelik kopeerimine" );
+                    source = new FileInputStream(currentDB).getChannel();
+                    destination = new FileOutputStream(backupDB).getChannel();
+                    destination.transferFrom(source, 0, source.size());
+                    source.close();
+                    destination.close();
+                }
             } catch(IOException e) {
                 e.printStackTrace();
             }
+
+            // Kustuta liigsed varukoopiad
+            List<String> pFailid = Arrays.asList(sd.list());
+            int varukoopiatearv = pFailid.size();
+            if(varukoopiatearv > ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV ) {
+                Collections.sort(pFailid, Collections.<String>reverseOrder());
+                for (int i = 0; i <= varukoopiatearv - ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV - 1 ;i++) {
+                    Tooriistad.KustutaKohalikFail(sd, pFailid.get(ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV + i));
+                }
+            }
+
         } else {
             if(BuildConfig.DEBUG) Log.d("exportDB", "Download kataloogi loomine ei õnnestunud.");
         }
+
     }
     // Taastamine
     public static void importDB(Context context){
