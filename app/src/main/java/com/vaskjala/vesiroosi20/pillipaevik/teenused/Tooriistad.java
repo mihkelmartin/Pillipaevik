@@ -35,7 +35,7 @@ public final class Tooriistad {
 
     public static final int ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV = 15;
 
-    public static final long MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES = 1 * 60 * 1000;
+    public static final long MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES = 30 * 60 * 1000;
 
 
     private static final Calendar c = Calendar.getInstance();

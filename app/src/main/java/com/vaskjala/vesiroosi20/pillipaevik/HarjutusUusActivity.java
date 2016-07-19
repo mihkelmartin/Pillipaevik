@@ -33,7 +33,6 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     private boolean bkasSalvestame = false;
     private long stardiaeg = 0;
     private long kulunudaeg = 0;
-    private long salvestuseaeg;
     private static final short viiv = 300;
 
     private static TextView timer;
@@ -193,15 +192,21 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     }
 
     private final Handler handler = new Handler();
-    private final Runnable runnable = new Runnable() {
+    private final Runnable salvestusajalimiit = new Runnable() {
         @Override
         public void run() {
-            long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
-            if(bkasSalvestame && (System.currentTimeMillis() - salvestuseaeg) > Tooriistad.MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES){
+            if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Ajalimiit täis. Lõpetame salvestamise");
+            if(bkasSalvestame) {
                 bkasSalvestame = !bkasSalvestame;
                 SeisataLindistaja();
                 SeadistaMikrofoniNupp();
             }
+        }
+    };
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
             timer.setText(String.valueOf( Tooriistad.KujundaAeg(aeg)));
             handler.postDelayed(this, viiv);
         }
@@ -258,7 +263,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 mRecorder.prepare();
                 mRecorder.start();
-                salvestuseaeg = System.currentTimeMillis();
+                handler.postDelayed(salvestusajalimiit, Tooriistad.MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES);
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } catch (Exception e) {
                 mRecorder = null;
@@ -268,6 +273,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     }
     private void SeisataLindistaja() {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lõpetan lindistamise");
+        handler.removeCallbacks(salvestusajalimiit);
         if (mRecorder != null) {
             mRecorder.stop();
             mRecorder.release();

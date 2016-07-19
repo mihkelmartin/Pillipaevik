@@ -258,8 +258,8 @@ public class GoogleDriveUhendus  implements
             else {
                 if(BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Drive faili ei avatud: " + mDCR.getStatus().getStatusMessage() +
                         "code:" + mDCR.getStatus().getStatusCode());
-                // TODO SIIA EXCEPTYION
-                //throw new FileNotFoundException("Fail Draivist kadunud");
+                if(mDCR.getStatus().getStatusCode() == 1502)
+                    throw new FileNotFoundException("Fail Google Draivist kustutatud või puuduvad õigused");
             }
         } else {
             if(BuildConfig.DEBUG) Log.e("AvaDriveFail", "Viga faili avamisel. Drive ühendus puudub või driveId==null");
