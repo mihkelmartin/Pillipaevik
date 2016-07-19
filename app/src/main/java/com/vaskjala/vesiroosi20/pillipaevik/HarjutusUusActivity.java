@@ -33,6 +33,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     private boolean bkasSalvestame = false;
     private long stardiaeg = 0;
     private long kulunudaeg = 0;
+    private long salvestuseaeg;
     private static final short viiv = 300;
 
     private static TextView timer;
@@ -196,6 +197,11 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         @Override
         public void run() {
             long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
+            if(bkasSalvestame && (System.currentTimeMillis() - salvestuseaeg) > Tooriistad.MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES){
+                bkasSalvestame = !bkasSalvestame;
+                SeisataLindistaja();
+                SeadistaMikrofoniNupp();
+            }
             timer.setText(String.valueOf( Tooriistad.KujundaAeg(aeg)));
             handler.postDelayed(this, viiv);
         }
@@ -252,6 +258,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 mRecorder.prepare();
                 mRecorder.start();
+                salvestuseaeg = System.currentTimeMillis();
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } catch (Exception e) {
                 mRecorder = null;

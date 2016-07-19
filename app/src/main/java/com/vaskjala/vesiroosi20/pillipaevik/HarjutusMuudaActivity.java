@@ -23,10 +23,7 @@ import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 
 public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
@@ -128,7 +125,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             if (harjutuskord != null && harjutuskord.getHelifailidriveid() != null &&
                     !harjutuskord.getHelifailidriveid().isEmpty()) {
                 AvaFailMangimiseks mAFM = new AvaFailMangimiseks();
-                mAFM.execute(harjutuskord.getHelifailidriveid());
+                mAFM.execute(harjutuskord);
             }
         } else if(Tooriistad.KasLubadaSalvestamine(getApplicationContext())){
             if (harjutuskord != null && harjutuskord.getHelifail() != null &&
@@ -305,16 +302,22 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         mangilugu.setVisibility(RelativeLayout.GONE);
     }
 
-    private class AvaFailMangimiseks extends AsyncTask<String, Void, DriveContents> {
+    private class AvaFailMangimiseks extends AsyncTask<HarjutusKord, Void, DriveContents> {
 
         @Override
-        protected DriveContents doInBackground(String... driveIDs) {
+        protected DriveContents doInBackground(HarjutusKord... harjutusKords) {
             DriveContents dFC = null;
             GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), null);
             if(mGDU.LooDriveUhendusAsunkroonselt()) {
                 DriveId dID;
-                dID = mGDU.AnnaDriveID(driveIDs[0]);
-                dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+                dID = mGDU.AnnaDriveID(harjutusKords[0].getHelifailidriveid());
+                try {
+                    dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+                } catch (FileNotFoundException e){
+                    if(BuildConfig.DEBUG) Log.e("AvaFailMangimiseks", "Faili ei leitud. Tühjendame väljad. " + e.toString());
+                    harjutusKords[0].TuhjendaSalvestuseValjad();
+                    harjutusKords[0].Salvesta(getApplicationContext());
+                }
             }
             mGDU.KatkestaDriveUhendus();
             return dFC;

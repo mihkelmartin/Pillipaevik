@@ -87,7 +87,7 @@
 
 
     // Teave Activity
-    <string name="teave_tiitel">About…</string>
+    <string name="teave_tiitel">Information</string>
     <string name="teave_laen">Loading…</string>
     <string name="teave_google_kasutus">Diary of a Player uses Google Services. See information below</string>
 

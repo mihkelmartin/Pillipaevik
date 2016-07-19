@@ -35,6 +35,9 @@ public final class Tooriistad {
 
     public static final int ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV = 15;
 
+    public static final long MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES = 1 * 60 * 1000;
+
+
     private static final Calendar c = Calendar.getInstance();
     private static final SimpleDateFormat sdfkuupaev = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private static final SimpleDateFormat sdfkellaaeg = new SimpleDateFormat("HH:mm", Locale.getDefault());

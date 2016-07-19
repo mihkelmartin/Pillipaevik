@@ -29,6 +29,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -244,7 +245,7 @@ public class GoogleDriveUhendus  implements
         }
         return retVal;
     }
-    public DriveContents AvaDriveFail(DriveId driveId, int mode) {
+    public DriveContents AvaDriveFail(DriveId driveId, int mode) throws FileNotFoundException {
 
         DriveContents retVal = null;
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected() && driveId != null ) {
@@ -255,10 +256,13 @@ public class GoogleDriveUhendus  implements
                 if(BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus", "Drive faili sisu avatud !" + retVal.toString());
             }
             else {
-                if(BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Drive faili ei avatud: " + mDCR.getStatus().getStatusMessage());
+                if(BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Drive faili ei avatud: " + mDCR.getStatus().getStatusMessage() +
+                        "code:" + mDCR.getStatus().getStatusCode());
+                // TODO SIIA EXCEPTYION
+                //throw new FileNotFoundException("Fail Draivist kadunud");
             }
         } else {
-            if(BuildConfig.DEBUG) Log.e("AvaDriveFail", "Viga faili salvestamisel. Drive ühendus puudub või driveId==null");
+            if(BuildConfig.DEBUG) Log.e("AvaDriveFail", "Viga faili avamisel. Drive ühendus puudub või driveId==null");
         }
         return retVal;
     }

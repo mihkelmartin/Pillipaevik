@@ -33,8 +33,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     private SimpleItemRecyclerViewAdapter mMainAdapter;
     private PilliPaevikDatabase mPPManager;
     private boolean bEsimeneAvamine = true;
-    private final Handler mHandler = new Handler();
-    private Runnable mSahtliHilisKaivitaja = null;
+    private int iSahtliValik = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +87,19 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 startService(intent);
             }
         }
+
+        NavigationView navivaade = (NavigationView) findViewById(R.id.sahtli_navivaade);
+        View header = navivaade.getHeaderView(0);
+        TextView mOpilane = (TextView)header.findViewById(R.id.navitiitli_nimevali);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
+        String nimi = sharedPref.getString("minueesnimi", "");
+        if(!nimi.isEmpty()) {
+            String perenimi = sharedPref.getString("minuperenimi", "");
+            if (!perenimi.isEmpty()) {
+                nimi = nimi + " " + perenimi;
+            }
+        }
+        mOpilane.setText(nimi);
     }
     @Override
     protected void onStop() {
@@ -108,10 +120,39 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                if (mSahtliHilisKaivitaja != null) {
-                    mHandler.post(mSahtliHilisKaivitaja);
-                    mSahtliHilisKaivitaja = null;
+
+                switch (getiSahtliValik()) {
+                    case R.id.harjutuste_kalender :
+                            Intent i = new Intent(view.getContext(), HarjutusteKalenderActivity.class);
+                            startActivity(i);
+                        break;
+                    case R.id.saada_aruanne :
+                        if(KasAruanneLubatud()) {
+                            Bundle args = new Bundle();
+                            DialogFragment valiAruandeKuu = new ValiAruandeKuu();
+                            valiAruandeKuu.setArguments(args);
+                            valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
+                        } else {
+                            Tooriistad.NaitaHoiatust((Activity) view.getContext(),
+                                    getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
+                                    getString(R.string.aruande_tegemise_keeldumise_pohjus));
+
+                        }
+                        break;
+                    case R.id.seaded :
+                        if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
+                        Intent intentSeaded = new Intent(view.getContext(), SeadedActivity.class);
+                        startActivity(intentSeaded);
+                        break;
+                    case R.id.teave :
+                        if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
+                        Intent intentTeave = new Intent(view.getContext(), TeaveActivity.class);
+                        startActivity(intentTeave);
+                        break;
+                    default:
+                        break;
                 }
+                setiSahtliValik(0);
                 super.onDrawerClosed(view);
             }
 
@@ -128,17 +169,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         NavigationView navivaade = (NavigationView) findViewById(R.id.sahtli_navivaade);
         navivaade.setItemIconTintList(null);
         navivaade.setNavigationItemSelectedListener(new NaviMenyyKuulaja(navivaade, mDrawerLayout));
-        View header = navivaade.getHeaderView(0);
-        TextView mOpilane = (TextView)header.findViewById(R.id.navitiitli_nimevali);
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
-        String nimi = sharedPref.getString("minueesnimi", "");
-        if(!nimi.isEmpty()) {
-            String perenimi = sharedPref.getString("minuperenimi", "");
-            if (!perenimi.isEmpty()) {
-                nimi = nimi + " " + perenimi;
-            }
-        }
-        mOpilane.setText(nimi);
     }
     public class NaviMenyyKuulaja implements NavigationView.OnNavigationItemSelectedListener
     {
@@ -150,61 +180,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         }
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
-
+            setiSahtliValik(item.getItemId());
             drawerLayout.closeDrawer(navigationView);
-
-            Intent i;
-            switch (item.getItemId()) {
-                case R.id.harjutuste_kalender :
-                    mSahtliHilisKaivitaja = new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent i = new Intent(navigationView.getContext(), HarjutusteKalenderActivity.class);
-                            startActivity(i);
-                        }
-                    };
-                    break;
-                case R.id.saada_aruanne :
-                    mSahtliHilisKaivitaja = new Runnable() {
-                        @Override
-                        public void run() {
-                            if(KasAruanneLubatud()) {
-                                Bundle args = new Bundle();
-                                DialogFragment valiAruandeKuu = new ValiAruandeKuu();
-                                valiAruandeKuu.setArguments(args);
-                                valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
-                            } else {
-                                Tooriistad.NaitaHoiatust((Activity) navigationView.getContext(),
-                                        getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
-                                        getString(R.string.aruande_tegemise_keeldumise_pohjus));
-
-                            }
-                        }
-                    };
-                    break;
-                case R.id.seaded :
-                    if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
-                    mSahtliHilisKaivitaja = new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intentSeaded = new Intent(navigationView.getContext(), SeadedActivity.class);
-                            startActivity(intentSeaded);
-                        }
-                    };
-                    break;
-                case R.id.teave :
-                    if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
-                    mSahtliHilisKaivitaja = new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intentTeave = new Intent(navigationView.getContext(), TeaveActivity.class);
-                            startActivity(intentTeave);
-                        }
-                    };
-                    break;
-                default:
-                    break;
-            }
             return false;
         }
     }
@@ -505,5 +482,12 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         else
             pPHT.getProgressDrawable().setColorFilter(null);
 
+    }
+
+    private int getiSahtliValik() {
+        return iSahtliValik;
+    }
+    private void setiSahtliValik(int iSahtliValik) {
+        this.iSahtliValik = iSahtliValik;
     }
 }
