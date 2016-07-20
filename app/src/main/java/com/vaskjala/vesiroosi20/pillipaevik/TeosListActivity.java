@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -394,10 +395,10 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             ka.setPerioodilopp(Tooriistad.MoodustaKuuLopuKuupaev(kuujaaasta));
             String aruandekogutekst = ka.AruandeKoguTekst();
             Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType("text/plain");
+            i.setType("text/html");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{ka.getOpetajaepost()});
             i.putExtra(Intent.EXTRA_SUBJECT, ka.Teema());
-            i.putExtra(Intent.EXTRA_TEXT, aruandekogutekst);
+            i.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(aruandekogutekst));
             try {
                 startActivity(Intent.createChooser(i, getString(R.string.aruanne_saada)));
             } catch (android.content.ActivityNotFoundException ex) {
