@@ -34,6 +34,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
     private long stardiaeg = 0;
     private long kulunudaeg = 0;
     private static final short viiv = 300;
+    private final Handler handler = new Handler();
 
     private static TextView timer;
     private static Button kaivitaTimerNupp;
@@ -43,7 +44,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
 
     protected void onStart() {
         if(taimertootab)
-            handler.postDelayed(runnable, viiv);
+            handler.postDelayed(AjaUuendaja, viiv);
         super.onStart();
     }
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         if(BuildConfig.DEBUG) Log.d("HarjutusUusActivity", "On Stop");
         SeisataLindistaja();
         if(taimertootab)
-            handler.removeCallbacks(runnable);
+            handler.removeCallbacks(AjaUuendaja);
         super.onStop();
     }
 
@@ -191,11 +192,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA), output);
     }
 
-    private final Handler handler = new Handler();
     private final Runnable salvestusajalimiit = new Runnable() {
         @Override
         public void run() {
-            if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "Ajalimiit täis. Lõpetame salvestamise");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Ajalimiit täis. Lõpetame salvestamise");
             if(bkasSalvestame) {
                 bkasSalvestame = !bkasSalvestame;
                 SeisataLindistaja();
@@ -203,7 +203,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             }
         }
     };
-    private final Runnable runnable = new Runnable() {
+    private final Runnable AjaUuendaja = new Runnable() {
         @Override
         public void run() {
             long aeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
@@ -240,14 +240,14 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
         }
         taimertootab = true;
         this.stardiaeg = System.currentTimeMillis();
-        handler.postDelayed(runnable, viiv);
+        handler.postDelayed(AjaUuendaja, viiv);
     }
     private void SeisataTaimer(){
         taimertootab = false;
         kulunudaeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
         harjutus.setLopuaegEiArvuta(Calendar.getInstance().getTime());
         harjutus.setPikkussekundites((int) (kulunudaeg / 1000));
-        handler.removeCallbacks(runnable);
+        handler.removeCallbacks(AjaUuendaja);
     }
 
     private void KaivitaLindistaja(){

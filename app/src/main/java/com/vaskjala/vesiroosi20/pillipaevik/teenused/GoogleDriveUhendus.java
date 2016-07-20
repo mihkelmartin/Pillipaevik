@@ -103,6 +103,7 @@ public class GoogleDriveUhendus  implements
             } else {
                 if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", PilliPaevikDatabase.DATABASE_NAME + " kausta päring ei õnnestunud");
             }
+            result.release();
             if(mPilliPaevikKaust == null) {
                 if(BuildConfig.DEBUG) Log.e("GoogleDriveUhendus", PilliPaevikDatabase.DATABASE_NAME + " kausta ei leitud");
             }
