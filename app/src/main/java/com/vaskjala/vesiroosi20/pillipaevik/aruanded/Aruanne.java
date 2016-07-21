@@ -83,7 +83,7 @@ public class Aruanne {
                 " " + minuperenimi + ", " + opilaseinstrument + ", " + aruandeperioodinimi;
     }
     private String KoostaKoond(){
-        String koond = "<h1>" + context.getString(R.string.aruanne_koondi_pealkiri) + "</h1>" + ReaVahetus + ReaVahetus;
+        String koond = context.getString(R.string.aruanne_koondi_pealkiri) + ReaVahetus + ReaVahetus;
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context);
 
         if(getPaevasharjutada() > 0) {
