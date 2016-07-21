@@ -133,8 +133,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
                 try {
                     FileInputStream in = new FileInputStream(getFilesDir().getPath() + "/" + harjutuskord.getHelifail());
                     mHeliFail = in.getFD();
-                    RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
-                    mangilugu.setVisibility(RelativeLayout.VISIBLE);
+                    SeadistaSalvestiseRiba();
                 } catch (IOException e){
                     if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Helifaili avamise viga: " + e.toString());
                 }
@@ -261,6 +260,10 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         }
     }
 
+    public void JagaLugu(View v){
+
+    }
+
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
@@ -282,8 +285,6 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         } else
         if(dialog.getTag().equals("KustutaSalvestus")) {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "KustutaSalvestus vastus Jah.");
-            RelativeLayout salvestusriba = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
-            salvestusriba.setVisibility(RelativeLayout.GONE);
             KustutaSalvestus();
         }
         else {
@@ -296,10 +297,11 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         intent.putExtra("driveid", harjutuskord.getHelifailidriveid());
         startService(intent);
         Tooriistad.KustutaKohalikFail(getFilesDir(),harjutuskord.getHelifail());
+        mHeliFail = null;
         harjutuskord.TuhjendaSalvestuseValjad();
         SalvestaHarjutus ();
-        RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
-        mangilugu.setVisibility(RelativeLayout.GONE);
+        SeadistaSalvestiseRiba();
+
     }
 
     private class AvaFailMangimiseks extends AsyncTask<HarjutusKord, Void, DriveContents> {
@@ -327,11 +329,25 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
 
             if(dFC != null){
                 mHeliFail = dFC.getParcelFileDescriptor().getFileDescriptor();
-                RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
-                mangilugu.setVisibility(RelativeLayout.VISIBLE);
             }
+            SeadistaSalvestiseRiba();
             super.onPostExecute(dFC);
         }
     }
 
+    public void SeadistaSalvestiseRiba() {
+        RelativeLayout mangilugu = (RelativeLayout) findViewById(R.id.SalvestuseRiba);
+        if (mHeliFail == null) {
+            mangilugu.setVisibility(RelativeLayout.GONE);
+        } else {
+            mangilugu.setVisibility(RelativeLayout.VISIBLE);
+            CheckBox mLinkAruandele = (CheckBox)findViewById(R.id.weblinkaruandele);
+            ImageButton mJaga = (ImageButton)findViewById(R.id.jaga);
+            if(harjutuskord.getHelifailidriveweblink() == null ||
+                    harjutuskord.getHelifailidriveweblink().isEmpty()){
+                mLinkAruandele.setVisibility(CheckBox.GONE);
+                mJaga.setVisibility(ImageButton.GONE);
+            }
+        }
+    }
 }
