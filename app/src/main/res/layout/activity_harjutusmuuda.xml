@@ -22,13 +22,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/flootjupptransparent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/flootjupptransparent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,22 +41,22 @@
         <TableLayout android:id="@+id/HarjutusTabel"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
+                     android:layout_margin="@dimen/horisontaalne_aaris"
                      android:layout_below="@+id/harjutusekirjeldus">
         <TableRow android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                       android:text="@string/harjutus_algas"/>
             <TextView android:id="@+id/alguskuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"/>
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
             <TextView android:id="@+id/alguskellaaeg"
                       android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"/>
+                      android:layout_height="wrap_content"/>
         </TableRow>
 
         <TableRow android:layout_width="wrap_content"
@@ -65,16 +64,15 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                       android:text="@string/harjutus_loppes"/>
             <TextView android:id="@+id/lopukuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"/>
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
             <TextView android:id="@+id/lopukellaaeg"
                       android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"/>
+                      android:layout_height="wrap_content"/>
         </TableRow>
 
         <TableRow android:layout_width="wrap_content"
@@ -82,29 +80,28 @@
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                       android:text="@string/harjutuse_kestus"/>
             <TextView android:id="@+id/pikkusminutites"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"/>
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_margin="@dimen/horisontaalne_aaris"
                       android:text="@string/minutit"/>
         </TableRow>
         </TableLayout>
         <RelativeLayout android:id="@+id/SalvestuseRiba"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/horisontaalne_aaris"
+                        android:layout_marginStart="@dimen/horisontaalne_aaris"
+                        android:layout_marginEnd="@dimen/horisontaalne_aaris"
                         android:layout_below="@id/HarjutusTabel"
                         android:visibility="gone">
             <View   android:id="@+id/uleminejoon"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/peene_eraldusjoone_paksus"
-                    android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
-                    android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                    android:layout_marginBottom="@dimen/tekstilahtri_aaris"
                     android:layout_alignParentTop="true"
                     android:background="@android:color/black" />
             <ImageView android:id="@+id/salvestusepilt"
@@ -116,12 +113,12 @@
                        android:layout_alignParentStart="true"
             />
             <ImageButton android:id="@+id/mangi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/salvestusepilt"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_toEndOf="@+id/salvestusepilt"
                          android:layout_below="@id/uleminejoon"
                          android:src="@drawable/ic_play_arrow_black_18dp"
-                    android:onClick="MangiLugu"/>
+                         android:onClick="MangiLugu"/>
             <ImageButton android:id="@+id/jaga"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
@@ -153,21 +150,19 @@
             <View
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/peene_eraldusjoone_paksus"
-                    android:layout_marginTop="@dimen/eraldusjoone_ylemine_aaris"
-                    android:layout_marginBottom="@dimen/eraldusjoone_alumine_aaris"
+                    android:layout_marginTop="@dimen/tekstilahtri_aaris"
                     android:layout_below="@id/jaga"
                     android:background="@android:color/black" />
 
         </RelativeLayout>
-
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_below="@id/SalvestuseRiba"
                   android:layout_alignParentBottom="true"
                   android:layout_margin="12dp"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   android:text="@string/eisaamuutaharjutustjuhend"/>
-
     </RelativeLayout>
-
+</ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

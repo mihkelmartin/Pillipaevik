@@ -84,7 +84,8 @@
             <LinearLayout android:id="@+id/harjutustekestuskast"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_toRightOf="@+id/harjutustearvkast"
+                          android:layout_toEndOf="@+id/harjutustearvkast"
+                          android:layout_toStartOf="@+id/hinnaguriba"
                           android:orientation="horizontal">
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"

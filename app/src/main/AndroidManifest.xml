@@ -69,7 +69,8 @@
         <activity
                 android:name=".HarjutusMuudaActivity"
                 android:parentActivityName=".TeosActivity"
-                android:theme="@style/Pillipaevik">
+                android:theme="@style/Pillipaevik"
+                android:windowSoftInputMode="stateHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosActivity"/>
