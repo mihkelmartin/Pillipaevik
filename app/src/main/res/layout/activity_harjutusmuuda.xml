@@ -36,6 +36,7 @@
             android:singleLine="false"
             android:id="@+id/harjutusekirjeldus"
             android:hint="@string/harjutuse_mida_harjutasid_vihje"
+            android:maxLength="64"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <TableLayout android:id="@+id/HarjutusTabel"

@@ -37,6 +37,7 @@
             android:layout_marginBottom="@dimen/vertikaalne_aaris"
             android:id="@+id/harjutusekirjeldus"
             android:hint="@string/harjutuse_kirjeldus_vihje"
+            android:maxLength="64"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <LinearLayout android:id="@+id/nupud"

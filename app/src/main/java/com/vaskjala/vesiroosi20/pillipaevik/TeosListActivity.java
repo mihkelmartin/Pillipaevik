@@ -126,7 +126,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                             startActivity(i);
                         break;
                     case R.id.saada_aruanne :
-                        if(KasAruanneLubatud()) {
+                        if(Tooriistad.kasNimedEpostOlemas(getApplicationContext())) {
                             Bundle args = new Bundle();
                             DialogFragment valiAruandeKuu = new ValiAruandeKuu();
                             valiAruandeKuu.setArguments(args);
@@ -363,20 +363,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
-    }
-
-    private boolean KasAruanneLubatud(){
-        boolean retVal;
-        Context context=getApplicationContext();
-        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
-        if(sharedPref.getString("minueesnimi","").isEmpty() ||
-                 sharedPref.getString("minuperenimi","").isEmpty() ||
-                 sharedPref.getString("minuinstrument","").isEmpty()){
-            retVal = false;
-        } else {
-            retVal = true;
-        }
-        return retVal;
     }
 
     @Override

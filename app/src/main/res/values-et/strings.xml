@@ -146,6 +146,8 @@
         Kui seadetes on lubatud salvestamine ja kuulamine siis saad telefoni mikrofoniga harjutamist salvestada. Kui lubatud on Google Drive kasutamine saad salvestisi aruannetele lisada.
     </string>
 
+    <string name="jagamise_keeldumise_pealkiri">Salvestust ei saa jagada</string>
+    <string name="jagamise_keeldumise_pohjus">Täida seadetes eesnimi, perekonnanimi ja instument !</string>
 
     // Pealehe sahtel
     <string name="menyyvalik_harjutuste_kalender">Harjutuste kalender</string>

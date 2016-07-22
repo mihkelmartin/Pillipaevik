@@ -1,5 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import android.widget.*;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
+import com.vaskjala.vesiroosi20.pillipaevik.aruanded.ValiAruandeKuu;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
@@ -261,7 +263,22 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
 
     public void JagaLugu(View v){
-
+        if(Tooriistad.kasNimedEpostOlemas(getApplicationContext())) {
+            Bundle args = new Bundle();
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, harjutuskord.getHarjutusekirjeldus());
+            i.putExtra(Intent.EXTRA_TEXT, harjutuskord.getHelifailidriveweblink());
+            try {
+                startActivity(Intent.createChooser(i, getString(R.string.aruanne_saada)));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(getParent(), getString(R.string.aruanne_eposti_rakendus_puudub), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Tooriistad.NaitaHoiatust((Activity) v.getContext(),
+                    getString(R.string.jagamise_keeldumise_pealkiri),
+                    getString(R.string.jagamise_keeldumise_pohjus));
+        }
     }
 
     // Dialoogi vastused

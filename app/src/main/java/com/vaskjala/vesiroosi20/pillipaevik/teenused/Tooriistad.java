@@ -227,6 +227,18 @@ public final class Tooriistad {
         return  retVal;
     }
 
+    public static boolean kasNimedEpostOlemas(Context context){
+        boolean retVal;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        if(sharedPref.getString("minueesnimi","").isEmpty() ||
+                sharedPref.getString("minuperenimi","").isEmpty() ||
+                sharedPref.getString("minuinstrument","").isEmpty()){
+            retVal = false;
+        } else {
+            retVal = true;
+        }
+        return  retVal;    }
+
     public static void NaitaHoiatust(Activity activity, String pealkiri, String hoiatus) {
         AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
         alertDialog.setTitle(pealkiri);

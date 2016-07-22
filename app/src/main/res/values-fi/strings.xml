@@ -147,6 +147,8 @@
         Jos asetuksissa on sallittu nauhoittaminen ja kuunteleminen niin voit nauhoittaa harjoittelua puhelimen mikrofonilla. Jos Google Driven käyttö on sallittu, voit lisätä nauhoitteita raportteihin.
     </string>
 
+    <string name="jagamise_keeldumise_pealkiri">Nauhoitusta ei pysty jakamaan</string>
+    <string name="jagamise_keeldumise_pohjus">Täytä asetuksissa etunimi, sukunimi ja soitin !</string>
 
     // Pealehe sahtel
     <string name="menyyvalik_harjutuste_kalender">Harjoittelukalenteri</string>

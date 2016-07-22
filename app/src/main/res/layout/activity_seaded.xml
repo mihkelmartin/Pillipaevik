@@ -34,6 +34,7 @@
             android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:id="@+id/minueesnimi"
             android:hint="@string/minu_eesnimi_vihje"
+            android:maxLength="32"
             android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
@@ -42,6 +43,7 @@
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/minuperenimi"
                 android:hint="@string/minu_perenimi_vihje"
+                android:maxLength="32"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
@@ -50,6 +52,7 @@
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/minuepost"
                 android:hint="@string/minu_e_post_vihje"
+                android:maxLength="32"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"
@@ -64,6 +67,7 @@
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/muusikakool"
                 android:hint="@string/muusikakooli_nimi_vihje"
+                android:maxLength="64"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
@@ -72,6 +76,7 @@
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/klass"
                 android:hint="@string/klass_vihje"
+                android:maxLength="16"
                 android:inputType="textCapSentences"/>
         <EditText
                 android:layout_width="match_parent"
@@ -80,6 +85,7 @@
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/minuinstrument"
                 android:hint="@string/pill_vihje"
+                android:maxLength="32"
                 android:inputType="textCapSentences"/>
         <View
                 android:layout_width="fill_parent"
@@ -93,6 +99,7 @@
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/opetajaeesnimi"
+                android:maxLength="32"
                 android:hint="@string/opetaja_eesnimi_vihje"
                 android:inputType="textCapSentences"/>
         <EditText
@@ -101,6 +108,7 @@
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/opetajaperenimi"
+                android:maxLength="32"
                 android:hint="@string/opetaja_perenimi_vihje"
                 android:inputType="textCapSentences"/>
         <EditText
@@ -110,6 +118,7 @@
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/opetajaepost"
                 android:hint="@string/opetaja_e_post_vihje"
+                android:maxLength="32"
                 android:inputType="textEmailAddress"/>
         <View
                 android:layout_width="fill_parent"

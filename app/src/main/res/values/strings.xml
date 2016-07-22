@@ -147,6 +147,9 @@
         If recording and listening is allowed in the settings you can record your practice with a microphone. If using Google Drive is allowed you can add recordings to reports.
     </string>
 
+    <string name="jagamise_keeldumise_pealkiri">Unable share recording</string>
+    <string name="jagamise_keeldumise_pohjus">Fill in your first name,surname and instrument in the settings!</string>
+
 
     // Pealehe sahtel
     <string name="menyyvalik_harjutuste_kalender">Practice calendar</string>
