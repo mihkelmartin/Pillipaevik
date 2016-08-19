@@ -15,8 +15,8 @@ android {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 3
-        versionName '1.1'
+        versionCode 4
+        versionName '1.2'
     }
     buildTypes {
         debug {

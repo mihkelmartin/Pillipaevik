@@ -5,6 +5,8 @@
     <string name="tundi">tundi</string>
     <string name="minut">minut</string>
     <string name="minutit">minutit</string>
+    <string name="tere">Tere</string>
+
 
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
@@ -127,8 +129,8 @@
     // HarjutusLisaTehtudActivity
 
     <string name="harjutuse_mida_harjutasid_vihje">Mida harjutasid …</string>
-    <string name="harjutus_algas">Harjutus algas : </string>
-    <string name="harjutus_loppes">Harjutus lõppes : </string>
+    <string name="harjutus_algas">Algas : </string>
+    <string name="harjutus_loppes">Lõppes : </string>
     <string name="harjutuse_kestus">Kestus : </string>
     <string name="harjutus_minutit">minutit</string>
 
@@ -148,6 +150,10 @@
 
     <string name="jagamise_keeldumise_pealkiri">Salvestust ei saa jagada</string>
     <string name="jagamise_keeldumise_pohjus">Täida seadetes eesnimi, perekonnanimi ja instument !</string>
+
+    <string name="jagamise_teema_harjutus">harjutus</string>
+    <string name="jagamise_sisu_link_harjutusele">Link salvestusele</string>
+
 
     // Pealehe sahtel
     <string name="menyyvalik_harjutuste_kalender">Harjutuste kalender</string>

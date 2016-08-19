@@ -29,6 +29,7 @@
                   android:orientation="horizontal">
         <ScrollView android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/tabeli_rea_andmed"
                     android:layout_weight="1">
             <LinearLayout
             android:layout_width="wrap_content"
@@ -44,6 +45,7 @@
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:maxLength="48"
                 android:inputType="textCapSentences|textMultiLine"/>
             <EditText
                 android:id="@+id/autor"
@@ -53,6 +55,7 @@
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:maxLength="64"
                 android:inputType="textCapSentences|textMultiLine"/>
             <EditText
                     android:id="@+id/kommentaar"
@@ -63,6 +66,7 @@
                     android:layout_marginEnd="@dimen/horisontaalne_aaris"
                     android:layout_marginBottom="@dimen/vertikaalne_aaris"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:maxLength="96"
                     android:inputType="textCapSentences|textMultiLine"/>
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"

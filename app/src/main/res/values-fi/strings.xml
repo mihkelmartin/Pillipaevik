@@ -5,6 +5,7 @@
     <string name="tundi">tuntia</string>
     <string name="minut">minuutti</string>
     <string name="minutit">minuuttia</string>
+    <string name="tere">Terve</string>
 
 
     <string name="ava_sahtel">Avaa</string>
@@ -128,8 +129,8 @@
     // HarjutusLisaTehtudActivity
 
     <string name="harjutuse_mida_harjutasid_vihje">Mitä harjoittelit …</string>
-    <string name="harjutus_algas">Harjoittelu alkoi : </string>
-    <string name="harjutus_loppes">Harjoittelu loppui : </string>
+    <string name="harjutus_algas">Alkoi : </string>
+    <string name="harjutus_loppes">Loppui : </string>
     <string name="harjutuse_kestus">Kesto : </string>
     <string name="harjutus_minutit">minuutit</string>
 
@@ -149,6 +150,10 @@
 
     <string name="jagamise_keeldumise_pealkiri">Nauhoitusta ei pysty jakamaan</string>
     <string name="jagamise_keeldumise_pohjus">Täytä asetuksissa etunimi, sukunimi ja soitin !</string>
+
+    <string name="jagamise_teema_harjutus">harjoitus</string>
+    <string name="jagamise_sisu_link_harjutusele">Linkki nauhoitukseen</string>
+
 
     // Pealehe sahtel
     <string name="menyyvalik_harjutuste_kalender">Harjoittelukalenteri</string>

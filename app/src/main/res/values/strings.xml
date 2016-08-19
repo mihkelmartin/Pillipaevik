@@ -5,6 +5,7 @@
     <string name="tundi">hours</string>
     <string name="minut">minute</string>
     <string name="minutit">minutes</string>
+    <string name="tere">Hello</string>
 
 
     <string name="ava_sahtel">Open</string>
@@ -128,8 +129,8 @@
     // HarjutusLisaTehtudActivity
 
     <string name="harjutuse_mida_harjutasid_vihje">What did you practice …</string>
-    <string name="harjutus_algas">Practice started :</string>
-    <string name="harjutus_loppes">Practice ended : </string>
+    <string name="harjutus_algas">Started :</string>
+    <string name="harjutus_loppes">Ended : </string>
     <string name="harjutuse_kestus">Duration : </string>
     <string name="harjutus_minutit">minutes</string>
 
@@ -150,6 +151,8 @@
     <string name="jagamise_keeldumise_pealkiri">Unable share recording</string>
     <string name="jagamise_keeldumise_pohjus">Fill in your first name,surname and instrument in the settings!</string>
 
+    <string name="jagamise_teema_harjutus">exercise</string>
+    <string name="jagamise_sisu_link_harjutusele">Link to recording</string>
 
     // Pealehe sahtel
     <string name="menyyvalik_harjutuste_kalender">Practice calendar</string>

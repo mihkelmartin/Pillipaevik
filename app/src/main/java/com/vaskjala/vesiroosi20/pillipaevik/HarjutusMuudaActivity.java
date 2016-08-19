@@ -2,6 +2,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import android.widget.*;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
-import com.vaskjala.vesiroosi20.pillipaevik.aruanded.ValiAruandeKuu;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
@@ -39,8 +39,6 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     private EditText harjutusekirjelduslahter;
     private TextView alguskuupaevlahter;
     private TextView alguskellaaeglahter;
-    private TextView lopukuupaevlahter;
-    private TextView lopukellaaeglahter;
     private TextView pikkusminutiteslahter;
     private CheckBox weblinkaruandele;
 
@@ -56,8 +54,6 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         harjutusekirjelduslahter = (EditText) findViewById(R.id.harjutusekirjeldus);
         alguskuupaevlahter = (TextView) findViewById(R.id.alguskuupaev);
         alguskellaaeglahter = (TextView) findViewById(R.id.alguskellaaeg);
-        lopukuupaevlahter = (TextView) findViewById(R.id.lopukuupaev);
-        lopukellaaeglahter = (TextView) findViewById(R.id.lopukellaaeg);
         pikkusminutiteslahter = (TextView) findViewById(R.id.pikkusminutites);
         weblinkaruandele = (CheckBox) findViewById(R.id.weblinkaruandele);
 
@@ -188,11 +184,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
     private void AndmedHarjutuskorrastVaatele() {
         harjutusekirjelduslahter.setText(harjutuskord.getHarjutusekirjeldus());
-        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getAlgusaeg()));
+        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaevSonalineLuhike(harjutuskord.getAlgusaeg()));
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
-        lopukuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getLopuaeg()));
-        lopukellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getLopuaeg()));
-        pikkusminutiteslahter.setText(String.valueOf(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
+        pikkusminutiteslahter.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
         weblinkaruandele.setChecked(harjutuskord.getWeblinkaruandele()==1);
     }
     private void SalvestaHarjutus (){
@@ -267,8 +261,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             Bundle args = new Bundle();
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT, harjutuskord.getHarjutusekirjeldus());
-            i.putExtra(Intent.EXTRA_TEXT, harjutuskord.getHelifailidriveweblink());
+            i.putExtra(Intent.EXTRA_SUBJECT, MoodustaJagamiseTeema());
+            i.putExtra(Intent.EXTRA_TEXT, MoodustaJagamiseTekst());
             try {
                 startActivity(Intent.createChooser(i, getString(R.string.aruanne_saada)));
             } catch (android.content.ActivityNotFoundException ex) {
@@ -366,5 +360,27 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
                 mJaga.setVisibility(ImageButton.GONE);
             }
         }
+    }
+
+    private String MoodustaJagamiseTeema(){
+        String retVal;
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        Teos teos = mPPManager.getTeos(this.teosid);
+        retVal = teos.getNimi() + " " + getString(R.string.jagamise_teema_harjutus) + ". " +
+                Tooriistad.KujundaKuupaevSonalineLuhike(harjutuskord.getAlgusaeg());
+        return retVal;
+    }
+    private String MoodustaJagamiseTekst(){
+        String retVal;
+        String ReaVahetus = System.getProperty("line.separator");
+        retVal = getString(R.string.tere) + "!" + ReaVahetus + ReaVahetus;
+        retVal = retVal + getString(R.string.jagamise_sisu_link_harjutusele) + ": " +
+                harjutuskord.getHelifailidriveweblink() + ReaVahetus + ReaVahetus;
+
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = retVal + getString(R.string.aruanne_tervitades) + ReaVahetus +
+                sharedPref.getString("minueesnimi","") + " " + sharedPref.getString("minuperenimi","") + " " +
+                getString(R.string.aruanne_pillipaeviku_vahendusel);
+        return retVal;
     }
 }

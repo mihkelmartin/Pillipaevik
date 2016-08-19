@@ -48,10 +48,13 @@
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="@dimen/tekstilahtri_aaris"
                   android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                      android:text="@string/harjutus_algas"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_centerVertical="true"
+                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                       android:src="@drawable/ic_date_range_black_18dp"
+                       android:layout_alignParentStart="true"
+            />
             <TextView android:id="@+id/alguskuupaev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -65,34 +68,17 @@
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="@dimen/tekstilahtri_aaris"
                   android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                      android:text="@string/harjutus_loppes"/>
-            <TextView android:id="@+id/lopukuupaev"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
-            <TextView android:id="@+id/lopukellaaeg"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
-        </TableRow>
-
-        <TableRow android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginBottom="@dimen/tekstilahtri_aaris"
-                  android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                      android:text="@string/harjutuse_kestus"/>
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_centerVertical="true"
+                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                       android:src="@drawable/ic_query_builder_black_18dp"
+                       android:layout_alignParentStart="true"
+            />
             <TextView android:id="@+id/pikkusminutites"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="@string/minutit"/>
         </TableRow>
         </TableLayout>
         <RelativeLayout android:id="@+id/SalvestuseRiba"
