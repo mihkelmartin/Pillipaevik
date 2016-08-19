@@ -1,23 +1,11 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.app.backup.BackupManager;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveId;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
 
 public class TeaveActivity extends AppCompatActivity {
 

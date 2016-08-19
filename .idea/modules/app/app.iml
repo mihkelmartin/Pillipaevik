@@ -96,10 +96,14 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.0.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/exploded-aar/pub.devrel/easypermissions/0.1.5/jars" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/instant-run-support" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/tmp" />
     </content>

@@ -366,8 +366,8 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         String retVal;
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         Teos teos = mPPManager.getTeos(this.teosid);
-        retVal = teos.getNimi() + " " + getString(R.string.jagamise_teema_harjutus) + ". " +
-                Tooriistad.KujundaKuupaevSonalineLuhike(harjutuskord.getAlgusaeg());
+        retVal = teos.getNimi() + " " + getString(R.string.jagamise_teema_harjutus) + ", " +
+                Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg());
         return retVal;
     }
     private String MoodustaJagamiseTekst(){
