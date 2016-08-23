@@ -70,6 +70,8 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     protected void onStart() {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onStart");
         super.onStart();
+        Tooriistad.KorraldaLoad(this);
+
         // TODO Asünkroonselt
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
@@ -396,6 +398,12 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         if (dialog.getTag().equals("ValiAruandeKuu")) {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Aruande kuu valimisel Loobu vajutatud");
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Tooriistad.SeadistaSalvestamiseOlek(getApplicationContext());
+        Tooriistad.SeadistaGoogleDriveOlek(getApplicationContext());
     }
 
     private void PaevaHarjutusteProgress(){

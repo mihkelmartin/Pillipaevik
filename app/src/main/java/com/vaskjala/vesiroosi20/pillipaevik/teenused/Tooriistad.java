@@ -1,11 +1,15 @@
 package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.kalender.KalendriKirje;
@@ -36,6 +40,9 @@ public final class Tooriistad {
     public static final int ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV = 15;
 
     public static final long MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES = 30 * 60 * 1000;
+
+    public static final int KUSI_SALVESTAMISE_LINDISTAMISE_LUBA = 1;
+    public static final int KUSI_KONTODE_LUBA = 2;
 
 
     private static final Calendar c = Calendar.getInstance();
@@ -284,6 +291,65 @@ public final class Tooriistad {
                 mPK = new PaevaKirje(KalendriKirje.Tyyp.PAEV, "", c.getTime(), 0, 0);
             }
             mPL.add(mPK);
+        }
+    }
+
+    public static void KorraldaLoad(Activity activity){
+
+        if (KasLubadaSalvestamine(activity.getApplicationContext()) &&
+                (ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED)) {
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.RECORD_AUDIO},
+                        KUSI_SALVESTAMISE_LINDISTAMISE_LUBA);
+
+        }
+
+        if (kasKasutadaGoogleDrive(activity.getApplicationContext()) &&
+                ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.GET_ACCOUNTS)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.GET_ACCOUNTS},
+                    KUSI_KONTODE_LUBA);
+
+        }
+
+    }
+
+    public static void SeadistaSalvestamiseOlek(Context context){
+
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(context,
+                        Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("kaslubadamikrofonigasalvestamine", false);
+            editor.commit();
+
+        }
+    }
+
+    public static void SeadistaGoogleDriveOlek(Context context){
+
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("kaskasutadagoogledrive", false);
+            editor.commit();
         }
     }
 
