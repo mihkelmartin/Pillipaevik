@@ -32,7 +32,7 @@
                     android:background="@color/tabeli_rea_andmed"
                     android:layout_weight="1">
             <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/pillipaevik_peamine_taust">
@@ -134,6 +134,7 @@
         <View
                 android:layout_width="@dimen/eraldusjoone_paksus"
                 android:layout_height="match_parent"
+                android:layout_weight="0"
                 android:background="@color/tabeli_rea_andmed"/>
         <ListView android:id="@+id/harjutuslist"
                   android:layout_width="wrap_content"
