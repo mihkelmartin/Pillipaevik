@@ -184,7 +184,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
     }
     private void AndmedHarjutuskorrastVaatele() {
         harjutusekirjelduslahter.setText(harjutuskord.getHarjutusekirjeldus());
-        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaevSonalineLuhike(harjutuskord.getAlgusaeg()));
+        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg()));
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
         pikkusminutiteslahter.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
         weblinkaruandele.setChecked(harjutuskord.getWeblinkaruandele()==1);

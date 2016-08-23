@@ -129,16 +129,12 @@
                         android:rating="3"
                         android:onClick="MuudaHinnangut"/>
             </RelativeLayout>
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/eraldusjoone_paksus"
-                    android:background="@android:color/white"/>
         </LinearLayout>
         </ScrollView>
         <View
                 android:layout_width="@dimen/eraldusjoone_paksus"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"/>
+                android:background="@color/tabeli_rea_andmed"/>
         <ListView android:id="@+id/harjutuslist"
                   android:layout_width="wrap_content"
                   android:layout_height="match_parent"
