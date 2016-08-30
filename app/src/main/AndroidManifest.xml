@@ -42,7 +42,7 @@
         <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=956679378662"/>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <activity
-                android:name=".TeosListActivity"
+                android:name=".PeaActivity"
                 android:label="@string/rakenduse_pealkiri"
                 android:launchMode="singleTop"
                 android:theme="@style/Pillipaevik">
@@ -59,12 +59,12 @@
         <activity
                 android:name=".TeosActivity"
                 android:launchMode="singleTop"
-                android:parentActivityName=".TeosListActivity"
+                android:parentActivityName=".PeaActivity"
                 android:theme="@style/Pillipaevik"
                 android:windowSoftInputMode="stateHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".TeosListActivity"/>
+                    android:value=".PeaActivity"/>
         </activity>
         <activity
                 android:name=".HarjutusMuudaActivity"
@@ -93,31 +93,31 @@
         </activity>
         <activity
                 android:name=".SeadedActivity"
-                android:parentActivityName=".TeosListActivity"
+                android:parentActivityName=".PeaActivity"
                 android:theme="@style/Pillipaevik"
                 android:windowSoftInputMode="stateHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"/>
+                    android:value=".PeaActivity"/>
         </activity>
         <activity
                 android:name=".kalender.HarjutusteKalenderActivity"
                 android:label="@string/title_activity_harjutuste_kalender"
-                android:parentActivityName=".TeosListActivity"
+                android:parentActivityName=".PeaActivity"
                 android:theme="@style/Pillipaevik"
                 android:windowSoftInputMode="stateHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"/>
+                    android:value=".PeaActivity"/>
         </activity>
         <activity
                 android:name=".TeaveActivity"
-                android:parentActivityName=".TeosListActivity"
+                android:parentActivityName=".PeaActivity"
                 android:theme="@style/Pillipaevik"
                 android:windowSoftInputMode="stateHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"/>
+                    android:value=".PeaActivity"/>
         </activity>
     </application>
 
