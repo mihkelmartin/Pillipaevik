@@ -26,18 +26,16 @@ import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
 import java.util.*;
 
-public class TeosListActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
+public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private SimpleItemRecyclerViewAdapter mMainAdapter;
-    private PilliPaevikDatabase mPPManager;
     private boolean bEsimeneAvamine = true;
     private int iSahtliValik = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if(BuildConfig.DEBUG) Log.d("Peaaken", "onCreate");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onCreate");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teos_list);
@@ -52,13 +50,7 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         mAction.setDisplayHomeAsUpEnabled(true);
         mAction.setHomeButtonEnabled(true);
 
-        mPPManager = new PilliPaevikDatabase(getApplicationContext());
-
         SeadistaNaviVaade(toolbar);
-
-        View recyclerView = findViewById(R.id.harjutua_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
 
         if(savedInstanceState != null ) {
             if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "savedInstanceState != null");
@@ -71,12 +63,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onStart");
         super.onStart();
         Tooriistad.KorraldaLoad(this);
-
-        // TODO Asünkroonselt
-        PaevaHarjutusteProgress();
-        NadalaHarjutusteProgress();
-        KuuHarjutusteProgress();
-        // https://developers.google.com/android/guides/api-client#handle_connection_failures
 
         if(Tooriistad.KasLubadaSalvestamine(getApplicationContext()) &&
                 Tooriistad.kasKasutadaGoogleDrive(getApplicationContext())) {
@@ -141,12 +127,12 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
                         }
                         break;
                     case R.id.seaded :
-                        if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
+                        if(BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
                         Intent intentSeaded = new Intent(view.getContext(), SeadedActivity.class);
                         startActivity(intentSeaded);
                         break;
                     case R.id.teave :
-                        if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Seaded vajutatud");
+                        if(BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
                         Intent intentTeave = new Intent(view.getContext(), TeaveActivity.class);
                         startActivity(intentTeave);
                         break;
@@ -189,7 +175,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.teoslistmenyy, menu);
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -199,43 +184,11 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             if(BuildConfig.DEBUG) Log.d("Peaaken", "Sahtel valitud");
             return true;
         }
-        if(item.getItemId()==R.id.lisateos){
-            if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Lisateos vajutatud");
-            Intent intent = new Intent(this, TeosActivity.class);
-            intent.putExtra("item_id", -1);
-            startActivityForResult(intent,getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA));
-        }
-
         return super.onOptionsItemSelected(item);
     }
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
-        if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
-                int itemposition = data.getIntExtra("item_position",0);
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
-                mMainAdapter.SordiTeosed();
-                mMainAdapter.notifyDataSetChanged();
-            }
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
-                int itemposition = data.getIntExtra("item_position",0);
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Pos:" + itemposition);
-                mMainAdapter.notifyItemRemoved(itemposition);
-            }
-        }
-        if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud");
-                mMainAdapter.SordiTeosed();
-                mMainAdapter.notifyDataSetChanged();
-            }
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamisel kustutati");
-            }
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_UUS_LOOMATA)) {
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
-            }
-        }
+
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
@@ -273,99 +226,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        List<Teos> teosed = mPPManager.getAllTeosed();
-        mMainAdapter = new SimpleItemRecyclerViewAdapter(teosed);
-        recyclerView.setAdapter(mMainAdapter);
-    }
-
-
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-
-        private final List<Teos> mValues;
-
-        public SimpleItemRecyclerViewAdapter(List<Teos> items) {
-            mValues = items;
-        }
-
-        public void SordiTeosed(){
-            Collections.sort(mValues);
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.teos_list_rida, parent, false);
-            return new ViewHolder(view);
-        }
-
-        public class ListiKuulaja implements View.OnClickListener {
-
-            private ViewHolder holder;
-
-            public ListiKuulaja(ViewHolder holder){
-                this.holder = holder;
-            }
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, TeosActivity.class);
-                intent.putExtra("item_id", holder.mItem.getId());
-                intent.putExtra("item_position", holder.getLayoutPosition());
-                startActivityForResult(intent, getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
-                if(BuildConfig.DEBUG) Log.d("TeosListActivity", "Teos valitud : " + holder.mItem.getId() + " Holder position: " +
-                        holder.getLayoutPosition() + " Intent: " +
-                        getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
-            }
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mContentView.setText(holder.mItem.getNimi());
-
-            new Thread(new Runnable() {
-                public void run() {
-                    final int[] stat = mPPManager.TeoseHarjutusKordadeStatistika(holder.mItem.getId());
-                    holder.mHarjutusteArv.post(new Runnable() {
-                        public void run() {
-                            holder.mHarjutusteArv.setText(String.valueOf(stat[1]));
-                            holder.mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(stat[0]/60));
-                        }
-                    });
-                }
-            }).start();
-            ListiKuulaja pLK = new ListiKuulaja(holder);
-            holder.mView.setOnClickListener(pLK);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mValues.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mContentView;
-            public final TextView mHarjutusteArv;
-            public final TextView mHarjutuseKestus;
-
-            public Teos mItem;
-
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                mContentView = (TextView) view.findViewById(R.id.content);
-                mHarjutusteArv = (TextView) view.findViewById(R.id.teoslistteoseharjutustearv);
-                mHarjutuseKestus = (TextView) view.findViewById(R.id.teoslistteoseharjutustekestus);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
-            }
-        }
-    }
 
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
@@ -392,7 +252,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
             }
         }
     }
-
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("ValiAruandeKuu")) {
@@ -404,77 +263,6 @@ public class TeosListActivity extends AppCompatActivity implements LihtsaKusimus
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Tooriistad.SeadistaSalvestamiseOlek(getApplicationContext());
         Tooriistad.SeadistaGoogleDriveOlek(getApplicationContext());
-    }
-
-    private void PaevaHarjutusteProgress(){
-
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        Date now = new Date();
-        int harjutatud = mPPManager.ArvutaPerioodiMinutid(now, now);
-        String szharjutatud = String.valueOf(harjutatud)+" m";
-        ((TextView) findViewById(R.id.paevasharjutatud)).setText(szharjutatud );
-
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
-        int vajaharjutada = sharedPref.getInt("paevasharjutada", 0);
-        ((TextView) findViewById(R.id.paevanorm)).setText(String.valueOf(vajaharjutada+" m"));
-
-        ProgressBar pPHT = ((ProgressBar) findViewById(R.id.paevasharjutatudtulp));
-        pPHT.setMax(vajaharjutada);
-        pPHT.setProgress(harjutatud);
-        if(harjutatud >= vajaharjutada)
-            pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
-        else
-            pPHT.getProgressDrawable().setColorFilter(null);
-
-    }
-    private void NadalaHarjutusteProgress(){
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-
-        Date now = new Date();
-        int harjutatud = mPPManager.ArvutaPerioodiMinutid(Tooriistad.MoodustaNädalaAlgusKuupaev(now),
-                Tooriistad.MoodustaNädalaLopuKuupaev(now));
-        String szharjutatud = String.valueOf(harjutatud)+" m";
-        ((TextView) findViewById(R.id.nadalasharjutatud)).setText(szharjutatud );
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());
-        int paevakordaja = (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) ? 7 : c.get(Calendar.DAY_OF_WEEK) -1;
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
-        int vajaharjutada = sharedPref.getInt("paevasharjutada", 0) * paevakordaja;
-        ((TextView) findViewById(R.id.nadalanorm)).setText(String.valueOf(vajaharjutada+" m"));
-
-        ProgressBar pPHT = ((ProgressBar) findViewById(R.id.nadalasharjutatudtulp));
-        pPHT.setMax(vajaharjutada);
-        pPHT.setProgress(harjutatud);
-        if(harjutatud >= vajaharjutada)
-            pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
-        else
-            pPHT.getProgressDrawable().setColorFilter(null);
-
-    }
-    private void KuuHarjutusteProgress(){
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-
-        Date now = new Date();
-        int harjutatud = mPPManager.ArvutaPerioodiMinutid(Tooriistad.MoodustaKuuAlgusKuupaev(now),
-                Tooriistad.MoodustaKuuLopuKuupaev(now));
-        String szharjutatud = String.valueOf(harjutatud)+" m";
-        ((TextView) findViewById(R.id.kuusharjutatud)).setText(szharjutatud );
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());        int paevakordaja = c.get(Calendar.DAY_OF_MONTH);
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
-        int vajaharjutada = sharedPref.getInt("paevasharjutada", 0) * paevakordaja;
-        ((TextView) findViewById(R.id.kuunorm)).setText(String.valueOf(vajaharjutada+" m"));
-
-        ProgressBar pPHT = ((ProgressBar) findViewById(R.id.kuusharjutatudtulp));
-        pPHT.setMax(vajaharjutada);
-        pPHT.setProgress(harjutatud);
-        if(harjutatud >= vajaharjutada)
-            pPHT.getProgressDrawable().setColorFilter(0xff009900, android.graphics.PorterDuff.Mode.SRC_IN);
-        else
-            pPHT.getProgressDrawable().setColorFilter(null);
-
     }
 
     private int getiSahtliValik() {
