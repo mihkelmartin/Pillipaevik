@@ -269,7 +269,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
                 Toast.makeText(getParent(), getString(R.string.aruanne_eposti_rakendus_puudub), Toast.LENGTH_SHORT).show();
             }
         } else {
-            Tooriistad.NaitaHoiatust((Activity) v.getContext(),
+            Tooriistad.NaitaHoiatust((Activity) HarjutusMuudaActivity.this,
                     getString(R.string.jagamise_keeldumise_pealkiri),
                     getString(R.string.jagamise_keeldumise_pohjus));
         }
