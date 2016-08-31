@@ -41,8 +41,7 @@ public final class Tooriistad {
 
     public static final long MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES = 30 * 60 * 1000;
 
-    public static final int KUSI_SALVESTAMISE_LINDISTAMISE_LUBA = 1;
-    public static final int KUSI_KONTODE_LUBA = 2;
+    public static final int KORRALDA_LOAD = 1;
 
 
     private static final Calendar c = Calendar.getInstance();
@@ -296,32 +295,28 @@ public final class Tooriistad {
 
     public static void KorraldaLoad(Activity activity){
 
-        if (KasLubadaSalvestamine(activity.getApplicationContext()) &&
-                (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.RECORD_AUDIO)
-                        != PackageManager.PERMISSION_GRANTED)) {
+        List<String> PuuduvadLoad = new ArrayList<String>();
 
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.RECORD_AUDIO},
-                        KUSI_SALVESTAMISE_LINDISTAMISE_LUBA);
+        if (KasLubadaSalvestamine(activity.getApplicationContext())){
 
+            if(ContextCompat.checkSelfPermission(activity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                PuuduvadLoad.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if(ContextCompat.checkSelfPermission(activity,
+                    Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+                PuuduvadLoad.add(Manifest.permission.RECORD_AUDIO);
         }
 
         if (kasKasutadaGoogleDrive(activity.getApplicationContext()) &&
                 ContextCompat.checkSelfPermission(activity,
                         Manifest.permission.GET_ACCOUNTS)
                         != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.GET_ACCOUNTS},
-                    KUSI_KONTODE_LUBA);
-
+            PuuduvadLoad.add(Manifest.permission.GET_ACCOUNTS);
         }
 
+        if(!PuuduvadLoad.isEmpty())
+            ActivityCompat.requestPermissions(activity, PuuduvadLoad.toArray(new String[0]), KORRALDA_LOAD);
     }
 
     public static void SeadistaSalvestamiseOlek(Context context){
