@@ -5,7 +5,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
-                                                 tools:context=".HarjutusMuudaActivity">
+                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.HarjutusUusActivity">
 
     <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -14,7 +14,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-                android:id="@+id/harjutus_toolbar"
+                android:id="@+id/uusharjutus_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/Pillipaevik"
@@ -22,8 +22,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <fragment android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusMuudaFragment"
-              android:id="@+id/harjutusmuudafragment"
+    <fragment android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusUusFragment"
+              android:id="@+id/harjutusuusfragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

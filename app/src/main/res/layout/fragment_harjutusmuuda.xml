@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/flootjupptransparent">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
+            android:singleLine="false"
+            android:id="@+id/harjutusekirjeldus"
+            android:hint="@string/harjutuse_mida_harjutasid_vihje"
+            android:maxLength="64"
+            android:inputType="textCapSentences|textMultiLine"/>
+
+        <TableLayout android:id="@+id/HarjutusTabel"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_margin="@dimen/horisontaalne_aaris"
+                     android:layout_below="@+id/harjutusekirjeldus">
+        <TableRow android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/tekstilahtri_aaris"
+                  android:orientation="horizontal">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_centerVertical="true"
+                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                       android:src="@drawable/ic_date_range_black_18dp"
+                       android:layout_alignParentStart="true"
+            />
+            <TextView android:id="@+id/alguskuupaev"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
+            <TextView android:id="@+id/alguskellaaeg"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+        </TableRow>
+
+        <TableRow android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/tekstilahtri_aaris"
+                  android:orientation="horizontal">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_centerVertical="true"
+                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                       android:src="@drawable/ic_query_builder_black_18dp"
+                       android:layout_alignParentStart="true"
+            />
+            <TextView android:id="@+id/pikkusminutites"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"/>
+        </TableRow>
+        </TableLayout>
+        <RelativeLayout android:id="@+id/SalvestuseRiba"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/horisontaalne_aaris"
+                        android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                        android:layout_below="@id/HarjutusTabel"
+                        android:visibility="gone">
+            <View   android:id="@+id/uleminejoon"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/peene_eraldusjoone_paksus"
+                    android:layout_marginBottom="@dimen/tekstilahtri_aaris"
+                    android:layout_alignParentTop="true"
+                    android:background="@android:color/black" />
+            <ImageView android:id="@+id/salvestusepilt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                       android:layout_centerVertical="true"
+                       android:src="@drawable/ic_library_music_black_18dp"
+                       android:layout_alignParentStart="true"
+            />
+            <ImageButton android:id="@+id/mangi"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_toEndOf="@+id/salvestusepilt"
+                         android:layout_below="@id/uleminejoon"
+                         android:src="@drawable/ic_play_arrow_black_18dp"/>
+            <ImageButton android:id="@+id/jaga"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_toEndOf="@+id/salvestusepilt"
+                         android:layout_below="@+id/mangi"
+                         android:src="@drawable/ic_share_black_18dp"/>
+            <ImageButton android:id="@+id/stopp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/mangi"
+                         android:layout_below="@id/uleminejoon"
+                         android:clickable="false"
+                         android:src="@drawable/ic_stop_black_18dp"/>
+            <CheckBox android:id="@+id/weblinkaruandele"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_toEndOf="@+id/jaga"
+                      android:layout_alignBottom="@+id/jaga"
+                      android:text="@string/link_aruandel_kysimus"/>
+            <ImageButton android:id="@+id/kustutasalvestus"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentEnd="true"
+                         android:layout_below="@id/uleminejoon"
+                         android:src="@drawable/ic_delete_black_18dp"/>
+            <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/peene_eraldusjoone_paksus"
+                    android:layout_marginTop="@dimen/tekstilahtri_aaris"
+                    android:layout_below="@id/jaga"
+                    android:background="@android:color/black" />
+
+        </RelativeLayout>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/SalvestuseRiba"
+                  android:layout_alignParentBottom="true"
+                  android:layout_margin="12dp"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:text="@string/eisaamuutaharjutustjuhend"/>
+    </RelativeLayout>
+</ScrollView>

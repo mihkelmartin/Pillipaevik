@@ -1,35 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context="com.vaskjala.vesiroosi20.pillipaevik.HarjutusUusActivity">
-
-    <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/uusharjutus_toolbar"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/Pillipaevik"
-                app:popupTheme="@style/Pillipaevik"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_marginStart="@dimen/horisontaalne_aaris"
-                  android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                    android:background="@color/pillipaevik_peamine_taust"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                android:background="@color/pillipaevik_peamine_taust">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,15 +27,13 @@
                 android:layout_weight="1"
                 android:text="@string/alusta"
                 android:drawableStart="@drawable/ic_query_builder_black_18dp"
-                android:id="@+id/kaivitataimernupp"
-                android:onClick="KaivitaTaimer"/>
+                android:id="@+id/kaivitataimernupp"/>
             <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:id="@+id/mikrofoniluliti"
-                    android:drawableStart="@drawable/ic_mic_off_black_18dp"
-                    android:onClick="LulitaMikrofon"/>
+                    android:drawableStart="@drawable/ic_mic_off_black_18dp"/>
         </LinearLayout>
         <TextView android:id="@+id/juhend"
                   android:layout_width="match_parent"
@@ -80,5 +54,3 @@
                 android:text="@string/stopper"
                 android:id="@+id/timer"/>
     </RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>

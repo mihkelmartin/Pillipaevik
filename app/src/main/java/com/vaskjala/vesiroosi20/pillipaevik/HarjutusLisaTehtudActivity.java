@@ -49,6 +49,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
         }
     }
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         savedInstanceState.putInt("teos_id", this.teosid);
@@ -58,6 +59,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             HarjutusLisaTehtudFragment harjutusLisaTehtudFragment= (HarjutusLisaTehtudFragment) getFragmentManager().findFragmentById(R.id.harjutuslisatehtudfragment);
@@ -66,6 +68,7 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
     public void onBackPressed() {
         HarjutusLisaTehtudFragment harjutusLisaTehtudFragment= (HarjutusLisaTehtudFragment) getFragmentManager().findFragmentById(R.id.harjutuslisatehtudfragment);
         harjutusLisaTehtudFragment.SuleHarjutus();
