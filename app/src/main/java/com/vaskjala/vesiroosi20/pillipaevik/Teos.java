@@ -42,7 +42,8 @@ public class Teos implements Comparable<Teos> {
     }
 
     public Teos(){
-
+        setKasutusviis((short) 1);
+        setLisatudpaevikusse(Calendar.getInstance().getTime());
     }
 
     private void LoadHarjustuskorrad(Context context) {

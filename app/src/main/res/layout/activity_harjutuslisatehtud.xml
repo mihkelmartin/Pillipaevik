@@ -22,101 +22,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/noodidtransparent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
+    <fragment android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusLisaTehtudFragment"
+              android:id="@+id/harjutuslisatehtudfragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/horisontaalne_aaris"
-                android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                android:singleLine="false"
-                android:id="@+id/harjutusekirjeldus"
-                android:hint="@string/harjutuse_mida_harjutasid_vihje"
-                android:maxLength="64"
-                android:inputType="textCapSentences|textMultiLine"/>
-
-            <TableLayout android:id="@+id/harjutuseandmed"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_margin="@dimen/horisontaalne_aaris"
-                         android:layout_below="@id/harjutusekirjeldus">
-            <TableRow android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="@dimen/horisontaalne_aaris"
-                      android:orientation="horizontal">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                          android:text="@string/harjutus_algas"/>
-                <TextView android:id="@+id/alguskuupaev"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                          style="@android:style/Widget.Holo.Spinner"
-                          android:onClick="MuudaKuupaeva"/>
-                <TextView android:id="@+id/alguskellaaeg"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          style="@android:style/Widget.Holo.Spinner"
-                          android:onClick="MuudaKuupaeva"/>
-            </TableRow>
-
-            <TableRow android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="@dimen/horisontaalne_aaris"
-                      android:orientation="horizontal">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                          android:text="@string/harjutus_loppes"/>
-                <TextView android:id="@+id/lopukuupaev"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                          style="@android:style/Widget.Holo.Spinner"
-                          android:onClick="MuudaKuupaeva"/>
-                <TextView android:id="@+id/lopukellaaeg"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          style="@android:style/Widget.Holo.Spinner"
-                          android:onClick="MuudaKuupaeva"/>
-            </TableRow>
-
-            <TableRow android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                          android:text="@string/harjutuse_kestus"/>
-                <TextView android:id="@+id/pikkusminutites"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                          style="@android:style/Widget.Holo.Spinner"
-                          android:text=""
-                          android:onClick="MuudaPikkust"/>
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="0dp"
-                          android:text="@string/harjutus_minutit"/>
-            </TableRow>
-            </TableLayout>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/harjutuseandmed"
-                      android:layout_alignParentBottom="true"
-                      android:layout_marginStart="12dp"
-                      android:layout_marginEnd="12dp"
-                      android:textAppearance="?android:attr/textAppearanceSmall"
-                      android:text="@string/lisatehtudharjutustjuhend"/>
-        </RelativeLayout>
-    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
@@ -16,20 +15,22 @@ import java.util.Calendar;
 /**
  * Created by mihkel on 19.05.2016.
  */
-public class ValiKellaaeg extends DialogFragment
+public class ValiKellaaeg extends android.app.DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
     private final Calendar c = Calendar.getInstance();
     private AjaMuutuseTeavitus KuupaevaOmanik;
 
-    public void onAttach(Activity a) {
-        super.onAttach(a);
-        KuupaevaOmanik = (AjaMuutuseTeavitus) a;
-    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         if(BuildConfig.DEBUG) Log.d("Valikellaaeg", "Loon kellaaja valiku dialoogi");
+
+        try {
+            KuupaevaOmanik = (AjaMuutuseTeavitus) getParentFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling fragment must implement Callback interface");
+        }
 
         c.setTime(Tooriistad.KuupaevKellaAegStringist(getArguments().getString("datetime")));
         int hour = c.get(Calendar.HOUR_OF_DAY);

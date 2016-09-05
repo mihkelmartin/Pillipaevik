@@ -2,18 +2,17 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
@@ -26,7 +25,8 @@ import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
 import java.util.*;
 
-public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja {
+public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja,
+        TeosListFragmendiKuulaja {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private boolean bEsimeneAvamine = true;
@@ -118,7 +118,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                             Bundle args = new Bundle();
                             DialogFragment valiAruandeKuu = new ValiAruandeKuu();
                             valiAruandeKuu.setArguments(args);
-                            valiAruandeKuu.show(getSupportFragmentManager(), "ValiAruandeKuu");
+                            valiAruandeKuu.show(getFragmentManager(), "ValiAruandeKuu");
                         } else {
                             Tooriistad.NaitaHoiatust((Activity) view.getContext(),
                                     getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
@@ -173,10 +173,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        return true;
-    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
@@ -188,6 +185,34 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     }
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
+
+        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
+        if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
+            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
+                int itemposition = data.getIntExtra("item_position",0);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
+                teosListFragment.mMainAdapter.SordiTeosed();
+                teosListFragment.mMainAdapter.notifyDataSetChanged();
+            }
+            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
+                int itemposition = data.getIntExtra("item_position",0);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Kustutatud. Pos:" + itemposition);
+                teosListFragment.mMainAdapter.notifyItemRemoved(itemposition);
+            }
+        }
+        if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
+            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud");
+                teosListFragment.mMainAdapter.SordiTeosed();
+                teosListFragment.mMainAdapter.notifyDataSetChanged();
+            }
+            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamisel kustutati");
+            }
+            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_UUS_LOOMATA)) {
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
+            }
+        }
 
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
@@ -226,6 +251,23 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
     }
 
+    @Override
+    public void UusTeos() {
+        Intent intent = new Intent(this, TeosActivity.class);
+        intent.putExtra("item_id", -1);
+        startActivityForResult(intent,getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA));
+    }
+
+    @Override
+    public void TeosValitud(int teoseid, int asukoht) {
+         Intent intent = new Intent(this, TeosActivity.class);
+        intent.putExtra("item_id", teoseid);
+        intent.putExtra("item_position", asukoht);
+        startActivityForResult(intent, getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
+        if(BuildConfig.DEBUG) Log.d("PeaActivity", "Teos valitud : " + teoseid + " Holder position: " +
+                asukoht + " Intent: " +
+                getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
+    }
 
     @Override
     public void kuiJahVastus(DialogFragment dialog) {

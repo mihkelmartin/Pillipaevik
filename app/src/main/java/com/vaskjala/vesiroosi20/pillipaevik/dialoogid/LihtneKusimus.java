@@ -3,10 +3,12 @@ package com.vaskjala.vesiroosi20.pillipaevik.dialoogid;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import com.vaskjala.vesiroosi20.pillipaevik.R;
+import android.util.Log;
+import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
+
 
 /**
  * Created by mihkel on 24.05.2016.
@@ -22,13 +24,22 @@ public class LihtneKusimus extends DialogFragment {
         try {
             mListener = (LihtsaKusimuseKuulaja) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " LihtsaKusimuseKuulaja peab olema implementeeritud");
+            if(BuildConfig.DEBUG) Log.d("LihtneKusimus","onAttach. Activityl ei ole liides defineeritud");
         }
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        if(mListener == null) {
+            try {
+                mListener = (LihtsaKusimuseKuulaja) getParentFragment();
+            } catch (ClassCastException e) {
+                throw new ClassCastException("Fragmendil ei ole LihtsaKusimuseKuulaja liides defineeritud");
+            }
+        }
+        if(mListener == null)
+            throw new ClassCastException("LihtneKusimus. mListener == null");
 
         String pealkiri = getArguments().getString("pealkiri","");
         String kysimus = getArguments().getString("kysimus","");

@@ -1,6 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik.dialoogid;
 
-import android.support.v4.app.DialogFragment;
+import android.app.DialogFragment;
 
 /**
  * Created by mihkel on 31.05.2016.

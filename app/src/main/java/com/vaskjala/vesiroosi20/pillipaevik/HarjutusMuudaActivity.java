@@ -1,14 +1,12 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -106,7 +104,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
             args.putString("eivastus", getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
-            newFragment.show(getSupportFragmentManager(), "KustutaHarjutus");
+            newFragment.show(getFragmentManager(), "KustutaHarjutus");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -216,7 +214,7 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements LihtsaKu
         args.putString("eivastus", getString(R.string.ei));
         DialogFragment newFragment = new LihtneKusimus();
         newFragment.setArguments(args);
-        newFragment.show(getSupportFragmentManager(), "KustutaSalvestus");
+        newFragment.show(getFragmentManager(), "KustutaSalvestus");
     }
 
     public void MangiLugu(View v){

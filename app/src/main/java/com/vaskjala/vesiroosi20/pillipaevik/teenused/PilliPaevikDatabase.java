@@ -32,13 +32,13 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     // Logcat tag
     private static final String LOG = "PilliPaevikDatabase";
     // Database Version
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     // Database Name
     public static final String DATABASE_NAME = "PilliPaevik";
 
     private static final String CREATE_TABLE_TEOS = "CREATE TABLE " + Teos.Teosekirje.TABLE_NAME + "(" +
             Teos.Teosekirje._ID + " INTEGER PRIMARY KEY," +
-            Teos.Teosekirje.COLUMN_NAME_NIMI + " TEXT UNIQUE," +
+            Teos.Teosekirje.COLUMN_NAME_NIMI + " TEXT," +
             Teos.Teosekirje.COLUMN_NAME_AUTOR + " TEXT," +
             Teos.Teosekirje.COLUMN_NAME_KOMMENTAAR + " TEXT," +
             Teos.Teosekirje.COLUMN_NAME_HINNANG + " INTEGER," +
@@ -110,6 +110,23 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        if(oldVersion <= 7) {
+            try {
+                Log.d(LOG, "onUpgrade oldVersion <= 7");
+                db.execSQL("ALTER TABLE " + Teos.Teosekirje.TABLE_NAME + " RENAME TO TeosTMP");
+                db.execSQL("ALTER TABLE " + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " RENAME TO HarjutuskordTMP");
+                db.execSQL("DROP INDEX IF EXISTS Teoseid");
+                db.execSQL(CREATE_TABLE_TEOS);
+                db.execSQL(CREATE_TABLE_HARJUTUSKORD);
+                db.execSQL(CREATE_INDEX_TEOSEID);
+                db.execSQL("INSERT INTO " + Teos.Teosekirje.TABLE_NAME + " SELECT * FROM TeosTMP");
+                db.execSQL("INSERT INTO " + HarjutusKord.Harjutuskordkirje.TABLE_NAME + " SELECT * FROM HarjutuskordTMP");
+                db.execSQL("DROP TABLE HarjutuskordTMP");
+                db.execSQL("DROP TABLE TeosTMP");
+            } catch (Exception e){
+                Log.e(LOG, "onUpgrade:" + e.getMessage());
+            }
+        }
     }
 
     @Override

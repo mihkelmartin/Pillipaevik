@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/pillipaevik_peamine_taust">
+    <EditText
+        android:id="@+id/nimi"
+        android:hint="@string/nimi_vihje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tekstilahtri_aaris"
+        android:layout_marginStart="@dimen/horisontaalne_aaris"
+        android:layout_marginEnd="@dimen/horisontaalne_aaris"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:maxLength="48"
+        android:inputType="textCapSentences"/>
+    <EditText
+        android:id="@+id/autor"
+        android:hint="@string/autor_vihje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/horisontaalne_aaris"
+        android:layout_marginEnd="@dimen/horisontaalne_aaris"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:maxLength="64"
+        android:inputType="textCapSentences"/>
+    <EditText
+            android:id="@+id/kommentaar"
+            android:hint="@string/kommentaar_vihje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
+            android:layout_marginBottom="@dimen/vertikaalne_aaris"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:maxLength="96"
+            android:inputType="textCapSentences"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/horisontaalne_aaris"
+                    android:paddingEnd="@dimen/horisontaalne_aaris"
+                    android:background="@color/tabeli_rea_andmed">
+        <LinearLayout android:id="@+id/harjutustearvkast"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentStart="true"
+                      android:orientation="horizontal">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_replay_white_18dp"/>
+            <TextView android:id="@+id/teoseharjutustearv"
+                      android:layout_width="@dimen/korduste_arvu_laius"
+                      android:layout_height="wrap_content"
+                      android:gravity="center_horizontal"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                      android:textColor="@android:color/white"
+                      android:text="0"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/harjutustekestuskast"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_toEndOf="@+id/harjutustearvkast"
+                      android:layout_toStartOf="@+id/hinnaguriba"
+                      android:orientation="horizontal">
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginEnd="@dimen/tekstilahtri_aaris"
+                       android:src="@drawable/ic_query_builder_white_18dp"/>
+            <TextView android:id="@+id/teoseharjutustekestus"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="center_vertical"
+                      android:textColor="@android:color/white"
+                      android:text="00:00"/>
+            </LinearLayout>
+        <RatingBar
+                android:id="@+id/hinnaguriba"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:progressTint="@color/colorAccent"
+                style="?android:attr/ratingBarStyleSmall"
+                android:indeterminate="false"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:stepSize="1"
+                android:rating="3"/>
+    </RelativeLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eraldusjoone_paksus"
+            android:background="@android:color/white"/>
+    <ListView android:id="@+id/harjutuslist"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/pillipaevik_peamine_taust"
+              android:choiceMode="singleChoice"
+              android:dividerHeight="@dimen/eraldusjoone_paksus"
+              android:divider="@android:color/white"/>
+</LinearLayout>

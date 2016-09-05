@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.widget.DatePicker;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
@@ -16,23 +15,22 @@ import java.util.Calendar;
 /**
  * Created by mihkel on 19.05.2016.
  */
-public class ValiKuupaev extends DialogFragment
+public class ValiKuupaev extends android.app.DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
     private final Calendar c = Calendar.getInstance();
     private AjaMuutuseTeavitus KuupaevaOmanik;
 
-
-    public void onAttach(Activity a) {
-        super.onAttach(a);
-        KuupaevaOmanik = (AjaMuutuseTeavitus) a;
-    }
-
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         if(BuildConfig.DEBUG) Log.d("Valikuupaev", "Loon kuupäeva valiku dialoogi");
+
+        try {
+            KuupaevaOmanik = (AjaMuutuseTeavitus) getParentFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling fragment must implement Callback interface");
+        }
 
         c.setTime(Tooriistad.KuupaevKellaAegStringist(getArguments().getString("datetime")));
         int year = c.get(Calendar.YEAR);

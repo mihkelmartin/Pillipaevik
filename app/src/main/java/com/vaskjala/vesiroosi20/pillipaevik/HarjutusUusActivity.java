@@ -1,10 +1,10 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -145,7 +145,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements LihtsaKusi
             args.putString("eivastus",getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
-            newFragment.show(getSupportFragmentManager(), "Kustuta Harjutus");
+            newFragment.show(getFragmentManager(), "Kustuta Harjutus");
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,9 +1,9 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,8 +25,29 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class TeosListFragment extends Fragment {
 
-    public SimpleItemRecyclerViewAdapter mMainAdapter;
+    protected SimpleItemRecyclerViewAdapter mMainAdapter;
     private PilliPaevikDatabase mPPManager;
+    private TeosListFragmendiKuulaja teosListFragmendiKuulaja;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            teosListFragmendiKuulaja = (TeosListFragmendiKuulaja) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " peab teostama TeosListFragmendiKuulaja");
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        try {
+            teosListFragmendiKuulaja = (TeosListFragmendiKuulaja) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " peab teostama TeosListFragmendiKuulaja");
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,18 +70,15 @@ public class TeosListFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onStart() {
         if(BuildConfig.DEBUG) Log.d("TeosListFragment", "onStart");
         super.onStart();
 
-        // TODO Asünkroonselt
-        // TODO Fragmendi puhul peab seda värksendama ka siis kui Teos kustutatakse
+        // TODO Asünkroonselt + Fragmendi puhul peab seda värksendama ka siis kui Teos kustutatakse
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
         KuuHarjutusteProgress();
-        // https://developers.google.com/android/guides/api-client#handle_connection_failures
 
     }
 
@@ -71,47 +89,11 @@ public class TeosListFragment extends Fragment {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-
         if(item.getItemId()==R.id.lisateos){
             if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Lisa teos vajutatud");
-            Intent intent = new Intent(getActivity(), TeosActivity.class);
-            intent.putExtra("item_id", -1);
-            startActivityForResult(intent,getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA));
+            teosListFragmendiKuulaja.UusTeos();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
-                int itemposition = data.getIntExtra("item_position",0);
-                if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
-                mMainAdapter.SordiTeosed();
-                mMainAdapter.notifyDataSetChanged();
-            }
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
-                int itemposition = data.getIntExtra("item_position",0);
-                if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Tagasi TeosActivityst. Kustutatud. Pos:" + itemposition);
-                mMainAdapter.notifyItemRemoved(itemposition);
-            }
-        }
-        if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
-                if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Tagasi TeosActivityst. Lisatud");
-                mMainAdapter.SordiTeosed();
-                mMainAdapter.notifyDataSetChanged();
-            }
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
-                if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Tagasi TeosActivityst. Lisamisel kustutati");
-            }
-            if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_UUS_LOOMATA)) {
-                if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Tagasi TeosActivityst. Lisamist ei viidud lõpule");
-            }
-        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -147,14 +129,8 @@ public class TeosListFragment extends Fragment {
                 this.holder = holder;
             }
             public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, TeosActivity.class);
-                intent.putExtra("item_id", holder.mItem.getId());
-                intent.putExtra("item_position", holder.getLayoutPosition());
-                startActivityForResult(intent, getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
-                if(BuildConfig.DEBUG) Log.d("PeaActivity", "Teos valitud : " + holder.mItem.getId() + " Holder position: " +
-                        holder.getLayoutPosition() + " Intent: " +
-                        getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
+                teosListFragmendiKuulaja.TeosValitud(holder.mItem.getId(),
+                        holder.getLayoutPosition());
             }
         }
 
