@@ -347,12 +347,9 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     }
 
     private void KustutaSalvestus(){
-        Intent intent = new Intent(getActivity(), KustutaFailDraivistTeenus.class);
-        intent.putExtra("driveid", harjutuskord.getHelifailidriveid());
-        getActivity().startService(intent);
-        Tooriistad.KustutaKohalikFail(getActivity().getFilesDir(),harjutuskord.getHelifail());
-        mHeliFail = null;
+        harjutuskord.KustutaFailid(getActivity().getApplicationContext());
         harjutuskord.TuhjendaSalvestuseValjad();
+        mHeliFail = null;
         SalvestaHarjutus();
         SeadistaSalvestiseRiba();
     }

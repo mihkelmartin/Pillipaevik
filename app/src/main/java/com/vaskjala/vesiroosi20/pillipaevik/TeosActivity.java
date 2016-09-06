@@ -10,10 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 
-public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuulaja, TeosFragmendiKuulaja  {
+public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuulaja  {
 
     private int teosid;
     private int itemposition;
@@ -59,28 +57,38 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(BuildConfig.DEBUG) Log.d("TeosActivity","Menüü valik vajutatud");
-
         if(item.getItemId() == android.R.id.home){
             if(BuildConfig.DEBUG) Log.d("TeosActivity", "Up nuppu vajutatud");
-            Intent intent = NavUtils.getParentActivityIntent(this);
-            int result;
-            if(this.bUueTeoseLoomine) {
-                result = getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD);
-            } else {
-                result = getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD);
-            }
-            intent.putExtra("item_position", this.itemposition);
-            intent.putExtra("item_id", this.teosid);
-            setResult(result, intent);
-            NavUtils.navigateUpTo(this, intent);
+            NavUtils.navigateUpTo(this, SeadistaLahkumine());
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        SeadistaLahkumine();
+        finish();
+        super.onBackPressed();
+    }
+
+    private Intent SeadistaLahkumine(){
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        int result;
+        if(this.bUueTeoseLoomine) {
+            result = getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD);
+        } else {
+            result = getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD);
+        }
+        intent.putExtra("item_position", this.itemposition);
+        intent.putExtra("item_id", this.teosid);
+        setResult(result, intent);
+        return intent;
+    }
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
+        if(BuildConfig.DEBUG) Log.d("TeosActivity", "onActivityResult");
         TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teosfragment);
-        teosFragment.VarskendaHarjutusteList();
+        teosFragment.VarskendaHarjutusteJaStatistika();
     }
 
 
@@ -112,29 +120,9 @@ public class TeosActivity extends AppCompatActivity implements LihtsaKusimuseKuu
 
     @Override
     public void KustutaTeos(int teosid) {
-        Bundle args = new Bundle();
-        args.putString("pealkiri",getString(R.string.dialog_kas_kustuta_teose_pealkiri));
-        args.putString("kysimus",getString(R.string.dialog_kas_kustuta_teose_kusimus));
-        args.putString("jahvastus",getString(R.string.jah));
-        args.putString("eivastus",getString(R.string.ei));
-        DialogFragment newFragment = new LihtneKusimus();
-        newFragment.setArguments(args);
-        newFragment.show(getFragmentManager(), "Kustuta teos");
-    }
-
-    // Dialoogi vastused kustutamise korral
-    @Override
-    public void kuiEiVastus(DialogFragment dialog) {
-        if(BuildConfig.DEBUG) Log.d("TeosActivity", "Kustutamine katkestatud:" + this.teosid);
-    }
-
-    @Override
-    public void kuiJahVastus(DialogFragment dialog) {
-        TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teosfragment);
-        teosFragment.KustutaTeos();
+        if(BuildConfig.DEBUG) Log.d("TeosActivity", "Tagasi kustutamisega. Pos:" + this.itemposition);
         Intent output = new Intent();
         output.putExtra("item_position", this.itemposition);
-        if(BuildConfig.DEBUG) Log.d("TeosActivity", "Tagasi kustutamisega. Pos:" + this.itemposition);
         setResult(getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD), output);
         finish();
     }

@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
-public class TeosFragment extends Fragment {
+public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
 
 
     private PilliPaevikDatabase mPPManager;
@@ -152,7 +152,14 @@ public class TeosFragment extends Fragment {
         if(BuildConfig.DEBUG) Log.d("TeosFragment","Menüü valik vajutatud");
 
         if(item.getItemId() == R.id.kustutateos){
-            teosFragmendiKuulaja.KustutaTeos(this.teosid);
+            Bundle args = new Bundle();
+            args.putString("pealkiri",getString(R.string.dialog_kas_kustuta_teose_pealkiri));
+            args.putString("kysimus",getString(R.string.dialog_kas_kustuta_teose_kusimus));
+            args.putString("jahvastus",getString(R.string.jah));
+            args.putString("eivastus",getString(R.string.ei));
+            android.app.DialogFragment newFragment = new LihtneKusimus();
+            newFragment.setArguments(args);
+            newFragment.show(getChildFragmentManager(), "Kustuta teos");
         }
         if(item.getItemId() == R.id.alustauut){
             AndmedTeosesse(this.teos);
@@ -222,11 +229,12 @@ public class TeosFragment extends Fragment {
             return rhs.getAlgusaeg().compareTo(lhs.getAlgusaeg());
         }
     }
-    public void VarskendaHarjutusteList() {
+    public void VarskendaHarjutusteJaStatistika() {
         if (pHarjutusedAdapter != null){
             pHarjutusedAdapter.notifyDataSetChanged();
             pHarjutusedAdapter.sort(new TeosFragment.HarjutusComparator());
         }
+        HarjutusteStatistika ();
     }
 
     private void AndmedTeosesse(Teos teos) {
@@ -251,4 +259,15 @@ public class TeosFragment extends Fragment {
                 .setText(Tooriistad.KujundaHarjutusteMinutid(getActivity().getApplicationContext(), stat[0]/60));
     }
 
+    // Dialoogi vastused kustutamise korral
+    @Override
+    public void kuiEiVastus(android.app.DialogFragment dialog) {
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Kustutamine katkestatud:" + this.teosid);
+    }
+
+    @Override
+    public void kuiJahVastus(android.app.DialogFragment dialog) {
+        KustutaTeos();
+        teosFragmendiKuulaja.KustutaTeos(this.teosid);
+    }
 }

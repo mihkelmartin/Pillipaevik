@@ -186,6 +186,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
 
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onActivityResult");
         TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {

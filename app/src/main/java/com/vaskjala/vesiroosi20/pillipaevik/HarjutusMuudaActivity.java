@@ -48,13 +48,16 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements Harjutus
             this.teosid = getIntent().getIntExtra("teos_id", 0);
             this.harjutusid = getIntent().getIntExtra("harjutus_id", 0);
             this.itemposition = getIntent().getIntExtra("item_position", 0);
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
         } else {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teos_id");
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
             this.itemposition = savedInstanceState.getInt("item_position");
         }
+        if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        Teos teos = mPPManager.getTeos(this.teosid);
+        mAction.setTitle(teos.getNimi());
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {

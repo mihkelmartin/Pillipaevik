@@ -315,19 +315,26 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Lõpetan lindistamise");
         handler.removeCallbacks(salvestusajalimiit);
         if (mRecorder != null) {
-            mRecorder.stop();
-            mRecorder.release();
-            mRecorder = null;
+            try {
+                mRecorder.stop();
+                mRecorder.release();
+                mRecorder = null;
 
-            if(Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
-                Intent intent = new Intent(getActivity(), LisaFailDraiviTeenus.class);
-                intent.putExtra("teosid", harjutus.getTeoseid());
-                intent.putExtra("harjutusid", harjutus.getId());
-                getActivity().startService(intent);
-                if (BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Lõpetasin lindistamise");
-                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                if(Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
+                    Intent intent = new Intent(getActivity(), LisaFailDraiviTeenus.class);
+                    intent.putExtra("teosid", harjutus.getTeoseid());
+                    intent.putExtra("harjutusid", harjutus.getId());
+                    getActivity().startService(intent);
+                    if (BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Lõpetasin lindistamise");
+                    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            } catch (Exception e) {
+                mRecorder.release();
+                mRecorder = null;
+                harjutus.KustutaFailid(getActivity().getApplicationContext());
+                harjutus.TuhjendaSalvestuseValjad();
+                if(BuildConfig.DEBUG) Log.e("HarjutusUusFragment", "Lindistamist ei suudetud lõpetada:" + e.toString());
             }
-
         }
     }
     private void SeadistaMikrofoniNupp(){

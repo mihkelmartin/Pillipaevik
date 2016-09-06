@@ -40,14 +40,16 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
         mAction.setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
             this.teosid = getIntent().getIntExtra("teos_id", 0);
             this.harjutusid = getIntent().getIntExtra("harjutus_id", 0);
         } else {
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen saveInstants");
             this.teosid = savedInstanceState.getInt("teos_id");
             this.harjutusid = savedInstanceState.getInt("harjutus_id");
         }
+        if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        Teos teos = mPPManager.getTeos(this.teosid);
+        mAction.setTitle(teos.getNimi());
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
