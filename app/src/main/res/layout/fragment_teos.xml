@@ -15,7 +15,7 @@
         android:layout_marginEnd="@dimen/horisontaalne_aaris"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:maxLength="48"
-        android:inputType="textCapSentences"/>
+        android:inputType="textCapSentences|textMultiLine"/>
     <EditText
         android:id="@+id/autor"
         android:hint="@string/autor_vihje"
@@ -25,7 +25,7 @@
         android:layout_marginEnd="@dimen/horisontaalne_aaris"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:maxLength="64"
-        android:inputType="textCapSentences"/>
+        android:inputType="textCapSentences|textMultiLine"/>
     <EditText
             android:id="@+id/kommentaar"
             android:hint="@string/kommentaar_vihje"
@@ -36,7 +36,7 @@
             android:layout_marginBottom="@dimen/vertikaalne_aaris"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:maxLength="96"
-            android:inputType="textCapSentences"/>
+            android:inputType="textCapSentences|textMultiLine"/>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="?attr/actionBarSize"

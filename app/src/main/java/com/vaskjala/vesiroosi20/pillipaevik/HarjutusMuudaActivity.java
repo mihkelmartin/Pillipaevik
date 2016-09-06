@@ -73,23 +73,31 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements Harjutus
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            HarjutusMuudaFragment harjutusMuudaFragment =
-                    (HarjutusMuudaFragment) getFragmentManager().findFragmentById(R.id.harjutusmuudafragment);
-            harjutusMuudaFragment.SuleHarjutus();
+            SeadistaLahkumine();
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
     @Override
     public void onBackPressed() {
+        SeadistaLahkumine();
+        super.onBackPressed();
+    }
+
+    private void SeadistaLahkumine(){
+        Intent intent = new Intent();
+        intent.putExtra("item_position", itemposition);
+        setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_MUUDA), intent);
         HarjutusMuudaFragment harjutusMuudaFragment =
                 (HarjutusMuudaFragment) getFragmentManager().findFragmentById(R.id.harjutusmuudafragment);
         harjutusMuudaFragment.SuleHarjutus();
-        super.onBackPressed();
     }
 
     @Override
     public void KustutaHarjutus(int harjutusid) {
+        Intent intent = new Intent();
+        intent.putExtra("item_position", itemposition);
+        setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), intent);
         finish();
     }
 }

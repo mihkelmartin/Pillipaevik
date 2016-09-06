@@ -102,7 +102,6 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental-verifier" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/jniLibs" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/reload-dex" />
