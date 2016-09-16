@@ -3,15 +3,8 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -91,6 +84,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
             this.teos = new Teos();
             teos.Salvesta(getActivity().getApplicationContext());
             this.teosid = teos.getId();
+            teosFragmendiKuulaja.VarskendaTeosList();
         }
         if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen teost:" + String.valueOf(this.teosid) + " " + this.teos + " Pos:" + this.itemposition);
     }
@@ -122,9 +116,9 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
     public void onPause() {
         if(BuildConfig.DEBUG) Log.d("TeosFragment","onPause");
         super.onPause();
+        // TODO Peab kotrollima hulgas olemasolu
         if(this.teos != null) {
-            AndmedTeosesse(this.teos);
-            teos.Salvesta(getActivity().getApplicationContext());
+            SalvestaTeos();
         } else {
             if (BuildConfig.DEBUG) Log.d("TeosFragment", "onPause: teos == null");
         }
@@ -146,6 +140,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.teosmenyy, menu);
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "onCreateOptionsMenu");
     }
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -159,16 +154,15 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
             args.putString("eivastus",getString(R.string.ei));
             android.app.DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
+            newFragment.setTargetFragment(this, 0);
             newFragment.show(getChildFragmentManager(), "Kustuta teos");
         }
         if(item.getItemId() == R.id.alustauut){
-            AndmedTeosesse(this.teos);
-            teos.Salvesta(getActivity().getApplicationContext());
+            SalvestaTeos();
             teosFragmendiKuulaja.AlustaHarjutust(this.teosid);
         }
         if(item.getItemId() == R.id.lisatehtud){
-            AndmedTeosesse(this.teos);
-            teos.Salvesta(getActivity().getApplicationContext());
+            SalvestaTeos();
             teosFragmendiKuulaja.LisaTehtudHarjutus(this.teosid);
         }
         return super.onOptionsItemSelected(item);
@@ -237,6 +231,11 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
         HarjutusteStatistika ();
     }
 
+    private void SalvestaTeos(){
+        AndmedTeosesse(this.teos);
+        teos.Salvesta(getActivity().getApplicationContext());
+        teosFragmendiKuulaja.VarskendaTeosList();
+    }
     private void AndmedTeosesse(Teos teos) {
 
         teos.setNimi(mNimi.getText().toString());
@@ -267,7 +266,8 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
 
     @Override
     public void kuiJahVastus(android.app.DialogFragment dialog) {
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Kustutamise kuiJahVastus");
         KustutaTeos();
-        teosFragmendiKuulaja.KustutaTeos(this.teosid);
+        teosFragmendiKuulaja.KustutaTeos(this.teosid, itemposition);
     }
 }

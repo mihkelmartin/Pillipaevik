@@ -183,6 +183,19 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
         return getTeosedHash().get(id);
     }
 
+    public HarjutusKord getHarjutus(int teosid, int harjutusid) {
+        HarjutusKord retVal = null;
+        Teos teos = getTeos(teosid);
+        if(teos != null) {
+            HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(context);
+            if(harjutuskorradmap != null) {
+                retVal = harjutuskorradmap.get(harjutusid);
+            }
+        }
+        return retVal;
+    }
+
+
     public int SalvestaTeos(Teos teos){
 
         int retVal = 0;

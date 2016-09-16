@@ -10,13 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
@@ -29,7 +25,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnClickListener {
+public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnClickListener,
+        HarjutusFragmendiKutsuja {
 
     private int teosid;
     private int harjutusid;
@@ -41,7 +38,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     private static final short viiv = 300;
     private final Handler handler = new Handler();
 
-    private HarjutusUusFragmendiKuulaja harjutusUusFragmendiKuulaja;
+    private HarjutusFragmendiKuulaja harjutusFragmendiKuulaja;
 
     private static TextView timer;
     private static Button kaivitaTimerNupp;
@@ -53,9 +50,9 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            harjutusUusFragmendiKuulaja = (HarjutusUusFragmendiKuulaja) context;
+            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusUusFragmendiKuulaja");
+            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
         }
     }
     @SuppressWarnings("deprecation")
@@ -63,9 +60,9 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     public void onAttach(Activity context) {
         super.onAttach(context);
         try {
-            harjutusUusFragmendiKuulaja = (HarjutusUusFragmendiKuulaja) context;
+            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusUusFragmendiKuulaja");
+            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
         }
     }
     @Override
@@ -117,6 +114,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             this.harjutus = new HarjutusKord(this.teosid);
             harjutus.Salvesta(getActivity().getApplicationContext());
             this.harjutusid = this.harjutus.getId();
+            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Uus harjutus loodud : " + this.harjutusid);
         }
     }
@@ -142,12 +140,9 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     }
     @Override
     public void onPause() {
-
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment","onPause");
         super.onPause();
-        if(this.harjutus != null) {
-            SalvestaHarjutus();
-        }
+        SalvestaHarjutus();
     }
     public void onStop() {
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "On Stop");
@@ -175,6 +170,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.harjutusmenyy, menu);
+        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "onCreateOptionsMenu");
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.kustutaharjutus){
@@ -184,6 +180,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             args.putString("eivastus",getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
+            newFragment.setTargetFragment(this, 0);
             newFragment.show(getChildFragmentManager(), "Kustuta Harjutus");
         }
         return super.onOptionsItemSelected(item);
@@ -211,13 +208,25 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
         }
     }
     private void SalvestaHarjutus(){
-        AndmedHarjutusse(this.harjutus);
-        harjutus.Salvesta(getActivity().getApplicationContext());
+        if(KasHarjutusOlemas()) {
+            AndmedHarjutusse(this.harjutus);
+            harjutus.Salvesta(getActivity().getApplicationContext());
+            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
+        }
     }
     private void KustutaHarjutus(){
         harjutus.Kustuta(getActivity().getApplicationContext());
         harjutus = null;
+        harjutusFragmendiKuulaja.VarskendaHarjutusteList();
     }
+    private boolean AndmedHarjutuses(){
+        return harjutus.getPikkussekundites() != 0 || !harjutus.getAlgusaeg().equals(harjutus.getLopuaeg());
+    }
+    private boolean KasHarjutusOlemas(){
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
+        return mPPManager.getHarjutus(this.teosid, this.harjutusid) != null;
+    }
+
 
     private final Runnable salvestusajalimiit = new Runnable() {
         @Override
@@ -359,11 +368,8 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
         KustutaHarjutus();
-        harjutusUusFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
+        harjutusFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
     }
 
-    private boolean AndmedHarjutuses(){
-        return harjutus.getPikkussekundites() != 0 || !harjutus.getAlgusaeg().equals(harjutus.getLopuaeg());
-    }
 
 }

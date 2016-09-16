@@ -10,9 +10,6 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -22,7 +19,6 @@ import com.google.android.gms.drive.DriveId;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.KustutaFailDraivistTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
@@ -34,14 +30,16 @@ import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnClickListener {
+public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnClickListener,
+        HarjutusFragmendiKutsuja{
 
     private int teosid;
     private int harjutusid;
     private HarjutusKord harjutuskord;
     private int itemposition;
+    private AvaFailMangimiseks mAFM;
 
-    private HarjutusMuudaFragmendiKuulaja harjutusMuudaFragmendiKuulaja;
+    private HarjutusFragmendiKuulaja harjutusFragmendiKuulaja;
 
     // Vaate lahtrid
     private EditText harjutusekirjelduslahter;
@@ -57,9 +55,9 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            harjutusMuudaFragmendiKuulaja = (HarjutusMuudaFragmendiKuulaja) context;
+            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusMuudaFragmendiKuulaja");
+            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
         }
     }
     @SuppressWarnings("deprecation")
@@ -67,9 +65,9 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     public void onAttach(Activity context) {
         super.onAttach(context);
         try {
-            harjutusMuudaFragmendiKuulaja = (HarjutusMuudaFragmendiKuulaja) context;
+            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusMuudaFragmendiKuulaja");
+            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
         }
     }
     @Override
@@ -100,9 +98,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
             this.itemposition = savedInstanceState.getInt("item_position");
         }
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        Teos teos = mPPManager.getTeos(this.teosid);
-        HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getActivity().getApplicationContext());
-        this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
+        this.harjutuskord = mPPManager.getHarjutus(this.teosid, this.harjutusid);
         if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Harjutus : " + this.harjutuskord);
     }
     @Nullable
@@ -131,10 +127,11 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     @Override
     public void onStart() {
 
+        mAFM = null;
         if(Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
             if (harjutuskord != null && harjutuskord.getHelifailidriveid() != null &&
                     !harjutuskord.getHelifailidriveid().isEmpty()) {
-                AvaFailMangimiseks mAFM = new AvaFailMangimiseks();
+                mAFM = new AvaFailMangimiseks();
                 mAFM.execute(harjutuskord);
             }
         } else if(Tooriistad.KasLubadaSalvestamine(getActivity().getApplicationContext())){
@@ -153,16 +150,17 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     }
     @Override
     public void onPause() {
-
         if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment","onPause");
         super.onPause();
-        if(this.harjutuskord != null) {
-            SalvestaHarjutus();
-        }
+        SalvestaHarjutus();
     }
     @Override
     public void onStop() {
-        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Lõpetan mahamängimise");
+        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "onStop");
+
+        if(mAFM != null)
+            mAFM.cancel(false);
+
         if (mPlayer != null) {
             if(mPlayer.isPlaying())
                 mPlayer.stop();
@@ -187,6 +185,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.harjutusmenyy, menu);
+        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "onCreateOptionsMenu");
     }
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -197,6 +196,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
             args.putString("eivastus", getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
+            newFragment.setTargetFragment(this, 0);
             newFragment.show(getChildFragmentManager(), "KustutaHarjutus");
         }
         return super.onOptionsItemSelected(item);
@@ -204,7 +204,6 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
 
     public void SuleHarjutus(){
         if(AndmedHarjutuses()) {
-            // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
             String kirjeldus = harjutusekirjelduslahter.getText().toString();
             if (kirjeldus.isEmpty())
                 harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
@@ -226,15 +225,24 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
         weblinkaruandele.setChecked(harjutuskord.getWeblinkaruandele()==1);
     }
     private void SalvestaHarjutus (){
-        AndmedHarjutusse();
-        harjutuskord.Salvesta(getActivity().getApplicationContext());
+        if(KasHarjutusOlemas()) {
+            AndmedHarjutusse();
+            harjutuskord.Salvesta(getActivity().getApplicationContext());
+            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
+        }
     }
     private void KustutaHarjutus(){
         harjutuskord.Kustuta(getActivity().getApplicationContext());
         this.harjutuskord = null;
+        harjutusFragmendiKuulaja.VarskendaHarjutusteList();
     }
     private boolean AndmedHarjutuses(){
         return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
+    }
+
+    private boolean KasHarjutusOlemas(){
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
+        return mPPManager.getHarjutus(this.teosid, this.harjutusid) != null;
     }
 
     @Override
@@ -315,6 +323,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
         args.putString("eivastus", getString(R.string.ei));
         DialogFragment newFragment = new LihtneKusimus();
         newFragment.setArguments(args);
+        newFragment.setTargetFragment(this, 0);
         newFragment.show(getChildFragmentManager(), "KustutaSalvestus");
     }
 
@@ -335,7 +344,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
             KustutaHarjutus();
-            harjutusMuudaFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
+            harjutusFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
         } else
         if(dialog.getTag().equals("KustutaSalvestus")) {
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaSalvestus vastus Jah.");
@@ -359,24 +368,27 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
         @Override
         protected DriveContents doInBackground(HarjutusKord... harjutusKords) {
             DriveContents dFC = null;
-            GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getActivity().getApplicationContext(), null);
-            if(mGDU.LooDriveUhendusAsunkroonselt()) {
-                DriveId dID;
-                dID = mGDU.AnnaDriveID(harjutusKords[0].getHelifailidriveid());
-                try {
-                    dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
-                } catch (FileNotFoundException e){
-                    if(BuildConfig.DEBUG) Log.e("AvaFailMangimiseks", "Faili ei leitud. Tühjendame väljad. " + e.toString());
-                    harjutusKords[0].TuhjendaSalvestuseValjad();
-                    harjutusKords[0].Salvesta(getActivity().getApplicationContext());
+            if(!isCancelled()) {
+                GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getActivity().getApplicationContext(), null);
+                if (!isCancelled() && mGDU.LooDriveUhendusAsunkroonselt()) {
+                    DriveId dID;
+                    dID = mGDU.AnnaDriveID(harjutusKords[0].getHelifailidriveid());
+                    try {
+                        if (!isCancelled())
+                            dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+                    } catch (FileNotFoundException e) {
+                        if (BuildConfig.DEBUG)
+                            Log.e("AvaFailMangimiseks", "Faili ei leitud. Tühjendame väljad. " + e.toString());
+                        harjutusKords[0].TuhjendaSalvestuseValjad();
+                        harjutusKords[0].Salvesta(getActivity().getApplicationContext());
+                    }
                 }
+                mGDU.KatkestaDriveUhendus();
             }
-            mGDU.KatkestaDriveUhendus();
             return dFC;
         }
 
         protected void onPostExecute(DriveContents dFC) {
-
             if(dFC != null){
                 mHeliFail = dFC.getParcelFileDescriptor().getFileDescriptor();
             }

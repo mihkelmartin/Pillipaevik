@@ -28,6 +28,10 @@ public class Teos implements Comparable<Teos> {
 
     @Override
     public int compareTo(@NonNull Teos another) {
+        if(this.getNimi() == null)
+            return -1;
+        if(another.getNimi() == null)
+            return 1;
         return this.getNimi().compareTo(another.getNimi());
     }
 

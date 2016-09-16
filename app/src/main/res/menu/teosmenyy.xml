@@ -6,16 +6,19 @@
             android:id="@+id/kustutateos"
             android:title="@string/kusututa"
             android:icon="@drawable/ic_delete_black_18dp"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom"
+            android:orderInCategory="201"/>
     <item
             android:id="@+id/alustauut"
             android:title="@string/AlustaUutHarjutust"
             android:icon="@drawable/ic_query_builder_black_18dp"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom"
+            android:orderInCategory="202"/>
     <item
             android:id="@+id/lisatehtud"
             android:title="@string/LisaTehtudHarjutus"
             android:icon="@drawable/ic_add_black_18dp"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom"
+            android:orderInCategory="203"/>
 
 </menu>

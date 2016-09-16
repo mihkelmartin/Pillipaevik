@@ -97,13 +97,13 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
         Intent intent = new Intent(this, HarjutusMuudaActivity.class);
         intent.putExtra("teos_id", teosid);
         intent.putExtra("harjutus_id", harjutusid);
-        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Avan olemasolevat harjutust. Teosid : " + teosid +
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Avan olemasolevat harjutust. Teosid : " + teosid +
                 " Harjutus:" + harjutusid);
         startActivityForResult(intent, getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_MUUDA));
     }
     @Override
     public void AlustaHarjutust(int teosid) {
-        if(BuildConfig.DEBUG) Log.d("TeosActivity", "Alusta uut harjutust");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta uut harjutust");
         Intent intent = new Intent(this, HarjutusUusActivity.class);
         intent.putExtra("teos_id", teosid);
         intent.putExtra("harjutusid", -1);
@@ -111,7 +111,7 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
     }
     @Override
     public void LisaTehtudHarjutus(int teosid) {
-        if(BuildConfig.DEBUG) Log.d("TeosActivity", "Lisa tehtud harjutus");
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lisa tehtud harjutus");
         Intent intent = new Intent(this, HarjutusLisaTehtudActivity.class);
         intent.putExtra("teos_id", teosid);
         intent.putExtra("harjutus_id", -1);
@@ -119,11 +119,21 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
     }
 
     @Override
-    public void KustutaTeos(int teosid) {
+    public void KustutaTeos(int teosid, int itemposition) {
         if(BuildConfig.DEBUG) Log.d("TeosActivity", "Tagasi kustutamisega. Pos:" + this.itemposition);
         Intent output = new Intent();
         output.putExtra("item_position", this.itemposition);
         setResult(getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD), output);
         finish();
+    }
+
+    @Override
+    public void VarskendaTeosList() {
+
+    }
+
+    @Override
+    public void VarskendaTeosListiElement(int position) {
+
     }
 }

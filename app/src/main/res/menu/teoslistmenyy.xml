@@ -6,5 +6,6 @@
             android:id="@+id/lisateos"
             android:title="@string/lisa_teos"
             android:icon="@drawable/ic_add_black_18dp"
-            app:showAsAction="ifRoom"/>
+            app:showAsAction="ifRoom"
+            android:orderInCategory="101"/>
 </menu>

@@ -1,32 +1,17 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.*;
-import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveId;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
+
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.*;
 
-import java.io.*;
-import java.util.HashMap;
 
-public class HarjutusMuudaActivity extends AppCompatActivity implements HarjutusMuudaFragmendiKuulaja {
+public class HarjutusMuudaActivity extends AppCompatActivity implements HarjutusFragmendiKuulaja {
 
     private int teosid;
     private int harjutusid;
@@ -99,5 +84,13 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements Harjutus
         intent.putExtra("item_position", itemposition);
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), intent);
         finish();
+    }
+    @Override
+    public void VarskendaHarjutusteList() {
+
+    }
+    @Override
+    public void VarskendaHarjutusteListiElement(int position) {
+
     }
 }

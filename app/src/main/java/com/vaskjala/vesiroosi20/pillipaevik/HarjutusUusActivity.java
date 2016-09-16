@@ -11,20 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.LisaFailDraiviTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
-
-import java.util.Calendar;
-import java.util.HashMap;
 
 
-public class HarjutusUusActivity extends AppCompatActivity implements HarjutusUusFragmendiKuulaja {
+public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFragmendiKuulaja {
 
     private int teosid;
     private int harjutusid;
@@ -86,5 +76,15 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusUu
     @Override
     public void KustutaHarjutus(int harjutusid) {
         finish();
+    }
+
+    @Override
+    public void VarskendaHarjutusteList() {
+
+    }
+
+    @Override
+    public void VarskendaHarjutusteListiElement(int position) {
+
     }
 }
