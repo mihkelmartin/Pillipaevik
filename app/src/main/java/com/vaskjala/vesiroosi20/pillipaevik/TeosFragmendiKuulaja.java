@@ -10,4 +10,5 @@ public interface TeosFragmendiKuulaja {
     void LisaTehtudHarjutus(int teosid);
     void VarskendaTeosList();
     void VarskendaTeosListiElement(int position);
+    void SeaTeosid(int teosid);
 }

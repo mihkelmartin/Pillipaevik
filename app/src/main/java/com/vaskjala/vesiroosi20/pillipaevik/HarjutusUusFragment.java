@@ -114,6 +114,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             this.harjutus = new HarjutusKord(this.teosid);
             harjutus.Salvesta(getActivity().getApplicationContext());
             this.harjutusid = this.harjutus.getId();
+            harjutusFragmendiKuulaja.SeaHarjutusid(this.harjutusid);
             harjutusFragmendiKuulaja.VarskendaHarjutusteList();
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Uus harjutus loodud : " + this.harjutusid);
         }

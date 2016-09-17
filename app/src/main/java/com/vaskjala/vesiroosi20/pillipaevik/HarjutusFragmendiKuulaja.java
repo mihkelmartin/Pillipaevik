@@ -7,4 +7,5 @@ public interface HarjutusFragmendiKuulaja {
     void KustutaHarjutus(int harjutusid);
     void VarskendaHarjutusteList();
     void VarskendaHarjutusteListiElement(int position);
+    void SeaHarjutusid(int harjutuseid);
 }

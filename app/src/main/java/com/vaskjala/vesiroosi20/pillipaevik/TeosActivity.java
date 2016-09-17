@@ -136,4 +136,9 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
     public void VarskendaTeosListiElement(int position) {
 
     }
+
+    @Override
+    public void SeaTeosid(int teosid) {
+
+    }
 }

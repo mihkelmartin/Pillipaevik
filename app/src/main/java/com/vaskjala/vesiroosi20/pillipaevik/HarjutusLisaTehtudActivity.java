@@ -76,4 +76,9 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
     public void VarskendaHarjutusteListiElement(int position) {
 
     }
+
+    @Override
+    public void SeaHarjutusid(int harjutuseid) {
+
+    }
 }

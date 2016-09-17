@@ -32,7 +32,6 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
 
         if (savedInstanceState == null) {
             this.teosid = getIntent().getIntExtra("teos_id", 0);
-            this.harjutusid = getIntent().getIntExtra("harjutusid", 0);
         }else {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teos_id");
@@ -57,20 +56,25 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            HarjutusUusFragment harjutusUusFragment =
-                    (HarjutusUusFragment) getFragmentManager().findFragmentById(R.id.harjutusuusfragment);
-            harjutusUusFragment.SuleHarjutus();
+            SeadistaLahkumine();
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
     @Override
     public void onBackPressed() {
+        SeadistaLahkumine();
+        finish();
+        super.onBackPressed();
+    }
+
+    private void SeadistaLahkumine(){
         HarjutusUusFragment harjutusUusFragment =
                 (HarjutusUusFragment) getFragmentManager().findFragmentById(R.id.harjutusuusfragment);
         harjutusUusFragment.SuleHarjutus();
-        finish();
-        super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putExtra("harjutusid", this.harjutusid);
+        setResult(0, intent);
     }
 
     @Override
@@ -87,4 +91,10 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
     public void VarskendaHarjutusteListiElement(int position) {
 
     }
+
+    @Override
+    public void SeaHarjutusid(int harjutuseid) {
+        this.harjutusid = harjutuseid;
+    }
+
 }

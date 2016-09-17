@@ -93,4 +93,9 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements Harjutus
     public void VarskendaHarjutusteListiElement(int position) {
 
     }
+
+    @Override
+    public void SeaHarjutusid(int harjutuseid) {
+
+    }
 }

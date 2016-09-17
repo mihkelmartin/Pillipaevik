@@ -84,6 +84,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
             this.teos = new Teos();
             teos.Salvesta(getActivity().getApplicationContext());
             this.teosid = teos.getId();
+            teosFragmendiKuulaja.SeaTeosid(this.teosid);
             teosFragmendiKuulaja.VarskendaTeosList();
         }
         if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen teost:" + String.valueOf(this.teosid) + " " + this.teos + " Pos:" + this.itemposition);
@@ -223,6 +224,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
             return rhs.getAlgusaeg().compareTo(lhs.getAlgusaeg());
         }
     }
+
     public void VarskendaHarjutusteJaStatistika() {
         if (pHarjutusedAdapter != null){
             pHarjutusedAdapter.notifyDataSetChanged();
@@ -267,7 +269,8 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
     @Override
     public void kuiJahVastus(android.app.DialogFragment dialog) {
         if(BuildConfig.DEBUG) Log.d("TeosFragment", "Kustutamise kuiJahVastus");
+        int listindex = mPPManager.getAllTeosed().indexOf(mPPManager.getTeos(teosid));
         KustutaTeos();
-        teosFragmendiKuulaja.KustutaTeos(this.teosid, itemposition);
+        teosFragmendiKuulaja.KustutaTeos(this.teosid, listindex);
     }
 }
