@@ -101,7 +101,8 @@
     <string name="snackbar_teos_juba_olemas">A song with given name already exists</string>
     <string name="snackbar_nimi_tuhi">Name is empty</string>
     <string name="dialog_kas_kustuta_teose_pealkiri">Delete song?</string>
-    <string name="dialog_kas_kustuta_teose_kusimus">You are about to delete a song and all its exercises. Delete ?</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa1">You are about to delete a song</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa2">and all its exercises. Delete ?</string>
 
     <string name="nimi_vihje">Name. For example Yesterday</string>
     <string name="autor_vihje">Author. For example John Lennon</string>
@@ -113,7 +114,7 @@
 
 
     // Harjutuse/Salvestuse kustutamise dialoog
-    <string name="dialog_kas_kustuta_harjutuse_kusimus">Delete exercise ?</string>
+    <string name="dialog_kas_kustuta_harjutuse_kusimus">Delete exercise</string>
     <string name="dialog_kas_kustuta_salvestuse_kusimus">Delete recording ?</string>
 
     // Aja muutmise dialoogid

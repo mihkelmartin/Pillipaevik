@@ -24,7 +24,7 @@
                android:scaleType="centerCrop"
                android:scaleX="@dimen/pildikeste_vahendamine_uldine"
                android:scaleY="@dimen/pildikeste_vahendamine_uldine"
-               android:src="@drawable/ic_library_music_black_18dp"/>
+               android:src="@drawable/ic_library_music_black"/>
     <TextView android:id="@+id/harjutuslist_kestus"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"

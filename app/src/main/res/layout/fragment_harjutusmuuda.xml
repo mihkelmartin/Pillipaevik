@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/flootjupptransparent">
+                android:background="@drawable/floot">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent">
         <EditText
@@ -29,7 +29,7 @@
                        android:layout_height="wrap_content"
                        android:layout_centerVertical="true"
                        android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                       android:src="@drawable/ic_date_range_black_18dp"
+                       android:src="@drawable/ic_date_range_black"
                        android:layout_alignParentStart="true"
             />
             <TextView android:id="@+id/alguskuupaev"
@@ -49,7 +49,7 @@
                        android:layout_height="wrap_content"
                        android:layout_centerVertical="true"
                        android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                       android:src="@drawable/ic_query_builder_black_18dp"
+                       android:src="@drawable/ic_query_builder_black"
                        android:layout_alignParentStart="true"
             />
             <TextView android:id="@+id/pikkusminutites"
@@ -76,7 +76,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginEnd="@dimen/horisontaalne_aaris"
                        android:layout_centerVertical="true"
-                       android:src="@drawable/ic_library_music_black_18dp"
+                       android:src="@drawable/ic_library_music_black"
                        android:layout_alignParentStart="true"
             />
             <ImageButton android:id="@+id/mangi"
@@ -84,20 +84,20 @@
                          android:layout_height="wrap_content"
                          android:layout_toEndOf="@+id/salvestusepilt"
                          android:layout_below="@id/uleminejoon"
-                         android:src="@drawable/ic_play_arrow_black_18dp"/>
+                         android:src="@drawable/ic_play_arrow_black"/>
             <ImageButton android:id="@+id/jaga"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_toEndOf="@+id/salvestusepilt"
                          android:layout_below="@+id/mangi"
-                         android:src="@drawable/ic_share_black_18dp"/>
+                         android:src="@drawable/ic_share_black"/>
             <ImageButton android:id="@+id/stopp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/mangi"
                          android:layout_below="@id/uleminejoon"
                          android:clickable="false"
-                         android:src="@drawable/ic_stop_black_18dp"/>
+                         android:src="@drawable/ic_stop_black"/>
             <CheckBox android:id="@+id/weblinkaruandele"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                          android:layout_height="wrap_content"
                          android:layout_alignParentEnd="true"
                          android:layout_below="@id/uleminejoon"
-                         android:src="@drawable/ic_delete_black_18dp"/>
+                         android:src="@drawable/ic_delete_black"/>
             <View
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/peene_eraldusjoone_paksus"

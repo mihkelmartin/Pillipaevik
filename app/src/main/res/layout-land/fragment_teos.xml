@@ -62,7 +62,7 @@
                               android:orientation="horizontal">
                     <ImageView android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
-                               android:src="@drawable/ic_replay_white_18dp"/>
+                               android:src="@drawable/ic_replay_white"/>
                     <TextView android:id="@+id/teoseharjutustearv"
                               android:layout_width="@dimen/korduste_arvu_laius"
                               android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                     <ImageView android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:layout_marginEnd="@dimen/tekstilahtri_aaris"
-                               android:src="@drawable/ic_query_builder_white_18dp"/>
+                               android:src="@drawable/ic_query_builder_white"/>
                     <TextView android:id="@+id/teoseharjutustekestus"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"

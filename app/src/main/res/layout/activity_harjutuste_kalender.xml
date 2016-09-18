@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentTop="true"
-                android:navigationIcon="@drawable/ic_menu_black_18dp"
+                android:navigationIcon="@drawable/ic_menu_black"
                 android:theme="@style/Pillipaevik"
                 app:popupTheme="@style/Pillipaevik"/>
 

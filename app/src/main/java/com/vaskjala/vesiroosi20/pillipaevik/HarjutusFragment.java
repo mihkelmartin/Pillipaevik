@@ -103,7 +103,14 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
         if(BuildConfig.DEBUG) Log.d("HarjutusFragment", "onOptionsItemSelected");
         if (item.getItemId() == R.id.kustutaharjutus) {
             Bundle args = new Bundle();
-            args.putString("kysimus", getString(R.string.dialog_kas_kustuta_harjutuse_kusimus));
+
+            String kysimys = getString(R.string.dialog_kas_kustuta_harjutuse_kusimus);
+            String Harjutusekirjeldus = ((EditText)getView().findViewById(R.id.harjutusekirjeldus)).getText().toString();
+            if(Harjutusekirjeldus != null && !Harjutusekirjeldus.isEmpty())
+                kysimys = kysimys + " \"" + Harjutusekirjeldus + "\"";
+            kysimys = kysimys + " ?";
+
+            args.putString("kysimus", kysimys);
             args.putString("jahvastus", getString(R.string.jah));
             args.putString("eivastus", getString(R.string.ei));
             DialogFragment newFragment = new LihtneKusimus();

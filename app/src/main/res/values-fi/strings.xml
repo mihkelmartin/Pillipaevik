@@ -101,7 +101,8 @@
     <string name="snackbar_teos_juba_olemas">Samanniminen kappale on jo olemassa</string>
     <string name="snackbar_nimi_tuhi">Nimi tyhjä</string>
     <string name="dialog_kas_kustuta_teose_pealkiri">Poista kappale?</string>
-    <string name="dialog_kas_kustuta_teose_kusimus">Poistat kappaleen ja kaikki sen harjoitukset ?</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa1">Poistat kappaleen</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa2">ja kaikki sen harjoitukset ?</string>
 
     <string name="nimi_vihje">Kappaleen nimi</string>
     <string name="autor_vihje">Tekijä</string>
@@ -113,7 +114,7 @@
 
 
     // Harjutuse/Salvestuse kustutamise dialoog
-    <string name="dialog_kas_kustuta_harjutuse_kusimus">Poistat harjoituksen ?</string>
+    <string name="dialog_kas_kustuta_harjutuse_kusimus">Poistat harjoituksen</string>
     <string name="dialog_kas_kustuta_salvestuse_kusimus">Poistat nauhoituksen ?</string>
 
     // Aja muutmise dialoogid

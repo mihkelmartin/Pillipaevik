@@ -1,9 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -270,10 +267,10 @@ public class HarjutusUusFragment extends HarjutusFragment {
         if(Tooriistad.KasLubadaSalvestamine(getActivity().getApplicationContext())) {
             if (bkasSalvestame) {
                 mikrofoniLulitiNupp.setText(getResources().getText(R.string.sees));
-                mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black_18dp, null), null, null, null);
+                mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_black, null), null, null, null);
             } else {
                 mikrofoniLulitiNupp.setText(getResources().getText(R.string.valjas));
-                mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black_18dp, null), null, null, null);
+                mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black, null), null, null, null);
             }
         } else {
             mikrofoniLulitiNupp.setVisibility(Button.GONE);

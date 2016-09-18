@@ -23,7 +23,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:navigationIcon="@drawable/ic_menu_black_18dp"
+                    android:navigationIcon="@drawable/ic_menu_black"
                     android:theme="@style/Pillipaevik"
                     app:popupTheme="@style/Pillipaevik"/>
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@drawable/kitarrtransp"
+            android:background="@drawable/navipohi"
             app:headerLayout="@layout/navivaate_tiitel"
             app:menu="@menu/sahtli_menyy" />
 </android.support.v4.widget.DrawerLayout>

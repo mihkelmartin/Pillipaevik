@@ -150,7 +150,15 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
         if(item.getItemId() == R.id.kustutateos){
             Bundle args = new Bundle();
             args.putString("pealkiri",getString(R.string.dialog_kas_kustuta_teose_pealkiri));
-            args.putString("kysimus",getString(R.string.dialog_kas_kustuta_teose_kusimus));
+
+            String kysimys = getString(R.string.dialog_kas_kustuta_teose_kusimus_osa1);
+            String nimi = mNimi.getText().toString();
+            if(nimi != null && !nimi.isEmpty())
+                kysimys = kysimys + " \"" + nimi + "\"";
+            kysimys = kysimys + " " + getString(R.string.dialog_kas_kustuta_teose_kusimus_osa2);
+
+
+            args.putString("kysimus",kysimys);
             args.putString("jahvastus",getString(R.string.jah));
             args.putString("eivastus",getString(R.string.ei));
             android.app.DialogFragment newFragment = new LihtneKusimus();
