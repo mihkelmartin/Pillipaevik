@@ -61,7 +61,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         SeadistaNaviVaade(toolbar);
 
         if(savedInstanceState != null ){
-            if(BuildConfig.DEBUG) Log.e(getLocalClassName(), "savedInstanceState != null");
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "savedInstanceState != null");
             bEsimeneAvamine = false;
             this.teoseid = savedInstanceState.getInt("teoseid");
             this.harjutuseid = savedInstanceState.getInt("harjutuseid");
@@ -246,8 +246,20 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
         if (requestCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_UUS)){
             VarskendaHarjutusteList();
-            int uueharjutuseid = data.getIntExtra("harjutusid",0);
-            HarjutusValitud(teoseid, uueharjutuseid);
+            int uueharjutuseid = data.getIntExtra("harjutus_id",0);
+            PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+            if(mPPManager.getHarjutus(teoseid, uueharjutuseid) != null) {
+                HarjutusValitud(teoseid, uueharjutuseid);
+            } else {
+                Teos teos = mPPManager.getTeos(teoseid);
+                List<HarjutusKord> harjutusKorrad = teos.getHarjustuskorrad(getApplicationContext());
+                if(!harjutusKorrad.isEmpty()) {
+                    HarjutusKord harjutusKord = harjutusKorrad.get(0);
+                    if (harjutusKord != null) {
+                        HarjutusValitud(teoseid, harjutusKord.getId());
+                    }
+                }
+            }
         }
 
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
@@ -409,7 +421,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta uut harjutust");
             Intent intent = new Intent(this, HarjutusUusActivity.class);
             intent.putExtra("teos_id", teosid);
-            intent.putExtra("harjutusid", -1);
+            intent.putExtra("harjutus_id", -1);
             startActivityForResult(intent, getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_UUS));
         }
     }

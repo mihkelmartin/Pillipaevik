@@ -1,9 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -17,7 +14,6 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
@@ -26,22 +22,13 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnClickListener,
-        HarjutusFragmendiKutsuja{
+public class HarjutusMuudaFragment extends HarjutusFragment {
 
-    private int teosid;
-    private int harjutusid;
-    private HarjutusKord harjutuskord;
-    private int itemposition;
     private AvaFailMangimiseks mAFM;
 
-    private HarjutusFragmendiKuulaja harjutusFragmendiKuulaja;
-
-    // Vaate lahtrid
     private EditText harjutusekirjelduslahter;
     private TextView alguskuupaevlahter;
     private TextView alguskellaaeglahter;
@@ -52,25 +39,6 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     private FileDescriptor mHeliFail = null;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
-        }
-    }
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        try {
-            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
-        }
-    }
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "onCreate");
         super.onCreate(savedInstanceState);
@@ -80,26 +48,23 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "savedInstanceState == null");
             Bundle algargumendid = getArguments();
             if(algargumendid != null) {
-                this.teosid = algargumendid.getInt("teos_id", 0);
-                this.harjutusid = algargumendid.getInt("harjutus_id", 0);
-                this.itemposition = algargumendid.getInt("item_position", 0);
+                setTeosid(algargumendid.getInt("teos_id", 0));
+                setHarjutusid(algargumendid.getInt("harjutus_id", 0));
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
-                    this.teosid = getActivity().getIntent().getIntExtra("teos_id", 0);
-                    this.harjutusid = getActivity().getIntent().getIntExtra("harjutus_id", 0);
-                    this.itemposition = getActivity().getIntent().getIntExtra("item_position", 0);
+                    setTeosid(getActivity().getIntent().getIntExtra("teos_id", 0));
+                    setHarjutusid(getActivity().getIntent().getIntExtra("harjutus_id", 0));
                 }
             }
-            if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Teos : " + getTeosid() + " Harjutus:" + getHarjutusid());
         } else {
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Loen savedInstanceState");
-            this.teosid = savedInstanceState.getInt("teos_id");
-            this.harjutusid = savedInstanceState.getInt("harjutus_id");
-            this.itemposition = savedInstanceState.getInt("item_position");
+            setTeosid(savedInstanceState.getInt("teos_id"));
+            setHarjutusid(savedInstanceState.getInt("harjutus_id"));
         }
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        this.harjutuskord = mPPManager.getHarjutus(this.teosid, this.harjutusid);
-        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Harjutus : " + this.harjutuskord);
+        setHarjutuskord(mPPManager.getHarjutus(getTeosid(), getHarjutusid()));
+        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Harjutus : " + getHarjutuskord());
     }
     @Nullable
     @Override
@@ -129,16 +94,16 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
 
         mAFM = null;
         if(Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
-            if (harjutuskord != null && harjutuskord.getHelifailidriveid() != null &&
-                    !harjutuskord.getHelifailidriveid().isEmpty()) {
+            if (getHarjutuskord() != null && getHarjutuskord().getHelifailidriveid() != null &&
+                    !getHarjutuskord().getHelifailidriveid().isEmpty()) {
                 mAFM = new AvaFailMangimiseks();
-                mAFM.execute(harjutuskord);
+                mAFM.execute(getHarjutuskord());
             }
         } else if(Tooriistad.KasLubadaSalvestamine(getActivity().getApplicationContext())){
-            if (harjutuskord != null && harjutuskord.getHelifail() != null &&
-                    !harjutuskord.getHelifail().isEmpty()) {
+            if (getHarjutuskord() != null && getHarjutuskord().getHelifail() != null &&
+                    !getHarjutuskord().getHelifail().isEmpty()) {
                 try {
-                    FileInputStream in = new FileInputStream(getActivity().getFilesDir().getPath() + "/" + harjutuskord.getHelifail());
+                    FileInputStream in = new FileInputStream(getActivity().getFilesDir().getPath() + "/" + getHarjutuskord().getHelifail());
                     mHeliFail = in.getFD();
                     SeadistaSalvestiseRiba();
                 } catch (IOException e){
@@ -147,12 +112,6 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
             }
         }
         super.onStart();
-    }
-    @Override
-    public void onPause() {
-        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment","onPause");
-        super.onPause();
-        SalvestaHarjutus();
     }
     @Override
     public void onStop() {
@@ -172,77 +131,19 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
         super.onStop();
     }
 
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-
-        savedInstanceState.putInt("teos_id", this.teosid);
-        savedInstanceState.putInt("harjutus_id", this.harjutusid);
-        savedInstanceState.putInt("item_position", this.itemposition);
-        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
-
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.harjutusmenyy, menu);
-        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "onCreateOptionsMenu");
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.kustutaharjutus) {
-            Bundle args = new Bundle();
-            args.putString("kysimus", getString(R.string.dialog_kas_kustuta_harjutuse_kusimus));
-            args.putString("jahvastus", getString(R.string.jah));
-            args.putString("eivastus", getString(R.string.ei));
-            DialogFragment newFragment = new LihtneKusimus();
-            newFragment.setArguments(args);
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(getChildFragmentManager(), "KustutaHarjutus");
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void SuleHarjutus(){
-        if(AndmedHarjutuses()) {
-            String kirjeldus = harjutusekirjelduslahter.getText().toString();
-            if (kirjeldus.isEmpty())
-                harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
-            SalvestaHarjutus();
-        } else {
-            KustutaHarjutus();
-        }
-    }
-    private void AndmedHarjutusse() {
-        this.harjutuskord.setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
+    @Override
+    public void AndmedHarjutusse() {
+        if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "AndmedHarjutusse");
+        getHarjutuskord().setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
         int uWebLinkAruandele = weblinkaruandele.isChecked() ? 1 : 0;
-        this.harjutuskord.setWeblinkaruandele(uWebLinkAruandele);
+        getHarjutuskord().setWeblinkaruandele(uWebLinkAruandele);
     }
     private void AndmedHarjutuskorrastVaatele() {
-        harjutusekirjelduslahter.setText(harjutuskord.getHarjutusekirjeldus());
-        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg()));
-        alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
-        pikkusminutiteslahter.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
-        weblinkaruandele.setChecked(harjutuskord.getWeblinkaruandele()==1);
-    }
-    private void SalvestaHarjutus (){
-        if(KasHarjutusOlemas()) {
-            AndmedHarjutusse();
-            harjutuskord.Salvesta(getActivity().getApplicationContext());
-            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-        }
-    }
-    private void KustutaHarjutus(){
-        harjutuskord.Kustuta(getActivity().getApplicationContext());
-        this.harjutuskord = null;
-        harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-    }
-    private boolean AndmedHarjutuses(){
-        return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
-    }
-
-    private boolean KasHarjutusOlemas(){
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        return mPPManager.getHarjutus(this.teosid, this.harjutusid) != null;
+        harjutusekirjelduslahter.setText(getHarjutuskord().getHarjutusekirjeldus());
+        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaevSonaline(getHarjutuskord().getAlgusaeg()));
+        alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(getHarjutuskord().getAlgusaeg()));
+        pikkusminutiteslahter.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(getHarjutuskord().ArvutaPikkusminutitesUmardaUles()));
+        weblinkaruandele.setChecked(getHarjutuskord().getWeblinkaruandele()==1);
     }
 
     @Override
@@ -300,7 +201,6 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     }
     public void JagaLugu(View v){
         if(Tooriistad.kasNimedEpostOlemas(getActivity().getApplicationContext())) {
-            Bundle args = new Bundle();
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_SUBJECT, MoodustaJagamiseTeema());
@@ -331,10 +231,10 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaHarjutus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaHarjutus katkestatud:" + getHarjutusid() + " Dialog :" + dialog.getTag());
         } else
         if(dialog.getTag().equals("KustutaSalvestus")) {
-            if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaSalvestus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaSalvestus katkestatud:" + getHarjutusid() + " Dialog :" + dialog.getTag());
         }
         else {
             if(BuildConfig.DEBUG) Log.e("HarjutusMuudaFragment", "kuiEiVastus. Tundmatust kohast tuldud !");
@@ -344,7 +244,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
             KustutaHarjutus();
-            harjutusFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
+            getHarjutusFragmendiKuulaja().KustutaHarjutus(getHarjutusid());
         } else
         if(dialog.getTag().equals("KustutaSalvestus")) {
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaSalvestus vastus Jah.");
@@ -356,8 +256,8 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     }
 
     private void KustutaSalvestus(){
-        harjutuskord.KustutaFailid(getActivity().getApplicationContext());
-        harjutuskord.TuhjendaSalvestuseValjad();
+        getHarjutuskord().KustutaFailid(getActivity().getApplicationContext());
+        getHarjutuskord().TuhjendaSalvestuseValjad();
         mHeliFail = null;
         SalvestaHarjutus();
         SeadistaSalvestiseRiba();
@@ -405,8 +305,8 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
             mangilugu.setVisibility(RelativeLayout.VISIBLE);
             CheckBox mLinkAruandele = (CheckBox)getView().findViewById(R.id.weblinkaruandele);
             ImageButton mJaga = (ImageButton)getView().findViewById(R.id.jaga);
-            if(harjutuskord.getHelifailidriveweblink() == null ||
-                    harjutuskord.getHelifailidriveweblink().isEmpty()){
+            if(getHarjutuskord().getHelifailidriveweblink() == null ||
+                    getHarjutuskord().getHelifailidriveweblink().isEmpty()){
                 mLinkAruandele.setVisibility(CheckBox.GONE);
                 mJaga.setVisibility(ImageButton.GONE);
             }
@@ -416,9 +316,9 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
     private String MoodustaJagamiseTeema(){
         String retVal;
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        Teos teos = mPPManager.getTeos(this.teosid);
+        Teos teos = mPPManager.getTeos(getTeosid());
         retVal = teos.getNimi() + " " + getString(R.string.jagamise_teema_harjutus) + ", " +
-                Tooriistad.KujundaKuupaevSonaline(harjutuskord.getAlgusaeg());
+                Tooriistad.KujundaKuupaevSonaline(getHarjutuskord().getAlgusaeg());
         return retVal;
     }
     private String MoodustaJagamiseTekst(){
@@ -426,7 +326,7 @@ public class HarjutusMuudaFragment extends Fragment implements LihtsaKusimuseKuu
         String ReaVahetus = System.getProperty("line.separator");
         retVal = getString(R.string.tere) + "!" + ReaVahetus + ReaVahetus;
         retVal = retVal + getString(R.string.jagamise_sisu_link_harjutusele) + ": " +
-                harjutuskord.getHelifailidriveweblink() + ReaVahetus + ReaVahetus;
+                getHarjutuskord().getHelifailidriveweblink() + ReaVahetus + ReaVahetus;
 
         SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         retVal = retVal + getString(R.string.aruanne_tervitades) + ReaVahetus +

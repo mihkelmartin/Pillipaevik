@@ -35,7 +35,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
         }else {
             if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teos_id");
-            this.harjutusid = savedInstanceState.getInt("harjutusid");
+            this.harjutusid = savedInstanceState.getInt("harjutus_id");
         }
         if(BuildConfig.DEBUG) Log.d(this.getLocalClassName(), "Teos : " + this.teosid + " Harjutus : " + this.harjutusid);
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
@@ -47,7 +47,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         savedInstanceState.putInt("teos_id", this.teosid);
-        savedInstanceState.putInt("harjutusid", this.harjutusid);
+        savedInstanceState.putInt("harjutus_id", this.harjutusid);
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onSaveInstanceState: " + this.teosid + " " + this.harjutusid);
 
         super.onSaveInstanceState(savedInstanceState);
@@ -73,12 +73,15 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
                 (HarjutusUusFragment) getFragmentManager().findFragmentById(R.id.harjutusuusfragment);
         harjutusUusFragment.SuleHarjutus();
         Intent intent = new Intent();
-        intent.putExtra("harjutusid", this.harjutusid);
+        intent.putExtra("harjutus_id", this.harjutusid);
         setResult(0, intent);
     }
 
     @Override
     public void KustutaHarjutus(int harjutusid) {
+        Intent intent = new Intent();
+        intent.putExtra("harjutus_id", this.harjutusid);
+        setResult(0, intent);
         finish();
     }
 

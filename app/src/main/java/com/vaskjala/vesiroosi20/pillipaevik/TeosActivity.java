@@ -106,7 +106,7 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta uut harjutust");
         Intent intent = new Intent(this, HarjutusUusActivity.class);
         intent.putExtra("teos_id", teosid);
-        intent.putExtra("harjutusid", -1);
+        intent.putExtra("harjutus_id", -1);
         startActivityForResult(intent, getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_UUS));
     }
     @Override

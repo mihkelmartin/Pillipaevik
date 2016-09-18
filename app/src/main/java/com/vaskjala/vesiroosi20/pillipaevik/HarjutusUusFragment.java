@@ -15,8 +15,6 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
-import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.LisaFailDraiviTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
@@ -25,12 +23,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnClickListener,
-        HarjutusFragmendiKutsuja {
+public class HarjutusUusFragment extends HarjutusFragment {
 
-    private int teosid;
-    private int harjutusid;
-    private HarjutusKord harjutus;
     private boolean taimertootab = false;
     private boolean bkasSalvestame = false;
     private long stardiaeg = 0;
@@ -38,33 +32,12 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     private static final short viiv = 300;
     private final Handler handler = new Handler();
 
-    private HarjutusFragmendiKuulaja harjutusFragmendiKuulaja;
-
     private static TextView timer;
     private static Button kaivitaTimerNupp;
     private static Button mikrofoniLulitiNupp;
 
     private MediaRecorder mRecorder = null;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
-        }
-    }
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        try {
-            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
-        }
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "onCreate");
@@ -75,30 +48,30 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "savedInstanceState == null");
             Bundle algargumendid = getArguments();
             if(algargumendid != null) {
-                this.teosid = algargumendid.getInt("teos_id", 0);
-                this.harjutusid = algargumendid.getInt("harjutusid", 0);
+                setTeosid(algargumendid.getInt("teos_id", 0));
+                setHarjutusid(algargumendid.getInt("harjutus_id", 0));
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
-                    this.teosid = getActivity().getIntent().getIntExtra("teos_id", 0);
-                    this.harjutusid = getActivity().getIntent().getIntExtra("harjutusid", 0);
+                    setTeosid(getActivity().getIntent().getIntExtra("teos_id", 0));
+                    setHarjutusid(getActivity().getIntent().getIntExtra("harjutus_id", 0));
                 }
             }
-            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Teos : " + getTeosid() + " Harjutus:" + getHarjutusid());
         }else {
-            this.teosid= savedInstanceState.getInt("teos_id");
-            this.harjutusid = savedInstanceState.getInt("harjutusid");
+            setTeosid(savedInstanceState.getInt("teos_id"));
+            setHarjutusid(savedInstanceState.getInt("harjutus_id"));
             this.stardiaeg = savedInstanceState.getLong("stardiaeg");
             this.kulunudaeg = savedInstanceState.getLong("kulunudaeg");
             this.taimertootab = savedInstanceState.getBoolean("taimertootab");
             this.bkasSalvestame = savedInstanceState.getBoolean("kasSalvestame");
-            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Loen savedinstantsist :" + this.harjutusid + " " +
+            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Loen savedinstantsist :" + getHarjutusid() + " " +
                     this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
 
             PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-            Teos teos = mPPManager.getTeos(this.teosid);
+            Teos teos = mPPManager.getTeos(getTeosid());
             HashMap<Integer, HarjutusKord> harjutuskorradmap  = teos.getHarjutuskorradmap(getActivity().getApplicationContext());
-            this.harjutus = harjutuskorradmap.get(this.harjutusid);
-            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Harjutus taastatud teose kaudu : " + this.harjutusid);
+            setHarjutuskord(harjutuskorradmap.get(getHarjutusid()));
+            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Harjutus taastatud teose kaudu : " + getHarjutusid());
 
             if(taimertootab)
                 kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
@@ -110,13 +83,13 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
                 timer.setText(String.valueOf(Tooriistad.KujundaAeg(kulunudaeg)));
             }
         }
-        if(harjutus == null){
-            this.harjutus = new HarjutusKord(this.teosid);
-            harjutus.Salvesta(getActivity().getApplicationContext());
-            this.harjutusid = this.harjutus.getId();
-            harjutusFragmendiKuulaja.SeaHarjutusid(this.harjutusid);
-            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Uus harjutus loodud : " + this.harjutusid);
+        if(getHarjutuskord() == null){
+            setHarjutuskord(new HarjutusKord(getTeosid()));
+            getHarjutuskord().Salvesta(getActivity().getApplicationContext());
+            setHarjutusid(getHarjutuskord().getId());
+            getHarjutusFragmendiKuulaja().SeaHarjutusid(getHarjutusid());
+            getHarjutusFragmendiKuulaja().VarskendaHarjutusteList();
+            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Uus harjutus loodud : " + getHarjutusid());
         }
     }
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -139,12 +112,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             handler.postDelayed(AjaUuendaja, viiv);
         super.onStart();
     }
-    @Override
-    public void onPause() {
-        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment","onPause");
-        super.onPause();
-        SalvestaHarjutus();
-    }
+
     public void onStop() {
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "On Stop");
         SeisataLindistaja();
@@ -155,41 +123,20 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        savedInstanceState.putInt("teos_id", this.teosid);
-        savedInstanceState.putInt("harjutusid", this.harjutusid);
         savedInstanceState.putLong("stardiaeg", this.stardiaeg);
         savedInstanceState.putLong("kulunudaeg", this.kulunudaeg);
         savedInstanceState.putBoolean("taimertootab", this.taimertootab);
         savedInstanceState.putBoolean("kasSalvestame", this.bkasSalvestame);
-        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "onSaveInstanceState " + this.teosid + " " + this.harjutusid +
+        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "onSaveInstanceState " +
                 " " + this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab +
                 " Kas salvestame: " + bkasSalvestame);
 
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.harjutusmenyy, menu);
-        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "onCreateOptionsMenu");
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.kustutaharjutus){
-            Bundle args = new Bundle();
-            args.putString("kysimus",getString(R.string.dialog_kas_kustuta_harjutuse_kusimus));
-            args.putString("jahvastus",getString(R.string.jah));
-            args.putString("eivastus",getString(R.string.ei));
-            DialogFragment newFragment = new LihtneKusimus();
-            newFragment.setArguments(args);
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(getChildFragmentManager(), "Kustuta Harjutus");
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void AndmedHarjutusse(HarjutusKord harjutus){
+    public void AndmedHarjutusse(){
         String kirjeldus = ((EditText)getView().findViewById(R.id.harjutusekirjeldus)).getText().toString();
-        harjutus.setHarjutusekirjeldus(kirjeldus);
+        getHarjutuskord().setHarjutusekirjeldus(kirjeldus);
     }
 
     public void SuleHarjutus(){
@@ -197,37 +144,8 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             SeisataLindistaja();
             SeisataTaimer();
         }
-        if(AndmedHarjutuses()) {
-            // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
-            EditText Harjutusekirjeldus = (EditText) getView().findViewById(R.id.harjutusekirjeldus);
-            String kirjeldus = Harjutusekirjeldus.getText().toString();
-            if (kirjeldus.isEmpty())
-                Harjutusekirjeldus.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
-            SalvestaHarjutus();
-        } else {
-            KustutaHarjutus();
-        }
+        super.SuleHarjutus();
     }
-    private void SalvestaHarjutus(){
-        if(KasHarjutusOlemas()) {
-            AndmedHarjutusse(this.harjutus);
-            harjutus.Salvesta(getActivity().getApplicationContext());
-            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-        }
-    }
-    private void KustutaHarjutus(){
-        harjutus.Kustuta(getActivity().getApplicationContext());
-        harjutus = null;
-        harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-    }
-    private boolean AndmedHarjutuses(){
-        return harjutus.getPikkussekundites() != 0 || !harjutus.getAlgusaeg().equals(harjutus.getLopuaeg());
-    }
-    private boolean KasHarjutusOlemas(){
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        return mPPManager.getHarjutus(this.teosid, this.harjutusid) != null;
-    }
-
 
     private final Runnable salvestusajalimiit = new Runnable() {
         @Override
@@ -273,7 +191,7 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             mikrofoniLulitiNupp.setEnabled(true);
             SeisataLindistaja();
             SeisataTaimer();
-            harjutus.Salvesta(getActivity().getApplicationContext());
+            getHarjutuskord().Salvesta(getActivity().getApplicationContext());
             kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
         } else {
             mikrofoniLulitiNupp.setEnabled(false);
@@ -285,8 +203,8 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
 
     private void KaivitaTaimer(){
         if(stardiaeg == 0) {
-            harjutus.setAlgusaeg(Tooriistad.HetkeKuupaevNullitudSekunditega());
-            harjutus.Salvesta(getActivity().getApplicationContext());
+            getHarjutuskord().setAlgusaeg(Tooriistad.HetkeKuupaevNullitudSekunditega());
+            getHarjutuskord().Salvesta(getActivity().getApplicationContext());
         }
         taimertootab = true;
         this.stardiaeg = System.currentTimeMillis();
@@ -295,21 +213,22 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     private void SeisataTaimer(){
         taimertootab = false;
         kulunudaeg = kulunudaeg + System.currentTimeMillis() - stardiaeg;
-        harjutus.setLopuaegEiArvuta(Calendar.getInstance().getTime());
-        harjutus.setPikkussekundites((int) (kulunudaeg / 1000));
+        getHarjutuskord().setLopuaegEiArvuta(Calendar.getInstance().getTime());
+        getHarjutuskord().setPikkussekundites((int) (kulunudaeg / 1000));
         handler.removeCallbacks(AjaUuendaja);
     }
 
     private void KaivitaLindistaja(){
         if(bkasSalvestame) {
-            if(harjutus.getHelifail() == null || harjutus.getHelifail().isEmpty())
-                harjutus.setHelifail(harjutus.MoodustaFailiNimi());
-            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Fail:" + harjutus.getHelifail());
+            HarjutusKord harjutusKord = getHarjutuskord();
+            if(harjutusKord.getHelifail() == null || harjutusKord.getHelifail().isEmpty())
+                harjutusKord.setHelifail(harjutusKord.MoodustaFailiNimi());
+            if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Fail:" + harjutusKord.getHelifail());
             mRecorder = new MediaRecorder();
             try {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                mRecorder.setOutputFile(getActivity().getFilesDir().getPath() + "/" + harjutus.getHelifail());
+                mRecorder.setOutputFile(getActivity().getFilesDir().getPath() + "/" + harjutusKord.getHelifail());
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                 mRecorder.prepare();
                 mRecorder.start();
@@ -332,8 +251,8 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
 
                 if(Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
                     Intent intent = new Intent(getActivity(), LisaFailDraiviTeenus.class);
-                    intent.putExtra("teosid", harjutus.getTeoseid());
-                    intent.putExtra("harjutusid", harjutus.getId());
+                    intent.putExtra("teosid", getHarjutuskord().getTeoseid());
+                    intent.putExtra("harjutusid", getHarjutuskord().getId());
                     getActivity().startService(intent);
                     if (BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Lõpetasin lindistamise");
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -341,8 +260,8 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
             } catch (Exception e) {
                 mRecorder.release();
                 mRecorder = null;
-                harjutus.KustutaFailid(getActivity().getApplicationContext());
-                harjutus.TuhjendaSalvestuseValjad();
+                getHarjutuskord().KustutaFailid(getActivity().getApplicationContext());
+                getHarjutuskord().TuhjendaSalvestuseValjad();
                 if(BuildConfig.DEBUG) Log.e("HarjutusUusFragment", "Lindistamist ei suudetud lõpetada:" + e.toString());
             }
         }
@@ -364,13 +283,11 @@ public class HarjutusUusFragment extends Fragment implements LihtsaKusimuseKuula
     // Dialoogi vastused
     @Override
     public void kuiEiVastus(DialogFragment dialog) {
-        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Kustutamine katkestatud:" + this.teosid);
+        if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Kustutamine katkestatud:" + getTeosid());
     }
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
         KustutaHarjutus();
-        harjutusFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
+        getHarjutusFragmendiKuulaja().KustutaHarjutus(getHarjutusid());
     }
-
-
 }

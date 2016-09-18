@@ -1,9 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,13 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTeavitus, LihtsaKusimuseKuulaja,
-        View.OnClickListener, HarjutusFragmendiKutsuja {
-
-    private int teosid;
-    private int harjutusid;
-    private HarjutusKord harjutuskord;
-    private HarjutusFragmendiKuulaja harjutusFragmendiKuulaja;
+public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaMuutuseTeavitus {
 
     // Vaate lahtrid
     private EditText harjutusekirjelduslahter;
@@ -36,25 +27,6 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
     private TextView pikkusminutiteslahter;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
-        }
-    }
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        try {
-            harjutusFragmendiKuulaja = (HarjutusFragmendiKuulaja) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
-        }
-    }
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "onCreate");
         super.onCreate(savedInstanceState);
@@ -64,31 +36,31 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
             if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "savedInstanceState == null");
             Bundle algargumendid = getArguments();
             if(algargumendid != null) {
-                this.teosid = algargumendid.getInt("teos_id", 0);
-                this.harjutusid = algargumendid.getInt("harjutus_id", 0);
+                setTeosid(algargumendid.getInt("teos_id", 0));
+                setHarjutusid(algargumendid.getInt("harjutus_id", 0));
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
-                    this.teosid = getActivity().getIntent().getIntExtra("teos_id", 0);
-                    this.harjutusid = getActivity().getIntent().getIntExtra("harjutus_id", 0);
+                    setTeosid(getActivity().getIntent().getIntExtra("teos_id", 0));
+                    setHarjutusid(getActivity().getIntent().getIntExtra("harjutus_id", 0));
                 }
             }
-            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Teos : " + this.teosid + " Harjutus:" + this.harjutusid);
+            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Teos : " + getTeosid() + " Harjutus:" + getHarjutusid());
         } else {
             if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Loen savedInstanceState");
-            this.teosid = savedInstanceState.getInt("teos_id");
-            this.harjutusid = savedInstanceState.getInt("harjutus_id");
+            setTeosid(savedInstanceState.getInt("teos_id"));
+            setHarjutusid(savedInstanceState.getInt("harjutus_id"));
         }
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        Teos teos = mPPManager.getTeos(this.teosid);
+        Teos teos = mPPManager.getTeos(getTeosid());
         HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getActivity().getApplicationContext());
-        this.harjutuskord = harjutuskorradmap.get(this.harjutusid);
-        if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Harjutus : " + this.harjutuskord);
+        setHarjutuskord(harjutuskorradmap.get(getHarjutusid()));
+        if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Harjutus : " + getHarjutuskord());
 
-        if (this.harjutuskord == null && this.harjutusid == -1) {
-            this.harjutuskord = new HarjutusKord(this.teosid);
-            harjutuskord.Salvesta(getActivity().getApplicationContext());
-            this.harjutusid = this.harjutuskord.getId();
-            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
+        if (getHarjutuskord() == null && getHarjutusid() == -1) {
+            setHarjutuskord(new HarjutusKord(getTeosid()));
+            getHarjutuskord().Salvesta(getActivity().getApplicationContext());
+            setHarjutusid(getHarjutuskord().getId());
+            getHarjutusFragmendiKuulaja().VarskendaHarjutusteList();
         }
     }
     @Override
@@ -115,85 +87,18 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
 
         AndmedHarjutuskorrastVaatele();
     }
-    @Override
-    public void onPause() {
 
-        if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm","onPause");
-        super.onPause();
-        SalvestaHarjutus();
+    public void AndmedHarjutusse() {
+        getHarjutuskord().setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
     }
-
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt("teos_id", this.teosid);
-        savedInstanceState.putInt("harjutus_id", this.harjutusid);
-        if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "onSaveInstanceState " + this.teosid + " " + this.harjutusid);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.harjutusmenyy, menu);
-        if(BuildConfig.DEBUG) Log.d("HarjutusLisaFragment", "onCreateOptionsMenu");
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.kustutaharjutus) {
-            Bundle args = new Bundle();
-            args.putString("kysimus", "Kustutad Harjutuse ?");
-            args.putString("jahvastus", "Jah");
-            args.putString("eivastus", "Ei");
-            DialogFragment newFragment = new LihtneKusimus();
-            newFragment.setArguments(args);
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(getChildFragmentManager(), "KustutaHarjutus");
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void SuleHarjutus(){
-        if(AndmedHarjutuses()) {
-            // Kui harjutuse nimi muudetud tühjaks siis anna harjutusele nimi
-            String kirjeldus = harjutusekirjelduslahter.getText().toString();
-            if (kirjeldus.isEmpty())
-                harjutusekirjelduslahter.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
-            SalvestaHarjutus();
-        } else {
-            KustutaHarjutus();
-        }
-    }
-    private void AndmedHarjutusse() {
-        this.harjutuskord.setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
-    }
-
-    private boolean KasHarjutusOlemas(){
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
-        return mPPManager.getHarjutus(this.teosid, this.harjutusid) != null;
-    }
-
     private void AndmedHarjutuskorrastVaatele() {
-        harjutusekirjelduslahter.setText(harjutuskord.getHarjutusekirjeldus());
-        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getAlgusaeg()));
-        alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getAlgusaeg()));
-        lopukuupaevlahter.setText(Tooriistad.KujundaKuupaev(harjutuskord.getLopuaeg()));
-        lopukellaaeglahter.setText(Tooriistad.KujundaKellaaeg(harjutuskord.getLopuaeg()));
-        pikkusminutiteslahter.setText(String.valueOf(harjutuskord.ArvutaPikkusminutitesUmardaUles()));
+        harjutusekirjelduslahter.setText(getHarjutuskord().getHarjutusekirjeldus());
+        alguskuupaevlahter.setText(Tooriistad.KujundaKuupaev(getHarjutuskord().getAlgusaeg()));
+        alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(getHarjutuskord().getAlgusaeg()));
+        lopukuupaevlahter.setText(Tooriistad.KujundaKuupaev(getHarjutuskord().getLopuaeg()));
+        lopukellaaeglahter.setText(Tooriistad.KujundaKellaaeg(getHarjutuskord().getLopuaeg()));
+        pikkusminutiteslahter.setText(String.valueOf(getHarjutuskord().ArvutaPikkusminutitesUmardaUles()));
     }
-    private void SalvestaHarjutus (){
-        if(KasHarjutusOlemas()) {
-            AndmedHarjutusse();
-            harjutuskord.Salvesta(getActivity().getApplicationContext());
-            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-        }
-    }
-    private void KustutaHarjutus(){
-        harjutuskord.Kustuta(getActivity().getApplicationContext());
-        this.harjutuskord = null;
-        harjutusFragmendiKuulaja.VarskendaHarjutusteList();
-    }
-    private boolean AndmedHarjutuses(){
-        return harjutuskord.getPikkussekundites() != 0 || !harjutuskord.getAlgusaeg().equals(harjutuskord.getLopuaeg());
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -220,22 +125,22 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
         switch (v.getId()) {
             case R.id.alguskuupaev:
                 args.putBoolean("muudaalgust", true);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getAlgusaeg()));
+                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getAlgusaeg()));
                 muudaFragment = new ValiKuupaev();
                 break;
             case R.id.lopukuupaev:
                 args.putBoolean("muudaalgust", false);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getLopuaeg()));
+                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getLopuaeg()));
                 muudaFragment = new ValiKuupaev();
                 break;
             case R.id.alguskellaaeg:
                 args.putBoolean("muudaalgust", true);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getAlgusaeg()));
+                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getAlgusaeg()));
                 muudaFragment = new ValiKellaaeg();
                 break;
             case R.id.lopukellaaeg:
                 args.putBoolean("muudaalgust", false);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(harjutuskord.getLopuaeg()));
+                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getLopuaeg()));
                 muudaFragment = new ValiKellaaeg();
                 break;
             default:
@@ -254,9 +159,9 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
             Tooriistad.NaitaHoiatust(getActivity(), "", VeaTeade);
         } else {
             if (muudaalgust) {
-                harjutuskord.setAlgusaeg(kuupaev);
+                getHarjutuskord().setAlgusaeg(kuupaev);
             } else {
-                harjutuskord.setLopuaeg(kuupaev);
+                getHarjutuskord().setLopuaeg(kuupaev);
             }
             AndmedHarjutuskorrastVaatele();
             SalvestaHarjutus();
@@ -266,8 +171,8 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
 
         Bundle args = new Bundle();
         DialogFragment muudaKestustFragment = new ValiHarjutuseKestus();
-        args.putInt("maksimum",this.harjutuskord.ArvutaPikkusMinutites());
-        args.putInt("kestus", this.harjutuskord.ArvutaPikkusminutitesUmardaUles());
+        args.putInt("maksimum",getHarjutuskord().ArvutaPikkusMinutites());
+        args.putInt("kestus", getHarjutuskord().ArvutaPikkusminutitesUmardaUles());
         // Kui nimi on antud siis tuleb see harjutuskord objekti viia sest
         // kui tagasi tullakse siis viikse andmed objektist vaatele
         AndmedHarjutusse();
@@ -288,30 +193,27 @@ public class HarjutusLisaTehtudFragment extends Fragment implements AjaMuutuseTe
     public void kuiEiVastus(DialogFragment dialog) {
 
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Kustutamine katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Kustutamine katkestatud:" + getHarjutusid() + " Dialog :" + dialog.getTag());
         } else if (dialog.getTag().equals("Kestusemuutus")) {
-            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Kestuse muutus katkestatud:" + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Kestuse muutus katkestatud:" + getHarjutusid() + " Dialog :" + dialog.getTag());
         } else {
             if(BuildConfig.DEBUG) Log.e("HarjutusLisaTehtudFragm", "kuiEiVastus. Tundmatust kohast tuldud !");
         }
 
     }
     public void kuiJahVastus(DialogFragment dialog) {
-
         if (dialog.getTag().equals("KustutaHarjutus")) {
             KustutaHarjutus();
-            harjutusFragmendiKuulaja.KustutaHarjutus(this.harjutusid);
+            getHarjutusFragmendiKuulaja().KustutaHarjutus(getHarjutusid());
         } else  if (dialog.getTag().equals("Kestusemuutus")) {
             int uuskestus = dialog.getArguments().getInt("kestus");
-            if(harjutuskord.ArvutaPikkusminutitesUmardaUles() != uuskestus)
-                this.harjutuskord.setPikkussekundites(uuskestus * 60);
+            if(getHarjutuskord().ArvutaPikkusminutitesUmardaUles() != uuskestus)
+                getHarjutuskord().setPikkussekundites(uuskestus * 60);
             AndmedHarjutuskorrastVaatele();
             SalvestaHarjutus();
-            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Kestuse muutus, uus pikkus:" + uuskestus + " min. " + this.harjutusid + " Dialog :" + dialog.getTag());
+            if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Kestuse muutus, uus pikkus:" + uuskestus + " min. " + getHarjutusid() + " Dialog :" + dialog.getTag());
         } else {
             if(BuildConfig.DEBUG) Log.e("HarjutusLisaTehtudFragm", "kuiJahVastus. Tundmatust kohast tuldud !");
         }
-
     }
-
 }
