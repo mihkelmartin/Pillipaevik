@@ -1,8 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik.kalender;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
+
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
-import com.vaskjala.vesiroosi20.pillipaevik.HarjutusMuudaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
@@ -26,8 +23,10 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         extends RecyclerView.Adapter<HarjutusKalenderPaevadRecyclerViewAdapter.ViewHolder> {
 
     private final List<KalendriKirje> mValues;
-    public HarjutusKalenderPaevadRecyclerViewAdapter(List<KalendriKirje> items) {
+    private HarjutusteKalenderFragmendiKuulaja harjutusteKalenderFragmendiKuulaja;
+    public HarjutusKalenderPaevadRecyclerViewAdapter(List<KalendriKirje> items, HarjutusteKalenderFragmendiKuulaja harjutusteKalenderFragmendiKuulaja) {
         mValues = items;
+        this.harjutusteKalenderFragmendiKuulaja = harjutusteKalenderFragmendiKuulaja;
     }
 
     @Override
@@ -174,15 +173,10 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         @Override
         public void onClick(View v) {
             HarjutuskordKirje mHKK = (HarjutuskordKirje)mItem;
-            // Activitys saab kuulata onActivityResulti ja siis otsustada kas kustutati
-            Intent intent = new Intent(v.getContext(), HarjutusMuudaActivity.class);
-            intent.putExtra("teos_id", mHKK.harjutusKord.getTeoseid());
-            intent.putExtra("harjutus_id", mHKK.harjutusKord.getId());
-            intent.putExtra("item_position", getLayoutPosition());
-            if(BuildConfig.DEBUG) Log.d("TeosActivity", "Avan olemasolevat harjutust. Teosid : " + mHKK.harjutusKord.getTeoseid() +
+            harjutusteKalenderFragmendiKuulaja.
+                    HarjutusValitud(mHKK.harjutusKord.getTeoseid(),mHKK.harjutusKord.getId(), getLayoutPosition());
+            if(BuildConfig.DEBUG) Log.d("HK RecyclerView", "Avan olemasolevat harjutust. Teosid : " + mHKK.harjutusKord.getTeoseid() +
                     " Harjutus:" + mHKK.harjutusKord.getId());
-
-            ((Activity)v.getContext()).startActivityForResult(intent,v.getResources().getInteger(R.integer.KALENDER_ACTIVITY_INTENT_HARJUTUS_MUUDA));
             super.onClick(v);
         }
 

@@ -29,7 +29,6 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
 
     private AvaFailMangimiseks mAFM;
 
-    private EditText harjutusekirjelduslahter;
     private TextView alguskuupaevlahter;
     private TextView alguskellaaeglahter;
     private TextView pikkusminutiteslahter;
@@ -50,10 +49,12 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
             if(algargumendid != null) {
                 setTeosid(algargumendid.getInt("teos_id", 0));
                 setHarjutusid(algargumendid.getInt("harjutus_id", 0));
+                setItemposition(algargumendid.getInt("item_position", 0));
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
                     setTeosid(getActivity().getIntent().getIntExtra("teos_id", 0));
                     setHarjutusid(getActivity().getIntent().getIntExtra("harjutus_id", 0));
+                    setItemposition(getActivity().getIntent().getIntExtra("item_position", 0));
                 }
             }
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Teos : " + getTeosid() + " Harjutus:" + getHarjutusid());
@@ -61,6 +62,7 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Loen savedInstanceState");
             setTeosid(savedInstanceState.getInt("teos_id"));
             setHarjutusid(savedInstanceState.getInt("harjutus_id"));
+            setItemposition(savedInstanceState.getInt("item_position", 0));
         }
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
         setHarjutuskord(mPPManager.getHarjutus(getTeosid(), getHarjutusid()));
@@ -76,7 +78,6 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        harjutusekirjelduslahter = (EditText) getView().findViewById(R.id.harjutusekirjeldus);
         alguskuupaevlahter = (TextView) getView().findViewById(R.id.alguskuupaev);
         alguskellaaeglahter = (TextView) getView().findViewById(R.id.alguskellaaeg);
         pikkusminutiteslahter = (TextView) getView().findViewById(R.id.pikkusminutites);
@@ -134,12 +135,12 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
     @Override
     public void AndmedHarjutusse() {
         if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "AndmedHarjutusse");
-        getHarjutuskord().setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
+        getHarjutuskord().setHarjutusekirjeldus(getHarjutusekirjelduslahter().getText().toString());
         int uWebLinkAruandele = weblinkaruandele.isChecked() ? 1 : 0;
         getHarjutuskord().setWeblinkaruandele(uWebLinkAruandele);
     }
     private void AndmedHarjutuskorrastVaatele() {
-        harjutusekirjelduslahter.setText(getHarjutuskord().getHarjutusekirjeldus());
+        getHarjutusekirjelduslahter().setText(getHarjutuskord().getHarjutusekirjeldus());
         alguskuupaevlahter.setText(Tooriistad.KujundaKuupaevSonaline(getHarjutuskord().getAlgusaeg()));
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(getHarjutuskord().getAlgusaeg()));
         pikkusminutiteslahter.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(getHarjutuskord().ArvutaPikkusminutitesUmardaUles()));
@@ -244,7 +245,6 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
             KustutaHarjutus();
-            getHarjutusFragmendiKuulaja().KustutaHarjutus(getHarjutusid());
         } else
         if(dialog.getTag().equals("KustutaSalvestus")) {
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaSalvestus vastus Jah.");

@@ -47,16 +47,19 @@ public class HarjutusUusFragment extends HarjutusFragment {
             if(algargumendid != null) {
                 setTeosid(algargumendid.getInt("teos_id", 0));
                 setHarjutusid(algargumendid.getInt("harjutus_id", 0));
+                setItemposition(algargumendid.getInt("item_position", 0));
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
                     setTeosid(getActivity().getIntent().getIntExtra("teos_id", 0));
                     setHarjutusid(getActivity().getIntent().getIntExtra("harjutus_id", 0));
+                    setItemposition(getActivity().getIntent().getIntExtra("item_position", 0));
                 }
             }
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Teos : " + getTeosid() + " Harjutus:" + getHarjutusid());
         }else {
             setTeosid(savedInstanceState.getInt("teos_id"));
             setHarjutusid(savedInstanceState.getInt("harjutus_id"));
+            setItemposition(savedInstanceState.getInt("item_position", 0));
             this.stardiaeg = savedInstanceState.getLong("stardiaeg");
             this.kulunudaeg = savedInstanceState.getLong("kulunudaeg");
             this.taimertootab = savedInstanceState.getBoolean("taimertootab");
@@ -85,7 +88,7 @@ public class HarjutusUusFragment extends HarjutusFragment {
             getHarjutuskord().Salvesta(getActivity().getApplicationContext());
             setHarjutusid(getHarjutuskord().getId());
             getHarjutusFragmendiKuulaja().SeaHarjutusid(getHarjutusid());
-            getHarjutusFragmendiKuulaja().VarskendaHarjutusteList();
+            getHarjutusFragmendiKuulaja().HarjutusLisatud(getTeosid(), getHarjutusid());
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Uus harjutus loodud : " + getHarjutusid());
         }
     }
@@ -132,16 +135,15 @@ public class HarjutusUusFragment extends HarjutusFragment {
     }
 
     public void AndmedHarjutusse(){
-        String kirjeldus = ((EditText)getView().findViewById(R.id.harjutusekirjeldus)).getText().toString();
-        getHarjutuskord().setHarjutusekirjeldus(kirjeldus);
+        getHarjutuskord().setHarjutusekirjeldus(getHarjutusekirjelduslahter().getText().toString());
     }
 
-    public void SuleHarjutus(){
+    public boolean SuleHarjutus(){
         if(taimertootab) {
             SeisataLindistaja();
             SeisataTaimer();
         }
-        super.SuleHarjutus();
+        return super.SuleHarjutus();
     }
 
     private final Runnable salvestusajalimiit = new Runnable() {
@@ -285,6 +287,5 @@ public class HarjutusUusFragment extends HarjutusFragment {
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
         KustutaHarjutus();
-        getHarjutusFragmendiKuulaja().KustutaHarjutus(getHarjutusid());
     }
 }

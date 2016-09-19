@@ -117,7 +117,6 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
     public void onPause() {
         if(BuildConfig.DEBUG) Log.d("TeosFragment","onPause");
         super.onPause();
-        // TODO Peab kotrollima hulgas olemasolu
         if(this.teos != null) {
             SalvestaTeos();
         } else {
@@ -244,6 +243,10 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
     private void SalvestaTeos(){
         AndmedTeosesse(this.teos);
         teos.Salvesta(getActivity().getApplicationContext());
+        // TODO Kas alati peab värskendama, ehk siis mitte kui saame nime värskendama
+        // TODO Sest see on ainuke mis teosest vajab listis värkendamist
+        // TODO EI SAA SEST NIME MUUDAB JÄRJEKORD RAISK AGA
+        // TODO MITTE MUUTA KUI NIMI EI MUUTU ÜLDSE
         teosFragmendiKuulaja.VarskendaTeosList();
     }
     private void AndmedTeosesse(Teos teos) {

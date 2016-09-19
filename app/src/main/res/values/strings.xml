@@ -182,7 +182,9 @@
     <integer name="TEOS_ACTIVITY_RETURN_LISATUD">10</integer>
     <integer name="TEOS_ACTIVITY_RETURN_UUS_LOOMATA">11</integer>
 
+    <integer name="KALENDER_ACTIVITY_START">16</integer>
     <integer name="KALENDER_ACTIVITY_INTENT_HARJUTUS_MUUDA">12</integer>
+
 
     <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
 

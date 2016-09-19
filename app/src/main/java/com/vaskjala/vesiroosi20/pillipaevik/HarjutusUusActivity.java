@@ -1,11 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
-import android.app.DialogFragment;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -78,7 +74,7 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
     }
 
     @Override
-    public void KustutaHarjutus(int harjutusid) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
         Intent intent = new Intent();
         intent.putExtra("harjutus_id", this.harjutusid);
         setResult(0, intent);
@@ -86,12 +82,12 @@ public class HarjutusUusActivity extends AppCompatActivity implements HarjutusFr
     }
 
     @Override
-    public void VarskendaHarjutusteList() {
+    public void HarjutusLisatud(int teosid, int harjutusid) {
 
     }
 
     @Override
-    public void VarskendaHarjutusteListiElement(int position) {
+    public void HarjutusMuudetud(int teosid, int harjutusid, int position) {
 
     }
 

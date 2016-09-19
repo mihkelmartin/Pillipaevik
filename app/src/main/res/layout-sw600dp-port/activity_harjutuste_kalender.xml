@@ -26,9 +26,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <fragment android:name="com.vaskjala.vesiroosi20.pillipaevik.kalender.HarjutusteKalenderFragment"
-              android:id="@+id/harjutustekalenderfragment"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:background="@color/pillipaevik_peamine_taust"
+                  app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <fragment android:name="com.vaskjala.vesiroosi20.pillipaevik.kalender.HarjutusteKalenderFragment"
+                  android:id="@+id/harjutustekalenderfragment"
+                  android:layout_weight="2"
+                  android:layout_width="match_parent"
+                  android:layout_height="0px"/>
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                     android:id="@+id/harjutus_hoidja"
+                     android:layout_weight="1"
+                     android:layout_width="match_parent"
+                     android:layout_height="0px" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

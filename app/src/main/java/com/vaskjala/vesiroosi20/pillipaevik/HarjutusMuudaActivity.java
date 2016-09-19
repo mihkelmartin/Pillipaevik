@@ -79,18 +79,19 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements Harjutus
     }
 
     @Override
-    public void KustutaHarjutus(int harjutusid) {
+    public void HarjutusLisatud(int teosid, int harjutusid) {
+
+    }
+
+    @Override
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
         Intent intent = new Intent();
         intent.putExtra("item_position", itemposition);
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), intent);
         finish();
     }
     @Override
-    public void VarskendaHarjutusteList() {
-
-    }
-    @Override
-    public void VarskendaHarjutusteListiElement(int position) {
+    public void HarjutusMuudetud(int teosid, int harjutusid, int position) {
 
     }
 

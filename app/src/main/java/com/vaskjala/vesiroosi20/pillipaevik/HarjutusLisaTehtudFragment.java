@@ -19,7 +19,6 @@ import java.util.HashMap;
 public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaMuutuseTeavitus {
 
     // Vaate lahtrid
-    private EditText harjutusekirjelduslahter;
     private TextView alguskuupaevlahter;
     private TextView alguskellaaeglahter;
     private TextView lopukuupaevlahter;
@@ -38,10 +37,12 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
             if(algargumendid != null) {
                 setTeosid(algargumendid.getInt("teos_id", 0));
                 setHarjutusid(algargumendid.getInt("harjutus_id", 0));
+                setItemposition(algargumendid.getInt("item_position", 0));
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
                     setTeosid(getActivity().getIntent().getIntExtra("teos_id", 0));
                     setHarjutusid(getActivity().getIntent().getIntExtra("harjutus_id", 0));
+                    setItemposition(getActivity().getIntent().getIntExtra("item_position", 0));
                 }
             }
             if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Teos : " + getTeosid() + " Harjutus:" + getHarjutusid());
@@ -49,6 +50,7 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
             if(BuildConfig.DEBUG) Log.d("HarjutusLisaTehtudFragm", "Loen savedInstanceState");
             setTeosid(savedInstanceState.getInt("teos_id"));
             setHarjutusid(savedInstanceState.getInt("harjutus_id"));
+            setItemposition(savedInstanceState.getInt("item_position", 0));
         }
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
         Teos teos = mPPManager.getTeos(getTeosid());
@@ -60,7 +62,7 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
             setHarjutuskord(new HarjutusKord(getTeosid()));
             getHarjutuskord().Salvesta(getActivity().getApplicationContext());
             setHarjutusid(getHarjutuskord().getId());
-            getHarjutusFragmendiKuulaja().VarskendaHarjutusteList();
+            getHarjutusFragmendiKuulaja().HarjutusLisatud(getTeosid(), getHarjutusid());
         }
     }
     @Override
@@ -72,7 +74,6 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        harjutusekirjelduslahter = (EditText) getView().findViewById(R.id.harjutusekirjeldus);
         alguskuupaevlahter = (TextView) getView().findViewById(R.id.alguskuupaev);
         alguskellaaeglahter = (TextView) getView().findViewById(R.id.alguskellaaeg);
         lopukuupaevlahter = (TextView) getView().findViewById(R.id.lopukuupaev);
@@ -89,10 +90,10 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
     }
 
     public void AndmedHarjutusse() {
-        getHarjutuskord().setHarjutusekirjeldus(harjutusekirjelduslahter.getText().toString());
+        getHarjutuskord().setHarjutusekirjeldus(getHarjutusekirjelduslahter().getText().toString());
     }
     private void AndmedHarjutuskorrastVaatele() {
-        harjutusekirjelduslahter.setText(getHarjutuskord().getHarjutusekirjeldus());
+        getHarjutusekirjelduslahter().setText(getHarjutuskord().getHarjutusekirjeldus());
         alguskuupaevlahter.setText(Tooriistad.KujundaKuupaev(getHarjutuskord().getAlgusaeg()));
         alguskellaaeglahter.setText(Tooriistad.KujundaKellaaeg(getHarjutuskord().getAlgusaeg()));
         lopukuupaevlahter.setText(Tooriistad.KujundaKuupaev(getHarjutuskord().getLopuaeg()));
@@ -204,7 +205,6 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
             KustutaHarjutus();
-            getHarjutusFragmendiKuulaja().KustutaHarjutus(getHarjutusid());
         } else  if (dialog.getTag().equals("Kestusemuutus")) {
             int uuskestus = dialog.getArguments().getInt("kestus");
             if(getHarjutuskord().ArvutaPikkusminutitesUmardaUles() != uuskestus)

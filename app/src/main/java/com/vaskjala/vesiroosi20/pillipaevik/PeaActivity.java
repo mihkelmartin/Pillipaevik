@@ -140,8 +140,19 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
 
                 switch (getiSahtliValik()) {
                     case R.id.harjutuste_kalender :
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
+                            if (harjutusfragment != null) {
+                                ((HarjutusFragmendiKutsuja) harjutusfragment).SuleHarjutus();
+                                ft.remove(harjutusfragment);
+                            }
+                            Fragment teosfragment = getFragmentManager().findFragmentById(R.id.teos_hoidja);
+                            if (teosfragment != null) {
+                                ft.remove(teosfragment);
+                            }
+                            ft.commit();
                             Intent i = new Intent(view.getContext(), HarjutusteKalenderActivity.class);
-                            startActivity(i);
+                            startActivityForResult(i,getResources().getInteger(R.integer.KALENDER_ACTIVITY_START));
                         break;
                     case R.id.saada_aruanne :
                         if(Tooriistad.kasNimedEpostOlemas(getApplicationContext())) {
@@ -245,8 +256,8 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             }
         }
         if (requestCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_UUS)){
-            VarskendaHarjutusteList();
             int uueharjutuseid = data.getIntExtra("harjutus_id",0);
+            HarjutusMuudetud(teoseid, uueharjutuseid, 0);
             PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
             if(mPPManager.getHarjutus(teoseid, uueharjutuseid) != null) {
                 HarjutusValitud(teoseid, uueharjutuseid);
@@ -261,7 +272,25 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                 }
             }
         }
-
+        if (requestCode == getResources().getInteger(R.integer.KALENDER_ACTIVITY_START)){
+            int teoseidtmp = teoseid;
+            int harjutuseidtmp = harjutuseid;
+            teoseid = -1;
+            TeosValitud(teoseidtmp, 0);
+            PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+            if(mPPManager.getHarjutus(teoseid, harjutuseidtmp) != null) {
+                HarjutusValitud(teoseid, harjutuseidtmp);
+            } else {
+                Teos teos = mPPManager.getTeos(teoseid);
+                List<HarjutusKord> harjutusKorrad = teos.getHarjustuskorrad(getApplicationContext());
+                if(!harjutusKorrad.isEmpty()) {
+                    HarjutusKord harjutusKord = harjutusKorrad.get(0);
+                    if (harjutusKord != null) {
+                        HarjutusValitud(teoseid, harjutusKord.getId());
+                    }
+                }
+            }
+        }
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
@@ -448,6 +477,17 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     }
 
     @Override
+    public void HarjutusLisatud(int teosid, int harjutusid) {
+        TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teos_hoidja);
+        if(teosFragment != null) {
+            teosFragment.VarskendaHarjutusteJaStatistika();
+        }
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        int listindex = mPPManager.getAllTeosed().indexOf(mPPManager.getTeos(teoseid));
+        VarskendaTeosListiElement(listindex);
+    }
+
+    @Override
     public void HarjutusValitud(int teosid, int harjutusid) {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Avan olemasolevat harjutust. Teosid : " + teosid +
                 " Harjutus:" + harjutusid);
@@ -468,13 +508,26 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             ft.replace(R.id.harjutus_hoidja, harjutusMuudaFragment);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             this.harjutuseid = harjutusid;
+        } else {
+            Teos teos = mPPManager.getTeos(teoseid);
+            List<HarjutusKord> harjutusKorrad = teos.getHarjustuskorrad(getApplicationContext());
+            if(!harjutusKorrad.isEmpty()) {
+                HarjutusKord harjutusKord = harjutusKorrad.get(0);
+                Fragment harjutusMuudaFragment = new HarjutusMuudaFragment();
+                Bundle argsharjutus = new Bundle();
+                argsharjutus.putInt("teos_id", teoseid);
+                argsharjutus.putInt("harjutus_id", harjutusKord.getId());
+                harjutusMuudaFragment.setArguments(argsharjutus);
+                ft.replace(R.id.harjutus_hoidja, harjutusMuudaFragment);
+                this.harjutuseid = harjutusKord.getId();
+            }
         }
 
         ft.commit();
     }
 
     @Override
-    public void KustutaHarjutus(int harjutusid) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
 
         TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teos_hoidja);
         if(teosFragment != null) {
@@ -505,7 +558,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     }
 
     @Override
-    public void VarskendaHarjutusteList() {
+    public void HarjutusMuudetud(int teosid, int harjutusid, int position) {
         TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teos_hoidja);
         if(teosFragment != null) {
             teosFragment.VarskendaHarjutusteJaStatistika();
@@ -513,10 +566,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         int listindex = mPPManager.getAllTeosed().indexOf(mPPManager.getTeos(teoseid));
         VarskendaTeosListiElement(listindex);
-    }
-    @Override
-    public void VarskendaHarjutusteListiElement(int position) {
-
     }
 
     @Override
@@ -529,7 +578,8 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     @Override
     public void VarskendaTeosListiElement(int position) {
         TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-        teosListFragment.mMainAdapter.notifyItemChanged(position);
+        if(teosListFragment != null)
+            teosListFragment.mMainAdapter.notifyItemChanged(position);
     }
 
     @Override

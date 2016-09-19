@@ -5,13 +5,13 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import com.vaskjala.vesiroosi20.pillipaevik.*;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
@@ -24,7 +24,9 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
 
     private int teosid;
     private int harjutusid;
+    private int itemposition;
     private HarjutusKord harjutuskord;
+    private EditText harjutusekirjelduslahter;
 
     private HarjutusFragmendiKuulaja harjutusFragmendiKuulaja;
 
@@ -44,6 +46,14 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
         this.harjutusid = harjutusid;
     }
 
+    public int getItemposition() {
+        return itemposition;
+    }
+
+    public void setItemposition(int itemposition) {
+        this.itemposition = itemposition;
+    }
+
     public HarjutusKord getHarjutuskord() {
         return harjutuskord;
     }
@@ -52,12 +62,16 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
         this.harjutuskord = harjutuskord;
     }
 
-    public HarjutusFragmendiKuulaja getHarjutusFragmendiKuulaja() {
-        return harjutusFragmendiKuulaja;
+    public EditText getHarjutusekirjelduslahter() {
+        return harjutusekirjelduslahter;
     }
 
-    public void setHarjutusFragmendiKuulaja(HarjutusFragmendiKuulaja harjutusFragmendiKuulaja) {
-        this.harjutusFragmendiKuulaja = harjutusFragmendiKuulaja;
+    public void setHarjutusekirjelduslahter(EditText harjutusekirjelduslahter) {
+        this.harjutusekirjelduslahter = harjutusekirjelduslahter;
+    }
+
+    public HarjutusFragmendiKuulaja getHarjutusFragmendiKuulaja() {
+        return harjutusFragmendiKuulaja;
     }
 
     @Override
@@ -80,6 +94,12 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
         }
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHarjutusekirjelduslahter((EditText) getView().findViewById(R.id.harjutusekirjeldus));
+    }
+
     public void onPause() {
         if(BuildConfig.DEBUG) Log.d("HarjutusFragment","onPause");
         super.onPause();
@@ -89,6 +109,7 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt("teos_id", getTeosid());
         savedInstanceState.putInt("harjutus_id", getHarjutusid());
+        savedInstanceState.putInt("item_position", getItemposition());
         if(BuildConfig.DEBUG) Log.d("HarjutusFragment", "onSaveInstanceState: " + getTeosid() + " " + getHarjutusid());
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -125,30 +146,32 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
 
     }
 
-    public void SuleHarjutus(){
+    public boolean SuleHarjutus(){
+        boolean retVal = true;
         if(AndmedHarjutuses()) {
-            EditText Harjutusekirjeldus = (EditText) getView().findViewById(R.id.harjutusekirjeldus);
-            String kirjeldus = Harjutusekirjeldus.getText().toString();
+            String kirjeldus = getHarjutusekirjelduslahter().getText().toString();
             if (kirjeldus.isEmpty())
-                Harjutusekirjeldus.setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
+                getHarjutusekirjelduslahter().setText(getResources().getText(R.string.vaikimisisharjutusekirjeldus));
             SalvestaHarjutus();
         } else {
+            retVal = false;
             KustutaHarjutus();
         }
+        return retVal;
     }
 
     public void SalvestaHarjutus (){
         if(KasHarjutusOlemas()) {
             AndmedHarjutusse();
             harjutuskord.Salvesta(getActivity().getApplicationContext());
-            harjutusFragmendiKuulaja.VarskendaHarjutusteList();
+            harjutusFragmendiKuulaja.HarjutusMuudetud(getTeosid(), getHarjutusid(), getItemposition());
         }
     }
 
     public void KustutaHarjutus(){
         harjutuskord.Kustuta(getActivity().getApplicationContext());
         this.harjutuskord = null;
-        harjutusFragmendiKuulaja.VarskendaHarjutusteList();
+        harjutusFragmendiKuulaja.HarjutusKustutatud(getTeosid(), getHarjutusid(), getItemposition());
     }
 
     private boolean AndmedHarjutuses(){
@@ -156,6 +179,7 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
     }
 
     private boolean KasHarjutusOlemas(){
+        // Peab nii küsima, sest teose kustutamisel kustutatakse otse andmebaasist
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getActivity().getApplicationContext());
         return mPPManager.getHarjutus(this.teosid, this.harjutusid) != null;
     }

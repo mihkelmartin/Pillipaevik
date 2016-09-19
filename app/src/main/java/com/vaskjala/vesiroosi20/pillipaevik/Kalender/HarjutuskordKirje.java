@@ -10,11 +10,12 @@ import java.util.List;
  */
 public class HarjutuskordKirje extends KalendriKirje {
 
-
+    PaevaKirje vanem;
     HarjutusKord harjutusKord;
 
-    public HarjutuskordKirje(Tyyp tyyp, String tiitel, HarjutusKord harjutusKord){
+    public HarjutuskordKirje(Tyyp tyyp, String tiitel, HarjutusKord harjutusKord, PaevaKirje paevaKirje){
         super(tyyp, tiitel);
+        vanem = paevaKirje;
         this.harjutusKord = harjutusKord;
     }
 }

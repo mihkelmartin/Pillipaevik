@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 
 
-public class HarjutusLisaTehtudActivity extends AppCompatActivity implements HarjutusFragmendiKuulaja {
+public class HarjutusLisaTehtudActivity extends AppCompatActivity implements HarjutusFragmendiKuulaja{
 
     private int teosid;
     private int harjutusid;
@@ -65,15 +65,17 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
     }
 
     @Override
-    public void KustutaHarjutus(int harjutusid) {
-        finish();
-    }
-    @Override
-    public void VarskendaHarjutusteList() {
+    public void HarjutusLisatud(int teosid, int harjutusid) {
 
     }
+
     @Override
-    public void VarskendaHarjutusteListiElement(int position) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
+
+    }
+
+    @Override
+    public void HarjutusMuudetud(int teosid, int harjutusid, int itemposition) {
 
     }
 
