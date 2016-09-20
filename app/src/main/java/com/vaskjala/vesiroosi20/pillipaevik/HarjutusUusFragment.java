@@ -265,6 +265,22 @@ public class HarjutusUusFragment extends HarjutusFragment {
             }
         }
     }
+
+    private void SeisataLindistajaKustutamiseks(){
+        if(taimertootab) {
+            if (mRecorder != null) {
+                try {
+                    mRecorder.stop();
+                    mRecorder.release();
+                    mRecorder = null;
+                } catch (Exception e) {
+                    mRecorder.release();
+                    mRecorder = null;
+                    if(BuildConfig.DEBUG) Log.e("HarjutusUusFragment", "Lindistamist ei suudetud lõpetada:" + e.toString());
+                }
+            }
+        }
+    }
     private void SeadistaMikrofoniNupp(){
         if(Tooriistad.KasLubadaSalvestamine(getActivity().getApplicationContext())) {
             if (bkasSalvestame) {
@@ -286,6 +302,7 @@ public class HarjutusUusFragment extends HarjutusFragment {
     }
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
+        SeisataLindistajaKustutamiseks();
         KustutaHarjutus();
     }
 }

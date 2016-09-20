@@ -333,14 +333,18 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     @Override
     public void TeosValitud(int teoseid, int itemposition) {
 
-        if(bMitmeFragmendiga){
-            if(this.teoseid != teoseid) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if(bMitmeFragmendiga) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            if (this.teoseid != teoseid) {
                 SuleHarjutusFragment(ft);
                 LooTeosFragment(ft, new TeosFragment(), teoseid, itemposition);
                 ValiEsimeneHarjutusKord(teoseid, ft);
-                ft.commit();
+            } else {
+                if(((TeosFragment)getFragmentManager().findFragmentById(R.id.teos_hoidja)).TeoseNimiMuutunud()) {
+                    LooTeosFragment(ft, new TeosFragment(), teoseid, itemposition);
+                }
             }
+            ft.commit();
         }
         else {
             Intent intent = new Intent(this, TeosActivity.class);

@@ -1,5 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -71,7 +72,10 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
 
     @Override
     public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
-
+        Intent intent = new Intent();
+        intent.putExtra("harjutus_id", this.harjutusid);
+        setResult(0, intent);
+        finish();
     }
 
     @Override

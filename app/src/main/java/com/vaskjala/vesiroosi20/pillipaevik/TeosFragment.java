@@ -241,14 +241,13 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
     }
 
     private void SalvestaTeos(){
+        boolean bnimiMuutunud = TeoseNimiMuutunud();
         AndmedTeosesse(this.teos);
         teos.Salvesta(getActivity().getApplicationContext());
-        // TODO Kas alati peab värskendama, ehk siis mitte kui saame nime värskendama
-        // TODO Sest see on ainuke mis teosest vajab listis värkendamist
-        // TODO EI SAA SEST NIME MUUDAB JÄRJEKORD RAISK AGA
-        // TODO MITTE MUUTA KUI NIMI EI MUUTU ÜLDSE
-        teosFragmendiKuulaja.VarskendaTeosList();
+        if(bnimiMuutunud)
+            teosFragmendiKuulaja.VarskendaTeosList();
     }
+
     private void AndmedTeosesse(Teos teos) {
 
         teos.setNimi(mNimi.getText().toString());
@@ -259,6 +258,12 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
         if (BuildConfig.DEBUG) Log.d("TeosFragment", "Andmed teosesse: " + teos.toString());
 
     }
+
+    public boolean TeoseNimiMuutunud(){
+        return teos.getNimi() != null ?
+                !teos.getNimi().equals(mNimi.getText().toString()) : mNimi.getText().toString() != null;
+    }
+
     public void KustutaTeos() {
         teos.Kustuta(getActivity().getApplicationContext());
         this.teos = null;
