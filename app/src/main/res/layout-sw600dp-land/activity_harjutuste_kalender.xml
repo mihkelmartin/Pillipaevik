@@ -37,10 +37,16 @@
                   android:layout_weight="2"
                   android:layout_width="1px"
                   android:layout_height="match_parent"/>
+        <View
+                android:layout_width="@dimen/eraldusjoone_paksus"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@color/tabeli_rea_andmed"/>
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                      android:id="@+id/harjutus_hoidja"
                      android:layout_weight="1"
                      android:layout_width="1px"
-                     android:layout_height="match_parent" />
+                     android:layout_height="match_parent"
+                     android:background="@drawable/floot"/>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

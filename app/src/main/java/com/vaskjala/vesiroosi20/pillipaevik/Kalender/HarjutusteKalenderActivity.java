@@ -35,8 +35,16 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
         setSupportActionBar(toolbar);
         ActionBar mAction = getSupportActionBar();
         mAction.setDisplayHomeAsUpEnabled(true);
-
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        SuleHarjutusFragment(ft);
+        ft.commit();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -67,11 +75,7 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
 
         if(bMitmeFragmendiga){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
-            if (harjutusfragment != null) {
-                ((HarjutusFragmendiKutsuja) harjutusfragment).SuleHarjutus();
-                ft.remove(harjutusfragment);
-            }
+            SuleHarjutusFragment(ft);
             Fragment harjutusMuudaFragment = new HarjutusMuudaFragment();
             Bundle args = new Bundle();
             args.putInt("teos_id", teosid);
@@ -93,10 +97,19 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
     }
 
     @Override
+    public void PaevValitud() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        SuleHarjutusFragment(ft);
+        ft.commit();
+    }
+
+    @Override
     public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusMuudaFragmendilt, kustutatud, Pos:" + itemposition);
         HarjutusteKalenderFragment harjutusteKalenderFragment= (HarjutusteKalenderFragment) getFragmentManager().findFragmentById(R.id.harjutustekalenderfragment);
 
+        // TODO KUKUB KUI KINNI. KINNIPANEKUL TULEB REMOVEIDA
+        // IGASUGUNE SULGEMINE JA AVAMINE MUUDAB JÄRJEKORDA
         HarjutuskordKirje harjutuskordKirje = ((HarjutuskordKirje)harjutusteKalenderFragment.pPaevadeList.get(itemposition));
         harjutuskordKirje.vanem.Harjutused.remove(harjutuskordKirje);
         harjutuskordKirje.vanem.kordadearv = harjutuskordKirje.vanem.kordadearv - 1;
@@ -123,6 +136,14 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
     @Override
     public void SeaHarjutusid(int harjutuseid) {
 
+    }
+
+    private void SuleHarjutusFragment(FragmentTransaction ft){
+        Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
+        if (harjutusfragment != null) {
+            ((HarjutusFragmendiKutsuja) harjutusfragment).SuleHarjutus();
+            ft.remove(harjutusfragment);
+        }
     }
 }
 

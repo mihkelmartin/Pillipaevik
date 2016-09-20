@@ -132,6 +132,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
                     notifyItemRangeInserted(getAdapterPosition() + 1, mPK.Harjutused.size() );
                 }
             }
+            harjutusteKalenderFragmendiKuulaja.PaevValitud();
             super.onClick(v);
         }
 

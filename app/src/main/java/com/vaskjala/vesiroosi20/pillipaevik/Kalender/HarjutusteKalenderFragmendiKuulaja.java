@@ -5,4 +5,5 @@ package com.vaskjala.vesiroosi20.pillipaevik.kalender;
  */
 public interface HarjutusteKalenderFragmendiKuulaja {
     void HarjutusValitud(int teosid, int harjutusid, int itemposition);
+    void PaevValitud();
 }
