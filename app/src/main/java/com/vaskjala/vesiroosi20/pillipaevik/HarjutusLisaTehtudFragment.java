@@ -74,19 +74,21 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        alguskuupaevlahter = (TextView) getView().findViewById(R.id.alguskuupaev);
-        alguskellaaeglahter = (TextView) getView().findViewById(R.id.alguskellaaeg);
-        lopukuupaevlahter = (TextView) getView().findViewById(R.id.lopukuupaev);
-        lopukellaaeglahter = (TextView) getView().findViewById(R.id.lopukellaaeg);
-        pikkusminutiteslahter = (TextView) getView().findViewById(R.id.pikkusminutites);
+        if(getHarjutuskord() != null) {
+            alguskuupaevlahter = (TextView) getView().findViewById(R.id.alguskuupaev);
+            alguskellaaeglahter = (TextView) getView().findViewById(R.id.alguskellaaeg);
+            lopukuupaevlahter = (TextView) getView().findViewById(R.id.lopukuupaev);
+            lopukellaaeglahter = (TextView) getView().findViewById(R.id.lopukellaaeg);
+            pikkusminutiteslahter = (TextView) getView().findViewById(R.id.pikkusminutites);
 
-        alguskuupaevlahter.setOnClickListener(this);
-        alguskellaaeglahter.setOnClickListener(this);
-        lopukuupaevlahter.setOnClickListener(this);
-        lopukellaaeglahter.setOnClickListener(this);
-        pikkusminutiteslahter.setOnClickListener(this);
+            alguskuupaevlahter.setOnClickListener(this);
+            alguskellaaeglahter.setOnClickListener(this);
+            lopukuupaevlahter.setOnClickListener(this);
+            lopukellaaeglahter.setOnClickListener(this);
+            pikkusminutiteslahter.setOnClickListener(this);
 
-        AndmedHarjutuskorrastVaatele();
+            AndmedHarjutuskorrastVaatele();
+        }
     }
 
     public void AndmedHarjutusse() {
@@ -118,8 +120,6 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
         }
     }
     public void MuudaKuupaeva(View v) {
-
-        AndmedHarjutusse();
 
         Bundle args = new Bundle();
         DialogFragment muudaFragment = null;
@@ -164,6 +164,8 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
             } else {
                 getHarjutuskord().setLopuaeg(kuupaev);
             }
+            // Harjutuse kirjeldus, kui see on antud, tuleb eelnevalt harjutusse kirjutada
+            AndmedHarjutusse();
             AndmedHarjutuskorrastVaatele();
             SalvestaHarjutus();
         }

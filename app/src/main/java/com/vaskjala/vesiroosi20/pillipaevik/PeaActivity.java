@@ -41,8 +41,14 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     protected void onCreate(Bundle savedInstanceState) {
 
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onCreate");
-
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null ){
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "savedInstanceState != null");
+            bEsimeneAvamine = false;
+            teoseid = savedInstanceState.getInt("teoseid");
+            harjutuseid = savedInstanceState.getInt("harjutuseid");
+        }
+
         setContentView(R.layout.activity_teos_list);
         if (findViewById(R.id.teos_hoidja) != null && findViewById(R.id.harjutus_hoidja) != null) {
             if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "onCreate. Mitme fragmendiga vaade");
@@ -59,13 +65,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         mAction.setHomeButtonEnabled(true);
 
         SeadistaNaviVaade(toolbar);
-
-        if(savedInstanceState != null ){
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "savedInstanceState != null");
-            bEsimeneAvamine = false;
-            this.teoseid = savedInstanceState.getInt("teoseid");
-            this.harjutuseid = savedInstanceState.getInt("harjutuseid");
-        }
     }
 
     @Override
@@ -114,23 +113,9 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        SuleHarjutusFragment(ft);
-        SuleTeosFragment(ft);
-        ft.commit();
-    }
-
-    @Override
     protected void onStop() {
         bEsimeneAvamine = false;
         super.onStop();
-    }
-    @Override
-    protected void onDestroy() {
-        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onDestroy");
-        super.onDestroy();
     }
 
     @Override
@@ -321,6 +306,8 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(bMitmeFragmendiga){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             SuleHarjutusFragment(ft);
+            ft.commit();
+            ft = getFragmentManager().beginTransaction();
             LooTeosFragment(ft, new TeosFragment(), -1, 0);
             ft.commit();
         }
@@ -334,17 +321,22 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     public void TeosValitud(int teoseid, int itemposition) {
 
         if(bMitmeFragmendiga) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft;
             if (this.teoseid != teoseid) {
+                ft = getFragmentManager().beginTransaction();
                 SuleHarjutusFragment(ft);
+                ft.commit();
+                ft = getFragmentManager().beginTransaction();
                 LooTeosFragment(ft, new TeosFragment(), teoseid, itemposition);
                 ValiEsimeneHarjutusKord(teoseid, ft);
+                ft.commit();
             } else {
                 if(((TeosFragment)getFragmentManager().findFragmentById(R.id.teos_hoidja)).TeoseNimiMuutunud()) {
+                    ft = getFragmentManager().beginTransaction();
                     LooTeosFragment(ft, new TeosFragment(), teoseid, itemposition);
+                    ft.commit();
                 }
             }
-            ft.commit();
         }
         else {
             Intent intent = new Intent(this, TeosActivity.class);
@@ -501,7 +493,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         this.iSahtliValik = iSahtliValik;
     }
 
-
     private void LooTeosFragment(FragmentTransaction ft, Fragment fragment, int teoseid, int itemposition){
         this.teoseid = teoseid;
         Bundle args = new Bundle();
@@ -510,6 +501,12 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         fragment.setArguments(args);
         ft.replace(R.id.teos_hoidja, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+    }
+    private void SuleTeosFragment(FragmentTransaction ft){
+        Fragment teosfragment = getFragmentManager().findFragmentById(R.id.teos_hoidja);
+        if (teosfragment != null) {
+            ft.remove(teosfragment);
+        }
     }
 
     private void LooHarjutusFragment(FragmentTransaction ft, Fragment fragment, int teoseid, int harjutuseid){
@@ -521,7 +518,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         ft.replace(R.id.harjutus_hoidja, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
     }
-
     private void SuleHarjutusFragment(FragmentTransaction ft){
         Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
         if (harjutusfragment != null) {
@@ -529,18 +525,10 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             ft.remove(harjutusfragment);
         }
     }
-
     private void EemaldaHarjutusFragment(FragmentTransaction ft){
         Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
         if(harjutusfragment != null) {
             ft.remove(harjutusfragment);
-        }
-    }
-
-    private void SuleTeosFragment(FragmentTransaction ft){
-        Fragment teosfragment = getFragmentManager().findFragmentById(R.id.teos_hoidja);
-        if (teosfragment != null) {
-            ft.remove(teosfragment);
         }
     }
 
@@ -554,7 +542,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                 TeosValitud(teos.getId(), newitemposition);
         }
     }
-
     private void ValiEsimeneHarjutusKord(int teosid, FragmentTransaction ft){
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         Teos teos = mPPManager.getTeos(teosid);
@@ -564,7 +551,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             LooHarjutusFragment(ft, new HarjutusMuudaFragment(), teos.getId(), harjutusKord.getId());
         }
     }
-
     private void VarskendaTeoseVaated(int teosid){
         TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teos_hoidja);
         if(teosFragment != null) {

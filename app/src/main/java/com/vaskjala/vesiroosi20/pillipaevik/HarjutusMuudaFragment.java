@@ -78,46 +78,50 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        alguskuupaevlahter = (TextView) getView().findViewById(R.id.alguskuupaev);
-        alguskellaaeglahter = (TextView) getView().findViewById(R.id.alguskellaaeg);
-        pikkusminutiteslahter = (TextView) getView().findViewById(R.id.pikkusminutites);
-        weblinkaruandele = (CheckBox) getView().findViewById(R.id.weblinkaruandele);
+        if(getHarjutuskord() != null) {
+            alguskuupaevlahter = (TextView) getView().findViewById(R.id.alguskuupaev);
+            alguskellaaeglahter = (TextView) getView().findViewById(R.id.alguskellaaeg);
+            pikkusminutiteslahter = (TextView) getView().findViewById(R.id.pikkusminutites);
+            weblinkaruandele = (CheckBox) getView().findViewById(R.id.weblinkaruandele);
 
-        getView().findViewById(R.id.mangi).setOnClickListener(this);
-        getView().findViewById(R.id.stopp).setOnClickListener(this);;
-        getView().findViewById(R.id.jaga).setOnClickListener(this);;
-        getView().findViewById(R.id.kustutasalvestus).setOnClickListener(this);;
+            getView().findViewById(R.id.mangi).setOnClickListener(this);
+            getView().findViewById(R.id.stopp).setOnClickListener(this);
+            getView().findViewById(R.id.jaga).setOnClickListener(this);
+            getView().findViewById(R.id.kustutasalvestus).setOnClickListener(this);
 
-        AndmedHarjutuskorrastVaatele();
+            AndmedHarjutuskorrastVaatele();
+        }
     }
     @Override
     public void onStart() {
-
-        mAFM = null;
-        if(Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
-            if (getHarjutuskord() != null && getHarjutuskord().getHelifailidriveid() != null &&
-                    !getHarjutuskord().getHelifailidriveid().isEmpty()) {
-                mAFM = new AvaFailMangimiseks();
-                mAFM.execute(getHarjutuskord());
-            }
-        } else if(Tooriistad.KasLubadaSalvestamine(getActivity().getApplicationContext())){
-            if (getHarjutuskord() != null && getHarjutuskord().getHelifail() != null &&
-                    !getHarjutuskord().getHelifail().isEmpty()) {
-                try {
-                    FileInputStream in = new FileInputStream(getActivity().getFilesDir().getPath() + "/" + getHarjutuskord().getHelifail());
-                    mHeliFail = in.getFD();
-                    SeadistaSalvestiseRiba();
-                } catch (IOException e){
-                    if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Helifaili avamise viga: " + e.toString());
+        super.onStart();
+        if(getHarjutuskord() != null) {
+            mAFM = null;
+            if (Tooriistad.kasKasutadaGoogleDrive(getActivity().getApplicationContext())) {
+                if (getHarjutuskord() != null && getHarjutuskord().getHelifailidriveid() != null &&
+                        !getHarjutuskord().getHelifailidriveid().isEmpty()) {
+                    mAFM = new AvaFailMangimiseks();
+                    mAFM.execute(getHarjutuskord());
+                }
+            } else if (Tooriistad.KasLubadaSalvestamine(getActivity().getApplicationContext())) {
+                if (getHarjutuskord() != null && getHarjutuskord().getHelifail() != null &&
+                        !getHarjutuskord().getHelifail().isEmpty()) {
+                    try {
+                        FileInputStream in = new FileInputStream(getActivity().getFilesDir().getPath() + "/" + getHarjutuskord().getHelifail());
+                        mHeliFail = in.getFD();
+                        SeadistaSalvestiseRiba();
+                    } catch (IOException e) {
+                        if (BuildConfig.DEBUG)
+                            Log.d("HarjutusMuudaFragment", "Helifaili avamise viga: " + e.toString());
+                    }
                 }
             }
         }
-        super.onStart();
     }
     @Override
     public void onStop() {
         if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "onStop");
-
+        super.onStop();
         if(mAFM != null)
             mAFM.cancel(false);
 
@@ -129,7 +133,6 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
             mPlayer = null;
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "Lõpetasin mahamängimise");
         }
-        super.onStop();
     }
 
     @Override

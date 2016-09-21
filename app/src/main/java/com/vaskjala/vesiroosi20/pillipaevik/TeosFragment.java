@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
-public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
+public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnFocusChangeListener {
 
 
     private PilliPaevikDatabase mPPManager;
@@ -110,6 +110,8 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
         mKommentaar.setText(this.teos.getKommentaar());
         mHinnang.setRating(this.teos.getHinnang());
 
+        mNimi.setOnFocusChangeListener(this);
+
         LooHarjutusteAdapter();
         HarjutusteStatistika ();
     }
@@ -186,6 +188,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
         HarjutusteList.setAdapter(pHarjutusedAdapter);
 
     }
+
     private class HarjutuskorradAdapter extends ArrayAdapter<HarjutusKord> {
         private ArrayList<HarjutusKord> harjutuskorrad;
         public HarjutuskorradAdapter(Context context, ArrayList<HarjutusKord> harjutuskorrad) {
@@ -274,6 +277,13 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja {
         ((TextView) getView().findViewById(R.id.teoseharjutustearv)).setText(String.valueOf(stat[1]));
         ((TextView) getView().findViewById(R.id.teoseharjutustekestus))
                 .setText(Tooriistad.KujundaHarjutusteMinutid(getActivity().getApplicationContext(), stat[0]/60));
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "onFocusChange: " + v + " " + hasFocus);
+        if(!hasFocus && v == mNimi && TeoseNimiMuutunud())
+            SalvestaTeos();
     }
 
     // Dialoogi vastused kustutamise korral

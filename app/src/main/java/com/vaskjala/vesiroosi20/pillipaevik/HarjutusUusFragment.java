@@ -114,11 +114,11 @@ public class HarjutusUusFragment extends HarjutusFragment {
     }
 
     public void onStop() {
+        super.onStop();
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "On Stop");
         SeisataLindistaja();
         if(taimertootab)
             handler.removeCallbacks(AjaUuendaja);
-        super.onStop();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -257,11 +257,11 @@ public class HarjutusUusFragment extends HarjutusFragment {
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
             } catch (Exception e) {
+                if(BuildConfig.DEBUG) Log.e("HarjutusUusFragment", "Lindistamist ei suudetud lõpetada:" + e.toString());
                 mRecorder.release();
                 mRecorder = null;
                 getHarjutuskord().KustutaFailid(getActivity().getApplicationContext());
                 getHarjutuskord().TuhjendaSalvestuseValjad();
-                if(BuildConfig.DEBUG) Log.e("HarjutusUusFragment", "Lindistamist ei suudetud lõpetada:" + e.toString());
             }
         }
     }
