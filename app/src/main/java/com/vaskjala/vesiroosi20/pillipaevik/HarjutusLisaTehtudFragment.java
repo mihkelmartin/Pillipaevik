@@ -62,6 +62,7 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
             setHarjutuskord(new HarjutusKord(getTeosid()));
             getHarjutuskord().Salvesta(getActivity().getApplicationContext());
             setHarjutusid(getHarjutuskord().getId());
+            getHarjutusFragmendiKuulaja().SeaHarjutusid(getHarjutusid());
             getHarjutusFragmendiKuulaja().HarjutusLisatud(getTeosid(), getHarjutusid());
         }
     }
