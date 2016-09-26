@@ -15,8 +15,8 @@ android {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 9
-        versionName '2.0.1'
+        versionCode 10
+        versionName '2.0.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
