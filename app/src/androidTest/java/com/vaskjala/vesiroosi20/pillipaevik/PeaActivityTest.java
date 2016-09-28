@@ -21,9 +21,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class PeaActivityTest {
-
-    private String mStringToBetyped;
-
     @Rule
     public ActivityTestRule<PeaActivity> mActivityRule = new ActivityTestRule(
             PeaActivity.class);
@@ -31,7 +28,6 @@ public class PeaActivityTest {
     @Before
     public void initValidString() {
         // Specify a valid string.
-        mStringToBetyped = "Espresso";
     }
 
     @Test
