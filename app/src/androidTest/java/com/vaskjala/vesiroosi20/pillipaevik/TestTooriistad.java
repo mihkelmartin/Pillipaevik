@@ -7,8 +7,12 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
 import android.util.Log;
 import android.widget.DatePicker;
+import android.widget.TimePicker;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 import org.hamcrest.Matchers;
 import android.support.test.espresso.contrib.PickerActions;
+
+import java.util.Calendar;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -35,18 +39,38 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
     }
 
     public static void LisaHarjutusUI(String nimi, int minuteidmaha, int pikkus) {
+
         onView(withId(R.id.lisatehtud)).perform(click());
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.typeText(nimi), closeSoftKeyboard());
 
+        Calendar c = Calendar.getInstance();
+        c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha));
         onView(withId(R.id.alguskuupaev)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
-                perform(PickerActions.setDate(2016, 9, 27));
+                perform(PickerActions.setDate(c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)));
         onView(withId(android.R.id.button1)).perform(click());
 
-        //onData(withId(R.id.alguskellaaeg)).perform(ViewActions.typeText("08:26"));
-        //onData(withId(R.id.alguskuupaev)).perform(ViewActions.typeText("2016-09-28"));
-        //onData(withId(R.id.alguskellaaeg)).perform(ViewActions.typeText("08:36"));
+        onView(withId(R.id.alguskellaaeg)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
+                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
+                        c.get(Calendar.MINUTE)));
+        onView(withId(android.R.id.button1)).perform(click());
+
+        c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha - pikkus));
+        onView(withId(R.id.lopukuupaev)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
+                perform(PickerActions.setDate(c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)));
+        onView(withId(android.R.id.button1)).perform(click());
+
+        onView(withId(R.id.lopukellaaeg)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
+                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
+                        c.get(Calendar.MINUTE)));
+
+        onView(withId(android.R.id.button1)).perform(click());
     }
 
     public static void VajutaTagasiKui1Fragment(){

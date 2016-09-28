@@ -160,6 +160,13 @@ public final class Tooriistad {
         return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24);
     }
 
+    public static Date MoodustaNihkegaKuupaev(int minutid){
+        c.setTime( HetkeKuupaevNullitudSekunditega() );
+        c.add(Calendar.MINUTE, -1 * minutid );
+        return c.getTime();
+
+    }
+
     public static String KujundaAeg(long now) {
         long hours = 0, minutes = 0, seconds = 0, tenths = 0;
         StringBuilder sb = new StringBuilder();
