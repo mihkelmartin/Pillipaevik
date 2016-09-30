@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="test_minueesnimi">Mihkel</string>
+    <string name="test_minuperenimi">Martin</string>
+    <string name="test_minuinstrument">Kitarr</string>
+    <string name="test_minuepost">mihkelmartin@gmail.com</string>
+    <string name="test_muusikakool">Rae Huvialakool</string>
+    <string name="test_klass">3.klass</string>
+    <string name="test_opetajaeesnimi">Igor</string>
+    <string name="test_opetajaperenimi">Besstshotnov</string>
+    <string name="test_opetajaepost">igor.besstshotnov@jyri.edu.ee</string>
+    <string name="test_paevasharjutada">15</string>
+
+</resources>

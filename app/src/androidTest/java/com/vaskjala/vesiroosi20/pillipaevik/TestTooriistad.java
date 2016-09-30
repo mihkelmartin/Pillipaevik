@@ -32,17 +32,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
     public static void LisaTeosUI(String nimi, String autor, String kommentaar) {
         onView(withId(R.id.lisateos)).perform(click());
-        onView(withId(R.id.nimi)).perform(ViewActions.typeText(nimi));
-        onView(withId(R.id.autor)).perform(ViewActions.typeText(autor));
+        onView(withId(R.id.nimi)).perform(ViewActions.replaceText(nimi));
+        onView(withId(R.id.autor)).perform(ViewActions.replaceText(autor));
         onView(withId(R.id.kommentaar)).perform(ViewActions.
-                typeText(kommentaar), closeSoftKeyboard());
+                replaceText(kommentaar), closeSoftKeyboard());
     }
 
     public static void LisaHarjutusUI(String nimi, int minuteidmaha, int pikkus) {
 
         onView(withId(R.id.lisatehtud)).perform(click());
         onView(withId(R.id.harjutusekirjeldus)).
-                perform(ViewActions.typeText(nimi), closeSoftKeyboard());
+                perform(ViewActions.replaceText(nimi), closeSoftKeyboard());
 
         Calendar c = Calendar.getInstance();
         c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha));
@@ -76,11 +76,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
     public static void VajutaTagasiKui1Fragment(){
         if(!TestTooriistad.OnMultiFragment()) {
             if (BuildConfig.DEBUG) Log.d("VajutaTagasiKui1Frag", "");
-            UiDevice ui = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
             AnnaUiDevice().pressBack();
         }
     }
-
+    public static void VajutaTagasi(){
+            if (BuildConfig.DEBUG) Log.d("VajutaTagasi", "");
+            AnnaUiDevice().pressBack();
+    }
     private static UiDevice AnnaUiDevice(){
         if(ui == null){
             ui = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
