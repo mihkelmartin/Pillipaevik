@@ -1,5 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik.HarjutusKalenderTestid;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -41,7 +43,7 @@ public class TestKalenderSalvestiseKustutamine {
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(0));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
-        onView(withId(R.id.SalvestuseRiba)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
+        onView(withId(R.id.SalvestuseRiba)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));
         onView(withId(R.id.kustutasalvestus)).perform(click());
         onView(withId(android.R.id.button2)).perform(click());
         onView(withId(R.id.kustutasalvestus)).perform(click());

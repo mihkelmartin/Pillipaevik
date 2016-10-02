@@ -8,16 +8,10 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
-import android.util.Log;
-import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
-import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,9 +21,7 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
@@ -38,7 +30,7 @@ import static org.hamcrest.Matchers.is;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class TestAruanneSaadaPraeguneKuu {
+public class TestAruanneSaadaEelmineKuu {
 
     @Rule
     public ActivityTestRule<PeaActivity> mActivityRule = new ActivityTestRule(
@@ -50,7 +42,7 @@ public class TestAruanneSaadaPraeguneKuu {
     }
 
     @Test
-    public void TestSaadaPraeguneKuu() {
+    public void TestSaadaEelmineKuu() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
         TestTooriistad.AvaSahtelValiAruanne();
@@ -59,7 +51,7 @@ public class TestAruanneSaadaPraeguneKuu {
                 check(ViewAssertions.matches(is(withText(containsString(resources.getString(R.string.vali_aruande_kuu))))));
 
         List<String> mKuud  = Tooriistad.LooAruandeKuud(resources.getInteger(R.integer.kuudearv));
-        onView(withText(mKuud.get(0))).perform(click());
+        onView(withText(mKuud.get(1))).perform(click());
         TestTooriistad.AvaGmail();
         TestTooriistad.VajutaTagasi();
         TestTooriistad.VajutaTagasi();

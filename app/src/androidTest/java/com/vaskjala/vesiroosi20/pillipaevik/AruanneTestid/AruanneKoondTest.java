@@ -11,6 +11,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({TestAruanneLoobuPraeguneKuu.class,
-        TestAruanneSaadaPraeguneKuu.class})
+        TestAruanneSaadaPraeguneKuu.class,
+        TestAruanneSaadaEelmineKuu.class,
+        TestAruanneAndmedPuudu.class})
 
 public class AruanneKoondTest {}

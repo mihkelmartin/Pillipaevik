@@ -5,12 +5,16 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingPolicies;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -28,6 +32,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by mihkel on 28.09.2016.
@@ -79,7 +84,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
         onView(withId(android.R.id.button1)).perform(click());
     }
 
-    public static void LisaUusHarjutusSalvestisega(String nimi, int salvetisepikkus){
+    public static void LisaUusHarjutusSalvestisega(String nimi, int salvetisepikkus) {
         onView(withId(R.id.alustauut)).perform(click());
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(nimi), closeSoftKeyboard());
@@ -91,57 +96,76 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
         onView(withId(R.id.kaivitataimernupp)).perform(click());
     }
 
-    public static void AvaSahtelValiKalender(){
+    public static void AvaSahtelValiKalender() {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.harjutuste_kalender));
         TestTooriistad.Oota(1000);
     }
 
-    public static void AvaSahtelValiAruanne(){
+    public static void AvaSahtelValiAruanne() {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.saada_aruanne));
         TestTooriistad.Oota(1000);
     }
 
-    public static void VajutaTagasiKui1Fragment(){
-        if(!TestTooriistad.OnMultiFragment()) {
+    public static void VajutaTagasiKui1Fragment() {
+        if (!TestTooriistad.OnMultiFragment()) {
             if (BuildConfig.DEBUG) Log.d("VajutaTagasiKui1Frag", "");
             AnnaUiDevice().pressBack();
         }
     }
-    public static void VajutaTagasi(){
-            if (BuildConfig.DEBUG) Log.d("VajutaTagasi", "");
-            AnnaUiDevice().pressBack();
+
+    public static void VajutaTagasi() {
+        if (BuildConfig.DEBUG) Log.d("VajutaTagasi", "");
+        AnnaUiDevice().pressBack();
     }
 
-    public static void VajutaKodu(){
+    public static void VajutaKodu() {
         onView(withContentDescription(R.string.test_kodunupp)).perform(click());
     }
 
-    public static void VajutaKoduKui1Fragment(){
-        if(!TestTooriistad.OnMultiFragment()) {
+    public static void VajutaKoduKui1Fragment() {
+        if (!TestTooriistad.OnMultiFragment()) {
             if (BuildConfig.DEBUG) Log.d("VajutaTagasiKui1Frag", "");
-            onView(withContentDescription(R.string.test_kodunupp)).perform(click());
+            onView(Matchers.anyOf(withContentDescription(R.string.test_kodunupp),
+                    withContentDescription(R.string.test_kodunupp2))).perform(click());
         }
     }
 
-    public static UiDevice AnnaUiDevice(){
-        if(ui == null){
+    public static UiDevice AnnaUiDevice() {
+        if (ui == null) {
             ui = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         }
         return ui;
     }
 
-    public static void KeeraVasakule(){
-        try {TestTooriistad.AnnaUiDevice().setOrientationLeft();} catch (Exception e){};
+    public static void KeeraVasakule() {
+        try {
+            TestTooriistad.AnnaUiDevice().setOrientationLeft();
+        } catch (Exception e) {
+        }
+        ;
     }
 
-    public static void KeeraParemale(){
-        try {TestTooriistad.AnnaUiDevice().setOrientationRight();} catch (Exception e){};
+    public static void KeeraParemale() {
+        try {
+            TestTooriistad.AnnaUiDevice().setOrientationRight();
+        } catch (Exception e) {
+        }
+        ;
     }
 
-    public static void MultiFragmentTuvastus(ActivityTestRule activityTestRule){
-        if(!bMultiFragmentTuvastatud) {
+    public static void AvaGmail() {
+        UiObject allAppsButton = TestTooriistad.AnnaUiDevice().findObject(new UiSelector().text("Gmail"));
+        try {
+            allAppsButton.clickAndWaitForNewWindow();
+        } catch (UiObjectNotFoundException e) {
+            assertEquals("Gmail", "Ei leitud");
+        }
+    }
+
+    public static void MultiFragmentTuvastus(ActivityTestRule activityTestRule) {
+        if (!bMultiFragmentTuvastatud) {
             if (BuildConfig.DEBUG) Log.d("TestTooriistad", "Tuvastame mitmefragmentsust");
             Activity activity = activityTestRule.getActivity();
             if (activity.findViewById(R.id.teos_hoidja) != null &&
@@ -153,15 +177,21 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
         }
     }
 
-    public static boolean OnMultiFragment(){
+    public static boolean OnMultiFragment() {
         return bMultiFragment;
     }
 
-    public static void Oota(int aeg){
+    public static void Oota(int aeg) {
         IdlingPolicies.setIdlingResourceTimeout(5, TimeUnit.MINUTES);
         // Ootamine
+        EemaldaOotajad();
         IdlingResource idlingResource = new OoteTaimer(aeg);
         Espresso.registerIdlingResources(idlingResource);
     }
 
+    public  static void EemaldaOotajad(){
+        for( IdlingResource res : Espresso.getIdlingResources() ){
+            Espresso.unregisterIdlingResources(res);
+        }
+    }
 }

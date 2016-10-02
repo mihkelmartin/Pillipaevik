@@ -1,5 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik.HarjutusKalenderTestid;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -42,6 +44,7 @@ public class TestKalenderRidaSulgubFragmentKaob {
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
         if(TestTooriistad.OnMultiFragment())
             onView(withId(R.id.HarjutusTabel)).check(ViewAssertions.matches(isDisplayed()));
+        TestTooriistad.VajutaKoduKui1Fragment();
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.HarjutusTabel)).check(ViewAssertions.doesNotExist());
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));

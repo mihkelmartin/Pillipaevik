@@ -44,9 +44,10 @@ public class TestTeosLisaKoheKustuta {
             onView(allOf(withId(R.id.content), withText(""))).
                     check(ViewAssertions.matches(isDisplayed()));
 
-        onView(withId(R.id.nimi)).perform(typeText(resources.getString(R.string.test_teos4_nimi)));
+        onView(withId(R.id.nimi)).perform(typeText(resources.getString(R.string.test_teos4_nimi)), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.autor)).perform(typeText(resources.getString(R.string.test_teos4_autor)), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.kommentaar)).perform(replaceText(resources.getString(R.string.test_teos4_kommentaar)));
+        onView(withId(R.id.kommentaar)).
+                perform(replaceText(resources.getString(R.string.test_teos4_kommentaar)), ViewActions.closeSoftKeyboard());
 
         if(TestTooriistad.OnMultiFragment())
             onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos4_nimi)))).
