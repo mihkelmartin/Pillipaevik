@@ -2,7 +2,13 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Activity;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingPolicies;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.espresso.contrib.NavigationViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
 import android.util.Log;
@@ -13,12 +19,14 @@ import org.hamcrest.Matchers;
 import android.support.test.espresso.contrib.PickerActions;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
@@ -34,22 +42,34 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
         onView(withId(R.id.lisateos)).perform(click());
         onView(withId(R.id.nimi)).perform(ViewActions.replaceText(nimi));
         onView(withId(R.id.autor)).perform(ViewActions.replaceText(autor));
-        onView(withId(R.id.kommentaar)).perform(ViewActions.
-                replaceText(kommentaar), closeSoftKeyboard());
+        onView(withId(R.id.kommentaar)).perform(ViewActions.replaceText(kommentaar), closeSoftKeyboard());
     }
 
-    public static void LisaHarjutusUI(String nimi, int minuteidmaha, int pikkus) {
+    public static void LisaTehtudHarjutusUI(String nimi, int minuteidmaha, int pikkus) {
 
         onView(withId(R.id.lisatehtud)).perform(click());
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(nimi), closeSoftKeyboard());
 
         Calendar c = Calendar.getInstance();
+        c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha - pikkus));
+        onView(withId(R.id.lopukuupaev)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
+                perform(PickerActions.setDate(c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)));
+        onView(withId(android.R.id.button1)).perform(click());
+
+        onView(withId(R.id.lopukellaaeg)).perform(click());
+        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
+                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
+                        c.get(Calendar.MINUTE)));
+        onView(withId(android.R.id.button1)).perform(click());
+
         c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha));
         onView(withId(R.id.alguskuupaev)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
                 perform(PickerActions.setDate(c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)));
+                        c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)));
         onView(withId(android.R.id.button1)).perform(click());
 
         onView(withId(R.id.alguskellaaeg)).perform(click());
@@ -57,20 +77,30 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
                 perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
                         c.get(Calendar.MINUTE)));
         onView(withId(android.R.id.button1)).perform(click());
+    }
 
-        c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha - pikkus));
-        onView(withId(R.id.lopukuupaev)).perform(click());
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
-                perform(PickerActions.setDate(c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)));
-        onView(withId(android.R.id.button1)).perform(click());
+    public static void LisaUusHarjutusSalvestisega(String nimi, int salvetisepikkus){
+        onView(withId(R.id.alustauut)).perform(click());
+        onView(withId(R.id.harjutusekirjeldus)).
+                perform(ViewActions.replaceText(nimi), closeSoftKeyboard());
+        onView(withId(R.id.mikrofoniluliti)).perform(click());
+        onView(withId(R.id.kaivitataimernupp)).perform(click());
 
-        onView(withId(R.id.lopukellaaeg)).perform(click());
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
-                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
-                        c.get(Calendar.MINUTE)));
+        Oota(salvetisepikkus);
 
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(R.id.kaivitataimernupp)).perform(click());
+    }
+
+    public static void AvaSahtelValiKalender(){
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.harjutuste_kalender));
+        TestTooriistad.Oota(1000);
+    }
+
+    public static void AvaSahtelValiAruanne(){
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.saada_aruanne));
+        TestTooriistad.Oota(1000);
     }
 
     public static void VajutaTagasiKui1Fragment(){
@@ -83,11 +113,31 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
             if (BuildConfig.DEBUG) Log.d("VajutaTagasi", "");
             AnnaUiDevice().pressBack();
     }
-    private static UiDevice AnnaUiDevice(){
+
+    public static void VajutaKodu(){
+        onView(withContentDescription(R.string.test_kodunupp)).perform(click());
+    }
+
+    public static void VajutaKoduKui1Fragment(){
+        if(!TestTooriistad.OnMultiFragment()) {
+            if (BuildConfig.DEBUG) Log.d("VajutaTagasiKui1Frag", "");
+            onView(withContentDescription(R.string.test_kodunupp)).perform(click());
+        }
+    }
+
+    public static UiDevice AnnaUiDevice(){
         if(ui == null){
             ui = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         }
         return ui;
+    }
+
+    public static void KeeraVasakule(){
+        try {TestTooriistad.AnnaUiDevice().setOrientationLeft();} catch (Exception e){};
+    }
+
+    public static void KeeraParemale(){
+        try {TestTooriistad.AnnaUiDevice().setOrientationRight();} catch (Exception e){};
     }
 
     public static void MultiFragmentTuvastus(ActivityTestRule activityTestRule){
@@ -105,6 +155,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
     public static boolean OnMultiFragment(){
         return bMultiFragment;
+    }
+
+    public static void Oota(int aeg){
+        IdlingPolicies.setIdlingResourceTimeout(5, TimeUnit.MINUTES);
+        // Ootamine
+        IdlingResource idlingResource = new OoteTaimer(aeg);
+        Espresso.registerIdlingResources(idlingResource);
     }
 
 }

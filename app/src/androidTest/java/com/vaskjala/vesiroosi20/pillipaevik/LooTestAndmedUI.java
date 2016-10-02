@@ -1,10 +1,10 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
-import android.util.Log;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,24 +28,32 @@ public class LooTestAndmedUI {
 
     @Test
     public void looTeosedHarjutused() {
-        TestTooriistad.LisaTeosUI("Testteos I", "Mihkel Martin", "Minu loodud lugu");
-            TestTooriistad.LisaHarjutusUI("Testteos I Harjutus I", 1380, 35);
-            TestTooriistad.VajutaTagasiKui1Fragment();
-            TestTooriistad.LisaHarjutusUI("Testteos I Harjutus II", 180, 25);
-            TestTooriistad.VajutaTagasiKui1Fragment();
-        TestTooriistad.VajutaTagasiKui1Fragment();
 
-        TestTooriistad.LisaTeosUI("Testteos II", "Oskar Martin", "Oskari loodud lugu");
-            TestTooriistad.LisaHarjutusUI("Testteos II Harjutus I", 2880, 15);
-            TestTooriistad.VajutaTagasiKui1Fragment();
-            TestTooriistad.LisaHarjutusUI("Testteos II Harjutus II", 50, 5);
-            TestTooriistad.VajutaTagasiKui1Fragment();
-        TestTooriistad.VajutaTagasiKui1Fragment();
+        Context context = InstrumentationRegistry.getTargetContext();
+        Resources resources = context.getResources();
 
-        TestTooriistad.LisaTeosUI("Testteos III", "Annika Martin", "Annika loodud lugu");
-        TestTooriistad.LisaHarjutusUI("Testteos III Harjutus I", 300, 40);
+        TestTooriistad.LisaTeosUI(resources.getString(R.string.test_teos1_nimi), resources.getString(R.string.test_teos1_autor), resources.getString(R.string.test_teos1_kommentaar));
+            TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos1_h1_nimi), 1380, 35);
+            TestTooriistad.VajutaTagasiKui1Fragment();
+            TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos1_h2_nimi), 180, 25);
+            TestTooriistad.VajutaTagasiKui1Fragment();
+            TestTooriistad.LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos1_h3_nimi), 45*1000);
+            TestTooriistad.VajutaTagasi();
+        TestTooriistad.VajutaKoduKui1Fragment();
+
+        TestTooriistad.LisaTeosUI(resources.getString(R.string.test_teos2_nimi), resources.getString(R.string.test_teos2_autor), resources.getString(R.string.test_teos2_kommentaar));
+            TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos2_h1_nimi), 2880, 15);
+            TestTooriistad.VajutaTagasiKui1Fragment();
+            TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos2_h2_nimi), 50, 5);
+            TestTooriistad.VajutaTagasiKui1Fragment();
+            TestTooriistad.LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos2_h3_nimi), 30*1000);
+            TestTooriistad.VajutaTagasi();
+        TestTooriistad.VajutaKoduKui1Fragment();
+
+        TestTooriistad.LisaTeosUI(resources.getString(R.string.test_teos3_nimi), resources.getString(R.string.test_teos3_autor), resources.getString(R.string.test_teos3_kommentaar));
+        TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos3_h1_nimi), 1320, 10);
         TestTooriistad.VajutaTagasiKui1Fragment();
-        TestTooriistad.LisaHarjutusUI("Testteos III Harjutus II", 1320, 10);
-        TestTooriistad.VajutaTagasiKui1Fragment();
+        TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos3_h2_nimi), 300, 40);
+        TestTooriistad.VajutaKoduKui1Fragment();
     }
 }

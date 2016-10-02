@@ -162,7 +162,7 @@ public final class Tooriistad {
 
     public static Date MoodustaNihkegaKuupaev(int minutid){
         c.setTime( HetkeKuupaevNullitudSekunditega() );
-        c.add(Calendar.MINUTE, -1 * minutid );
+        c.add(Calendar.MINUTE, (-1 * (minutid)) );
         return c.getTime();
 
     }

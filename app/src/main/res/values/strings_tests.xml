@@ -11,4 +11,28 @@
     <string name="test_opetajaepost">igor.besstshotnov@jyri.edu.ee</string>
     <string name="test_paevasharjutada">15</string>
 
+    <string name="test_teos1_nimi">Testteos I</string>
+    <string name="test_teos1_autor">Mihkel Märtin</string>
+    <string name="test_teos1_kommentaar">Sadas taevast pähe</string>
+    <string name="test_teos1_h1_nimi">TI HI</string>
+    <string name="test_teos1_h2_nimi">TI HII</string>
+    <string name="test_teos1_h3_nimi">TI HIII S</string>
+
+    <string name="test_teos2_nimi">Testteos II</string>
+    <string name="test_teos2_autor">Annika Märtin</string>
+    <string name="test_teos2_kommentaar">Õpetaja andis mõtte</string>
+    <string name="test_teos2_h1_nimi">TII HI</string>
+    <string name="test_teos2_h2_nimi">TII HII</string>
+    <string name="test_teos2_h3_nimi">TII HIII S</string>
+
+    <string name="test_teos3_nimi">Testteos III</string>
+    <string name="test_teos3_autor">Oskar Märtin</string>
+    <string name="test_teos3_kommentaar">Õhtul tinistades tuli mõte</string>
+    <string name="test_teos3_h1_nimi">TIII HI</string>
+    <string name="test_teos3_h2_nimi">TIII HII</string>
+
+    <string name="test_teos4_nimi">Testteos IV</string>
+    <string name="test_teos4_autor">Regina Palatu</string>
+    <string name="test_teos4_kommentaar">Tuli väga hea mõte musitseerimiseks!</string>
+
 </resources>

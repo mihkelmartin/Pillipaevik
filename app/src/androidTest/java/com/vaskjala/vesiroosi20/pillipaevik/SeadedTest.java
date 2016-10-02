@@ -1,6 +1,9 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.espresso.contrib.NavigationViewActions;
@@ -40,10 +43,7 @@ public class SeadedTest {
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
-        //onView(withId(R.id.drawer_layout)).check(matches(isClosed()));
-        // TODO Ei meeldi mulle see
-        try{Thread.sleep(1000);} catch (Exception e){}
-
+        TestTooriistad.Oota(1000);
 
         onView(withId(R.id.minueesnimi)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_minueesnimi)));
         onView(withId(R.id.minuperenimi)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_minuperenimi)));
@@ -60,20 +60,21 @@ public class SeadedTest {
 
     @Test
     public void Kontrolli_Salvestumine(){
-        SharedPreferences sharedPref = mActivityRule.getActivity().getSharedPreferences(mActivityRule.
+        Context context = InstrumentationRegistry.getTargetContext();
+        Resources resources = context.getResources();
+        SharedPreferences sharedPref = context.getSharedPreferences(mActivityRule.
                 getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
 
-        // TODO Parameetrid vahetada ja mingi parem ASSERT MIS RAPORTEERIB KENASTI
-        assertEquals(sharedPref.getString("minueesnimi", ""), mActivityRule.getActivity().getString(R.string.test_minueesnimi));
-        assertEquals(sharedPref.getString("minuperenimi", ""), mActivityRule.getActivity().getString(R.string.test_minuperenimi));
-        assertEquals(sharedPref.getString("minuepost", ""), mActivityRule.getActivity().getString(R.string.test_minuepost));
-        assertEquals(sharedPref.getString("muusikakool", ""), mActivityRule.getActivity().getString(R.string.test_muusikakool));
-        assertEquals(sharedPref.getString("klass", ""), mActivityRule.getActivity().getString(R.string.test_klass));
-        assertEquals(sharedPref.getString("minuinstrument", ""), mActivityRule.getActivity().getString(R.string.test_minuinstrument));
-        assertEquals(sharedPref.getString("opetajaeesnimi", ""), mActivityRule.getActivity().getString(R.string.test_opetajaeesnimi));
-        assertEquals(sharedPref.getString("opetajaperenimi", ""), mActivityRule.getActivity().getString(R.string.test_opetajaperenimi));
-        assertEquals(sharedPref.getString("opetajaepost", ""), mActivityRule.getActivity().getString(R.string.test_opetajaepost));
-        String lszPaevas = String.valueOf(sharedPref.getInt("paevasharjutada", 0));
-        assertEquals(lszPaevas, mActivityRule.getActivity().getString(R.string.test_paevasharjutada));
+        // TODO Kas on parem assert meetod ?
+        assertEquals(resources.getString(R.string.test_minueesnimi), sharedPref.getString("minueesnimi", ""));
+        assertEquals(resources.getString(R.string.test_minuperenimi), sharedPref.getString("minuperenimi", ""));
+        assertEquals(resources.getString(R.string.test_minuepost), sharedPref.getString("minuepost", ""));
+        assertEquals(resources.getString(R.string.test_muusikakool), sharedPref.getString("muusikakool", ""));
+        assertEquals(resources.getString(R.string.test_klass), sharedPref.getString("klass", ""));
+        assertEquals(resources.getString(R.string.test_minuinstrument), sharedPref.getString("minuinstrument", ""));
+        assertEquals(resources.getString(R.string.test_opetajaeesnimi), sharedPref.getString("opetajaeesnimi", ""));
+        assertEquals(resources.getString(R.string.test_opetajaperenimi), sharedPref.getString("opetajaperenimi", ""));
+        assertEquals(resources.getString(R.string.test_opetajaepost), sharedPref.getString("opetajaepost", ""));
+        assertEquals(resources.getString(R.string.test_paevasharjutada), String.valueOf(sharedPref.getInt("paevasharjutada", 0)));
     }
 }
