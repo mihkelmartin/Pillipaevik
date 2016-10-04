@@ -45,6 +45,7 @@ import static junit.framework.Assert.assertEquals;
 
     public static void LisaTeosUI(String nimi, String autor, String kommentaar) {
         onView(withId(R.id.lisateos)).perform(click());
+        TestTooriistad.Oota(100);
         onView(withId(R.id.nimi)).perform(ViewActions.replaceText(nimi));
         onView(withId(R.id.autor)).perform(ViewActions.replaceText(autor));
         onView(withId(R.id.kommentaar)).perform(ViewActions.replaceText(kommentaar), closeSoftKeyboard());
@@ -56,31 +57,32 @@ import static junit.framework.Assert.assertEquals;
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(nimi), closeSoftKeyboard());
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha - pikkus));
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha - pikkus));
+        c2.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha));
         onView(withId(R.id.lopukuupaev)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
-                perform(PickerActions.setDate(c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)));
+                perform(PickerActions.setDate(c1.get(Calendar.YEAR),
+                        c1.get(Calendar.MONTH) + 1, c1.get(Calendar.DAY_OF_MONTH)));
         onView(withId(android.R.id.button1)).perform(click());
 
         onView(withId(R.id.lopukellaaeg)).perform(click());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
-                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
-                        c.get(Calendar.MINUTE)));
+                perform(PickerActions.setTime(c1.get(Calendar.HOUR_OF_DAY),
+                        c1.get(Calendar.MINUTE)));
         onView(withId(android.R.id.button1)).perform(click());
 
-        c.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha));
         onView(withId(R.id.alguskuupaev)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
-                perform(PickerActions.setDate(c.get(Calendar.YEAR),
-                        c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)));
+                perform(PickerActions.setDate(c2.get(Calendar.YEAR),
+                        c2.get(Calendar.MONTH) + 1, c2.get(Calendar.DAY_OF_MONTH)));
         onView(withId(android.R.id.button1)).perform(click());
 
         onView(withId(R.id.alguskellaaeg)).perform(click());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
-                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
-                        c.get(Calendar.MINUTE)));
+                perform(PickerActions.setTime(c2.get(Calendar.HOUR_OF_DAY),
+                        c2.get(Calendar.MINUTE)));
         onView(withId(android.R.id.button1)).perform(click());
     }
 
@@ -193,5 +195,18 @@ import static junit.framework.Assert.assertEquals;
         for( IdlingResource res : Espresso.getIdlingResources() ){
             Espresso.unregisterIdlingResources(res);
         }
+    }
+
+    public static void OotaThread(int aeg){
+        try{
+            Thread.sleep(aeg);
+        }catch (Exception e){
+
+        }
+    }
+
+    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+
+        return new RecyclerViewMatcher(recyclerViewId);
     }
 }

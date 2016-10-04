@@ -42,8 +42,8 @@ public class TeaveTest {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.teave));
         TestTooriistad.Oota(1000);
-
         TestTooriistad.VajutaTagasi();
+
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.teave));
         TestTooriistad.Oota(1000);

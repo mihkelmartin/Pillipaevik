@@ -38,6 +38,7 @@ public class TestTeosLisa {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
+        TestTooriistad.KeeraParemale();
         onView(withId(R.id.lisateos)).perform(click());
         if(TestTooriistad.OnMultiFragment())
             onView(allOf(withId(R.id.content), withText(""))).

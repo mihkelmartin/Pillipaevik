@@ -38,7 +38,7 @@ public class TestTeosLisaKoheKustuta {
     public void TestLisaKoheKustuta() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
-
+        TestTooriistad.KeeraParemale();
         onView(withId(R.id.lisateos)).perform(click());
         if(TestTooriistad.OnMultiFragment())
             onView(allOf(withId(R.id.content), withText(""))).
@@ -62,8 +62,6 @@ public class TestTeosLisaKoheKustuta {
         TestTooriistad.KeeraVasakule();
         onView(withId(android.R.id.button1)).perform(click());
         TestTooriistad.KeeraParemale();
-
-        TestTooriistad.VajutaKoduKui1Fragment();
         onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos4_nimi)))).
                 check(ViewAssertions.doesNotExist());
 

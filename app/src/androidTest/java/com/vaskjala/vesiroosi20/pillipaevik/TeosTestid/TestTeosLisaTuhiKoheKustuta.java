@@ -31,7 +31,7 @@ public class TestTeosLisaTuhiKoheKustuta {
 
     @Test
     public void TestLisaTuhiKoheKustuta() {
-
+        TestTooriistad.KeeraVasakule();
         onView(withId(R.id.lisateos)).perform(click());
         if(TestTooriistad.OnMultiFragment())
             onView(allOf(withId(R.id.content), withText(""))).
@@ -41,10 +41,6 @@ public class TestTeosLisaTuhiKoheKustuta {
         onView(withId(android.R.id.button2)).perform(click());
         onView(withId(R.id.kustutateos)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
-
-        TestTooriistad.VajutaKoduKui1Fragment();
-
         onView(allOf(withId(R.id.content), withText(""))).check(ViewAssertions.doesNotExist());
-
     }
 }

@@ -51,7 +51,9 @@ public class TestKalenderSalvestiseKustutamine {
         TestTooriistad.Oota(100);
         onView(withId(R.id.SalvestuseRiba)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)));;
         TestTooriistad.VajutaTagasiKui1Fragment();
-    }
+        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
+                atPositionOnView(1,R.id.kalender_paev_harjutus_helifaili_pilt)).
+                check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)));    }
 
 
 }

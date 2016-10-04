@@ -266,6 +266,10 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                 }
             }
         }
+        if (requestCode == getResources().getInteger(R.integer.KALENDER_ACTIVITY_START)) {
+            if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusteKalenderActivity");
+            teosListFragment.mMainAdapter.notifyDataSetChanged();
+        }
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);

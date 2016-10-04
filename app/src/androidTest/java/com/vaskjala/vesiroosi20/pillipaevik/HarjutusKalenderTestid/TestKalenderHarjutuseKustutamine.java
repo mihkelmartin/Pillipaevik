@@ -55,6 +55,23 @@ public class TestKalenderHarjutuseKustutamine {
         onView(withId(android.R.id.button2)).perform(click());
         onView(withId(R.id.kustutaharjutus)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
-        TestTooriistad.VajutaTagasiKui1Fragment();
+
+        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
+                atPositionOnView(0,R.id.paevakalenderharjutustearv)).
+                check(ViewAssertions.matches(withText("4")));
+        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
+                atPositionOnView(0,R.id.paevakalenderharjutustekestus)).
+                check(ViewAssertions.matches(withText("01:10")));
+
+        TestTooriistad.VajutaKodu();
+
+        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
+                atPositionOnView(1,R.id.teoslistteoseharjutustearv)).
+                check(ViewAssertions.matches(withText("2")));
+        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
+                atPositionOnView(1,R.id.teoslistteoseharjutustekestus)).
+                check(ViewAssertions.matches(withText("00:20")));
+
+
     }
 }

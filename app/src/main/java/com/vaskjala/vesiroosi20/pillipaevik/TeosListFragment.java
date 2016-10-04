@@ -76,6 +76,7 @@ public class TeosListFragment extends Fragment {
         super.onStart();
 
         // TODO Asünkroonselt + Fragmendi puhul peab seda värksendama ka siis kui Teos kustutatakse
+        // TODO Ei toimi Tahvlil
         PaevaHarjutusteProgress();
         NadalaHarjutusteProgress();
         KuuHarjutusteProgress();
