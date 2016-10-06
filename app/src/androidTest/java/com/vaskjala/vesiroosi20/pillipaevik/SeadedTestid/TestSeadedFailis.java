@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik;
+package com.vaskjala.vesiroosi20.pillipaevik.SeadedTestid;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,8 +7,12 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.espresso.contrib.NavigationViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
+import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +31,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class SeadedTest {
+public class TestSeadedFailis {
 
     @Rule
     public ActivityTestRule<PeaActivity> mActivityRule = new ActivityTestRule(
@@ -38,34 +42,13 @@ public class SeadedTest {
         TestTooriistad.MultiFragmentTuvastus(mActivityRule);
     }
 
-    @Test
-    public void TestSisesta_Andmed() {
-
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
-        TestTooriistad.Oota(1000);
-
-        onView(withId(R.id.minueesnimi)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_minueesnimi)));
-        onView(withId(R.id.minuperenimi)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_minuperenimi)));
-        onView(withId(R.id.minuepost)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_minuepost)));
-        onView(withId(R.id.muusikakool)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_muusikakool)));
-        onView(withId(R.id.klass)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_klass)));
-        onView(withId(R.id.minuinstrument)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_minuinstrument)));
-        onView(withId(R.id.opetajaeesnimi)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_opetajaeesnimi)));
-        onView(withId(R.id.opetajaperenimi)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_opetajaperenimi)));
-        onView(withId(R.id.opetajaepost)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_opetajaepost)));
-        onView(withId(R.id.paevasharjutada)).perform(scrollTo(),replaceText(mActivityRule.getActivity().getString(R.string.test_paevasharjutada)));
-        TestTooriistad.VajutaTagasi();
-    }
 
     @Test
     public void Kontrolli_Salvestumine(){
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
-        SharedPreferences sharedPref = context.getSharedPreferences(mActivityRule.
-                getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences(resources.getString(R.string.seadete_fail), MODE_PRIVATE);
 
-        // TODO Kas on parem assert meetod ?
         assertEquals(resources.getString(R.string.test_minueesnimi), sharedPref.getString("minueesnimi", ""));
         assertEquals(resources.getString(R.string.test_minuperenimi), sharedPref.getString("minuperenimi", ""));
         assertEquals(resources.getString(R.string.test_minuepost), sharedPref.getString("minuepost", ""));

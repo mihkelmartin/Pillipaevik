@@ -162,4 +162,9 @@ public class SeadedActivity extends AppCompatActivity {
             kaskasutadagoogledrive.setChecked(false);
         }
     }
+    public void KasKasutameGoogleDrive(View v){
+        if(kaskasutadagoogledrive.isChecked()){
+            kasLubadaMikrofonigaSalvestamine.setChecked(true);
+        }
+    }
 }

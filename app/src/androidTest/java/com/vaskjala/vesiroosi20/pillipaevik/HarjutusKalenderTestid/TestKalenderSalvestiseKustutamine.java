@@ -42,6 +42,11 @@ public class TestKalenderSalvestiseKustutamine {
         TestTooriistad.AvaSahtelValiKalender();
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(0));
+
+        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
+                atPositionOnView(1,R.id.kalender_paev_harjutus_helifaili_pilt)).
+                check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));
+
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
         onView(withId(R.id.SalvestuseRiba)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));
         onView(withId(R.id.kustutasalvestus)).perform(click());
@@ -53,7 +58,8 @@ public class TestKalenderSalvestiseKustutamine {
         TestTooriistad.VajutaTagasiKui1Fragment();
         onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
                 atPositionOnView(1,R.id.kalender_paev_harjutus_helifaili_pilt)).
-                check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)));    }
+                check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)));
+    }
 
 
 }

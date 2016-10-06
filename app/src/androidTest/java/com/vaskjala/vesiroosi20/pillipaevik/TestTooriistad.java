@@ -110,6 +110,12 @@ import static junit.framework.Assert.assertEquals;
         TestTooriistad.Oota(1000);
     }
 
+    public static void AvaSahtelValiSeaded() {
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
+        TestTooriistad.Oota(1000);
+    }
+
     public static void VajutaTagasiKui1Fragment() {
         if (!TestTooriistad.OnMultiFragment()) {
             if (BuildConfig.DEBUG) Log.d("VajutaTagasiKui1Frag", "");

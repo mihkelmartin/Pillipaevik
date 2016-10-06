@@ -9,6 +9,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({TestKalenderMuudaEsimeneHarjutus.class,
         TestKalenderRidaSulgubFragmentKaob.class,
         TestKalenderSalvestiseKustutamine.class,
-        TestKalenderHarjutuseKustutamine.class})
+        TestKalenderHarjutuseKustutamine.class,
+        TestKalenderJagaSalvestust.class,
+        TestKalenderJagaAndmedPuudu.class})
 
 public class KalenderKoondTest {}

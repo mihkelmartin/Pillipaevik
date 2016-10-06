@@ -43,7 +43,7 @@ public class TestKalenderMuudaEsimeneHarjutus {
     }
 
     @Test
-    public void TestMuudaEsimeneHarjutus() {
+    public void     TestMuudaEsimeneHarjutus() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
         TestTooriistad.AvaSahtelValiKalender();
@@ -54,9 +54,6 @@ public class TestKalenderMuudaEsimeneHarjutus {
 
         onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).atPosition(1)).
                 check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi)))));
-        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
-                atPositionOnView(1,R.id.kalender_paev_harjutus_helifaili_pilt)).
-                check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
         onView(withId(R.id.harjutusekirjeldus)).

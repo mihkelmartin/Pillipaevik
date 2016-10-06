@@ -47,7 +47,7 @@ public class TestHarjutusLisaSalvestisega {
 
         onView(withId(R.id.teoseharjutustearv)).check(ViewAssertions.matches(withText("1")));
         onView(withId(R.id.teoseharjutustekestus)).
-                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(mActivityRule.getActivity().getApplicationContext(), 15/60))));
+                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(context, 15/60))));
         onView(withId(R.id.harjutuslist_harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
         onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
 

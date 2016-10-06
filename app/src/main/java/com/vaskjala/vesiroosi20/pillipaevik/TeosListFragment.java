@@ -237,7 +237,8 @@ public class TeosListFragment extends Fragment {
         ((TextView) getView().findViewById(R.id.kuusharjutatud)).setText(szharjutatud );
 
         Calendar c = Calendar.getInstance();
-        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());        int paevakordaja = c.get(Calendar.DAY_OF_MONTH);
+        c.setTime(Tooriistad.HetkeKuupaevNullitudSekunditega());
+        int paevakordaja = c.get(Calendar.DAY_OF_MONTH);
         SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.seadete_fail), MODE_PRIVATE);
         int vajaharjutada = sharedPref.getInt("paevasharjutada", 0) * paevakordaja;
         ((TextView) getView().findViewById(R.id.kuunorm)).setText(String.valueOf(vajaharjutada+" m"));

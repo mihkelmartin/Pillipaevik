@@ -18,9 +18,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
@@ -45,7 +47,15 @@ public class TestKalenderHarjutuseKustutamine {
     public void TestHarjutuseKustutamine() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
+
+        if(TestTooriistad.OnMultiFragment()){
+            onView(withId(R.id.harjutua_list)).
+                    perform(RecyclerViewActions.actionOnItem(withText(resources.getString(R.string.test_teos2_nimi)), click()));
+            onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).perform(click());
+        }
+
         TestTooriistad.AvaSahtelValiKalender();
+
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))), click()).atPosition(0));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));

@@ -158,7 +158,8 @@
                 android:id="@+id/kasKasutadaGoogleDrive"
                 android:text="@string/kasKasutadaGoogleDrive"
                 android:textOff="@string/ei"
-                android:textOn="@string/jah"/>
+                android:textOn="@string/jah"
+                android:onClick="KasKasutameGoogleDrive"/>
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_marginStart="@dimen/horisontaalne_aaris"
