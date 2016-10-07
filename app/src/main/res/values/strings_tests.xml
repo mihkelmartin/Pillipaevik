@@ -35,5 +35,7 @@
     <string name="test_teos4_autor">Regina Palatu</string>
     <string name="test_teos4_kommentaar">Tuli väga hea mõte musitseerimiseks!</string>
     <string name="test_teos4_h1_nimi">TIV HI S</string>
+    <string name="test_teos4_h2_nimi">TIV HII S</string>
+    <string name="test_teos4_h3_nimi">TIV HIII S</string>
 
 </resources>

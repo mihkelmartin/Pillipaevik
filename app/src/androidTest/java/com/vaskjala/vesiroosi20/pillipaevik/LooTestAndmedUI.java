@@ -46,7 +46,7 @@ public class LooTestAndmedUI {
             TestTooriistad.VajutaTagasiKui1Fragment();
             TestTooriistad.LisaTehtudHarjutusUI(resources.getString(R.string.test_teos2_h2_nimi), 50, 5);
             TestTooriistad.VajutaTagasiKui1Fragment();
-            TestTooriistad.LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos2_h3_nimi), 30*1000);
+            TestTooriistad.LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos2_h3_nimi), 70*1000);
             TestTooriistad.VajutaTagasi();
         TestTooriistad.VajutaKoduKui1Fragment();
 

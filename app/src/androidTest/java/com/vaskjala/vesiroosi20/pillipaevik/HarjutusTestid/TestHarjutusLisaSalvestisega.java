@@ -3,7 +3,6 @@ package com.vaskjala.vesiroosi20.pillipaevik.HarjutusTestid;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -19,7 +18,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -42,18 +40,29 @@ public class TestHarjutusLisaSalvestisega {
 
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos4_nimi))), click()).atPosition(0));
-        TestTooriistad.LisaUusHarjutusSalvestisega("", 15000);
+        TestTooriistad.LisaUusHarjutusSalvestisega("", 125 * 1000);
         TestTooriistad.VajutaKodu();
 
         onView(withId(R.id.teoseharjutustearv)).check(ViewAssertions.matches(withText("1")));
         onView(withId(R.id.teoseharjutustekestus)).
-                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(context, 15/60))));
+                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(context, 125/60))));
         onView(withId(R.id.harjutuslist_harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
         onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
+
+        TestTooriistad.VajutaKoduKui1Fragment();
+
+        // Teose statistika kontroll
+        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
+                atPositionOnView(3,R.id.teoslistteoseharjutustearv)).
+                check(ViewAssertions.matches(withText("1")));
+        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
+                atPositionOnView(3,R.id.teoslistteoseharjutustekestus)).
+                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutidTabloo(125/60))));
 
         if(TestTooriistad.OnMultiFragment())
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
 
+        TestTooriistad.StatistikaKontroll(context);
 
     }
 }

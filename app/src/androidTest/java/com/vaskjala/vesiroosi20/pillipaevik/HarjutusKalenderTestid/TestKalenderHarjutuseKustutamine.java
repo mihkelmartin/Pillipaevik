@@ -3,8 +3,6 @@ package com.vaskjala.vesiroosi20.pillipaevik.HarjutusKalenderTestid;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -48,14 +46,14 @@ public class TestKalenderHarjutuseKustutamine {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
+        // Vali harjutus mille hiljem kustutame
         if(TestTooriistad.OnMultiFragment()){
             onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(withText(resources.getString(R.string.test_teos2_nimi)), click()));
+                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos2_nimi))), click()));
             onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).perform(click());
         }
 
         TestTooriistad.AvaSahtelValiKalender();
-
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))), click()).atPosition(0));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
@@ -66,6 +64,7 @@ public class TestKalenderHarjutuseKustutamine {
         onView(withId(R.id.kustutaharjutus)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
 
+        // Kalendri päeva statisitika kontroll
         onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
                 atPositionOnView(0,R.id.paevakalenderharjutustearv)).
                 check(ViewAssertions.matches(withText("4")));
@@ -75,12 +74,29 @@ public class TestKalenderHarjutuseKustutamine {
 
         TestTooriistad.VajutaKodu();
 
+        // Teose statistika kontroll
         onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
                 atPositionOnView(1,R.id.teoslistteoseharjutustearv)).
                 check(ViewAssertions.matches(withText("2")));
         onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
                 atPositionOnView(1,R.id.teoslistteoseharjutustekestus)).
                 check(ViewAssertions.matches(withText("00:20")));
+
+        TestTooriistad.StatistikaKontroll(context);
+
+        if(TestTooriistad.OnMultiFragment()){
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos2_h2_nimi))));
+
+            // Liigu väheke teoste vahel
+            onView(withId(R.id.harjutua_list)).
+                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos1_nimi))), click()));
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos1_h3_nimi))));
+
+            onView(withId(R.id.harjutua_list)).
+                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()));
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h2_nimi))));
+
+        }
 
 
     }

@@ -1,12 +1,14 @@
 package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingPolicies;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -18,20 +20,21 @@ import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 import org.hamcrest.Matchers;
 import android.support.test.espresso.contrib.PickerActions;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -96,6 +99,36 @@ import static junit.framework.Assert.assertEquals;
         Oota(salvetisepikkus);
 
         onView(withId(R.id.kaivitataimernupp)).perform(click());
+    }
+
+    public static void StatistikaKontroll(Context context){
+        // Üldstatistika kontroll
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(context.getApplicationContext());
+        Date now = new Date();
+        int paevasharjutatud = mPPManager.ArvutaPerioodiMinutid(now, now);
+        int nadalasharjutatud = mPPManager.ArvutaPerioodiMinutid(Tooriistad.MoodustaNädalaAlgusKuupaev(now),
+                Tooriistad.MoodustaNädalaLopuKuupaev(now));
+        int kuusharjutatud = mPPManager.ArvutaPerioodiMinutid(Tooriistad.MoodustaKuuAlgusKuupaev(now),
+                Tooriistad.MoodustaKuuLopuKuupaev(now));
+
+        onView(withId(R.id.paevasharjutatud)).check(ViewAssertions.matches(withText(String.valueOf(paevasharjutatud) + " m" )));
+        onView(withId(R.id.nadalasharjutatud)).check(ViewAssertions.matches(withText(String.valueOf(nadalasharjutatud) + " m" )));
+        onView(withId(R.id.kuusharjutatud)).check(ViewAssertions.matches(withText(String.valueOf(kuusharjutatud) + " m" )));;
+    }
+
+    public static void TeoseStatistikaRiba(Context context, String arv, int minutid){
+        onView(withId(R.id.teoseharjutustearv)).check(ViewAssertions.matches(withText(arv)));
+        onView(withId(R.id.teoseharjutustekestus)).
+                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(context, minutid/60))));
+    }
+
+    public static void TeosListStatistikaRiba(int pos, String arv, int minutid){
+        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
+                atPositionOnView(pos,R.id.teoslistteoseharjutustearv)).
+                check(ViewAssertions.matches(withText(arv)));
+        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
+                atPositionOnView(pos,R.id.teoslistteoseharjutustekestus)).
+                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutidTabloo(minutid/60))));
     }
 
     public static void AvaSahtelValiKalender() {
@@ -190,6 +223,7 @@ import static junit.framework.Assert.assertEquals;
     }
 
     public static void Oota(int aeg) {
+        IdlingPolicies.setMasterPolicyTimeout(5, TimeUnit.MINUTES);
         IdlingPolicies.setIdlingResourceTimeout(5, TimeUnit.MINUTES);
         // Ootamine
         EemaldaOotajad();
