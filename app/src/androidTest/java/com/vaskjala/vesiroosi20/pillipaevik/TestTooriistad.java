@@ -3,10 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 import android.app.Activity;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingPolicies;
-import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.ViewAssertion;
+import android.support.test.espresso.*;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.DrawerActions;
@@ -18,10 +15,13 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
+import android.view.View;
 import android.widget.DatePicker;
+import android.widget.NumberPicker;
 import android.widget.TimePicker;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import android.support.test.espresso.contrib.PickerActions;
 
@@ -64,29 +64,40 @@ import static junit.framework.Assert.assertEquals;
         Calendar c2 = Calendar.getInstance();
         c1.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha - pikkus));
         c2.setTime(Tooriistad.MoodustaNihkegaKuupaev(minuteidmaha));
-        onView(withId(R.id.lopukuupaev)).perform(click());
+
+        SeaKuupaev(c1, R.id.lopukuupaev);
+        onView(withId(android.R.id.button1)).perform(click());
+
+        SeaKellaaeg(c1, R.id.lopukellaaeg);
+        onView(withId(android.R.id.button1)).perform(click());
+
+        SeaKuupaev(c2, R.id.alguskuupaev);
+        onView(withId(android.R.id.button1)).perform(click());
+
+        SeaKellaaeg(c2, R.id.alguskellaaeg);
+        onView(withId(android.R.id.button1)).perform(click());
+    }
+
+    public static void SeaKuupaev(Calendar c, int ressursiid){
+        onView(withId(ressursiid)).perform(click());
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
-                perform(PickerActions.setDate(c1.get(Calendar.YEAR),
-                        c1.get(Calendar.MONTH) + 1, c1.get(Calendar.DAY_OF_MONTH)));
-        onView(withId(android.R.id.button1)).perform(click());
+                perform(PickerActions.setDate(c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)));
+    }
 
-        onView(withId(R.id.lopukellaaeg)).perform(click());
+    public static void SeaKellaaeg(Calendar c, int ressursiid){
+        onView(withId(ressursiid)).perform(click());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
-                perform(PickerActions.setTime(c1.get(Calendar.HOUR_OF_DAY),
-                        c1.get(Calendar.MINUTE)));
-        onView(withId(android.R.id.button1)).perform(click());
+                perform(PickerActions.setTime(c.get(Calendar.HOUR_OF_DAY),
+                        c.get(Calendar.MINUTE)));
+    }
 
-        onView(withId(R.id.alguskuupaev)).perform(click());
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).
-                perform(PickerActions.setDate(c2.get(Calendar.YEAR),
-                        c2.get(Calendar.MONTH) + 1, c2.get(Calendar.DAY_OF_MONTH)));
-        onView(withId(android.R.id.button1)).perform(click());
+    public static void KontrolliAjad(Calendar calendar){
+        onView(withId(R.id.alguskuupaev)).check(ViewAssertions.matches(withText(Tooriistad.KujundaKuupaev(calendar.getTime()))));
+        onView(withId(R.id.alguskellaaeg)).check(ViewAssertions.matches(withText(Tooriistad.KujundaKellaaeg(calendar.getTime()))));
+        onView(withId(R.id.lopukuupaev)).check(ViewAssertions.matches(withText(Tooriistad.KujundaKuupaev(calendar.getTime()))));
+        onView(withId(R.id.lopukellaaeg)).check(ViewAssertions.matches(withText(Tooriistad.KujundaKellaaeg(calendar.getTime()))));
 
-        onView(withId(R.id.alguskellaaeg)).perform(click());
-        onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).
-                perform(PickerActions.setTime(c2.get(Calendar.HOUR_OF_DAY),
-                        c2.get(Calendar.MINUTE)));
-        onView(withId(android.R.id.button1)).perform(click());
     }
 
     public static void LisaUusHarjutusSalvestisega(String nimi, int salvetisepikkus) {
@@ -205,6 +216,15 @@ import static junit.framework.Assert.assertEquals;
         }
     }
 
+    public static void AvaPilliPaevik(Context context) {
+        UiObject allAppsButton = TestTooriistad.AnnaUiDevice()
+                .findObject(new UiSelector().text(context.getResources().getString(R.string.rakenduse_pealkiri)));
+        try {
+            allAppsButton.clickAndWaitForNewWindow();
+        } catch (UiObjectNotFoundException e) {
+            assertEquals(context.getResources().getString(R.string.rakenduse_pealkiri), "Ei leitud");
+        }
+    }
     public static void MultiFragmentTuvastus(ActivityTestRule activityTestRule) {
         if (!bMultiFragmentTuvastatud) {
             if (BuildConfig.DEBUG) Log.d("TestTooriistad", "Tuvastame mitmefragmentsust");
@@ -248,5 +268,23 @@ import static junit.framework.Assert.assertEquals;
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
 
         return new RecyclerViewMatcher(recyclerViewId);
+    }
+    public static ViewAction setNumber(final int num) {
+        return new ViewAction() {
+            @Override
+            public void perform(UiController uiController, View view) {
+                NumberPicker np = (NumberPicker) view;
+                np.setValue(num);
+
+            }
+            @Override
+            public String getDescription() {
+                return "Set the passed number into the NumberPicker";
+            }
+            @Override
+            public Matcher<View> getConstraints() {
+                return ViewMatchers.isAssignableFrom(NumberPicker.class);
+            }
+        };
     }
 }

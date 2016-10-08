@@ -9,21 +9,21 @@ import android.support.test.rule.ActivityTestRule;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Created by mihkel on 1.10.2016.
  */
-public class TestHarjutusLisaSalvestisega {
+public class TestHarjutusKustutaTeos {
     @Rule
     public ActivityTestRule<PeaActivity> mActivityRule = new ActivityTestRule(
             PeaActivity.class);
@@ -34,26 +34,20 @@ public class TestHarjutusLisaSalvestisega {
     }
 
     @Test
-    public void TestLisaSalvestisega() {
+    public void TestKustutaTeos() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos4_nimi))), click()).atPosition(0));
-        TestTooriistad.LisaUusHarjutusSalvestisega("", 125 * 1000);
-        TestTooriistad.VajutaKodu();
+        onView(withId(R.id.kustutateos)).perform(click());
+        onView(withText(containsString(resources.getString(R.string.dialog_kas_kustuta_teose_kusimus_osa1))))
+                .check(ViewAssertions.matches(is(withText(containsString(resources.getString(R.string.test_teos4_nimi))))));
 
-        TestTooriistad.TeoseStatistikaRiba(context, "1", 125);
-        onView(withId(R.id.harjutuslist_harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
-        onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
+        onView(withId(android.R.id.button1)).perform(click());
 
-        TestTooriistad.VajutaKoduKui1Fragment();
-
-        // Teose statistika kontroll
-        TestTooriistad.TeosListStatistikaRiba(3, "1", 125);
-
-        if(TestTooriistad.OnMultiFragment())
-            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
+        onView(allOf(withId(R.id.harjutua_list), hasDescendant(withText(resources.getString(R.string.test_teos4_nimi)))))
+                .check(ViewAssertions.doesNotExist());
 
         TestTooriistad.StatistikaKontroll(context);
 

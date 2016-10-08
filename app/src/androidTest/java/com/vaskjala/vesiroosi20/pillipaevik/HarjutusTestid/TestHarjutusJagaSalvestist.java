@@ -44,9 +44,7 @@ public class TestHarjutusJagaSalvestist {
         TestTooriistad.LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos4_h2_nimi), 75 * 1000);
         TestTooriistad.VajutaKodu();
 
-        onView(withId(R.id.teoseharjutustearv)).check(ViewAssertions.matches(withText("2")));
-        onView(withId(R.id.teoseharjutustekestus)).
-                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(context, (125+75)/60))));
+        TestTooriistad.TeoseStatistikaRiba(context,"2", (125+75));
         onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
                 check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos4_h2_nimi)))));
         onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
@@ -56,12 +54,7 @@ public class TestHarjutusJagaSalvestist {
         TestTooriistad.VajutaKoduKui1Fragment();
 
         // Teose statistika kontroll
-        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
-                atPositionOnView(3,R.id.teoslistteoseharjutustearv)).
-                check(ViewAssertions.matches(withText("2")));
-        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
-                atPositionOnView(3,R.id.teoslistteoseharjutustekestus)).
-                check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutidTabloo((125+75)/60))));
+        TestTooriistad.TeosListStatistikaRiba(3, "2", (125+75));
 
         if(TestTooriistad.OnMultiFragment())
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos4_h2_nimi))));

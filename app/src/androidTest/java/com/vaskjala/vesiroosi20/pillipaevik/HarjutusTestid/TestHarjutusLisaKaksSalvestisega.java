@@ -80,5 +80,8 @@ public class TestHarjutusLisaKaksSalvestisega {
         TestTooriistad.TeosListStatistikaRiba(3, "3", (125+60+10));
         TestTooriistad.StatistikaKontroll(context);
 
+        if(TestTooriistad.OnMultiFragment())
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos4_h3_nimi))));
+
     }
 }

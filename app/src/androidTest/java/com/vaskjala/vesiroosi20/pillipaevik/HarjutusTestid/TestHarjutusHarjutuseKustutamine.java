@@ -56,20 +56,13 @@ public class TestHarjutusHarjutuseKustutamine {
         onView(withId(android.R.id.button1)).perform(click());
 
         // Teose statistika kontroll teosel
-        onView(withId(R.id.teoseharjutustearv)).check(ViewAssertions.matches(withText("1")));
-        onView(withId(R.id.teoseharjutustekestus))
-                .check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutid(context, 125/60))));
+        TestTooriistad.TeoseStatistikaRiba(context, "1", 125);
         onView(withText(resources.getString(R.string.test_teos4_h2_nimi))).check(ViewAssertions.doesNotExist());
 
         TestTooriistad.VajutaKoduKui1Fragment();
 
         // Teose statistika kontroll teoste listis
-        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list)
-                .atPositionOnView(3,R.id.teoslistteoseharjutustearv))
-                .check(ViewAssertions.matches(withText("1")));
-        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list)
-                .atPositionOnView(3,R.id.teoslistteoseharjutustekestus))
-                .check(ViewAssertions.matches(withText(Tooriistad.KujundaHarjutusteMinutidTabloo(125/60))));
+        TestTooriistad.TeosListStatistikaRiba(3, "1", 125);
 
         TestTooriistad.StatistikaKontroll(context);
 

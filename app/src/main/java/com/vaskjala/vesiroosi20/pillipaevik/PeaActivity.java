@@ -553,7 +553,13 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(teosFragment != null) {
             teosFragment.VarskendaHarjutusteJaStatistika();
         }
+        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
+        if(teosListFragment != null){
+            teosListFragment.VarskendaProgressid();
+        }
+
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         VarskendaTeosListiElement(mPPManager.getAllTeosed().indexOf(mPPManager.getTeos(teosid)));
+
     }
 }

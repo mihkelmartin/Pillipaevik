@@ -77,9 +77,7 @@ public class TeosListFragment extends Fragment {
 
         // TODO Asünkroonselt + Fragmendi puhul peab seda värksendama ka siis kui Teos kustutatakse
         // TODO Ei toimi Tahvlil
-        PaevaHarjutusteProgress();
-        NadalaHarjutusteProgress();
-        KuuHarjutusteProgress();
+        VarskendaProgressid();
 
     }
 
@@ -183,6 +181,11 @@ public class TeosListFragment extends Fragment {
         }
     }
 
+    public void VarskendaProgressid(){
+        PaevaHarjutusteProgress();
+        NadalaHarjutusteProgress();
+        KuuHarjutusteProgress();
+    }
 
     private void PaevaHarjutusteProgress(){
 
