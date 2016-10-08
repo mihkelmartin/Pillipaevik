@@ -31,6 +31,8 @@
     <string name="test_teos3_kommentaar">Õhtul tinistades tuli mõte</string>
     <string name="test_teos3_h1_nimi">TIII HI</string>
     <string name="test_teos3_h2_nimi">TIII HII</string>
+    <string name="test_teos3_h3_nimi">TIII HIII</string>
+    <string name="test_teos3_h4_nimi">TIII HIV</string>
 
     <string name="test_teos4_nimi">Testteos IV</string>
     <string name="test_teos4_autor">Regina Palatu</string>

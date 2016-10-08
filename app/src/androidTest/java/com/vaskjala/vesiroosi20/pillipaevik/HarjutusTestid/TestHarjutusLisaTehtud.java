@@ -46,7 +46,7 @@ public class TestHarjutusLisaTehtud {
         Resources resources = context.getResources();
 
         onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos2_nimi))), click()).atPosition(0));
+                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()).atPosition(0));
         onView(withId(R.id.lisatehtud)).perform(click());
         Calendar c0 = Calendar.getInstance();
         Calendar c1 = Calendar.getInstance(); c1.setTime(c0.getTime()); c1.add(Calendar.MINUTE, -120);
@@ -55,14 +55,14 @@ public class TestHarjutusLisaTehtud {
         Calendar c4 = Calendar.getInstance(); c4.setTime(c0.getTime()); c4.add(Calendar.MINUTE, 2880);
 
         if(TestTooriistad.OnMultiFragment()) {
-            TestTooriistad.TeoseStatistikaRiba(context, "3", 300 + 900);
-            TestTooriistad.TeosListStatistikaRiba(1, "3", 300 + 900);
+            TestTooriistad.TeoseStatistikaRiba(context, "3", 2400 + 600);
+            TestTooriistad.TeosListStatistikaRiba(2, "3", 2400 + 600);
             TestTooriistad.StatistikaKontroll(context);
         }
         TestTooriistad.KontrolliAjad(c0);
 
         onView(withId(R.id.harjutusekirjeldus))
-                .perform(ViewActions.replaceText(resources.getString(R.string.test_teos2_h4_nimi)), ViewActions.closeSoftKeyboard());
+                .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h3_nimi)), ViewActions.closeSoftKeyboard());
 
 
         TestTooriistad.SeaKellaaeg(c1, R.id.lopukellaaeg);
@@ -89,12 +89,12 @@ public class TestHarjutusLisaTehtud {
         if(TestTooriistad.OnMultiFragment()){
             onView(withId(R.id.harjutuslist))
                     .check(ViewAssertions.
-                            matches(hasDescendant(allOf(withId(R.id.harjutuslist_harjutusekirjeldus), withText(resources.getString(R.string.test_teos2_h4_nimi))))));
+                            matches(hasDescendant(allOf(withId(R.id.harjutuslist_harjutusekirjeldus), withText(resources.getString(R.string.test_teos3_h3_nimi))))));
         }
 
         if(TestTooriistad.OnMultiFragment()) {
-            TestTooriistad.TeoseStatistikaRiba(context, "3", 300 + 900 + 7200);
-            TestTooriistad.TeosListStatistikaRiba(1, "3", 300 + 900 + 7200);
+            TestTooriistad.TeoseStatistikaRiba(context, "3", 2400 + 600 + 7200);
+            TestTooriistad.TeosListStatistikaRiba(2, "3", 2400 + 600 + 7200);
             TestTooriistad.StatistikaKontroll(context);
         }
 
@@ -104,8 +104,8 @@ public class TestHarjutusLisaTehtud {
         onView(withId(android.R.id.button1)).perform(click());
 
         if(TestTooriistad.OnMultiFragment()) {
-            TestTooriistad.TeoseStatistikaRiba(context, "3", 300 + 900 + 6600);
-            TestTooriistad.TeosListStatistikaRiba(1, "3", 300 + 900 + 6600);
+            TestTooriistad.TeoseStatistikaRiba(context, "3", 2400 + 600 + 6600);
+            TestTooriistad.TeosListStatistikaRiba(2, "3", 2400 + 600 + 6600);
             TestTooriistad.StatistikaKontroll(context);
         }
 
@@ -120,8 +120,8 @@ public class TestHarjutusLisaTehtud {
         onView(withId(R.id.pikkusminutites)).check(ViewAssertions.matches(withText("60")));
 
         if(TestTooriistad.OnMultiFragment()) {
-            TestTooriistad.TeoseStatistikaRiba(context, "3", 300 + 900 + 3600);
-            TestTooriistad.TeosListStatistikaRiba(1, "3", 300 + 900 + 3600);
+            TestTooriistad.TeoseStatistikaRiba(context, "3", 2400 + 600 + 3600);
+            TestTooriistad.TeosListStatistikaRiba(2, "3", 2400 + 600 + 3600);
             TestTooriistad.StatistikaKontroll(context);
         }
 
@@ -132,9 +132,9 @@ public class TestHarjutusLisaTehtud {
         onView(withId(android.R.id.button3)).perform(click());
 
         TestTooriistad.VajutaTagasiKui1Fragment();
-        TestTooriistad.TeoseStatistikaRiba(context, "3", 300 + 900 + 3600);
+        TestTooriistad.TeoseStatistikaRiba(context, "3", 2400 + 600 + 3600);
         TestTooriistad.VajutaKoduKui1Fragment();
-        TestTooriistad.TeosListStatistikaRiba(1, "3", 300 + 900 + 3600);
+        TestTooriistad.TeosListStatistikaRiba(2, "3", 2400 + 600 + 3600);
         TestTooriistad.StatistikaKontroll(context);
     }
 }

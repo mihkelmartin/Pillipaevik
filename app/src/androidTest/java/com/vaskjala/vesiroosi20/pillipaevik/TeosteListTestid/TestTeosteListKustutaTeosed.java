@@ -19,6 +19,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by mihkel on 1.10.2016.
@@ -36,17 +38,22 @@ public class TestTeosteListKustutaTeosed {
     @Test
     public void TestKustutaTeosed() {
         Context context = InstrumentationRegistry.getTargetContext();
-        Resources resources = context.getResources();
 
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        TestTooriistad.VajutaTagasiKui1Fragment();
+        onView(withId(R.id.kustutateos)).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        TestTooriistad.VajutaTagasiKui1Fragment();
+        onView(withId(R.id.kustutateos)).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        TestTooriistad.VajutaTagasiKui1Fragment();
+        onView(withId(R.id.kustutateos)).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+
         TestTooriistad.VajutaTagasi();
         TestTooriistad.AnnaUiDevice().pressHome();
         TestTooriistad.AvaPilliPaevik(context);
