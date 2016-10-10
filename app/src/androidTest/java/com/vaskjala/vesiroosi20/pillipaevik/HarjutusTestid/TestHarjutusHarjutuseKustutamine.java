@@ -63,7 +63,6 @@ public class TestHarjutusHarjutuseKustutamine {
 
         // Teose statistika kontroll teoste listis
         TestTooriistad.TeosListStatistikaRiba(3, "1", 125);
-
         TestTooriistad.StatistikaKontroll(context);
 
         if(TestTooriistad.OnMultiFragment()){

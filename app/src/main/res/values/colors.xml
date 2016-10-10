@@ -6,7 +6,7 @@
     <color name="primary_material_light">#546eff</color>
 
     <color name="pillipaevik_aktsent_toon">@color/colorPrimaryDark</color>
-    <color name="pillipaevik_peamine_taust">#F5F5F5</color>
+    <color name="pillipaevik_peamine_taust">#eeeeee</color>
     <color name="tabeli_rea_andmed">@color/primary_material_light</color>
     <color name="taimeri_teksti_varv">#004254</color>
 

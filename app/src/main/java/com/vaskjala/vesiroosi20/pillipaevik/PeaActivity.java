@@ -35,6 +35,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     private boolean bMitmeFragmendiga = false;
     private int teoseid = -1;
     private int harjutuseid = -1;
+    private int lisatehtudharjutuseid = -1;
     private int iSahtliValik = 0;
 
     @Override
@@ -47,6 +48,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             bEsimeneAvamine = false;
             teoseid = savedInstanceState.getInt("teoseid");
             harjutuseid = savedInstanceState.getInt("harjutuseid");
+            lisatehtudharjutuseid = savedInstanceState.getInt("lisatehtudharjutuseid");
         }
 
         setContentView(R.layout.activity_teos_list);
@@ -106,9 +108,12 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             }
             if(teos != null){
                 int teoseidtmp = teos.getId();
+                // Peame meelde jätma, sest TeosValitud sätib ümber
                 int harjutuseidtmp = harjutuseid;
+                int lisatehtudharjutuseidtmp = lisatehtudharjutuseid;
                 teoseid = -1;
                 TeosValitud(teoseidtmp, 0);
+                lisatehtudharjutuseid = lisatehtudharjutuseidtmp;
                 HarjutusValitud(teoseid, harjutuseidtmp);
             }
         }
@@ -124,6 +129,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("teoseid", this.teoseid);
         outState.putInt("harjutuseid", this.harjutuseid);
+        outState.putInt("lisatehtudharjutuseid", this.lisatehtudharjutuseid);
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onSaveInstanceState :" + this.teoseid + " " + this.harjutuseid );
         super.onSaveInstanceState(outState);
     }
@@ -323,7 +329,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     public void TeosValitud(int teoseid, int itemposition) {
 
         if(bMitmeFragmendiga) {
-            FragmentTransaction ft;
             if (this.teoseid != teoseid) {
                 SuleHarjutusFragment();
                 LooTeosFragment(new TeosFragment(), teoseid, itemposition);
@@ -374,6 +379,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Lisa tehtud harjutus");
         SuleHarjutusFragment();
         LooHarjutusFragment(new HarjutusLisaTehtudFragment(), teosid, -1);
+        this.lisatehtudharjutuseid = harjutuseid;
     }
 
     @Override
@@ -388,7 +394,12 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         SuleHarjutusFragment();
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         if(mPPManager.getHarjutus(teosid, harjutusid) != null) {
-            LooHarjutusFragment(new HarjutusMuudaFragment(), teosid, harjutusid);
+            if(lisatehtudharjutuseid == harjutusid) {
+                LooHarjutusFragment(new HarjutusLisaTehtudFragment(), teosid, harjutusid);
+            } else {
+                LooHarjutusFragment(new HarjutusMuudaFragment(), teosid, harjutusid);
+                lisatehtudharjutuseid = -1;
+            }
         } else {
             ValiEsimeneHarjutusKord(teosid);
         }
@@ -547,6 +558,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             HarjutusKord harjutusKord = harjutusKorrad.get(0);
             LooHarjutusFragment(new HarjutusMuudaFragment(), teos.getId(), harjutusKord.getId());
         }
+        lisatehtudharjutuseid = -1;
     }
     private void VarskendaTeoseVaated(int teosid){
         TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teos_hoidja);

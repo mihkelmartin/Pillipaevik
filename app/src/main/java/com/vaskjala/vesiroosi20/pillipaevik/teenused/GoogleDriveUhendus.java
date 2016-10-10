@@ -1,5 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -357,7 +359,7 @@ public class GoogleDriveUhendus  implements
             }
         }
     }
-    public void onConnected(@Nullable Bundle bundle) {
+    public void onConnected(@Nullable final Bundle bundle) {
 
         if(BuildConfig.DEBUG) Log.d("GoogleDriveUhendus", "onConnected algus");
         final DriveFolder pGDRoot = Drive.DriveApi.getRootFolder(mGoogleApiClient);
@@ -493,5 +495,15 @@ public class GoogleDriveUhendus  implements
             }
         }
         return retVal;
+    }
+
+    private void SeaKontoSeadetesse(){
+        AccountManager accountManager = AccountManager.get(mApplicationContext);
+        Account[] accounts = accountManager.getAccounts();
+        for (Account account : accounts){
+            if (BuildConfig.DEBUG) Log.e("Seadme kontod:", account.toString());
+        }
+
+
     }
 }
