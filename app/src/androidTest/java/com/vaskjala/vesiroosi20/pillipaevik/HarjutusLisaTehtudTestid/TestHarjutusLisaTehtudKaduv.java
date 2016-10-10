@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik.HarjutusTestid;
+package com.vaskjala.vesiroosi20.pillipaevik.HarjutusLisaTehtudTestid;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -81,7 +81,7 @@ public class TestHarjutusLisaTehtudKaduv {
         if(TestTooriistad.OnMultiFragment())
             onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText("")))).perform(click());
 
-        onView(Matchers.allOf(withId(R.id.harjutuslistrida), withText(""))).check(ViewAssertions.doesNotExist());
+        onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText("")))).check(ViewAssertions.doesNotExist());
 
         TestTooriistad.VajutaKoduKui1Fragment();
         TestTooriistad.TeosListStatistikaRiba(2, "3", 2400 + 600 + 3600);

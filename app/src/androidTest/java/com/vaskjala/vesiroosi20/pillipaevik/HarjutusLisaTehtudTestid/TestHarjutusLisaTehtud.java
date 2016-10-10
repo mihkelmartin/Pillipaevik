@@ -1,4 +1,4 @@
-package com.vaskjala.vesiroosi20.pillipaevik.HarjutusTestid;
+package com.vaskjala.vesiroosi20.pillipaevik.HarjutusLisaTehtudTestid;
 
 import android.content.Context;
 import android.content.res.Resources;

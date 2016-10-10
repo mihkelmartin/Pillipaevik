@@ -3,6 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import com.vaskjala.vesiroosi20.pillipaevik.AruanneTestid.AruanneKoondTest;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKalenderTestid.KalenderKoondTest;
+import com.vaskjala.vesiroosi20.pillipaevik.HarjutusLisaTehtudTestid.HarjutusLisaTehtudKoondTest;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusTestid.HarjutusKoondTest;
 import com.vaskjala.vesiroosi20.pillipaevik.SeadedTestid.SeadedKoondTest;
 import com.vaskjala.vesiroosi20.pillipaevik.TeosTestid.TeosKoondTest;
@@ -19,6 +20,7 @@ import org.junit.runners.Suite;
         AruanneKoondTest.class,
         TeosKoondTest.class,
         HarjutusKoondTest.class,
+        HarjutusLisaTehtudKoondTest.class,
         TestTeosteListKustutaTeosed.class})
 
 public class KoondTest  {}

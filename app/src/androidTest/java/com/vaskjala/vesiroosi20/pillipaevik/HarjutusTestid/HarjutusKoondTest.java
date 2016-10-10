@@ -16,8 +16,6 @@ import org.junit.runners.Suite;
         TestHarjutusLisaKaksSalvestisega.class,
         TestHarjutusKustutaMangivSalvestis.class,
         TestHarjutusKustutaSalvestav.class,
-        TestHarjutusKustutaTeos.class,
-        TestHarjutusLisaTehtud.class,
-        TestHarjutusLisaTehtudKaduv.class})
+        TestHarjutusKustutaTeos.class})
 
 public class HarjutusKoondTest {}

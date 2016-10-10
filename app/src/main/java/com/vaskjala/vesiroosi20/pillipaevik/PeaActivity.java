@@ -101,20 +101,20 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(bMitmeFragmendiga) {
             PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
             Teos teos = mPPManager.getTeos(teoseid);
+            // Pillipäevikut avades teosid = -1 või kui Teosed puuduvad
             if(teos == null) {
                 List<Teos> teosList = mPPManager.getAllTeosed();
-                if(teosList != null && !teosList.isEmpty())
+                if(teosList != null && !teosList.isEmpty()){
                     teos = mPPManager.getAllTeosed().get(0);
+                    if(teos != null) {
+                        TeosValitud(teos.getId(), 0);
+                        HarjutusValitud(teos.getId(), harjutuseid);
+                    }
+                }
             }
-            if(teos != null){
-                int teoseidtmp = teos.getId();
-                // Peame meelde jätma, sest TeosValitud sätib ümber
-                int harjutuseidtmp = harjutuseid;
-                int lisatehtudharjutuseidtmp = lisatehtudharjutuseid;
-                teoseid = -1;
-                TeosValitud(teoseidtmp, 0);
-                lisatehtudharjutuseid = lisatehtudharjutuseidtmp;
-                HarjutusValitud(teoseid, harjutuseidtmp);
+            // Kui Harjutus on mõnes teises Activitys kustutatud - Kalender
+            if(teos != null && mPPManager.getHarjutus(teoseid, harjutuseid) == null) {
+                HarjutusValitud(teoseid, harjutuseid);
             }
         }
     }
@@ -261,15 +261,6 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
             if(mPPManager.getHarjutus(teoseid, uueharjutuseid) != null) {
                 HarjutusValitud(teoseid, uueharjutuseid);
-            } else {
-                Teos teos = mPPManager.getTeos(teoseid);
-                List<HarjutusKord> harjutusKorrad = teos.getHarjustuskorrad(getApplicationContext());
-                if(!harjutusKorrad.isEmpty()) {
-                    HarjutusKord harjutusKord = harjutusKorrad.get(0);
-                    if (harjutusKord != null) {
-                        HarjutusValitud(teoseid, harjutusKord.getId());
-                    }
-                }
             }
         }
         if (requestCode == getResources().getInteger(R.integer.KALENDER_ACTIVITY_START)) {
@@ -391,7 +382,12 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     public void HarjutusValitud(int teosid, int harjutusid) {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Avan olemasolevat harjutust. Teosid : " + teosid +
                 " Harjutus:" + harjutusid);
-        SuleHarjutusFragment();
+
+        Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
+        if (harjutusfragment != null && ((HarjutusFragment)harjutusfragment).getHarjutuskord().getId() != harjutusid)  {
+            SuleHarjutusFragment();
+        }
+
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         if(mPPManager.getHarjutus(teosid, harjutusid) != null) {
             if(lisatehtudharjutuseid == harjutusid) {
