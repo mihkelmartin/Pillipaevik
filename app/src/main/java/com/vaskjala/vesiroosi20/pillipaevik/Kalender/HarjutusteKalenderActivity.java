@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.*;
 
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 
@@ -76,15 +77,19 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
         if(bMitmeFragmendiga){
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             SuleHarjutusFragment(ft);
-            Fragment harjutusMuudaFragment = new HarjutusMuudaFragment();
-            Bundle args = new Bundle();
-            args.putInt("teos_id", teosid);
-            args.putInt("harjutus_id", harjutusid);
-            args.putInt("item_position", itemposition);
-            harjutusMuudaFragment.setArguments(args);
-            ft.replace(R.id.harjutus_hoidja, harjutusMuudaFragment);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
+            PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+            boolean bHarjutusOlemas = mPPManager.getHarjutus(teosid, harjutusid) != null;
+            if(bHarjutusOlemas) {
+                Fragment harjutusMuudaFragment = new HarjutusMuudaFragment();
+                Bundle args = new Bundle();
+                args.putInt("teos_id", teosid);
+                args.putInt("harjutus_id", harjutusid);
+                args.putInt("item_position", itemposition);
+                harjutusMuudaFragment.setArguments(args);
+                ft.replace(R.id.harjutus_hoidja, harjutusMuudaFragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+            }
         } else {
             Intent intent = new Intent(this, HarjutusMuudaActivity.class);
             intent.putExtra("teos_id", teosid);

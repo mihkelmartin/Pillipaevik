@@ -28,7 +28,7 @@
 
     // Menüüd
     <string name="lisa_teos">Lisa teos…</string>
-    <string name="kusututa">Kusututa…</string>
+    <string name="kusututa">Kusututa harjutus…</string>
     <string name="AlustaUutHarjutust">Alusta uut…</string>
     <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
 
@@ -116,6 +116,8 @@
     // Harjutuse/Salvestuse kustutamise dialoog
     <string name="dialog_kas_kustuta_harjutuse_kusimus">Kustutad harjutuse</string>
     <string name="dialog_kas_kustuta_salvestuse_kusimus">Kustutad salvetuse?</string>
+    <string name="snackbar_harjutuse_automaatne_kustutamine">Kestuseta harjutus kustutatud !</string>
+
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">Uus aeg on tulevikus! Aega ei muudetud!</string>

@@ -28,7 +28,7 @@
 
     // Menüüd
     <string name="lisa_teos">Add song…</string>
-    <string name="kusututa">Delete…</string>
+    <string name="kusututa">Delete exercise…</string>
     <string name="AlustaUutHarjutust">Start exercise…</string>
     <string name="LisaTehtudHarjutus">Add exercise …</string>
 
@@ -116,6 +116,7 @@
     // Harjutuse/Salvestuse kustutamise dialoog
     <string name="dialog_kas_kustuta_harjutuse_kusimus">Delete exercise</string>
     <string name="dialog_kas_kustuta_salvestuse_kusimus">Delete recording ?</string>
+    <string name="snackbar_harjutuse_automaatne_kustutamine">Exercise with no duration deleted !</string>
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">You have chosen a future time! The time wasn´t changed!</string>

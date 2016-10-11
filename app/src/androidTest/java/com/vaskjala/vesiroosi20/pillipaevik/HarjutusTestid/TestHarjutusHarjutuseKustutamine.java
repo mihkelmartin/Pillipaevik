@@ -57,7 +57,8 @@ public class TestHarjutusHarjutuseKustutamine {
 
         // Teose statistika kontroll teosel
         TestTooriistad.TeoseStatistikaRiba(context, "1", 125);
-        onView(withText(resources.getString(R.string.test_teos4_h2_nimi))).check(ViewAssertions.doesNotExist());
+        onView(allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(R.string.test_teos4_h2_nimi)))).
+                check(ViewAssertions.doesNotExist());
 
         TestTooriistad.VajutaKoduKui1Fragment();
 

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtsaKusimuseKuulaja;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 /**
  * Created by mihkel on 18.09.2016.
@@ -156,6 +157,7 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
                 SalvestaHarjutus();
             } else {
                 retVal = false;
+                Tooriistad.KuvaAutomaatseKustutamiseTeade((Activity) getHarjutusFragmendiKuulaja());
                 KustutaHarjutus();
             }
         }

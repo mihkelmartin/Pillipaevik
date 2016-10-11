@@ -345,6 +345,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     public void KustutaTeos(int teosid, int itemposition) {
         TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
         teosListFragment.mMainAdapter.notifyItemRemoved(itemposition);
+        VarskendaProgressid();
         EemaldaHarjutusFragment();
         SuleTeosFragment();
         ValiTeineTeos(itemposition);
@@ -383,13 +384,16 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Avan olemasolevat harjutust. Teosid : " + teosid +
                 " Harjutus:" + harjutusid);
 
+        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+        boolean bHarjutusOlemas = mPPManager.getHarjutus(teosid, harjutusid) != null;
+
         Fragment harjutusfragment = getFragmentManager().findFragmentById(R.id.harjutus_hoidja);
-        if (harjutusfragment != null && ((HarjutusFragment)harjutusfragment).getHarjutuskord().getId() != harjutusid)  {
+        if (harjutusfragment != null && bHarjutusOlemas &&
+                ((HarjutusFragment)harjutusfragment).getHarjutuskord().getId() != harjutusid)  {
             SuleHarjutusFragment();
         }
 
-        PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-        if(mPPManager.getHarjutus(teosid, harjutusid) != null) {
+        if(bHarjutusOlemas) {
             if(lisatehtudharjutuseid == harjutusid) {
                 LooHarjutusFragment(new HarjutusLisaTehtudFragment(), teosid, harjutusid);
             } else {
@@ -561,13 +565,18 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(teosFragment != null) {
             teosFragment.VarskendaHarjutusteJaStatistika();
         }
-        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-        if(teosListFragment != null){
-            teosListFragment.VarskendaProgressid();
-        }
+
+        VarskendaProgressid();
 
         PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
         VarskendaTeosListiElement(mPPManager.getAllTeosed().indexOf(mPPManager.getTeos(teosid)));
 
+    }
+
+    private void VarskendaProgressid(){
+        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
+        if(teosListFragment != null){
+            teosListFragment.VarskendaProgressid();
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -263,6 +264,11 @@ public final class Tooriistad {
                     }
                 });
         alertDialog.show();
+    }
+
+    public static void KuvaAutomaatseKustutamiseTeade(Activity activity){
+        Snackbar.make(activity.findViewById(android.R.id.content),
+                R.string.snackbar_harjutuse_automaatne_kustutamine, Snackbar.LENGTH_LONG).show();
     }
 
     public static List<String> LooAruandeKuud(int kuudearv){

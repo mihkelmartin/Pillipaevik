@@ -9,12 +9,12 @@ android {
             storePassword 'igeT1201'
         }
     }
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 10
         versionName '2.0.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -41,7 +41,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     // Required for instrumented tests
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    androidTestCompile 'com.android.support:support-annotations:24.2.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
@@ -51,18 +51,18 @@ dependencies {
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 
     // Pandud siia jõuga lisakse sest transitiivne nõue oli 23.1.1
-    androidTestCompile 'com.android.support:appcompat-v7:23.3.0'
-    androidTestCompile 'com.android.support:support-v4:23.3.0'
-    androidTestCompile 'com.android.support:recyclerview-v7:23.3.0'
-    androidTestCompile 'com.android.support:design:23.3.0'
+    androidTestCompile 'com.android.support:appcompat-v7:24.2.1'
+    androidTestCompile 'com.android.support:support-v4:24.2.1'
+    androidTestCompile 'com.android.support:recyclerview-v7:24.2.1'
+    androidTestCompile 'com.android.support:design:24.2.1'
 
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.google.android.gms:play-services-drive:9.0.2'
-    compile 'com.google.android.gms:play-services-identity:9.0.2'
-    compile 'com.google.android.gms:play-services-auth:9.0.2'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.google.android.gms:play-services-drive:9.6.0'
+    compile 'com.google.android.gms:play-services-identity:9.6.0'
+    compile 'com.google.android.gms:play-services-auth:9.6.0'
     compile 'pub.devrel:easypermissions:0.1.5'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'

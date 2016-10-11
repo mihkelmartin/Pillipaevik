@@ -28,7 +28,7 @@
 
     // Menüüd
     <string name="lisa_teos">Lisää kappale…</string>
-    <string name="kusututa">poista…</string>
+    <string name="kusututa">Poista kappale…</string>
     <string name="AlustaUutHarjutust">Aloita uusi…</string>
     <string name="LisaTehtudHarjutus">Lisää tehty …</string>
 
@@ -116,6 +116,7 @@
     // Harjutuse/Salvestuse kustutamise dialoog
     <string name="dialog_kas_kustuta_harjutuse_kusimus">Poistat harjoituksen</string>
     <string name="dialog_kas_kustuta_salvestuse_kusimus">Poistat nauhoituksen ?</string>
+    <string name="snackbar_harjutuse_automaatne_kustutamine">Harjoituksen kesto puuttuu. Harjoitus poistettu !</string>
 
     // Aja muutmise dialoogid
     <string name="ajamuutmine_aeg_tulevikus">Valitsemasi aika on tulevaisuudessa! Aikaa ei muutettu!</string>

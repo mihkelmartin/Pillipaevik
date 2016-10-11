@@ -44,15 +44,21 @@ public class TestTeosteListKustutaTeosed {
         onView(withId(R.id.kustutateos)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
 
-        onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.kustutateos)).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
+        TestTooriistad.StatistikaKontroll(context);
 
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.kustutateos)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
+
+        TestTooriistad.StatistikaKontroll(context);
+
+        onView(withId(R.id.harjutua_list)).
+                perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.kustutateos)).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+
+        TestTooriistad.StatistikaKontroll(context);
 
         TestTooriistad.VajutaTagasi();
         TestTooriistad.AnnaUiDevice().pressHome();
