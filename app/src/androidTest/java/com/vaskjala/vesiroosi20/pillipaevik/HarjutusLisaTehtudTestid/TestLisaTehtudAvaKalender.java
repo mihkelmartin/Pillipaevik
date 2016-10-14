@@ -20,6 +20,7 @@ import java.util.Calendar;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 
 /**
  * Created by mihkel on 1.10.2016.
@@ -31,40 +32,37 @@ public class TestLisaTehtudAvaKalender {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
 
     @Test
     public void TestLisaTehtudAvaKalender() {
-        if(TestTooriistad.OnMultiFragment()) {
+        if(OnMultiFragment()) {
             Context context = InstrumentationRegistry.getTargetContext();
             Resources resources = context.getResources();
 
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()).atPosition(0));
-            onView(withId(R.id.lisatehtud)).perform(click());
-
-            onView(withId(R.id.harjutuseandmed)).check(ViewAssertions.matches(isDisplayed()));
+            ValiTeos(resources.getString(R.string.test_teos3_nimi));
+            VajutaLisaTehtudHarjutus();
+            OnHarjutusLisaTehtudFragment();
 
             onView(withId(R.id.harjutusekirjeldus))
                     .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h7_nimi)), ViewActions.closeSoftKeyboard());
-            onView(withId(R.id.harjutuseandmed)).check(ViewAssertions.matches(isDisplayed()));
+            OnHarjutusLisaTehtudFragment();
 
             Calendar c0 = Calendar.getInstance();
             Calendar c1 = Calendar.getInstance(); c1.setTime(c0.getTime()); c1.add(Calendar.MINUTE, -120);
-            TestTooriistad.SeaKellaaeg(c1, R.id.alguskellaaeg);
-            onView(withId(android.R.id.button1)).perform(click());
+            SeaKellaaeg(c1, R.id.alguskellaaeg);
+            VajutaDialoogOK();
 
-            TestTooriistad.AvaSahtelValiKalender();
-            TestTooriistad.VajutaTagasi();
+            AvaSahtelValiKalender();
+            VajutaTagasi();
 
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_teos3_h7_nimi))))).perform(click());
-            onView(withId(R.id.harjutuseandmed)).check(ViewAssertions.matches(isDisplayed()));
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
+            OnHarjutusLisaTehtudFragment();
 
-            onView(withId(R.id.kustutaharjutus)).perform(click());
-            onView(withId(android.R.id.button1)).perform(click());
-
+            VajutaKustutaHarjutus();
+            VajutaDialoogOK();
         }
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
@@ -31,32 +32,36 @@ public class TestHarjutusSalvestiseLinkAruandele {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
     public void TestSalvestiseLinkAruandele() {
+
+        if(!OnReaalneSeade())
+            return;
+
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
-        onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos4_nimi))), click()).atPosition(0));
-        onView(allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(R.string.vaikimisisharjutusekirjeldus)))).perform(click());
+        ValiTeos(resources.getString(R.string.test_teos4_nimi));
+        LeiaHarjutus(resources.getString(R.string.vaikimisisharjutusekirjeldus)).perform(click());
         onView(withId(R.id.weblinkaruandele)).perform(click());
 
-        TestTooriistad.KeeraParemale();
-        TestTooriistad.KeeraParemale();
+        KeeraParemale();
+        KeeraParemale();
 
-        TestTooriistad.VajutaTagasiKui1Fragment();
-        TestTooriistad.VajutaKoduKui1Fragment();
+        VajutaTagasiKui1Fragment();
+        VajutaKoduKui1Fragment();
 
-        TestTooriistad.AvaSahtelValiAruanne();
+        AvaSahtelValiAruanne();
 
         List<String> mKuud  = Tooriistad.LooAruandeKuud(resources.getInteger(R.integer.kuudearv));
         onView(withText(mKuud.get(0))).perform(click());
-        TestTooriistad.AvaGmail();
-        TestTooriistad.VajutaTagasi();
-        TestTooriistad.VajutaTagasi();
+        AvaGmail();
+        VajutaTagasi();
+        VajutaTagasi();
+        VabastaKeeramine();
 
     }
 }

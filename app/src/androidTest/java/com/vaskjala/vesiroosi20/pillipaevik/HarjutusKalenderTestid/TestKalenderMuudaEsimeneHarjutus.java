@@ -3,8 +3,6 @@ package com.vaskjala.vesiroosi20.pillipaevik.HarjutusKalenderTestid;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -13,7 +11,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.LinearLayout;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
-import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,9 +19,10 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by mihkel on 28.09.2016.
@@ -39,27 +37,27 @@ public class TestKalenderMuudaEsimeneHarjutus {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
     public void     TestMuudaEsimeneHarjutus() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
-        TestTooriistad.AvaSahtelValiKalender();
+
+        AvaSahtelValiKalender();
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(0));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(1));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(2));
 
-        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).atPosition(1)).
-                check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi)))));
-
+        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),scrollTo()).atPosition(0));
+        onView(withRecyclerView(R.id.kalendri_tabel).atPosition(1)).check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi)))));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
-        onView(withId(R.id.harjutusekirjeldus)).
-                perform(ViewActions.replaceText(resources.getString(R.string.test_teos2_h3_nimi) + " MUUDETUD"), closeSoftKeyboard());
-        TestTooriistad.VajutaTagasiKui1Fragment();
-        if(TestTooriistad.OnMultiFragment())
+        onView(withId(R.id.harjutusekirjeldus)).perform(ViewActions.replaceText(resources.getString(R.string.test_teos2_h3_nimi) + " MUUDETUD"), closeSoftKeyboard());
+
+        VajutaTagasiKui1Fragment();
+        if(OnMultiFragment())
             onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
 
         onView(withId(R.id.kalendri_tabel)).check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi) + " MUUDETUD"))));

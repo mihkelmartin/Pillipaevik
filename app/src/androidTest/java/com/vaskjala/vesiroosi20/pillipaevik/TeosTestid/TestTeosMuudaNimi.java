@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.widget.LinearLayout;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
@@ -22,6 +21,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -44,13 +44,12 @@ public class TestTeosMuudaNimi {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
-        onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos2_nimi))), click()).atPosition(0));
+        ValiTeos(resources.getString(R.string.test_teos2_nimi));
         onView(withId(R.id.nimi)).perform(typeText(" MUUDETUD"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.autor)).perform(typeText(" MUUDETUD"), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.kommentaar)).
                 perform(replaceText(resources.getString(R.string.test_teos2_kommentaar) + " MUUDETUD"), ViewActions.closeSoftKeyboard());
-        TestTooriistad.VajutaKoduKui1Fragment();
+        VajutaKoduKui1Fragment();
         onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos2_nimi) + " MUUDETUD"))).
                 check(ViewAssertions.matches(isDisplayed()));
     }

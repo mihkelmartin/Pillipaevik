@@ -18,6 +18,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
@@ -32,7 +33,7 @@ public class TestHarjutusLisaKaduv {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
@@ -40,38 +41,36 @@ public class TestHarjutusLisaKaduv {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
-        onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos4_nimi))), click()).atPosition(0));
+        ValiTeos(resources.getString(R.string.test_teos4_nimi));
 
-        onView(withId(R.id.alustauut)).perform(click());
-        TestTooriistad.VajutaKodu();
+        VajutaAlustaUutHarjutust();
+        VajutaKodu();
         KontrolliTulemust(context);
 
-        onView(withId(R.id.alustauut)).perform(click());
-        onView(withId(R.id.harjutusuusfragment)).perform(ViewActions.closeSoftKeyboard());
+        VajutaAlustaUutHarjutust();
         TestTooriistad.VajutaTagasi();
         KontrolliTulemust(context);
 
-        onView(withId(R.id.alustauut)).perform(click());
+        VajutaAlustaUutHarjutust();
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(resources.getString(R.string.test_teos4_h3_nimi)), closeSoftKeyboard());
-        TestTooriistad.VajutaKodu();
+        VajutaKodu();
         KontrolliTulemust(context);
 
-        onView(withId(R.id.alustauut)).perform(click());
+        VajutaAlustaUutHarjutust();
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(resources.getString(R.string.test_teos4_h3_nimi)), closeSoftKeyboard());
-        TestTooriistad.VajutaTagasi();
+        VajutaTagasi();
         KontrolliTulemust(context);
 
         // Kustuta
-        onView(withId(R.id.alustauut)).perform(click());
+        VajutaAlustaUutHarjutust();
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(resources.getString(R.string.test_teos4_h3_nimi)), closeSoftKeyboard());
-        onView(withId(R.id.kustutaharjutus)).perform(click());
+        VajutaKustutaHarjutus();
         onView(withText(containsString(resources.getString(R.string.dialog_kas_kustuta_harjutuse_kusimus))))
                 .check(ViewAssertions.matches(is(withText(containsString(resources.getString(R.string.test_teos4_h3_nimi))))));
-        onView(withId(android.R.id.button1)).perform(click());
+        VajutaDialoogOK();
         KontrolliTulemust(context);
     }
 

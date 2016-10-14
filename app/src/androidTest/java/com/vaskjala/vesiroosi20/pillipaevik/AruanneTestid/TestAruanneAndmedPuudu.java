@@ -4,15 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
-import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,10 +19,9 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
@@ -59,7 +53,7 @@ public class TestAruanneAndmedPuudu {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
 
@@ -79,7 +73,7 @@ public class TestAruanneAndmedPuudu {
         editor.putString("minuinstrument", instrument);
         editor.commit();
 
-        TestTooriistad.AvaSahtelValiAruanne();
+        AvaSahtelValiAruanne();
         onView(withText(containsString(resources.getString(R.string.aruande_tegemise_keeldumise_pohjus)))).
                 check(ViewAssertions.matches(isDisplayed()));
 

@@ -25,6 +25,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
@@ -56,7 +57,7 @@ public class TestKalenderJagaAndmedPuudu {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
 
@@ -68,6 +69,10 @@ public class TestKalenderJagaAndmedPuudu {
 
     @Test
     public void TestAndmedPuudu() {
+
+        if(!OnReaalneSeade())
+            return;
+
         SharedPreferences sharedPref = context.getSharedPreferences(mActivityRule.
                 getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -76,10 +81,10 @@ public class TestKalenderJagaAndmedPuudu {
         editor.putString("minuinstrument", instrument);
         editor.commit();
 
-        TestTooriistad.AvaSahtelValiKalender();
-        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(0));
+        AvaSahtelValiKalender();
+        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
-        onView(withId(R.id.jaga)).perform(click());
+        VajutaJagaSalvestist();
         onView(withText(containsString(resources.getString(R.string.aruande_tegemise_keeldumise_pohjus)))).
                 check(ViewAssertions.matches(isDisplayed()));
 

@@ -7,7 +7,6 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.LinearLayout;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
@@ -20,6 +19,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -38,7 +38,7 @@ public class TestKalenderHarjutuseKustutamine {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
@@ -47,57 +47,35 @@ public class TestKalenderHarjutuseKustutamine {
         Resources resources = context.getResources();
 
         // Vali harjutus mille hiljem kustutame
-        if(TestTooriistad.OnMultiFragment()){
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos2_nimi))), click()));
+        if(OnMultiFragment()){
+            ValiTeos(resources.getString(R.string.test_teos2_nimi));
             onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).perform(click());
         }
 
-        TestTooriistad.AvaSahtelValiKalender();
+        AvaSahtelValiKalender();
 
-        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))), click()).atPosition(0));
+        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(withId(R.id.kustutaharjutus)).perform(click());
+        VajutaKustutaHarjutus();
         onView(withText(containsString(resources.getString(R.string.dialog_kas_kustuta_harjutuse_kusimus)))).
                 check(ViewAssertions.matches(is(withText(containsString(resources.getString(R.string.test_teos2_h3_nimi))))));
-        onView(withId(android.R.id.button2)).perform(click());
-        onView(withId(R.id.kustutaharjutus)).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
+        VajutaDialoogTuhista();
+        VajutaKustutaHarjutus();
+        VajutaDialoogOK();
 
-        // Kalendri päeva statisitika kontroll
-        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
-                atPositionOnView(0,R.id.paevakalenderharjutustearv)).
-                check(ViewAssertions.matches(withText("4")));
-        onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
-                atPositionOnView(0,R.id.paevakalenderharjutustekestus)).
-                check(ViewAssertions.matches(withText("01:10")));
+        KalendriStatistikaKontroll("4", "01:10");
+        VajutaKodu();
+        TeosListStatistikaRiba(1, "2", 1200);
+        StatistikaKontroll(context);
 
-        TestTooriistad.VajutaKodu();
-
-        // Teose statistika kontroll
-        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
-                atPositionOnView(1,R.id.teoslistteoseharjutustearv)).
-                check(ViewAssertions.matches(withText("2")));
-        onView(TestTooriistad.withRecyclerView(R.id.harjutua_list).
-                atPositionOnView(1,R.id.teoslistteoseharjutustekestus)).
-                check(ViewAssertions.matches(withText("00:20")));
-
-        TestTooriistad.StatistikaKontroll(context);
-
-        if(TestTooriistad.OnMultiFragment()){
+        if(OnMultiFragment()){
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos2_h2_nimi))));
 
             // Liigu väheke teoste vahel
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos1_nimi))), click()));
+            ValiTeos(resources.getString(R.string.test_teos1_nimi));
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos1_h3_nimi))));
-
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()));
+            ValiTeos(resources.getString(R.string.test_teos3_nimi));
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h2_nimi))));
-
         }
-
-
     }
 }

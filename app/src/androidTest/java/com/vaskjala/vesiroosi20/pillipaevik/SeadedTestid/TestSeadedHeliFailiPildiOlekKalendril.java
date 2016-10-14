@@ -46,6 +46,10 @@ public class TestSeadedHeliFailiPildiOlekKalendril {
 
     @Test
     public void TestHeliFailiPildiOlekKalendril() {
+
+        if(!TestTooriistad.OnReaalneSeade())
+            return;
+
         Context context = InstrumentationRegistry.getTargetContext();
         SharedPreferences sharedPref = context.getSharedPreferences(mActivityRule.
                 getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
@@ -56,7 +60,7 @@ public class TestSeadedHeliFailiPildiOlekKalendril {
         editor.commit();
 
         TestTooriistad.AvaSahtelValiKalender();
-        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(0));
+        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
                 atPositionOnView(1,R.id.kalender_paev_harjutus_helifaili_pilt)).
                 check(ViewAssertions.matches(withEffectiveVisibility(Visibility.GONE)));
@@ -68,12 +72,10 @@ public class TestSeadedHeliFailiPildiOlekKalendril {
         editor.commit();
 
         TestTooriistad.AvaSahtelValiKalender();
-        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(0));
+        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(TestTooriistad.withRecyclerView(R.id.kalendri_tabel).
                 atPositionOnView(1,R.id.kalender_paev_harjutus_helifaili_pilt)).
                 check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));
         TestTooriistad.VajutaTagasi();
-
-
     }
 }

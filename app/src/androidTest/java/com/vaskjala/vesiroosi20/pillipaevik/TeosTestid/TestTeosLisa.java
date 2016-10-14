@@ -18,6 +18,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.allOf;
 
 /**
@@ -38,26 +39,19 @@ public class TestTeosLisa {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
-        TestTooriistad.KeeraParemale();
-        onView(withId(R.id.lisateos)).perform(click());
-        if(TestTooriistad.OnMultiFragment())
-            onView(allOf(withId(R.id.content), withText(""))).
-                    check(ViewAssertions.matches(isDisplayed()));
+        KeeraParemale();
+        VajutaLisaTeos();
+        if(OnMultiFragment())
+            onView(allOf(withId(R.id.content), withText(""))).check(ViewAssertions.matches(isDisplayed()));
 
         onView(withId(R.id.nimi)).perform(typeText(resources.getString(R.string.test_teos4_nimi)), ViewActions.closeSoftKeyboard());
         onView(withId(R.id.autor)).perform(typeText(resources.getString(R.string.test_teos4_autor)), ViewActions.closeSoftKeyboard());
-        onView(withId(R.id.kommentaar)).
-                perform(replaceText(resources.getString(R.string.test_teos4_kommentaar)), ViewActions.closeSoftKeyboard());
+        onView(withId(R.id.kommentaar)).perform(replaceText(resources.getString(R.string.test_teos4_kommentaar)), ViewActions.closeSoftKeyboard());
 
-        if(TestTooriistad.OnMultiFragment())
-            onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos4_nimi)))).
-                    check(ViewAssertions.matches(isDisplayed()));
-
-        TestTooriistad.VajutaKoduKui1Fragment();
-
-        onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos4_nimi)))).
-                check(ViewAssertions.matches(isDisplayed()));
-
-
+        if(OnMultiFragment())
+            onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos4_nimi)))).check(ViewAssertions.matches(isDisplayed()));
+        VajutaKoduKui1Fragment();
+        onView(allOf(withId(R.id.content), withText(resources.getString(R.string.test_teos4_nimi)))).check(ViewAssertions.matches(isDisplayed()));
+        VabastaKeeramine();
     }
 }

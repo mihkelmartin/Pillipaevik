@@ -9,7 +9,6 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
-import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,10 +20,8 @@ import java.util.Arrays;
 import static android.content.Context.MODE_PRIVATE;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static junit.framework.Assert.assertEquals;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -35,7 +32,6 @@ import static org.hamcrest.core.IsNot.not;
 public class TestSeadedRaadioNupud {
 
     private static Context context = InstrumentationRegistry.getTargetContext();
-    private static Resources resources = context.getResources();
     private boolean bSalgolek;
     private boolean bGalgolek;
     private boolean bSsiire;
@@ -64,7 +60,7 @@ public class TestSeadedRaadioNupud {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
 
@@ -81,6 +77,7 @@ public class TestSeadedRaadioNupud {
 
     @Test
     public void TestRaadioNupud() {
+
         SharedPreferences sharedPref = context.getSharedPreferences(mActivityRule.
                 getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -89,7 +86,7 @@ public class TestSeadedRaadioNupud {
         editor.putBoolean("kaskasutadagoogledrive", bGalgolek);
         editor.commit();
 
-        TestTooriistad.AvaSahtelValiSeaded();
+        AvaSahtelValiSeaded();
 
         onView(withId(R.id.kasKasutadaGoogleDrive)).perform(ViewActions.scrollTo());
 
@@ -110,15 +107,18 @@ public class TestSeadedRaadioNupud {
         else
             onView(withId(R.id.kasKasutadaGoogleDrive)).check(ViewAssertions.matches(not(isChecked())));
 
-
-        TestTooriistad.VajutaKodu();
+        VajutaKodu();
 
         assertEquals(bStulemus, sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true ));
         assertEquals(bGtulemus, sharedPref.getBoolean("kaskasutadagoogledrive", true));
 
         editor.putString("googlekonto", googlekonto);
         editor.putBoolean("kaslubadamikrofonigasalvestamine", true);
-        editor.putBoolean("kaskasutadagoogledrive", true);
+        if(OnReaalneSeade())
+            editor.putBoolean("kaskasutadagoogledrive", true);
+        else
+            editor.putBoolean("kaskasutadagoogledrive", false);
+
         editor.commit();
     }
 }

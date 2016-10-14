@@ -18,7 +18,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.core.AllOf.allOf;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 
 /**
  * Created by mihkel on 1.10.2016.
@@ -30,39 +30,34 @@ public class TestLisaTehtudTuhiLisaUus {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
     public void TestLisaTehtudTuhiLisaUus() {
-        if (TestTooriistad.OnMultiFragment()) {
-
+        if (OnMultiFragment()) {
             Context context = InstrumentationRegistry.getTargetContext();
             Resources resources = context.getResources();
 
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()).atPosition(0));
-            onView(withId(R.id.lisatehtud)).perform(click());
+            ValiTeos(resources.getString(R.string.test_teos3_nimi));
+            VajutaLisaTehtudHarjutus();
             onView(withId(R.id.harjutusekirjeldus))
                     .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h6_nimi)), ViewActions.closeSoftKeyboard());
 
-            onView(withId(R.id.alustauut)).perform(click());
+            VajutaAlustaUutHarjutust();
             onView(withId(R.id.harjutusekirjeldus))
                     .perform(ViewActions.replaceText(resources.getString(R.string.test_h_salvestub)), ViewActions.closeSoftKeyboard());
 
-            onView(withId(R.id.mikrofoniluliti)).perform(click());
-            onView(withId(R.id.kaivitataimernupp)).perform(click());
-            TestTooriistad.Oota(3*1000);
-            onView(withId(R.id.kaivitataimernupp)).perform(click());
-            TestTooriistad.VajutaKodu();
+            VajutaMikrofoni();
+            VajutaTaimeriNuppu();
+            Oota(3*1000);
+            VajutaTaimeriNuppu();
+            VajutaKodu();
 
-            onView(withId(R.id.harjutuslist))
-                    .check(ViewAssertions.
-                            matches(hasDescendant(allOf(withId(R.id.harjutuslist_harjutusekirjeldus), withText(resources.getString(R.string.test_h_salvestub))))));
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_teos3_h6_nimi)))))
-                    .check(ViewAssertions.doesNotExist());
+            LeiaHarjutus(resources.getString(R.string.test_h_salvestub)).check(ViewAssertions.matches(isDisplayed()));
+            EiOleHarjutust(resources.getString(R.string.test_teos3_h6_nimi));
 
-            onView(withId(R.id.HarjutusTabel)).check(ViewAssertions.matches(isDisplayed()));
+            OnHarjutusMuudaFragment();
         }
     }
 }

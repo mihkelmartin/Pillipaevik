@@ -8,6 +8,12 @@ android {
             storeFile file('C:/Users/mihkel/Sertifikaadid/android.jks')
             storePassword 'igeT1201'
         }
+        PillipaevikDebug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('C:/Users/mihkel/Sertifikaadid/debug.keystore')
+            storePassword 'android'
+        }
     }
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
@@ -23,10 +29,20 @@ android {
         debug {
             debuggable true
         }
+        debugTestAVD {
+            debuggable true
+            signingConfig signingConfigs.PillipaevikDebug
+        }
+        debugTestReaalne {
+            debuggable true
+            signingConfig signingConfigs.PillipaevikDebug
+        }
         Pillipaevik {
             signingConfig signingConfigs.PillipaevikGooglePlay
         }
     }
+    testBuildType "debugTestAVD"
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
     }

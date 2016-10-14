@@ -9,7 +9,6 @@ import android.support.test.rule.ActivityTestRule;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,8 +16,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 
 /**
  * Created by mihkel on 1.10.2016.
@@ -30,32 +28,34 @@ public class TestHarjutusLisaSalvestisega {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
     public void TestLisaSalvestisega() {
+
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
-        onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos4_nimi))), click()).atPosition(0));
-        TestTooriistad.LisaUusHarjutusSalvestisega("", 125 * 1000);
-        TestTooriistad.VajutaKodu();
+        ValiTeos(resources.getString(R.string.test_teos4_nimi));
+        LisaUusHarjutusSalvestisega("", 125 * 1000);
+        VajutaKodu();
 
-        TestTooriistad.TeoseStatistikaRiba(context, "1", 125);
+        TeoseStatistikaRiba(context, "1", 125);
         onView(withId(R.id.harjutuslist_harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
-        onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
 
-        TestTooriistad.VajutaKoduKui1Fragment();
+        if(OnReaalneSeade())
+            onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
+
+        VajutaKoduKui1Fragment();
 
         // Teose statistika kontroll
-        TestTooriistad.TeosListStatistikaRiba(3, "1", 125);
+        TeosListStatistikaRiba(3, "1", 125);
 
-        if(TestTooriistad.OnMultiFragment())
+        if(OnMultiFragment())
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
 
-        TestTooriistad.StatistikaKontroll(context);
+        StatistikaKontroll(context);
 
     }
 }

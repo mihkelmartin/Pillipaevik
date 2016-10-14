@@ -13,6 +13,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.Matchers.allOf;
 
 
@@ -31,16 +32,16 @@ public class TestTeosLisaTuhiKoheKustuta {
 
     @Test
     public void TestLisaTuhiKoheKustuta() {
-        TestTooriistad.KeeraVasakule();
-        onView(withId(R.id.lisateos)).perform(click());
+        KeeraVasakule();
+        VajutaLisaTeos();
         if(TestTooriistad.OnMultiFragment())
-            onView(allOf(withId(R.id.content), withText(""))).
-                    check(ViewAssertions.matches(isDisplayed()));
+            onView(allOf(withId(R.id.content), withText(""))).check(ViewAssertions.matches(isDisplayed()));
 
-        onView(withId(R.id.kustutateos)).perform(click());
-        onView(withId(android.R.id.button2)).perform(click());
-        onView(withId(R.id.kustutateos)).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
+        VajutaKustutaTeos();
+        VajutaDialoogTuhista();
+        VajutaKustutaTeos();
+        VajutaDialoogOK();
         onView(allOf(withId(R.id.content), withText(""))).check(ViewAssertions.doesNotExist());
+        VabastaKeeramine();
     }
 }

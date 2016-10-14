@@ -22,6 +22,8 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.Oota;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.VajutaTagasi;
 
 /**
  * Created by mihkel on 28.09.2016.
@@ -45,10 +47,10 @@ public class TestSeadedNaviTiitliTekst {
         Resources resources = context.getResources();
 
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        TestTooriistad.Oota(1000);
+        Oota(1000);
         onView(withId(R.id.navitiitli_nimevali)).
                 check(ViewAssertions.matches(withText(resources.
                         getString(R.string.test_minueesnimi) + " " + resources.getString(R.string.test_minuperenimi))));
-        TestTooriistad.VajutaTagasi();
+        VajutaTagasi();
     }
 }

@@ -1,10 +1,7 @@
 package com.vaskjala.vesiroosi20.pillipaevik.TeosteListTestid;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
@@ -18,9 +15,7 @@ import org.junit.Test;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 
 /**
  * Created by mihkel on 1.10.2016.
@@ -41,34 +36,31 @@ public class TestTeosteListKustutaTeosed {
 
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.kustutateos)).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
-
-        TestTooriistad.StatistikaKontroll(context);
-
-        onView(withId(R.id.harjutua_list)).
-                perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.kustutateos)).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
-
-        TestTooriistad.StatistikaKontroll(context);
+        VajutaKustutaTeos();
+        VajutaDialoogOK();
+        StatistikaKontroll(context);
 
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.kustutateos)).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
+        VajutaKustutaTeos();
+        VajutaDialoogOK();
+        StatistikaKontroll(context);
 
-        TestTooriistad.StatistikaKontroll(context);
+        onView(withId(R.id.harjutua_list)).
+                perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        VajutaKustutaTeos();
+        VajutaDialoogOK();
+        StatistikaKontroll(context);
 
-        TestTooriistad.VajutaTagasi();
-        TestTooriistad.AnnaUiDevice().pressHome();
-        TestTooriistad.AvaPilliPaevik(context);
+        VajutaTagasi();
+        AnnaUiDevice().pressHome();
+        AvaPilliPaevik(context);
 
         TestTeosLisa testTeosLisa = new TestTeosLisa();
         testTeosLisa.TestLisaTeos();
 
-        TestTooriistad.KeeraParemale();
-        TestTooriistad.VajutaTagasi();
-
+        KeeraParemale();
+        VajutaTagasi();
+        VabastaKeeramine();
     }
 }

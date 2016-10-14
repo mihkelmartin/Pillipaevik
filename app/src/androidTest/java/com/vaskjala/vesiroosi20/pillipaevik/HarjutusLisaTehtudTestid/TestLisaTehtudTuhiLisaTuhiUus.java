@@ -7,7 +7,6 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
-import android.widget.NumberPicker;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
@@ -16,15 +15,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.Calendar;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
@@ -37,52 +32,46 @@ public class TestLisaTehtudTuhiLisaTuhiUus {
 
     @Before
     public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+        MultiFragmentTuvastus(mActivityRule);
     }
 
     @Test
     public void TestLisaTehtudTuhiLisaTuhiUus() {
-        if (TestTooriistad.OnMultiFragment()) {
-
-
+        if (OnMultiFragment()) {
             Context context = InstrumentationRegistry.getTargetContext();
             Resources resources = context.getResources();
 
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()).atPosition(0));
-            onView(withId(R.id.lisatehtud)).perform(click());
-            onView(withId(R.id.alustauut)).perform(click());
+            ValiTeos(resources.getString(R.string.test_teos3_nimi));
+            VajutaLisaTehtudHarjutus();
+            VajutaAlustaUutHarjutust();
             onView(withId(R.id.harjutusekirjeldus))
                     .perform(ViewActions.replaceText(resources.getString(R.string.test_h_ei_salvestu)), ViewActions.closeSoftKeyboard());
 
-            TestTooriistad.KeeraParemale();
-            TestTooriistad.VajutaKodu();
+            KeeraParemale();
+            VajutaKodu();
 
-            onView(withId(R.id.harjutuslist))
-                    .check(ViewAssertions.
-                            matches(hasDescendant(allOf(withId(R.id.harjutuslist_harjutusekirjeldus), withText("")))));
+            LeiaHarjutus("").check(ViewAssertions.matches(isDisplayed()));
             onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_h_ei_salvestu)))))
                     .check(ViewAssertions.doesNotExist());
 
-            TestTooriistad.KeeraVasakule();
+            KeeraVasakule();
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText("")));
-            onView(withId(R.id.harjutuseandmed)).check(ViewAssertions.matches(isDisplayed()));
+            OnHarjutusLisaTehtudFragment();
 
-            onView(withId(R.id.harjutua_list)).
-                    perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos3_nimi))), click()).atPosition(0));
+            ValiTeos(resources.getString(R.string.test_teos3_nimi));
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText("")));
-            onView(withId(R.id.harjutuseandmed)).check(ViewAssertions.matches(isDisplayed()));
+            OnHarjutusLisaTehtudFragment();
 
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText("")))).perform(click());
+            LeiaHarjutus("").perform(click());
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText("")));
-            onView(withId(R.id.harjutuseandmed)).check(ViewAssertions.matches(isDisplayed()));
+            OnHarjutusLisaTehtudFragment();
 
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_teos3_h2_nimi))))).perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h2_nimi)).perform(click());
             onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(""))))
                     .check(ViewAssertions.doesNotExist());
 
-            onView(withId(R.id.HarjutusTabel)).check(ViewAssertions.matches(isDisplayed()));
-
+            OnHarjutusMuudaFragment();
+            VabastaKeeramine();
         }
     }
 }
