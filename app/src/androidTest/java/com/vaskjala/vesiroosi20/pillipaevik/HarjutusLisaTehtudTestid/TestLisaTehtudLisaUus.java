@@ -59,7 +59,7 @@ public class TestLisaTehtudLisaUus {
 
             VajutaAlustaUutHarjutust();
             onView(withId(R.id.harjutusekirjeldus))
-                    .perform(ViewActions.replaceText(resources.getString(R.string.test_h_salvestub)), ViewActions.closeSoftKeyboard());
+                    .perform(ViewActions.replaceText(resources.getString(R.string.test_h_salvestub1)), ViewActions.closeSoftKeyboard());
 
             VajutaMikrofoni();
             VajutaTaimeriNuppu();
@@ -67,8 +67,8 @@ public class TestLisaTehtudLisaUus {
             VajutaTagasi();
 
             LeiaHarjutus(resources.getString(R.string.test_teos3_h6_nimi)).check(ViewAssertions.matches(isDisplayed()));
-            LeiaHarjutus(resources.getString(R.string.test_h_salvestub)).check(ViewAssertions.matches(isDisplayed()));
-            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_h_salvestub))));
+            LeiaHarjutus(resources.getString(R.string.test_h_salvestub1)).check(ViewAssertions.matches(isDisplayed()));
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_h_salvestub1))));
 
             LeiaHarjutus(resources.getString(R.string.test_teos3_h6_nimi)).perform(click());
             OnHarjutusMuudaFragment();

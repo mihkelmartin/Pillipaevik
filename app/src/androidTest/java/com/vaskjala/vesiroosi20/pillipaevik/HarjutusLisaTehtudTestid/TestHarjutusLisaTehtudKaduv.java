@@ -73,9 +73,9 @@ public class TestHarjutusLisaTehtudKaduv {
         VajutaKoduKui1Fragment();
 
         if(OnMultiFragment())
-            LeiaHarjutus("").perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h1_nimi)).perform(click());
 
-        onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText("")))).check(ViewAssertions.doesNotExist());
+        HarjutusPuudub("");
 
         VajutaKoduKui1Fragment();
         TeosListStatistikaRiba(2, "3", 2400 + 600 + 3600);

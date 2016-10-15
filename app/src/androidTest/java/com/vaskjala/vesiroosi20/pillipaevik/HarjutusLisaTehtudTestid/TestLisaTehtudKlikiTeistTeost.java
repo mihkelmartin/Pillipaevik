@@ -49,7 +49,7 @@ public class TestLisaTehtudKlikiTeistTeost {
             OnHarjutusLisaTehtudFragment();
 
             onView(withId(R.id.harjutusekirjeldus))
-                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h7_nimi)), ViewActions.closeSoftKeyboard());
+                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h11_nimi)), ViewActions.closeSoftKeyboard());
             OnHarjutusLisaTehtudFragment();
 
             Calendar c0 = Calendar.getInstance();
@@ -64,8 +64,8 @@ public class TestLisaTehtudKlikiTeistTeost {
 
             KeeraVasakule();
             onView(withId(R.id.harjutusekirjeldus)).
-                    check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h7_nimi))));
-            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
+                    check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h11_nimi))));
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h11_nimi)).perform(click());
             OnHarjutusLisaTehtudFragment();
 
             ValiTeos(resources.getString(R.string.test_teos1_nimi));
@@ -73,7 +73,7 @@ public class TestLisaTehtudKlikiTeistTeost {
 
             OnHarjutusMuudaFragment();
 
-            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h11_nimi)).perform(click());
             VajutaKustutaHarjutus();
             VajutaDialoogOK();
             VabastaKeeramine();

@@ -84,9 +84,10 @@ public class HarjutusMuudaActivity extends AppCompatActivity implements Harjutus
     }
 
     @Override
-    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition, int kustutamisealge) {
         Intent intent = new Intent();
         intent.putExtra("item_position", itemposition);
+        intent.putExtra("kustutamisealge", kustutamisealge);
         setResult(getResources().getInteger(R.integer.HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD), intent);
         finish();
     }

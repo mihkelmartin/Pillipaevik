@@ -48,10 +48,7 @@ public class TestHarjutusKustutaMangivSalvestis {
         VajutaKustutaHarjutus();
         VajutaDialoogOK();
         Oota(100);
+        HarjutusPuudub(resources.getString(R.string.test_teos4_h3_nimi));
         VajutaTagasiKui1Fragment();
-        onView(Matchers.allOf(withId(R.id.harjutuslistrida),
-                hasDescendant(withText(resources.getString(R.string.test_teos4_h3_nimi)))))
-                .check(ViewAssertions.doesNotExist());
-
     }
 }

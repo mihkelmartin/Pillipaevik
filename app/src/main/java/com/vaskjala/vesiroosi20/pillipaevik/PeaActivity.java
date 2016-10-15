@@ -262,6 +262,11 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             if(mPPManager.getHarjutus(teoseid, uueharjutuseid) != null) {
                 HarjutusValitud(teoseid, uueharjutuseid);
             }
+            if(data != null) {
+                int kustutamisealge = data.getIntExtra("kustutamisealge", 0);
+                if (kustutamisealge == Tooriistad.TUHIHARJUTUS_KUSTUTA)
+                    Tooriistad.KuvaAutomaatseKustutamiseTeade(this);
+            }
         }
         if (requestCode == getResources().getInteger(R.integer.KALENDER_ACTIVITY_START)) {
             if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusteKalenderActivity");
@@ -406,10 +411,12 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     }
 
     @Override
-    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition, int kustutamisealge) {
         VarskendaTeoseVaated(teosid);
         EemaldaHarjutusFragment();
         ValiEsimeneHarjutusKord(teosid);
+        if(kustutamisealge == Tooriistad.TUHIHARJUTUS_KUSTUTA)
+            Tooriistad.KuvaAutomaatseKustutamiseTeade(this);
     }
 
     @Override

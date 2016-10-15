@@ -5,12 +5,9 @@ import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
-import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -46,7 +43,7 @@ public class TestLisaTehtudTuhiLisaUus {
 
             VajutaAlustaUutHarjutust();
             onView(withId(R.id.harjutusekirjeldus))
-                    .perform(ViewActions.replaceText(resources.getString(R.string.test_h_salvestub)), ViewActions.closeSoftKeyboard());
+                    .perform(ViewActions.replaceText(resources.getString(R.string.test_h_salvestub2)), ViewActions.closeSoftKeyboard());
 
             VajutaMikrofoni();
             VajutaTaimeriNuppu();
@@ -54,8 +51,8 @@ public class TestLisaTehtudTuhiLisaUus {
             VajutaTaimeriNuppu();
             VajutaKodu();
 
-            LeiaHarjutus(resources.getString(R.string.test_h_salvestub)).check(ViewAssertions.matches(isDisplayed()));
-            EiOleHarjutust(resources.getString(R.string.test_teos3_h6_nimi));
+            LeiaHarjutus(resources.getString(R.string.test_h_salvestub2)).check(ViewAssertions.matches(isDisplayed()));
+            HarjutusPuudub(resources.getString(R.string.test_teos3_h6_nimi));
 
             OnHarjutusMuudaFragment();
         }

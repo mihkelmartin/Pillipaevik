@@ -207,7 +207,7 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
     }
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            KustutaHarjutus();
+            KustutaHarjutus(Tooriistad.KASUTAJA_KUSTUTAS);
         } else  if (dialog.getTag().equals("Kestusemuutus")) {
             int uuskestus = dialog.getArguments().getInt("kestus");
             if(getHarjutuskord().ArvutaPikkusminutitesUmardaUles() != uuskestus)

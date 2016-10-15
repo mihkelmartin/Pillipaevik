@@ -37,6 +37,11 @@
     <string name="test_teos3_h6_nimi">TIII HVI</string>
     <string name="test_teos3_h7_nimi">TIII HVII</string>
     <string name="test_teos3_h8_nimi">TIII HVIII</string>
+    <string name="test_teos3_h9_nimi">TIII HIX</string>
+    <string name="test_teos3_h10_nimi">TIII HX</string>
+    <string name="test_teos3_h11_nimi">TIII HXI</string>
+    <string name="test_teos3_h12_nimi">TIII HXII</string>
+    <string name="test_teos3_h13_nimi">TIII HXIII</string>
 
     <string name="test_teos4_nimi">Testteos IV</string>
     <string name="test_teos4_autor">Regina Palatu</string>
@@ -46,7 +51,8 @@
     <string name="test_teos4_h3_nimi">TIV HIII S</string>
 
     <string name="test_h_ei_salvestu">Ei salvestu</string>
-    <string name="test_h_salvestub">Salvestub</string>
+    <string name="test_h_salvestub1">Salvestub I</string>
+    <string name="test_h_salvestub2">Salvestub II</string>
 
 
 </resources>

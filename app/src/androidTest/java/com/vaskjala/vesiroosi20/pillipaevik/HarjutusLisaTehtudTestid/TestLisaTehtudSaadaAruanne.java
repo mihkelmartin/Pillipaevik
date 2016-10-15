@@ -51,7 +51,7 @@ public class TestLisaTehtudSaadaAruanne {
             OnHarjutusLisaTehtudFragment();
 
             onView(withId(R.id.harjutusekirjeldus))
-                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h7_nimi)), ViewActions.closeSoftKeyboard());
+                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h9_nimi)), ViewActions.closeSoftKeyboard());
             OnHarjutusLisaTehtudFragment();
 
             Calendar c0 = Calendar.getInstance();
@@ -72,7 +72,7 @@ public class TestLisaTehtudSaadaAruanne {
             }
             VajutaTagasi();
 
-            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h9_nimi)).perform(click());
             OnHarjutusLisaTehtudFragment();
             
             VajutaKustutaHarjutus();

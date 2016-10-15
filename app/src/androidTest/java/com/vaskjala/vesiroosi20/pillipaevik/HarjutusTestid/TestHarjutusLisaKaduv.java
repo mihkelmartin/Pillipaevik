@@ -75,7 +75,7 @@ public class TestHarjutusLisaKaduv {
     }
 
     private void KontrolliTulemust(Context context){
-        onView(allOf(withId(R.id.harjutuslist), hasDescendant(withText("")))).check(ViewAssertions.doesNotExist());
+        HarjutusPuudub("");
         TestTooriistad.TeoseStatistikaRiba(context, "1", 125);
         if(TestTooriistad.OnMultiFragment()) {
             TestTooriistad.TeosListStatistikaRiba(3, "1", 125);

@@ -48,8 +48,6 @@ public class TestHarjutusKustutaSalvestav {
 
         VajutaKustutaHarjutus();
         VajutaDialoogOK();
-        onView(Matchers.allOf(withId(R.id.harjutuslistrida),
-                hasDescendant(withText(resources.getString(R.string.test_teos4_h3_nimi)))))
-                .check(ViewAssertions.doesNotExist());
+        HarjutusPuudub(resources.getString(R.string.test_teos4_h3_nimi));
     }
 }

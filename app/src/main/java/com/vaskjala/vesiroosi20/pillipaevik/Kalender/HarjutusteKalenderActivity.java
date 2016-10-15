@@ -62,6 +62,11 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
                 harjutusteKalenderFragment.pPaevadeList.clear();
                 Tooriistad.LooKuupaevad(getApplicationContext(), 60, harjutusteKalenderFragment.pPaevadeList);
                 harjutusteKalenderFragment.mMainAdapter.notifyDataSetChanged();
+                if(data != null) {
+                    int kustutamisealge = data.getIntExtra("kustutamisealge", 0);
+                    if (kustutamisealge == Tooriistad.TUHIHARJUTUS_KUSTUTA)
+                        Tooriistad.KuvaAutomaatseKustutamiseTeade(this);
+                }
             }
         }
     }
@@ -109,7 +114,7 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
     }
 
     @Override
-    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition, int kustutamisealge) {
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusMuudaFragmendilt, kustutatud, Pos:" + itemposition);
         HarjutusteKalenderFragment harjutusteKalenderFragment= (HarjutusteKalenderFragment) getFragmentManager().findFragmentById(R.id.harjutustekalenderfragment);
 
@@ -129,6 +134,8 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
             ft.remove(harjutusfragment);
         }
         ft.commit();
+        if(kustutamisealge == Tooriistad.TUHIHARJUTUS_KUSTUTA)
+            Tooriistad.KuvaAutomaatseKustutamiseTeade(this);
     }
 
     @Override

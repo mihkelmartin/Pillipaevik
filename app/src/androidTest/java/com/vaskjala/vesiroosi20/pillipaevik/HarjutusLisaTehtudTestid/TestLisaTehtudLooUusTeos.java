@@ -47,7 +47,7 @@ public class TestLisaTehtudLooUusTeos {
             OnHarjutusLisaTehtudFragment();
 
             onView(withId(R.id.harjutusekirjeldus))
-                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h7_nimi)), ViewActions.closeSoftKeyboard());
+                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h13_nimi)), ViewActions.closeSoftKeyboard());
             OnHarjutusLisaTehtudFragment();
 
             Calendar c0 = Calendar.getInstance();
@@ -57,7 +57,7 @@ public class TestLisaTehtudLooUusTeos {
 
             VajutaLisaTeos();
             ValiTeos(resources.getString(R.string.test_teos3_nimi));
-            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h13_nimi)).perform(click());
 
             OnHarjutusMuudaFragment();
 

@@ -71,9 +71,10 @@ public class HarjutusLisaTehtudActivity extends AppCompatActivity implements Har
     }
 
     @Override
-    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition) {
+    public void HarjutusKustutatud(int teosid, int harjutusid, int itemposition, int kustutamisealge) {
         Intent intent = new Intent();
         intent.putExtra("harjutus_id", this.harjutusid);
+        intent.putExtra("kustutamisealge", kustutamisealge);
         setResult(0, intent);
         finish();
     }

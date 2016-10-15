@@ -44,6 +44,8 @@ public final class Tooriistad {
 
     public static final int KORRALDA_LOAD = 1;
 
+    public static final int KASUTAJA_KUSTUTAS = 1;
+    public static final int TUHIHARJUTUS_KUSTUTA = 2;
 
     private static final Calendar c = Calendar.getInstance();
     private static final SimpleDateFormat sdfkuupaev = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());

@@ -51,8 +51,7 @@ public class TestLisaTehtudTuhiLisaTuhiUus {
             VajutaKodu();
 
             LeiaHarjutus("").check(ViewAssertions.matches(isDisplayed()));
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_h_ei_salvestu)))))
-                    .check(ViewAssertions.doesNotExist());
+            HarjutusPuudub(resources.getString(R.string.test_h_ei_salvestu));
 
             KeeraVasakule();
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText("")));
@@ -67,8 +66,7 @@ public class TestLisaTehtudTuhiLisaTuhiUus {
             OnHarjutusLisaTehtudFragment();
 
             LeiaHarjutus(resources.getString(R.string.test_teos3_h2_nimi)).perform(click());
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(""))))
-                    .check(ViewAssertions.doesNotExist());
+            HarjutusPuudub("");
 
             OnHarjutusMuudaFragment();
             VabastaKeeramine();

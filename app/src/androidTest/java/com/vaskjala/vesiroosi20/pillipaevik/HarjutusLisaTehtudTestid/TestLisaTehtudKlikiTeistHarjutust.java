@@ -60,8 +60,8 @@ public class TestLisaTehtudKlikiTeistHarjutust {
             LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
             OnHarjutusLisaTehtudFragment();
 
-            onData(harjutusNimega(resources.getString(R.string.test_teos3_h2_nimi))).inAdapterView(withId(R.id.harjutuslist)).perform(click());
-            onData(harjutusNimega(resources.getString(R.string.test_teos3_h7_nimi))).inAdapterView(withId(R.id.harjutuslist)).perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h2_nimi)).perform(click());
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
 
             OnHarjutusMuudaFragment();
 

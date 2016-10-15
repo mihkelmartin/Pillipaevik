@@ -157,8 +157,7 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
                 SalvestaHarjutus();
             } else {
                 retVal = false;
-                Tooriistad.KuvaAutomaatseKustutamiseTeade((Activity) getHarjutusFragmendiKuulaja());
-                KustutaHarjutus();
+                KustutaHarjutus(Tooriistad.TUHIHARJUTUS_KUSTUTA);
             }
         }
         return retVal;
@@ -172,10 +171,10 @@ public class HarjutusFragment extends Fragment implements LihtsaKusimuseKuulaja,
         }
     }
 
-    public void KustutaHarjutus(){
+    public void KustutaHarjutus(int kustutamisealge){
         getHarjutuskord().Kustuta(getActivity().getApplicationContext());
         setHarjutuskord(null);
-        getHarjutusFragmendiKuulaja().HarjutusKustutatud(getTeosid(), getHarjutusid(), getItemposition());
+        getHarjutusFragmendiKuulaja().HarjutusKustutatud(getTeosid(), getHarjutusid(), getItemposition(), kustutamisealge);
     }
 
     private boolean AndmedHarjutuses(){

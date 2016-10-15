@@ -59,7 +59,7 @@ public class TestSeadedHeliFailiPildiOlekTeosel {
         editor.putBoolean("kaskasutadagoogledrive", false);
         editor.commit();
 
-        onView(withId(R.id.harjutua_list)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.test_teos1_nimi)),click()));
+        ValiTeos(resources.getString(R.string.test_teos1_nimi));
         LeiaHarjutus(resources.getString(R.string.test_teos1_h3_nimi)).
                 check(ViewAssertions.
                         matches(hasDescendant(allOf(withId(R.id.harjutuslisti_pilt), withEffectiveVisibility(Visibility.GONE)))));
@@ -74,7 +74,7 @@ public class TestSeadedHeliFailiPildiOlekTeosel {
         editor.putBoolean("kaskasutadagoogledrive", true);
         editor.commit();
 
-        onView(withId(R.id.harjutua_list)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.test_teos1_nimi)),click()));
+        ValiTeos(resources.getString(R.string.test_teos1_nimi));
         LeiaHarjutus(resources.getString(R.string.test_teos1_h3_nimi)).
                 check(ViewAssertions.
                         matches(hasDescendant(allOf(withId(R.id.harjutuslisti_pilt), withEffectiveVisibility(Visibility.VISIBLE)))));

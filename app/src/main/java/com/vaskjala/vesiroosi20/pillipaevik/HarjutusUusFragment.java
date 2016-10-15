@@ -303,6 +303,6 @@ public class HarjutusUusFragment extends HarjutusFragment {
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
         SeisataLindistajaKustutamiseks();
-        KustutaHarjutus();
+        KustutaHarjutus(Tooriistad.KASUTAJA_KUSTUTAS);
     }
 }

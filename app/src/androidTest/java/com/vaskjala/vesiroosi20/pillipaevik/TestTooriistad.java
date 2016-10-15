@@ -367,7 +367,9 @@ import static org.hamcrest.CoreMatchers.not;
         return new BoundedMatcher<Object, HarjutusKord>(HarjutusKord.class){
             @Override
             public boolean matchesSafely(HarjutusKord harjutusKord){
-                return harjutusKord.getHarjutusekirjeldus().equalsIgnoreCase(nimi);
+                return harjutusKord.getHarjutusekirjeldus() !=
+                        null ? harjutusKord.getHarjutusekirjeldus() .equalsIgnoreCase(nimi) :
+                            nimi.isEmpty() ? true : false;
             }
             @Override
             public void describeTo(Description description){
@@ -376,12 +378,13 @@ import static org.hamcrest.CoreMatchers.not;
         };
     }
 
-    private static Matcher<View> withAdaptedData(final String dataMatcher) {
+    private static Matcher<View> withAdaptedData(final Matcher<Object> dataMatcher) {
         return new TypeSafeMatcher<View>() {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("with class name: " + dataMatcher);
+                description.appendText("with class name: ");
+                dataMatcher.describeTo(description);
             }
 
             @Override
@@ -392,7 +395,7 @@ import static org.hamcrest.CoreMatchers.not;
                 @SuppressWarnings("rawtypes")
                 Adapter adapter = ((AdapterView) view).getAdapter();
                 for (int i = 0; i < adapter.getCount(); i++) {
-                    if (dataMatcher.equalsIgnoreCase(((HarjutusKord)adapter.getItem(i)).getHarjutusekirjeldus())) {
+                    if (dataMatcher.matches(adapter.getItem(i))) {
                         return true;
                     }
                 }
@@ -401,8 +404,8 @@ import static org.hamcrest.CoreMatchers.not;
         };
     }
 
-    public static void EiOleHarjutust(String harjutusenimi){
+    public static void HarjutusPuudub(String harjutusenimi){
         onView(withId(R.id.harjutuslist))
-                .check(matches(not(withAdaptedData(harjutusenimi))));
+                .check(matches(not(withAdaptedData(harjutusNimega(harjutusenimi)))));
     }
 }

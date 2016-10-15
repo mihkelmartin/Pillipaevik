@@ -46,25 +46,24 @@ public class TestLisaTehtudTuhi {
             OnHarjutusLisaTehtudFragment();
 
             onView(withId(R.id.harjutusekirjeldus))
-                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h7_nimi)), ViewActions.closeSoftKeyboard());
+                    .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h12_nimi)), ViewActions.closeSoftKeyboard());
             OnHarjutusLisaTehtudFragment();
 
             AnnaUiDevice().pressHome();
             AvaPilliPaevik(context);
-            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h7_nimi))));
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h12_nimi))));
 
-            LeiaHarjutus(resources.getString(R.string.test_teos3_h7_nimi)).perform(click());
-            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h7_nimi))));
+            LeiaHarjutus(resources.getString(R.string.test_teos3_h12_nimi)).perform(click());
+            onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos3_h12_nimi))));
             OnHarjutusLisaTehtudFragment();
 
             ValiTeos(resources.getString(R.string.test_teos3_nimi));
             OnHarjutusLisaTehtudFragment();
 
-            ValiTeos(resources.getString(R.string.test_teos4_nimi));
+            ValiTeos(resources.getString(R.string.test_teos1_nimi));
             ValiTeos(resources.getString(R.string.test_teos3_nimi));
 
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_teos3_h7_nimi)))))
-                    .check(ViewAssertions.doesNotExist());
+            HarjutusPuudub(resources.getString(R.string.test_teos3_h12_nimi));
         }
     }
 }

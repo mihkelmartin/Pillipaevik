@@ -53,9 +53,8 @@ public class TestLisaTehtudTuhiLisaUusKustuta {
             VajutaKustutaHarjutus();
             VajutaDialoogOK();
 
-            LeiaHarjutus("").check(ViewAssertions.matches(isDisplayed()));
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_h_ei_salvestu)))))
-                    .check(ViewAssertions.doesNotExist());
+            LeiaHarjutus("");
+            HarjutusPuudub(resources.getString(R.string.test_h_ei_salvestu));
 
             KeeraVasakule();
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText("")));
@@ -73,8 +72,7 @@ public class TestLisaTehtudTuhiLisaUusKustuta {
             ValiTeos(resources.getString(R.string.test_teos1_nimi));
             ValiTeos(resources.getString(R.string.test_teos3_nimi));
 
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(""))))
-                    .check(ViewAssertions.doesNotExist());
+            HarjutusPuudub("");
 
             OnHarjutusMuudaFragment();
             VabastaKeeramine();

@@ -61,8 +61,7 @@ public class TestLisaTehtudLisaTuhiUus {
             VajutaKodu();
 
             LeiaHarjutus(resources.getString(R.string.test_teos3_h4_nimi)).check(ViewAssertions.matches(isDisplayed()));
-            onView(Matchers.allOf(withId(R.id.harjutuslistrida), hasDescendant(withText(resources.getString(R.string.test_h_ei_salvestu)))))
-                    .check(ViewAssertions.doesNotExist());
+            HarjutusPuudub(resources.getString(R.string.test_h_ei_salvestu));
 
             KeeraVasakule();
             onView(withId(R.id.pikkusminutites)).check(ViewAssertions.matches(withText("120")));

@@ -247,7 +247,7 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
     @Override
     public void kuiJahVastus(DialogFragment dialog) {
         if (dialog.getTag().equals("KustutaHarjutus")) {
-            KustutaHarjutus();
+            KustutaHarjutus(Tooriistad.KASUTAJA_KUSTUTAS);
         } else
         if(dialog.getTag().equals("KustutaSalvestus")) {
             if(BuildConfig.DEBUG) Log.d("HarjutusMuudaFragment", "KustutaSalvestus vastus Jah.");

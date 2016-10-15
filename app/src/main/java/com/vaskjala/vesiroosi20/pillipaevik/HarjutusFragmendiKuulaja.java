@@ -5,7 +5,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
  */
 public interface HarjutusFragmendiKuulaja {
     void HarjutusLisatud(int teosid, int harjutusid);
-    void HarjutusKustutatud(int teosid, int harjutusid, int itemposition);
+    void HarjutusKustutatud(int teosid, int harjutusid, int itemposition, int kustutamisealge);
     void HarjutusMuudetud(int teosid, int harjutusid, int itemposition);
     void SeaHarjutusid(int harjutuseid);
 }

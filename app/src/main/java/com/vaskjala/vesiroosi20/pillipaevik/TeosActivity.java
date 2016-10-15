@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
+import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuulaja  {
 
@@ -89,6 +90,11 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
         if(BuildConfig.DEBUG) Log.d("TeosActivity", "onActivityResult");
         TeosFragment teosFragment = (TeosFragment) getFragmentManager().findFragmentById(R.id.teosfragment);
         teosFragment.VarskendaHarjutusteJaStatistika();
+        if(data != null) {
+            int kustutamisealge = data.getIntExtra("kustutamisealge", 0);
+            if (kustutamisealge == Tooriistad.TUHIHARJUTUS_KUSTUTA)
+                Tooriistad.KuvaAutomaatseKustutamiseTeade(this);
+        }
     }
 
 
