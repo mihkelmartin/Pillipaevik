@@ -59,6 +59,9 @@ public class TestSeadedHeliFailiPildiOlekTeosel {
         editor.putBoolean("kaskasutadagoogledrive", false);
         editor.commit();
 
+        // Vaja värskendada olukord, seetõttu vali teine teos enne
+        ValiTeos(resources.getString(R.string.test_teos2_nimi));
+        VajutaKoduKui1Fragment();
         ValiTeos(resources.getString(R.string.test_teos1_nimi));
         LeiaHarjutus(resources.getString(R.string.test_teos1_h3_nimi)).
                 check(ViewAssertions.
@@ -74,6 +77,9 @@ public class TestSeadedHeliFailiPildiOlekTeosel {
         editor.putBoolean("kaskasutadagoogledrive", true);
         editor.commit();
 
+        // Vaja värskendada olukord, seetõttu vali teine teos enne
+        ValiTeos(resources.getString(R.string.test_teos2_nimi));
+        VajutaKoduKui1Fragment();
         ValiTeos(resources.getString(R.string.test_teos1_nimi));
         LeiaHarjutus(resources.getString(R.string.test_teos1_h3_nimi)).
                 check(ViewAssertions.

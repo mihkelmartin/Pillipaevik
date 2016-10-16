@@ -1,0 +1,5 @@
+Reaalse seadme peale
+1. Pillipäeviku ikoon koduaknasse nähtavaks
+2. Arendaja valikutes animatsioonid jms välja lülitada
+3. Kõik teosed ära kustutada ning seaded tühjaks teha. Selle võiks automaatseks muuta.
+4. Reaalses seadmes veenduda, et Google Drive ühendused on loodud ja töötavad.
