@@ -21,8 +21,8 @@ android {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 10
-        versionName '2.0.2'
+        versionCode 11
+        versionName '2.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +41,7 @@ android {
             signingConfig signingConfigs.PillipaevikGooglePlay
         }
     }
-    testBuildType "debugTestAVD"
+    testBuildType "debugTestReaalne"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
@@ -65,13 +65,11 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
     // Set this dependency to build and run UI Automator test
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
-
     // Pandud siia jõuga lisakse sest transitiivne nõue oli 23.1.1
     androidTestCompile 'com.android.support:appcompat-v7:24.2.1'
     androidTestCompile 'com.android.support:support-v4:24.2.1'
     androidTestCompile 'com.android.support:recyclerview-v7:24.2.1'
     androidTestCompile 'com.android.support:design:24.2.1'
-
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
