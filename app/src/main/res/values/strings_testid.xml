@@ -1,58 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="test_minueesnimi">Mihkel</string>
-    <string name="test_minuperenimi">Martin</string>
-    <string name="test_minuinstrument">Kitarr</string>
-    <string name="test_minuepost">mihkelmartin@gmail.com</string>
-    <string name="test_muusikakool">Rae Huvialakool</string>
-    <string name="test_klass">3.klass</string>
-    <string name="test_opetajaeesnimi">Igor</string>
-    <string name="test_opetajaperenimi">Besstshotnov</string>
-    <string name="test_opetajaepost">igor.besstshotnov@jyri.edu.ee</string>
-    <string name="test_paevasharjutada">15</string>
+    <string name="test_minueesnimi" translatable="false">Mihkel</string>
+    <string name="test_minuperenimi" translatable="false">Martin</string>
+    <string name="test_minuinstrument" translatable="false">Kitarr</string>
+    <string name="test_minuepost" translatable="false">mihkelmartin@gmail.com</string>
+    <string name="test_muusikakool" translatable="false">Rae Huvialakool</string>
+    <string name="test_klass" translatable="false">3.klass</string>
+    <string name="test_opetajaeesnimi" translatable="false">Igor</string>
+    <string name="test_opetajaperenimi" translatable="false">Besstshotnov</string>
+    <string name="test_opetajaepost" translatable="false">igor.besstshotnov@jyri.edu.ee</string>
+    <string name="test_paevasharjutada" translatable="false">15</string>
 
-    <string name="test_teos1_nimi">Testteos I</string>
-    <string name="test_teos1_autor">Mihkel Märtin</string>
-    <string name="test_teos1_kommentaar">Sadas taevast pähe</string>
-    <string name="test_teos1_h1_nimi">TI HI</string>
-    <string name="test_teos1_h2_nimi">TI HII</string>
-    <string name="test_teos1_h3_nimi">TI HIII S</string>
+    <string name="test_teos1_nimi" translatable="false">Testteos I</string>
+    <string name="test_teos1_autor" translatable="false">Mihkel Märtin</string>
+    <string name="test_teos1_kommentaar" translatable="false">Sadas taevast pähe</string>
+    <string name="test_teos1_h1_nimi" translatable="false">TI HI</string>
+    <string name="test_teos1_h2_nimi" translatable="false">TI HII</string>
+    <string name="test_teos1_h3_nimi" translatable="false">TI HIII S</string>
 
-    <string name="test_teos2_nimi">Testteos II</string>
-    <string name="test_teos2_autor">Annika Märtin</string>
-    <string name="test_teos2_kommentaar">Õpetaja andis mõtte</string>
-    <string name="test_teos2_h1_nimi">TII HI</string>
-    <string name="test_teos2_h2_nimi">TII HII</string>
-    <string name="test_teos2_h3_nimi">TII HIII S</string>
-    <string name="test_teos2_h4_nimi">TII HIV</string>
+    <string name="test_teos2_nimi" translatable="false">Testteos II</string>
+    <string name="test_teos2_autor" translatable="false">Annika Märtin</string>
+    <string name="test_teos2_kommentaar" translatable="false">Õpetaja andis mõtte</string>
+    <string name="test_teos2_h1_nimi" translatable="false">TII HI</string>
+    <string name="test_teos2_h2_nimi" translatable="false">TII HII</string>
+    <string name="test_teos2_h3_nimi" translatable="false">TII HIII S</string>
+    <string name="test_teos2_h4_nimi" translatable="false">TII HIV</string>
 
-    <string name="test_teos3_nimi">Testteos III</string>
-    <string name="test_teos3_autor">Oskar Märtin</string>
-    <string name="test_teos3_kommentaar">Õhtul tinistades tuli mõte</string>
-    <string name="test_teos3_h1_nimi">TIII HI</string>
-    <string name="test_teos3_h2_nimi">TIII HII</string>
-    <string name="test_teos3_h3_nimi">TIII HIII</string>
-    <string name="test_teos3_h4_nimi">TIII HIV</string>
-    <string name="test_teos3_h5_nimi">TIII HV</string>
-    <string name="test_teos3_h6_nimi">TIII HVI</string>
-    <string name="test_teos3_h7_nimi">TIII HVII</string>
-    <string name="test_teos3_h8_nimi">TIII HVIII</string>
-    <string name="test_teos3_h9_nimi">TIII HIX</string>
-    <string name="test_teos3_h10_nimi">TIII HX</string>
-    <string name="test_teos3_h11_nimi">TIII HXI</string>
-    <string name="test_teos3_h12_nimi">TIII HXII</string>
-    <string name="test_teos3_h13_nimi">TIII HXIII</string>
+    <string name="test_teos3_nimi" translatable="false">Testteos III</string>
+    <string name="test_teos3_autor" translatable="false">Oskar Märtin</string>
+    <string name="test_teos3_kommentaar" translatable="false">Õhtul tinistades tuli mõte</string>
+    <string name="test_teos3_h1_nimi" translatable="false">TIII HI</string>
+    <string name="test_teos3_h2_nimi" translatable="false">TIII HII</string>
+    <string name="test_teos3_h3_nimi" translatable="false">TIII HIII</string>
+    <string name="test_teos3_h4_nimi" translatable="false">TIII HIV</string>
+    <string name="test_teos3_h5_nimi" translatable="false">TIII HV</string>
+    <string name="test_teos3_h6_nimi" translatable="false">TIII HVI</string>
+    <string name="test_teos3_h7_nimi" translatable="false">TIII HVII</string>
+    <string name="test_teos3_h8_nimi" translatable="false">TIII HVIII</string>
+    <string name="test_teos3_h9_nimi" translatable="false">TIII HIX</string>
+    <string name="test_teos3_h10_nimi" translatable="false">TIII HX</string>
+    <string name="test_teos3_h11_nimi" translatable="false">TIII HXI</string>
+    <string name="test_teos3_h12_nimi" translatable="false">TIII HXII</string>
+    <string name="test_teos3_h13_nimi" translatable="false">TIII HXIII</string>
 
-    <string name="test_teos4_nimi">Testteos IV</string>
-    <string name="test_teos4_autor">Regina Palatu</string>
-    <string name="test_teos4_kommentaar">Tuli väga hea mõte musitseerimiseks!</string>
-    <string name="test_teos4_h1_nimi">TIV HI S</string>
-    <string name="test_teos4_h2_nimi">TIV HII S</string>
-    <string name="test_teos4_h3_nimi">TIV HIII S</string>
+    <string name="test_teos4_nimi" translatable="false">Testteos IV</string>
+    <string name="test_teos4_autor" translatable="false">Regina Palatu</string>
+    <string name="test_teos4_kommentaar" translatable="false">Tuli väga hea mõte musitseerimiseks!</string>
+    <string name="test_teos4_h1_nimi" translatable="false">TIV HI S</string>
+    <string name="test_teos4_h2_nimi" translatable="false">TIV HII S</string>
+    <string name="test_teos4_h3_nimi" translatable="false">TIV HIII S</string>
 
-    <string name="test_h_ei_salvestu">Ei salvestu</string>
-    <string name="test_h_salvestub1">Salvestub I</string>
-    <string name="test_h_salvestub2">Salvestub II</string>
-
-
+    <string name="test_h_ei_salvestu" translatable="false">Ei salvestu</string>
+    <string name="test_h_salvestub1" translatable="false">Salvestub I</string>
+    <string name="test_h_salvestub2" translatable="false">Salvestub II</string>
 </resources>
