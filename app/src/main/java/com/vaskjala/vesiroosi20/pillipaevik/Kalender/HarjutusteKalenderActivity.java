@@ -39,14 +39,6 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        SuleHarjutusFragment(ft);
-        ft.commit();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         int itemposition = data.getIntExtra("item_position",0);

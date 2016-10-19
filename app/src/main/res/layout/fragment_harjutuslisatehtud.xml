@@ -2,6 +2,7 @@
  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:fillViewport="true"
              android:background="@drawable/noodid">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
@@ -18,7 +19,6 @@
                 android:hint="@string/harjutuse_mida_harjutasid_vihje"
                 android:maxLength="64"
                 android:inputType="textCapSentences|textMultiLine"/>
-
             <TableLayout android:id="@+id/harjutuseandmed"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
@@ -85,8 +85,8 @@
                       android:layout_height="wrap_content"
                       android:layout_below="@id/harjutuseandmed"
                       android:layout_alignParentBottom="true"
-                      android:layout_marginStart="12dp"
-                      android:layout_marginEnd="12dp"
+                      android:gravity="bottom"
+                      android:layout_margin="12dp"
                       android:textAppearance="?android:attr/textAppearanceSmall"
                       android:text="@string/lisatehtudharjutustjuhend"/>
         </RelativeLayout>

@@ -39,6 +39,7 @@ public class HarjutusteKalenderFragment extends Fragment {
             throw new ClassCastException(context.toString() + " peab teostama HarjutusFragmendiKuulaja");
         }
     }
+
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity context) {

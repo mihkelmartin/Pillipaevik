@@ -47,6 +47,9 @@ public class TestKalenderJagaSalvestust {
         AvaGmail();
         VajutaTagasi();
         VajutaTagasi();
+
+        if(OnMultiFragment())
+            OnHarjutusMuudaFragment();
     }
 
 }

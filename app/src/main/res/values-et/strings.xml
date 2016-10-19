@@ -11,6 +11,12 @@
     <string name="ava_sahtel">Ava</string>
     <string name="sule_sahtel">Sulge</string>
 
+    // Konto valimise viga
+    <string name="konto_valimise_vea_pealkiri">Google kontot ei valitud !</string>
+    <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play teenused puuduvad!</string>
+    <string name="konto_valimise_vea_tekst">Google Drive ühendus lülitati seadetes välja.</string>
+
+
     // Google Drive ühenduse viga
     <string name="google_drive_uhenduse_vea_pealkiri">Viga Google Drive seadistamisel</string>
     <string name="google_drive_uhenduse_vea_tekst">Kontrolli telefoni seadetest kas rakendusele on antud vajalikud load</string>

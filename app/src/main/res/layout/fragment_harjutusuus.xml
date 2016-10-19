@@ -3,12 +3,12 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/horisontaalne_aaris"
-                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:background="@color/pillipaevik_peamine_taust">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horisontaalne_aaris"
+            android:layout_marginEnd="@dimen/horisontaalne_aaris"
             android:layout_marginTop="@dimen/vertikaalne_aaris"
             android:layout_marginBottom="@dimen/vertikaalne_aaris"
             android:id="@+id/harjutusekirjeldus"
@@ -17,10 +17,12 @@
             android:inputType="textCapSentences|textMultiLine"/>
 
         <LinearLayout android:id="@+id/nupud"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/harjutusekirjeldus"
-                android:orientation="horizontal">
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="@dimen/horisontaalne_aaris"
+                      android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                      android:layout_below="@id/harjutusekirjeldus"
+                      android:orientation="horizontal">
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -38,6 +40,8 @@
         <TextView android:id="@+id/juhend"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/horisontaalne_aaris"
+                  android:layout_marginEnd="@dimen/horisontaalne_aaris"
                   android:layout_alignParentBottom="true"
                   android:layout_marginBottom="@dimen/horisontaalne_aaris"
                   android:textAppearance="?android:attr/textAppearanceSmall"
@@ -46,6 +50,8 @@
                 android:textColor="@color/taimeri_teksti_varv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:layout_below="@id/nupud"
                 android:layout_alignTop="@id/nupud"
                 android:layout_alignBottom="@id/juhend"

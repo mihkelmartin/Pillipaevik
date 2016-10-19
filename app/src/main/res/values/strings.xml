@@ -11,9 +11,15 @@
     <string name="ava_sahtel">Open</string>
     <string name="sule_sahtel">Close</string>
 
+    // Konto valimise viga
+    <string name="konto_valimise_vea_pealkiri">Google account was not selected !</string>
+    <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play Services are missing!</string>
+    <string name="konto_valimise_vea_tekst">Google Drive connection was set off in settings.</string>
+
+
     // Google Drive ühenduse viga
     <string name="google_drive_uhenduse_vea_pealkiri">Google Drive configuration error!</string>
-    <string name="google_drive_uhenduse_vea_tekst">Check application permissions from system Settings</string>
+    <string name="google_drive_uhenduse_vea_tekst">Check application permissions from system Settings.</string>
 
 
     // Näidisandmed andmebaasi

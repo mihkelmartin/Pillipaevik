@@ -77,7 +77,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
 
         if(Tooriistad.KasLubadaSalvestamine(getApplicationContext()) &&
                 Tooriistad.kasKasutadaGoogleDrive(getApplicationContext())) {
-            if (bEsimeneAvamine) {
+            if (!Tooriistad.KasGoogleKontoOlemas(getApplicationContext()) || bEsimeneAvamine) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta Drive ühenduse loomisega");
                 GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
                 mGDU.LooDriveUhendus();
@@ -272,6 +272,29 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusteKalenderActivity");
             teosListFragment.mMainAdapter.notifyDataSetChanged();
         }
+        if( requestCode == Tooriistad.PEAMINE_KONTO_VALIMINE) {
+            if (resultCode == RESULT_OK) {
+                if (data != null && data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME) != null) {
+                    Tooriistad.SalvestGoogleKonto(getApplicationContext(), data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME));
+                    Tooriistad.SeadistaGoogleDriveOlekSeadeteFailis(getApplicationContext(), true);
+                    GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);
+                    mGDU.LooDriveUhendus();
+                } else {
+                    Tooriistad.SalvestGoogleKonto(getApplicationContext(), null);
+                    Tooriistad.SeadistaGoogleDriveOlekSeadeteFailis(getApplicationContext(), false);
+                    Tooriistad.NaitaHoiatust(this, getString(R.string.konto_valimise_vea_pealkiri),
+                            getString(R.string.konto_valimise_vea_tekst));
+                    if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine ei õnnestunud, resultCode != RESULT_OK: " + resultCode);
+                }
+            } else {
+                Tooriistad.SalvestGoogleKonto(getApplicationContext(), null);
+                Tooriistad.SeadistaGoogleDriveOlekSeadeteFailis(getApplicationContext(), false);
+                Tooriistad.NaitaHoiatust(this, getString(R.string.konto_valimise_vea_pealkiri),
+                        getString(R.string.konto_valimise_vea_tekst));
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine katkestati: " + resultCode);
+            }
+
+        }
         if( requestCode == Tooriistad.GOOGLE_DRIVE_KONTO_VALIMINE) {
             if (resultCode == RESULT_OK) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Drive configureerimine õnnestus: " + resultCode);
@@ -288,11 +311,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                 String accountName =
                         data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 if (accountName != null) {
-                    SharedPreferences settings =
-                            getSharedPreferences(getString(R.string.seadete_fail), Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("googlekonto", accountName);
-                    editor.apply();
+                    Tooriistad.SalvestGoogleKonto(getApplicationContext(), accountName);
                     if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Valitud konto: " + accountName +
                             ". Loome ühenduse uuesti, nüüd saab getSharedPreferences-dest");
                     GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getApplicationContext(), this);

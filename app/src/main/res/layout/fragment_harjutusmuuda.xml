@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/floot">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@drawable/floot">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent">
         <EditText
@@ -122,6 +123,7 @@
                   android:layout_height="wrap_content"
                   android:layout_below="@id/SalvestuseRiba"
                   android:layout_alignParentBottom="true"
+                  android:gravity="bottom"
                   android:layout_margin="12dp"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   android:text="@string/eisaamuutaharjutustjuhend"/>

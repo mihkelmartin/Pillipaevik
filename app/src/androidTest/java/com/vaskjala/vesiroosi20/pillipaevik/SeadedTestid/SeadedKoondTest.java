@@ -12,6 +12,7 @@ TestSeadedNaviTiitliTekst.class,
 TestSeadedRaadioNupud.class,
 TestSeadedEesmargid.class,
 TestSeadedHeliFailiPildiOlekKalendril.class,
-TestSeadedHeliFailiPildiOlekTeosel.class})
+TestSeadedHeliFailiPildiOlekTeosel.class,
+TestSeadedGoogleKontoValimine.class})
 
 public class SeadedKoondTest {}

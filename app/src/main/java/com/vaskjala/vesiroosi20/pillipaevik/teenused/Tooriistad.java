@@ -12,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.kalender.KalendriKirje;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
@@ -35,6 +37,7 @@ public final class Tooriistad {
 
     public static final int GOOGLE_DRIVE_KONTO_VALIMINE = 1000;
     public static final int GOOGLE_DRIVE_REST_KONTO_VALIMINE = 1001;
+    public static final int PEAMINE_KONTO_VALIMINE = 1002;
     public static final int GOOGLE_DRIVE_REST_UHENDUSE_LUBA = 1004;
     public static final int GOOGLE_PLAY_TEENUSTE_VEAAKEN = 1010;
 
@@ -356,12 +359,18 @@ public final class Tooriistad {
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.GET_ACCOUNTS)
                 != PackageManager.PERMISSION_GRANTED) {
-            SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("kaskasutadagoogledrive", false);
-            editor.commit();
+            SeadistaGoogleDriveOlekSeadeteFailis(context, false);
         }
     }
+
+    public static void SeadistaGoogleDriveOlekSeadeteFailis(Context context, boolean olek){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("kaskasutadagoogledrive", olek);
+        editor.commit();
+    }
+
+
 
     // Varukoopia
     public static void exportDB(Context context){
@@ -459,6 +468,32 @@ public final class Tooriistad {
         }
         return retVal;
     }
+
+    public static String AnnaGoogleKonto(Context context){
+        return context.getSharedPreferences(context.getString(R.string.seadete_fail), Context.MODE_PRIVATE)
+                .getString("googlekonto", null);
+    }
+
+    public static void SalvestGoogleKonto(Context context, String googlekonto){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("googlekonto", googlekonto);
+        editor.commit();
+    }
+
+    public static boolean KasGoogleKontoOlemas(Context context){
+        String googlekonto = AnnaGoogleKonto(context);
+        return googlekonto != null && !googlekonto.isEmpty();
+    }
+
+    public static boolean isGooglePlayServicesAvailable(Activity activity) {
+        GoogleApiAvailability apiAvailability =
+                GoogleApiAvailability.getInstance();
+        final int connectionStatusCode =
+                apiAvailability.isGooglePlayServicesAvailable(activity);
+        return connectionStatusCode == ConnectionResult.SUCCESS;
+    }
+
 
 }
 
