@@ -11,10 +11,11 @@
     <string name="ava_sahtel">Open</string>
     <string name="sule_sahtel">Close</string>
 
-    // Konto valimise viga
+    // Konto valimine
     <string name="konto_valimise_vea_pealkiri">Google account was not selected !</string>
     <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play Services are missing!</string>
     <string name="konto_valimise_vea_tekst">Google Drive connection was set off in settings.</string>
+    <string name="konto_valimise_pealkiri">Google Drive account for recordings</string>
 
 
     // Google Drive ühenduse viga

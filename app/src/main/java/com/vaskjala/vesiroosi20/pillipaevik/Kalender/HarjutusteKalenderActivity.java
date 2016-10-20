@@ -110,8 +110,6 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusMuudaFragmendilt, kustutatud, Pos:" + itemposition);
         HarjutusteKalenderFragment harjutusteKalenderFragment= (HarjutusteKalenderFragment) getFragmentManager().findFragmentById(R.id.harjutustekalenderfragment);
 
-        // TODO KUKUB KUI KINNI. KINNIPANEKUL TULEB REMOVEIDA
-        // IGASUGUNE SULGEMINE JA AVAMINE MUUDAB JÄRJEKORDA
         HarjutuskordKirje harjutuskordKirje = ((HarjutuskordKirje)harjutusteKalenderFragment.pPaevadeList.get(itemposition));
         harjutuskordKirje.vanem.Harjutused.remove(harjutuskordKirje);
         harjutuskordKirje.vanem.kordadearv = harjutuskordKirje.vanem.kordadearv - 1;

@@ -7,12 +7,13 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({TestSeadedSisesta.class,
-TestSeadedFailis.class,
-TestSeadedNaviTiitliTekst.class,
-TestSeadedRaadioNupud.class,
-TestSeadedEesmargid.class,
-TestSeadedHeliFailiPildiOlekKalendril.class,
-TestSeadedHeliFailiPildiOlekTeosel.class,
-TestSeadedGoogleKontoValimine.class})
+        TestSeadedFailis.class,
+        TestSeadedGoogleKontoValimine.class,
+        TestSeadedNaviTiitliTekst.class,
+        TestSeadedRaadioNupud.class,
+        TestSeadedEesmargid.class,
+        TestSeadedHeliFailiPildiOlekKalendril.class,
+        TestSeadedHeliFailiPildiOlekTeosel.class
+})
 
 public class SeadedKoondTest {}

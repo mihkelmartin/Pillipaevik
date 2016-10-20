@@ -52,7 +52,7 @@ public class LooTestAndmedUI {
             LisaTehtudHarjutusUI(resources.getString(R.string.test_teos1_h2_nimi), 180, 25);
             VajutaTagasiKui1Fragment();
             LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos1_h3_nimi), 45*1000);
-            VajutaTagasi();
+            VajutaKodu();
         VajutaKoduKui1Fragment();
 
         LisaTeosUI(resources.getString(R.string.test_teos2_nimi), resources.getString(R.string.test_teos2_autor), resources.getString(R.string.test_teos2_kommentaar));
@@ -61,7 +61,7 @@ public class LooTestAndmedUI {
             LisaTehtudHarjutusUI(resources.getString(R.string.test_teos2_h2_nimi), 50, 5);
             VajutaTagasiKui1Fragment();
             LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos2_h3_nimi), 70*1000);
-            VajutaTagasi();
+            VajutaKodu();
         VajutaKoduKui1Fragment();
 
         LisaTeosUI(resources.getString(R.string.test_teos3_nimi), resources.getString(R.string.test_teos3_autor), resources.getString(R.string.test_teos3_kommentaar));

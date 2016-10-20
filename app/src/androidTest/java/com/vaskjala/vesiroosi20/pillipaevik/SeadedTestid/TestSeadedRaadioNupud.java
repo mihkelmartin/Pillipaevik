@@ -1,14 +1,17 @@
 package com.vaskjala.vesiroosi20.pillipaevik.SeadedTestid;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.espresso.contrib.NavigationViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
+import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,13 +34,17 @@ import static org.hamcrest.core.IsNot.not;
 @RunWith(Parameterized.class)
 public class TestSeadedRaadioNupud {
 
-    private static Context context = InstrumentationRegistry.getTargetContext();
+
     private boolean bSalgolek;
     private boolean bGalgolek;
     private boolean bSsiire;
     private boolean bGsiire;
     private boolean bStulemus;
     private boolean bGtulemus;
+
+    private String googlekonto;
+    private boolean bTestiSAlgolek;
+    private boolean bTestiGAlgolek;
 
     @Parameterized.Parameters
     public static Iterable<Object[]> data() {
@@ -61,6 +68,13 @@ public class TestSeadedRaadioNupud {
     @Before
     public void Seadista_Test() {
         MultiFragmentTuvastus(mActivityRule);
+
+        SharedPreferences sharedPref = InstrumentationRegistry
+                .getTargetContext()
+                .getSharedPreferences(mActivityRule.getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
+        this.googlekonto = sharedPref.getString("googlekonto", "");
+        this.bTestiSAlgolek = sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true );
+        this.bTestiGAlgolek = sharedPref.getBoolean("kaskasutadagoogledrive", true );
     }
 
 
@@ -78,15 +92,10 @@ public class TestSeadedRaadioNupud {
     @Test
     public void TestRaadioNupud() {
 
-        SharedPreferences sharedPref = context.getSharedPreferences(mActivityRule.
-                getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        String googlekonto = sharedPref.getString("googlekonto", "");
-        editor.putBoolean("kaslubadamikrofonigasalvestamine", bSalgolek);
-        editor.putBoolean("kaskasutadagoogledrive", bGalgolek);
-        editor.commit();
-
-        AvaSahtelValiSeaded();
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        SeadistaSalvestamine("ajutineeteihakataksuhendustlooma", bSalgolek, bGalgolek);
+        onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
+        TestTooriistad.Oota(1000);
 
         onView(withId(R.id.kasKasutadaGoogleDrive)).perform(ViewActions.scrollTo());
 
@@ -107,18 +116,17 @@ public class TestSeadedRaadioNupud {
         else
             onView(withId(R.id.kasKasutadaGoogleDrive)).check(ViewAssertions.matches(not(isChecked())));
 
-        VajutaKodu();
+        TestTooriistad.VajutaKodu();
 
+        SharedPreferences sharedPref = InstrumentationRegistry
+                .getTargetContext()
+                .getSharedPreferences(mActivityRule.getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
         assertEquals(bStulemus, sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true ));
         assertEquals(bGtulemus, sharedPref.getBoolean("kaskasutadagoogledrive", true));
+    }
 
-        editor.putString("googlekonto", googlekonto);
-        editor.putBoolean("kaslubadamikrofonigasalvestamine", true);
-        if(OnReaalneSeade())
-            editor.putBoolean("kaskasutadagoogledrive", true);
-        else
-            editor.putBoolean("kaskasutadagoogledrive", false);
-
-        editor.commit();
+    @After
+    public void Lopeta_Test() {
+        SeadistaSalvestamine(this.googlekonto, this.bTestiSAlgolek, this.bTestiGAlgolek);
     }
 }

@@ -62,17 +62,21 @@ public class TestHarjutusLisaTehtud {
                 .perform(ViewActions.replaceText(resources.getString(R.string.test_teos3_h3_nimi)), ViewActions.closeSoftKeyboard());
 
 
-        SeaKellaaeg(c1, R.id.lopukellaaeg);
-        VajutaDialoogTuhista();
-        KontrolliAjad(c0);
+        if(android.os.Build.VERSION.SDK_INT > 19) {
+            SeaKellaaeg(c1, R.id.lopukellaaeg);
+            VajutaDialoogTuhista();
+            KontrolliAjad(c0);
+        }
 
         SeaKellaaeg(c1, R.id.lopukellaaeg);
         VajutaDialoogOK();
         KontrolliAjad(c1);
 
-        SeaKuupaev(c2, R.id.lopukuupaev);
-        VajutaDialoogTuhista();
-        KontrolliAjad(c1);
+        if(android.os.Build.VERSION.SDK_INT > 19) {
+            SeaKuupaev(c2, R.id.lopukuupaev);
+            VajutaDialoogTuhista();
+            KontrolliAjad(c1);
+        }
 
         SeaKuupaev(c2, R.id.lopukuupaev);
         VajutaDialoogOK();
@@ -108,6 +112,9 @@ public class TestHarjutusLisaTehtud {
         onView(withText(containsString(resources.getString(R.string.ajamuutmine_aeg_tulevikus)))).
                 check(ViewAssertions.matches(isDisplayed()));
         onView(withId(android.R.id.button3)).perform(click());
+        if(android.os.Build.VERSION.SDK_INT <= 19) {
+            onView(withId(android.R.id.button3)).perform(click());
+        }
 
         SeaKellaaeg(c3, R.id.lopukellaaeg);
         VajutaDialoogOK();
@@ -124,6 +131,9 @@ public class TestHarjutusLisaTehtud {
         onView(withText(containsString(resources.getString(R.string.ajamuutmine_aeg_tulevikus)))).
                 check(ViewAssertions.matches(isDisplayed()));
         onView(withId(android.R.id.button3)).perform(click());
+        if(android.os.Build.VERSION.SDK_INT <= 19) {
+            onView(withId(android.R.id.button3)).perform(click());
+        }
 
         VajutaTagasiKui1Fragment();
         TeoseStatistikaRiba(context, "3", 2400 + 600 + 3600);

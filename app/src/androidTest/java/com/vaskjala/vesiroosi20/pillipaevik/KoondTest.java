@@ -13,7 +13,9 @@ import org.junit.runners.Suite;
 
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({LooTestAndmedUI.class,
+@Suite.SuiteClasses({
+        TestPuhastaEnneTeste.class,
+        LooTestAndmedUI.class,
         SeadedKoondTest.class,
         TeaveTest.class,
         KalenderKoondTest.class,

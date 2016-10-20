@@ -76,7 +76,8 @@ public class GoogleDriveUhendus  implements
             Tooriistad.SeadistaGoogleDriveOlekSeadeteFailis(mApplicationContext, false);
             if(Tooriistad.isGooglePlayServicesAvailable(mAktiivneActivity)) {
                 mAktiivneActivity.startActivityForResult(AccountPicker.newChooseAccountIntent(null,
-                        null, new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, true, null, null, null, null),
+                        null, new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, true,
+                        mApplicationContext.getString(R.string.konto_valimise_pealkiri), null, null, null),
                         Tooriistad.PEAMINE_KONTO_VALIMINE);
             } else {
                 Tooriistad.NaitaHoiatust(mAktiivneActivity, mApplicationContext.getString(R.string.google_play_teenused_puuduvad_vea_pealkiri),

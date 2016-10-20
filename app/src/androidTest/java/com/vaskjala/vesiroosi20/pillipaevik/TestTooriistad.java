@@ -2,6 +2,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.*;
 import android.support.test.espresso.action.OpenLinkAction;
@@ -33,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -331,6 +333,16 @@ import static org.hamcrest.CoreMatchers.not;
         Context context = InstrumentationRegistry.getTargetContext();
         android.content.res.Resources resources = context.getResources();
         return resources.getBoolean(R.bool.reaalne_seade);
+    }
+
+    public static void SeadistaSalvestamine(String googlekonto, boolean SS, boolean GDS){
+        Context context = InstrumentationRegistry.getTargetContext();
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("googlekonto", googlekonto);
+        editor.putBoolean("kaslubadamikrofonigasalvestamine", SS);
+        editor.putBoolean("kaskasutadagoogledrive", GDS);
+        editor.commit();
     }
 
     public  static void EemaldaOotajad(){

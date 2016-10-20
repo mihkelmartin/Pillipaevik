@@ -1,5 +1,6 @@
 Reaalse seadme peale
-1. Pillipäeviku ikoon koduaknasse nähtavaks
-2. Arendaja valikutes animatsioonid jms välja lülitada
-3. Kõik teosed ära kustutada ning seaded tühjaks teha. Selle võiks automaatseks muuta.
-4. Reaalses seadmes veenduda, et Google Drive ühendused on loodud ja töötavad.
+1. NB! Ühekordne tegevus seadme loomisel. Pillipäeviku ikoon koduaknasse nähtavaks.
+2. NB! Arendaja valikutes animatsioonid jms välja lülitada
+3. NB! Reaalses seadmes veenduda, et Google Drive ühendused on loodud ja töötavad.
+4. NB! Kui aktivitite hävitamine on sees siis Telefonil ei töööta Kalendritestide test TestMuudaEsimeneHarjutus
+5. build.gradle-s peab testBuildType "debugTestReaalne" või "debugTestAVD"

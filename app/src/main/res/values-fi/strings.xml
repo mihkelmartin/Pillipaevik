@@ -11,10 +11,11 @@
     <string name="ava_sahtel">Avaa</string>
     <string name="sule_sahtel">Sulje</string>
 
-    // Konto valimise viga
+    // Konto valimine
     <string name="konto_valimise_vea_pealkiri">Google-tilin valinta epäonnistui !</string>
     <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play palvelut puuttuu !</string>
     <string name="konto_valimise_vea_tekst">Google Drive käytto kytketty pois päältä asetuksissa.</string>
+    <string name="konto_valimise_pealkiri">Google Drive tili nauhoitusten tallentamiseksi</string>
 
     // Google Drive ühenduse viga
     <string name="google_drive_uhenduse_vea_pealkiri">Google Drive asetusvirhe!</string>

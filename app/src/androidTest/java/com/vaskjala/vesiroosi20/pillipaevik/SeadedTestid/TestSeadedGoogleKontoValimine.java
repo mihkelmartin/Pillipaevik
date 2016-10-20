@@ -14,6 +14,7 @@ import com.vaskjala.vesiroosi20.pillipaevik.PeaActivity;
 import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,6 +36,10 @@ import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 @RunWith(AndroidJUnit4.class)
 public class TestSeadedGoogleKontoValimine {
 
+    private String googlekonto;
+    private boolean bTestiSAlgolek;
+    private boolean bTestiGAlgolek;
+
     @Rule
     public ActivityTestRule<PeaActivity> mActivityRule = new ActivityTestRule(
             PeaActivity.class);
@@ -42,36 +47,44 @@ public class TestSeadedGoogleKontoValimine {
     @Before
     public void Seadista_Test() {
         TestTooriistad.MultiFragmentTuvastus(mActivityRule);
+
+        SharedPreferences sharedPref = InstrumentationRegistry
+                .getTargetContext()
+                .getSharedPreferences(mActivityRule.getActivity().getString(R.string.seadete_fail), MODE_PRIVATE);
+        this.googlekonto = sharedPref.getString("googlekonto", "");
+        this.bTestiSAlgolek = sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true );
+        this.bTestiGAlgolek = sharedPref.getBoolean("kaskasutadagoogledrive", true );
     }
 
     @Test
     public void TestGoogleKontoValimine() {
-        Context context = InstrumentationRegistry.getTargetContext();
-        Resources resources = context.getResources();
 
-        SharedPreferences sharedPref = context.getSharedPreferences(resources.getString(R.string.seadete_fail), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        String googlekonto = sharedPref.getString("googlekonto", "");
-        boolean bkaskasutadagoogledrive = sharedPref.getBoolean("kaskasutadagoogledrive", false);
-        editor.putString("googlekonto", "");
-        editor.putBoolean("kaskasutadagoogledrive", true);
-        editor.commit();
-
-        AvaSahtelValiSeaded();
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        SeadistaSalvestamine("", bTestiSAlgolek,true);
+        onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
+        TestTooriistad.Oota(1000);
         VajutaKodu();
+        TestTooriistad.Oota(3000);
 
-        if(Tooriistad.isGooglePlayServicesAvailable(mActivityRule.getActivity())){
-            VajutaTagasi();
-            onView(withText(R.string.konto_valimise_vea_pealkiri)).check(ViewAssertions.matches(isDisplayed()));
-            onView(withId(android.R.id.button3)).perform(click());
-        } else {
+        if(!Tooriistad.isGooglePlayServicesAvailable(mActivityRule.getActivity())){
             onView(withText(R.string.google_play_teenused_puuduvad_vea_pealkiri)).check(ViewAssertions.matches(isDisplayed()));
             onView(withId(android.R.id.button3)).perform(click());
+        } else {
+            if(OnReaalneSeade()) {
+                onView(withText(R.string.konto_valimise_pealkiri)).check(ViewAssertions.matches(isDisplayed()));
+                VajutaTagasi();
+                onView(withText(R.string.konto_valimise_vea_pealkiri)).check(ViewAssertions.matches(isDisplayed()));
+                onView(withId(android.R.id.button3)).perform(click());
+            } else{
+                VajutaTagasi();
+                VajutaTagasi();
+                VajutaTagasi();
+            }
         }
+    }
 
-        editor.putBoolean("kaskasutadagoogledrive", bkaskasutadagoogledrive);
-        editor.putString("googlekonto", googlekonto);
-        editor.commit();
+    @After
+    public void Lopeta_Test() {
+        SeadistaSalvestamine(this.googlekonto, this.bTestiSAlgolek, this.bTestiGAlgolek);
     }
 }

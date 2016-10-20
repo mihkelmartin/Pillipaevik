@@ -33,16 +33,6 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class TestSeadedFailis {
 
-    @Rule
-    public ActivityTestRule<PeaActivity> mActivityRule = new ActivityTestRule(
-            PeaActivity.class);
-
-    @Before
-    public void Seadista_Test() {
-        TestTooriistad.MultiFragmentTuvastus(mActivityRule);
-    }
-
-
     @Test
     public void Kontrolli_Salvestumine(){
         Context context = InstrumentationRegistry.getTargetContext();
