@@ -42,21 +42,20 @@ public class TestHarjutusLisaKaksSalvestisega {
 
         // Lisa I
         ValiTeos(resources.getString(R.string.test_teos4_nimi));
-        LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos4_h2_nimi), 60 * 1000);
+        LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos4_h2_nimi), 40 * 1000);
         VajutaTagasi();
 
-        TeoseStatistikaRiba(context, "2", (125+60));
-        onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
-                check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos4_h2_nimi)))));
+        TeoseStatistikaRiba(context, "2", (25+40));
+        LeiaHarjutus(resources.getString(R.string.test_teos4_h2_nimi)).check(ViewAssertions.matches(isDisplayed()));
         if(OnReaalneSeade()) {
-            onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
+            LeiaHarjutus(resources.getString(R.string.test_teos4_h2_nimi)).
                     check(ViewAssertions.
                             matches(hasDescendant(allOf(withId(R.id.harjutuslisti_pilt), withEffectiveVisibility(Visibility.VISIBLE)))));
         }
         VajutaKoduKui1Fragment();
 
         // Teoslisti statistika kontroll
-        TeosListStatistikaRiba(3, "2", (125+60));
+        TeosListStatistikaRiba(3, "2", (25+40));
         StatistikaKontroll(context);
 
         if(OnMultiFragment())
@@ -67,18 +66,17 @@ public class TestHarjutusLisaKaksSalvestisega {
         LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos4_h3_nimi), 10 * 1000);
         VajutaTagasi();
 
-        TeoseStatistikaRiba(context, "3", (125+60+10));
-        onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
-                check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos4_h3_nimi)))));
+        TeoseStatistikaRiba(context, "3", (25+40+10));
+        LeiaHarjutus(resources.getString(R.string.test_teos4_h3_nimi)).check(ViewAssertions.matches(isDisplayed()));
         if(OnReaalneSeade()) {
-            onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
+            LeiaHarjutus(resources.getString(R.string.test_teos4_h3_nimi)).
                     check(ViewAssertions.
                             matches(hasDescendant(allOf(withId(R.id.harjutuslisti_pilt), withEffectiveVisibility(Visibility.VISIBLE)))));
         }
         VajutaKoduKui1Fragment();
 
         // Teoslisti statistika kontroll
-        TeosListStatistikaRiba(3, "3", (125+60+10));
+        TeosListStatistikaRiba(3, "3", (25+40+10));
         StatistikaKontroll(context);
 
         if(OnMultiFragment())

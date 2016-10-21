@@ -38,19 +38,19 @@ public class TestHarjutusLisaSalvestisega {
         Resources resources = context.getResources();
 
         ValiTeos(resources.getString(R.string.test_teos4_nimi));
-        LisaUusHarjutusSalvestisega("", 125 * 1000);
+        LisaUusHarjutusSalvestisega("", 25 * 1000);
         VajutaKodu();
 
-        TeoseStatistikaRiba(context, "1", 125);
+        TeoseStatistikaRiba(context, "1", 25);
         onView(withId(R.id.harjutuslist_harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));
 
         if(OnReaalneSeade())
-            onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));;
+            onView(withId(R.id.harjutuslisti_pilt)).check(ViewAssertions.matches(withEffectiveVisibility(Visibility.VISIBLE)));
 
         VajutaKoduKui1Fragment();
 
         // Teose statistika kontroll
-        TeosListStatistikaRiba(3, "1", 125);
+        TeosListStatistikaRiba(3, "1", 25);
 
         if(OnMultiFragment())
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.vaikimisisharjutusekirjeldus))));

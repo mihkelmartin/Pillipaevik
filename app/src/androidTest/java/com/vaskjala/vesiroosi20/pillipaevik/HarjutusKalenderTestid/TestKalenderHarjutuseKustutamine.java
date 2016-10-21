@@ -55,7 +55,9 @@ public class TestKalenderHarjutuseKustutamine {
         AvaSahtelValiKalender();
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.kalendri_tabel))
+                .perform(RecyclerViewActions
+                        .actionOnItem(hasDescendant(withText(containsString(resources.getString(R.string.test_teos2_h3_nimi)))), click()));
         VajutaKustutaHarjutus();
         onView(withText(containsString(resources.getString(R.string.dialog_kas_kustuta_harjutuse_kusimus)))).
                 check(ViewAssertions.matches(is(withText(containsString(resources.getString(R.string.test_teos2_h3_nimi))))));

@@ -76,9 +76,9 @@ public class TestHarjutusLisaKaduv {
 
     private void KontrolliTulemust(Context context){
         HarjutusPuudub("");
-        TestTooriistad.TeoseStatistikaRiba(context, "1", 125);
+        TestTooriistad.TeoseStatistikaRiba(context, "1", 25);
         if(TestTooriistad.OnMultiFragment()) {
-            TestTooriistad.TeosListStatistikaRiba(3, "1", 125);
+            TestTooriistad.TeosListStatistikaRiba(3, "1", 25);
             TestTooriistad.StatistikaKontroll(context);
         }
     }

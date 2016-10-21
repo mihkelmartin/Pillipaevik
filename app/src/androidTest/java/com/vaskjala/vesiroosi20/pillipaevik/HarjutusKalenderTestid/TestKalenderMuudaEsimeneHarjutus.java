@@ -22,6 +22,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -52,13 +53,15 @@ public class TestKalenderMuudaEsimeneHarjutus {
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),click()).atPosition(2));
 
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItem(withChild(withClassName(is(LinearLayout.class.getName()))),scrollTo()).atPosition(0));
-        onView(withRecyclerView(R.id.kalendri_tabel).atPosition(1)).check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi)))));
-        onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
+        onView(withId(R.id.kalendri_tabel))
+                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi))),click()));
         onView(withId(R.id.harjutusekirjeldus)).perform(ViewActions.replaceText(resources.getString(R.string.test_teos2_h3_nimi) + " MUUDETUD"), closeSoftKeyboard());
 
         VajutaTagasiKui1Fragment();
         if(OnMultiFragment())
-            onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
+            onView(withId(R.id.kalendri_tabel))
+                    .perform(RecyclerViewActions
+                            .actionOnItem(hasDescendant(withText(containsString(resources.getString(R.string.test_teos2_h3_nimi)))), click()));
 
         onView(withId(R.id.kalendri_tabel)).check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos2_h3_nimi) + " MUUDETUD"))));
     }

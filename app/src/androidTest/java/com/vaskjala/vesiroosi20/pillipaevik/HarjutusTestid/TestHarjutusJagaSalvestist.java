@@ -40,21 +40,20 @@ public class TestHarjutusJagaSalvestist {
         Resources resources = context.getResources();
 
         ValiTeos(resources.getString(R.string.test_teos4_nimi));
-        LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos4_h2_nimi), 75 * 1000);
+        LisaUusHarjutusSalvestisega(resources.getString(R.string.test_teos4_h2_nimi), 40 * 1000);
         VajutaKodu();
 
-        TeoseStatistikaRiba(context,"2", (125+75));
-        onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
-                check(ViewAssertions.matches(hasDescendant(withText(resources.getString(R.string.test_teos4_h2_nimi)))));
+        TeoseStatistikaRiba(context,"2", (25+40));
+        LeiaHarjutus(resources.getString(R.string.test_teos4_h2_nimi)).check(ViewAssertions.matches(isDisplayed()));
         if(OnReaalneSeade()) {
-            onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).
-                    check(ViewAssertions.
+            LeiaHarjutus(resources.getString(R.string.test_teos4_h2_nimi))
+                .check(ViewAssertions.
                             matches(hasDescendant(allOf(withId(R.id.harjutuslisti_pilt), withEffectiveVisibility(Visibility.VISIBLE)))));
         }
         VajutaKoduKui1Fragment();
 
         // Teose statistika kontroll
-        TeosListStatistikaRiba(3, "2", (125+75));
+        TeosListStatistikaRiba(3, "2", (25+40));
 
         if(OnMultiFragment())
             onView(withId(R.id.harjutusekirjeldus)).check(ViewAssertions.matches(withText(resources.getString(R.string.test_teos4_h2_nimi))));

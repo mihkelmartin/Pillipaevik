@@ -61,6 +61,7 @@ public class TestTeosteListKustutaTeosed {
 
         KeeraParemale();
         VajutaTagasi();
+        KeeraVasakule();
         VabastaKeeramine();
     }
 }

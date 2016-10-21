@@ -240,7 +240,8 @@ import static org.hamcrest.CoreMatchers.not;
         onView(withId(R.id.kustutasalvestus)).perform(click());
     }
     public static void VajutaMikrofoni(){
-        onView(withId(R.id.mikrofoniluliti)).perform(click());
+        if(OnReaalneSeade())
+            onView(withId(R.id.mikrofoniluliti)).perform(click());
     }
     public static void VajutaTaimeriNuppu(){
         onView(withId(R.id.kaivitataimernupp)).perform(click());

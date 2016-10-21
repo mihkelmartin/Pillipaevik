@@ -45,7 +45,7 @@ public class TestHarjutusHarjutuseKustutamine {
         Resources resources = context.getResources();
 
         ValiTeos(resources.getString(R.string.test_teos4_nimi));
-        onData(anything()).inAdapterView(withId(R.id.harjutuslist)).atPosition(0).perform(click());
+        LeiaHarjutus(resources.getString(R.string.test_teos4_h2_nimi)).perform(click());
 
         VajutaKustutaHarjutus();
         onView(withText(containsString(resources.getString(R.string.dialog_kas_kustuta_harjutuse_kusimus))))
@@ -55,12 +55,12 @@ public class TestHarjutusHarjutuseKustutamine {
         VajutaDialoogOK();
 
         // Teose statistika kontroll teosel
-        TeoseStatistikaRiba(context, "1", 125);
+        TeoseStatistikaRiba(context, "1", 25);
         HarjutusPuudub(resources.getString(R.string.test_teos4_h2_nimi));
         VajutaKoduKui1Fragment();
 
         // Teose statistika kontroll teoste listis
-        TeosListStatistikaRiba(3, "1", 125);
+        TeosListStatistikaRiba(3, "1", 25);
         StatistikaKontroll(context);
 
         if(OnMultiFragment()){
