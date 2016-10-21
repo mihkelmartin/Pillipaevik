@@ -74,7 +74,6 @@ public class TestSeadedGoogleKontoValimine {
             onView(withId(android.R.id.button3)).perform(click());
         } else {
             if(OnReaalneSeade()) {
-                onView(withText(R.string.konto_valimise_pealkiri)).check(ViewAssertions.matches(isDisplayed()));
                 VajutaTagasi();
                 onView(withText(R.string.konto_valimise_vea_pealkiri)).check(ViewAssertions.matches(isDisplayed()));
                 onView(withId(android.R.id.button3)).perform(click());
