@@ -15,7 +15,7 @@
     <string name="konto_valimise_vea_pealkiri">Google account was not selected !</string>
     <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play Services are missing!</string>
     <string name="konto_valimise_vea_tekst">Google Drive connection was set off in settings.</string>
-    <string name="konto_valimise_pealkiri">Google Drive account for recordings</string>
+    <string name="konto_valimise_pealkiri">to store recordings</string>
 
 
     // Google Drive ühenduse viga

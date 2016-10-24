@@ -15,7 +15,7 @@
     <string name="konto_valimise_vea_pealkiri">Google kontot ei valitud !</string>
     <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play teenused puuduvad!</string>
     <string name="konto_valimise_vea_tekst">Google Drive ühendus lülitati seadetes välja.</string>
-    <string name="konto_valimise_pealkiri">Google Drive konto harjutuste salvestamiseks</string>
+    <string name="konto_valimise_pealkiri">harjutuste salvestamiseks</string>
 
 
     // Google Drive ühenduse viga

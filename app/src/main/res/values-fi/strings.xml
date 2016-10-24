@@ -15,7 +15,7 @@
     <string name="konto_valimise_vea_pealkiri">Google-tilin valinta epäonnistui !</string>
     <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play palvelut puuttuu !</string>
     <string name="konto_valimise_vea_tekst">Google Drive käytto kytketty pois päältä asetuksissa.</string>
-    <string name="konto_valimise_pealkiri">Google Drive tili nauhoitusten tallentamiseksi</string>
+    <string name="konto_valimise_pealkiri">nauhoitusten tallentamiseksi</string>
 
     // Google Drive ühenduse viga
     <string name="google_drive_uhenduse_vea_pealkiri">Google Drive asetusvirhe!</string>

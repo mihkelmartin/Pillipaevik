@@ -18,6 +18,7 @@ import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static com.vaskjala.vesiroosi20.pillipaevik.TestTooriistad.*;
 import static org.hamcrest.core.AllOf.allOf;
@@ -45,8 +46,9 @@ public class TestHarjutusSalvestiseLinkAruandele {
         Resources resources = context.getResources();
 
         ValiTeos(resources.getString(R.string.test_teos4_nimi));
+        Oota(10000);
         LeiaHarjutus(resources.getString(R.string.vaikimisisharjutusekirjeldus)).perform(click());
-        onView(withId(R.id.weblinkaruandele)).perform(click());
+        onView(withId(R.id.weblinkaruandele)).perform(scrollTo(), click());
 
         KeeraParemale();
         KeeraParemale();

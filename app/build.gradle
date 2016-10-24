@@ -41,7 +41,7 @@ android {
             signingConfig signingConfigs.PillipaevikGooglePlay
         }
     }
-    testBuildType "debugTestAVD"
+    testBuildType "debugTestReaalne"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
