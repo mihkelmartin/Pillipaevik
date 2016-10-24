@@ -48,7 +48,7 @@ public class TestHarjutusLisaKaduv {
         KontrolliTulemust(context);
 
         VajutaAlustaUutHarjutust();
-        TestTooriistad.VajutaTagasi();
+        VajutaTagasi();
         KontrolliTulemust(context);
 
         VajutaAlustaUutHarjutust();

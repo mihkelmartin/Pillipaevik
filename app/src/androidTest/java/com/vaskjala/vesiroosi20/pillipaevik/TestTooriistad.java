@@ -249,6 +249,45 @@ import static org.hamcrest.CoreMatchers.not;
     public static void OnHarjutusMuudaFragment(){
         onView(withId(R.id.HarjutusTabel)).check(matches(isDisplayed()));
     }
+
+    public static void OnUueHarjutuseKestusNull(){
+        onView(withId(R.id.timer)).check(ViewAssertions.matches(withText(R.string.stopper)));
+    }
+    public static void OnUuelHarjutuselKestus(){
+        onView(withId(R.id.timer)).check(ViewAssertions.matches(not(withText(R.string.stopper))));
+    }
+
+    public static void OnTaimeriNuppAlusta(){
+        onView(withId(R.id.kaivitataimernupp)).check(ViewAssertions.matches((withText(R.string.alusta))));
+    }
+    public static void OnTaimeriNuppKatkesta(){
+        onView(withId(R.id.kaivitataimernupp)).check(ViewAssertions.matches((withText(R.string.katkesta))));
+    }
+    public static void OnTaimeriNuppJatka(){
+        onView(withId(R.id.kaivitataimernupp)).check(ViewAssertions.matches((withText(R.string.jatka))));
+    }
+
+    public static void OnMikrofoniNuppSeesKasutusel(){
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.sees))));
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(isEnabled()));
+    }
+
+    public static void OnMikrofoniNuppValjasKasutusel(){
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.valjas))));
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(isEnabled()));
+    }
+
+    public static void OnMikrofoniNuppSeesKasutu(){
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.sees))));
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(not(isEnabled())));
+    }
+
+    public static void OnMikrofoniNuppValjasKasutu(){
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.valjas))));
+        onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(not(isEnabled())));
+    }
+
+
     public static void EiOoleHarjutusMuudaFragment(){
         onView(withId(R.id.HarjutusTabel)).check(ViewAssertions.doesNotExist());
     }
@@ -303,6 +342,11 @@ import static org.hamcrest.CoreMatchers.not;
         } catch (UiObjectNotFoundException e) {
             assertEquals(context.getResources().getString(R.string.rakenduse_pealkiri), "Ei leitud");
         }
+    }
+
+    public static void VajutaKoduAvaPilliPaevik(Context context){
+        AnnaUiDevice().pressHome();
+        AvaPilliPaevik(context);
     }
     public static void MultiFragmentTuvastus(ActivityTestRule activityTestRule) {
         if (!bMultiFragmentTuvastatud) {

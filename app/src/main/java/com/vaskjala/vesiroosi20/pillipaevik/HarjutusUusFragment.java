@@ -72,16 +72,6 @@ public class HarjutusUusFragment extends HarjutusFragment {
             HashMap<Integer, HarjutusKord> harjutuskorradmap  = teos.getHarjutuskorradmap(getActivity().getApplicationContext());
             setHarjutuskord(harjutuskorradmap.get(getHarjutusid()));
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Harjutus taastatud teose kaudu : " + getHarjutusid());
-
-            if(taimertootab)
-                kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
-            else
-                kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
-
-            // Taimer on pausil, kuid on juba lugenud aega
-            if(!taimertootab && kulunudaeg != 0) {
-                timer.setText(String.valueOf(Tooriistad.KujundaAeg(kulunudaeg)));
-            }
         }
         if(getHarjutuskord() == null){
             setHarjutuskord(new HarjutusKord(getTeosid()));
@@ -105,24 +95,35 @@ public class HarjutusUusFragment extends HarjutusFragment {
         mikrofoniLulitiNupp = (Button) getView().findViewById(R.id.mikrofoniluliti);
         kaivitaTimerNupp.setOnClickListener(this);
         mikrofoniLulitiNupp.setOnClickListener(this);
-        SeadistaMikrofoniNupp();
     }
     public void onStart() {
         if(taimertootab)
             handler.postDelayed(AjaUuendaja, viiv);
+
+        if(taimertootab)
+            kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
+        else
+            if(stardiaeg != 0)
+                kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
+
+        // Taimer on pausil, kuid on juba lugenud aega
+        if(!taimertootab && kulunudaeg != 0) {
+            timer.setText(String.valueOf(Tooriistad.KujundaAeg(kulunudaeg)));
+        }
+        SeadistaMikrofoniNupp();
         super.onStart();
     }
 
     public void onStop() {
         super.onStop();
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "On Stop");
-        SeisataLindistaja();
         if(taimertootab)
             handler.removeCallbacks(AjaUuendaja);
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
+        SeisataLindistaja();
         savedInstanceState.putLong("stardiaeg", this.stardiaeg);
         savedInstanceState.putLong("kulunudaeg", this.kulunudaeg);
         savedInstanceState.putBoolean("taimertootab", this.taimertootab);
@@ -151,9 +152,7 @@ public class HarjutusUusFragment extends HarjutusFragment {
         public void run() {
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Ajalimiit täis. Lõpetame salvestamise");
             if(bkasSalvestame) {
-                bkasSalvestame = !bkasSalvestame;
                 SeisataLindistaja();
-                SeadistaMikrofoniNupp();
             }
         }
     };
@@ -187,17 +186,16 @@ public class HarjutusUusFragment extends HarjutusFragment {
     public void KaivitaTaimer(View v){
 
         if(taimertootab) {
-            mikrofoniLulitiNupp.setEnabled(true);
             SeisataLindistaja();
             SeisataTaimer();
             getHarjutuskord().Salvesta(getActivity().getApplicationContext());
             kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
         } else {
-            mikrofoniLulitiNupp.setEnabled(false);
             KaivitaLindistaja();
             KaivitaTaimer();
             kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
         }
+        SeadistaMikrofoniNupp();
     }
 
     private void KaivitaTaimer(){
@@ -242,6 +240,8 @@ public class HarjutusUusFragment extends HarjutusFragment {
     private void SeisataLindistaja() {
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Lõpetan lindistamise");
         handler.removeCallbacks(salvestusajalimiit);
+        bkasSalvestame = false;
+        SeadistaMikrofoniNupp();
         if (mRecorder != null) {
             try {
                 mRecorder.stop();
@@ -290,6 +290,11 @@ public class HarjutusUusFragment extends HarjutusFragment {
                 mikrofoniLulitiNupp.setText(getResources().getText(R.string.valjas));
                 mikrofoniLulitiNupp.setCompoundDrawablesWithIntrinsicBounds(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_mic_off_black, null), null, null, null);
             }
+            if(taimertootab)
+                mikrofoniLulitiNupp.setEnabled(false);
+            else
+                mikrofoniLulitiNupp.setEnabled(true);
+
         } else {
             mikrofoniLulitiNupp.setVisibility(Button.GONE);
         }

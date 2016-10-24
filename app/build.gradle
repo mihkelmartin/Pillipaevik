@@ -21,8 +21,8 @@ android {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 11
-        versionName '2.1'
+        versionCode 12
+        versionName '2.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +41,7 @@ android {
             signingConfig signingConfigs.PillipaevikGooglePlay
         }
     }
-    testBuildType "debugTestReaalne"
+    testBuildType "debugTestAVD"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
@@ -70,7 +70,6 @@ dependencies {
     androidTestCompile 'com.android.support:support-v4:24.2.1'
     androidTestCompile 'com.android.support:recyclerview-v7:24.2.1'
     androidTestCompile 'com.android.support:design:24.2.1'
-
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
@@ -78,12 +77,10 @@ dependencies {
     compile 'com.google.android.gms:play-services-drive:9.6.1'
     compile 'com.google.android.gms:play-services-auth:9.6.1'
     compile 'com.google.android.gms:play-services-identity:9.6.1'
-
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     compile('com.google.apis:google-api-services-drive:v3-rev29-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-
 }

@@ -41,7 +41,10 @@ public class HarjutusteKalenderActivity extends AppCompatActivity implements Har
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        int itemposition = data.getIntExtra("item_position",0);
+        int itemposition = 0;
+        if(data != null)
+            itemposition = data.getIntExtra("item_position",0);
+
         if(BuildConfig.DEBUG) Log.d("HarjutusteKalendrAct", "onActivityResult. requestCode:" + requestCode + " Pos:" + itemposition);
 
         if (requestCode == getResources().getInteger(R.integer.KALENDER_ACTIVITY_INTENT_HARJUTUS_MUUDA)) {

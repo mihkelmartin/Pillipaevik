@@ -42,7 +42,7 @@ public class TestKalenderMuudaEsimeneHarjutus {
     }
 
     @Test
-    public void     TestMuudaEsimeneHarjutus() {
+    public void TestMuudaEsimeneHarjutus() {
         Context context = InstrumentationRegistry.getTargetContext();
         Resources resources = context.getResources();
 
