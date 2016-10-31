@@ -45,7 +45,8 @@
                     android:layout_marginEnd="@dimen/horisontaalne_aaris"
                     android:layout_marginBottom="@dimen/vertikaalne_aaris"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:maxLength="96"
+                    android:maxLines="3"
+                    android:maxLength="256"
                     android:inputType="textCapSentences|textMultiLine"/>
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
