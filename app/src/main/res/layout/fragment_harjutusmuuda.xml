@@ -77,7 +77,7 @@
                        android:layout_height="wrap_content"
                        android:layout_marginEnd="@dimen/horisontaalne_aaris"
                        android:layout_centerVertical="true"
-                       android:src="@drawable/ic_library_music_black"
+                       android:src="@drawable/ic_library_music_green"
                        android:layout_alignParentStart="true"
             />
             <ImageButton android:id="@+id/mangi"

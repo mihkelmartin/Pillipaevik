@@ -2,6 +2,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,8 +31,11 @@ public class HarjutusUusFragment extends HarjutusFragment {
     private final Handler handler = new Handler();
 
     private static TextView timer;
+    private static TextView timerolek;
     private static Button kaivitaTimerNupp;
     private static Button mikrofoniLulitiNupp;
+
+    AnimationDrawable taimerAnimatsioon = null;
 
     private MediaRecorder mRecorder = null;
 
@@ -92,6 +96,7 @@ public class HarjutusUusFragment extends HarjutusFragment {
         super.onActivityCreated(savedInstanceState);
         timer = (TextView) getView().findViewById(R.id.timer);
         kaivitaTimerNupp = (Button) getView().findViewById(R.id.kaivitataimernupp);
+        timerolek = (TextView) getView().findViewById(R.id.timerolek);
         mikrofoniLulitiNupp = (Button) getView().findViewById(R.id.mikrofoniluliti);
         kaivitaTimerNupp.setOnClickListener(this);
         mikrofoniLulitiNupp.setOnClickListener(this);
@@ -101,10 +106,10 @@ public class HarjutusUusFragment extends HarjutusFragment {
             handler.postDelayed(AjaUuendaja, viiv);
 
         if(taimertootab)
-            kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
+            timerolek.setText(getResources().getText(R.string.katkesta));
         else
             if(stardiaeg != 0)
-                kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
+                timerolek.setText(getResources().getText(R.string.jatka));
 
         // Taimer on pausil, kuid on juba lugenud aega
         if(!taimertootab && kulunudaeg != 0) {
@@ -189,13 +194,14 @@ public class HarjutusUusFragment extends HarjutusFragment {
             SeisataLindistaja();
             SeisataTaimer();
             getHarjutuskord().Salvesta(getActivity().getApplicationContext());
-            kaivitaTimerNupp.setText(getResources().getText(R.string.jatka));
+            timerolek.setText(getResources().getText(R.string.jatka));
         } else {
             KaivitaLindistaja();
             KaivitaTaimer();
-            kaivitaTimerNupp.setText(getResources().getText(R.string.katkesta));
+            timerolek.setText(getResources().getText(R.string.katkesta));
         }
         SeadistaMikrofoniNupp();
+        AnimeeriTaimerNuppu();
     }
 
     private void KaivitaTaimer(){
@@ -309,5 +315,16 @@ public class HarjutusUusFragment extends HarjutusFragment {
     public void kuiJahVastus(DialogFragment dialog) {
         SeisataLindistajaKustutamiseks();
         KustutaHarjutus(Tooriistad.KASUTAJA_KUSTUTAS);
+    }
+
+    private void AnimeeriTaimerNuppu(){
+        if(taimertootab){
+            kaivitaTimerNupp.setBackgroundResource(R.drawable.startnupuanimatsioon);
+            taimerAnimatsioon = (AnimationDrawable) kaivitaTimerNupp.getBackground();
+            taimerAnimatsioon.start();
+        } else {
+            taimerAnimatsioon.stop();
+            kaivitaTimerNupp.setBackgroundResource(R.drawable.startnupp);
+        }
     }
 }

@@ -22,41 +22,44 @@
                       android:layout_marginStart="@dimen/horisontaalne_aaris"
                       android:layout_marginEnd="@dimen/horisontaalne_aaris"
                       android:layout_below="@id/harjutusekirjeldus"
-                      android:orientation="horizontal">
+                      android:orientation="vertical">
+            <RelativeLayout android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal">
+                <TextView
+                        android:textColor="@color/taimeri_teksti_varv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/stopperi_font"
+                        android:text="@string/stopper"
+                        android:id="@+id/timer"/>
+                <TextView
+                        android:textColor="@color/taimeri_teksti_varv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/timer"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/stopperi_teksti_font"
+                        android:text="@string/alusta"
+                        android:id="@+id/timerolek"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/startnupp"
+                        android:id="@+id/kaivitataimernupp"/>
+            </RelativeLayout>
+
             <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/alusta"
-                android:drawableStart="@drawable/ic_query_builder_black"
-                android:id="@+id/kaivitataimernupp"/>
-            <Button
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:id="@+id/mikrofoniluliti"
                     android:drawableStart="@drawable/ic_mic_off_black"/>
         </LinearLayout>
-        <TextView android:id="@+id/juhend"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginStart="@dimen/horisontaalne_aaris"
-                  android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                  android:layout_alignParentBottom="true"
-                  android:layout_marginBottom="@dimen/horisontaalne_aaris"
-                  android:textAppearance="?android:attr/textAppearanceSmall"
-                  android:text="@string/uusharjutustjuhend"/>
-        <TextView
-                android:textColor="@color/taimeri_teksti_varv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/horisontaalne_aaris"
-                android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                android:layout_below="@id/nupud"
-                android:layout_alignTop="@id/nupud"
-                android:layout_alignBottom="@id/juhend"
-                android:gravity="center"
-                android:textSize="@dimen/stopperi_font"
-                android:text="@string/stopper"
-                android:id="@+id/timer"/>
     </RelativeLayout>

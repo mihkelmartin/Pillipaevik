@@ -38,7 +38,7 @@
                        android:scaleType="centerCrop"
                        android:scaleX="@dimen/pildikeste_vahendamine_uldine"
                        android:scaleY="@dimen/pildikeste_vahendamine_uldine"
-                       android:src="@drawable/ic_library_music_black"/>
+                       android:src="@drawable/ic_library_music_green"/>
             <TextView android:id="@+id/kalender_paev_harjutus_harjutuse_kestus"
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent"

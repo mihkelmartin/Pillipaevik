@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="stopperi_font">60sp</dimen>
+    <dimen name="stopperi_font">45sp</dimen>
+    <dimen name="stopperi_teksti_font">22sp</dimen>
     <dimen name="korduste_arvu_laius">36sp</dimen>
     <dimen name="vaike_font_abitekstide_jaoks">12sp</dimen>
 
