@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
         TestHarjutusLisaKaksSalvestisega.class,
         TestHarjutusKustutaMangivSalvestis.class,
         TestHarjutusKustutaSalvestav.class,
+        TestHarjutusUusAutoStart.class,
         TestHarjutusKustutaTeos.class,
         TestHarjutusUueNupud.class,
         TestHarjutusUueNupudKaotaActivity.class})

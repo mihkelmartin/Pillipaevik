@@ -231,6 +231,20 @@ public final class Tooriistad {
         return (int) Math.ceil((double) sekundid / 60.0);
     }
 
+    public static boolean kasStopperiAutoStart(Context context){
+        boolean retVal;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = sharedPref.getBoolean("stopperiAutoStart", false);
+        return  retVal;
+    }
+
+    public static void SeadistaStopperiAutoStartSeadeteFailis(Context context, boolean olek){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("stopperiAutoStart", olek);
+        editor.commit();
+    }
+
     // Helifailide salvestamine
     public static boolean KasLubadaSalvestamine(Context context){
         boolean retVal;

@@ -23,7 +23,6 @@
                     android:layout_marginTop="@dimen/tekstilahtri_aaris"
                     android:layout_marginStart="@dimen/horisontaalne_aaris"
                     android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:maxLength="48"
                     android:inputType="textCapSentences|textMultiLine"/>
             <EditText
@@ -45,7 +44,6 @@
                     android:layout_marginEnd="@dimen/horisontaalne_aaris"
                     android:layout_marginBottom="@dimen/vertikaalne_aaris"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:maxLines="3"
                     android:maxLength="256"
                     android:inputType="textCapSentences|textMultiLine"/>
             <RelativeLayout android:layout_width="match_parent"

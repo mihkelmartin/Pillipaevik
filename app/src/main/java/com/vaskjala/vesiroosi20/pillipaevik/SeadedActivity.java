@@ -30,6 +30,8 @@ public class SeadedActivity extends AppCompatActivity {
 
     private EditText paevasharjutada;
 
+    private Switch stopperiAutoStart;
+
     private EditText googlekonto;
     private Switch kasLubadaMikrofonigaSalvestamine;
     private Switch kaskasutadagoogledrive;
@@ -74,6 +76,7 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaperenimi = ((EditText)findViewById(R.id.opetajaperenimi));
         opetajaepost = ((EditText)findViewById(R.id.opetajaepost));
         paevasharjutada = ((EditText)findViewById(R.id.paevasharjutada));
+        stopperiAutoStart = ((Switch)findViewById(R.id.stopperiautostart));
         googlekonto = ((EditText)findViewById(R.id.googlekonto));
         kasLubadaMikrofonigaSalvestamine = ((Switch) findViewById(R.id.kasLubadaMikrofonigaSalvestamine));
         kaskasutadagoogledrive = ((Switch) findViewById(R.id.kasKasutadaGoogleDrive));
@@ -91,6 +94,7 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaperenimi.setOnFocusChangeListener(mFP);
         opetajaepost.setOnFocusChangeListener(mFP);
         paevasharjutada.setOnFocusChangeListener(mFP);
+        stopperiAutoStart.setOnFocusChangeListener(mFP);
         kasLubadaMikrofonigaSalvestamine.setOnFocusChangeListener(mFP);
         kaskasutadagoogledrive.setOnFocusChangeListener(mFP);
     }
@@ -110,6 +114,7 @@ public class SeadedActivity extends AppCompatActivity {
         if(lszPaevas.equals("0"))
             lszPaevas = "";
         paevasharjutada.setText(lszPaevas);
+        stopperiAutoStart.setChecked(sharedPref.getBoolean("stopperiAutoStart", false));
         googlekonto.setText(sharedPref.getString("googlekonto", ""));
         kasLubadaMikrofonigaSalvestamine.setChecked(sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true));
         kaskasutadagoogledrive.setChecked(sharedPref.getBoolean("kaskasutadagoogledrive", true));
@@ -138,6 +143,8 @@ public class SeadedActivity extends AppCompatActivity {
             editor.putInt("paevasharjutada", Integer.parseInt(minutid));
         else
             editor.putInt("paevasharjutada", 0);
+
+        editor.putBoolean("stopperiAutoStart", stopperiAutoStart.isChecked());
         editor.putString("googlekonto", googlekonto.getText().toString());
         editor.putBoolean("kaslubadamikrofonigasalvestamine", kasLubadaMikrofonigaSalvestamine.isChecked());
         editor.putBoolean("kaskasutadagoogledrive", kaskasutadagoogledrive.isChecked());

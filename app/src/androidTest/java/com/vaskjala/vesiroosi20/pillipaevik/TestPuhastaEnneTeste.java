@@ -39,6 +39,7 @@ public class TestPuhastaEnneTeste {
         editor.putString("opetajaperenimi", "");
         editor.putString("opetajaepost", "");
         editor.putInt("paevasharjutada", 0);
+        editor.putBoolean("stopperiAutoStart", false);
         if(TestTooriistad.OnReaalneSeade()){
             editor.putBoolean("kaslubadamikrofonigasalvestamine", true);
             editor.putBoolean("kaskasutadagoogledrive", true);

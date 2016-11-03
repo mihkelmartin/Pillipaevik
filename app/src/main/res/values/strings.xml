@@ -88,6 +88,7 @@
     <string name="opetaja_perenimi_vihje">My teacher\'s last name</string>
     <string name="opetaja_e_post_vihje">My teacher\'s e-mail</string>
     <string name="harjutamise_norm_vihje">Minutes to practice in a day</string>
+    <string name="stopperiautostart">Autostart stopwatch</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Allow recording</string>
     <string name="kasKasutadaGoogleDrive">Use Google Drive</string>
     <string name="GoogleDriveVajalikkus">Google Drive is needed to add recordings to a report</string>

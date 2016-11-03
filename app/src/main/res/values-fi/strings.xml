@@ -87,6 +87,7 @@
     <string name="opetaja_perenimi_vihje">Opettajani sukunimi</string>
     <string name="opetaja_e_post_vihje">Opettajani sähköposti</string>
     <string name="harjutamise_norm_vihje">Monta minuuttia haluan päivässä harjoitella</string>
+    <string name="stopperiautostart">Kellon automaattinen käynnistys</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Nauhoittaminen ja kuunteleminen</string>
     <string name="kasKasutadaGoogleDrive">Tallenna Google Driveen</string>
     <string name="GoogleDriveVajalikkus">Google Drive on välttämätön raporttiin nauhoitusten lisäämiseksi</string>

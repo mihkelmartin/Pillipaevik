@@ -80,6 +80,9 @@ public class HarjutusUusFragment extends HarjutusFragment {
             getHarjutusFragmendiKuulaja().SeaHarjutusid(getHarjutusid());
             getHarjutusFragmendiKuulaja().HarjutusLisatud(getTeosid(), getHarjutusid());
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Uus harjutus loodud : " + getHarjutusid());
+
+            if(Tooriistad.kasStopperiAutoStart(getActivity().getApplicationContext()))
+                KaivitaTaimer();
         }
     }
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

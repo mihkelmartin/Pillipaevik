@@ -88,6 +88,7 @@
     <string name="opetaja_perenimi_vihje">Minu õpetaja perekonnanimi</string>
     <string name="opetaja_e_post_vihje">Minu õpetaja e-post</string>
     <string name="harjutamise_norm_vihje">Mitu minutit tahan päevas harjutada</string>
+    <string name="stopperiautostart">Stopper käivitub automaatselt</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>
     <string name="GoogleDriveVajalikkus">Google Drive on vajalik aruannetele salvestiste lisamiseks</string>
