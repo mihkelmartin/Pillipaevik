@@ -30,8 +30,10 @@ import org.hamcrest.Matchers;
 import android.support.test.espresso.contrib.PickerActions;
 import org.hamcrest.TypeSafeMatcher;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -54,6 +56,27 @@ import static org.hamcrest.CoreMatchers.not;
     private static boolean bMultiFragment = false;
     private static UiDevice ui = null;
 
+    public static void KustutaAndmed(Context context){
+        PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(context);
+        List<Teos> teosList =  new ArrayList<Teos>(pilliPaevikDatabase.getAllTeosed());
+        for( Teos teos : teosList ){
+            teos.Kustuta(context);
+        }
+    }
+
+    public static void KustutaTeosedUI(Context context){
+        Tooriistad.SeadistaNaitaArhiiviSeadeteFailis(context, true);
+        VajutaArhiivMenuu();
+        VajutaArhiivMenuu();
+        PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(context);
+        int teostearv = pilliPaevikDatabase.getAllTeosed().size();
+        for( int i = 1; i <= teostearv; i++ ){
+            onView(withId(R.id.harjutua_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+            VajutaKustutaTeos();
+            VajutaDialoogOK();
+        }
+    }
+
     public static void LisaTeosUI(String nimi, String autor, String kommentaar) {
         VajutaLisaTeos();
         TestTooriistad.Oota(100);
@@ -61,7 +84,6 @@ import static org.hamcrest.CoreMatchers.not;
         onView(withId(R.id.autor)).perform(ViewActions.replaceText(autor));
         onView(withId(R.id.kommentaar)).perform(ViewActions.replaceText(kommentaar), closeSoftKeyboard());
     }
-
     public static void LisaTehtudHarjutusUI(String nimi, int minuteidmaha, int pikkus) {
 
         VajutaLisaTehtudHarjutus();
@@ -84,6 +106,28 @@ import static org.hamcrest.CoreMatchers.not;
 
         SeaKellaaeg(c2, R.id.alguskellaaeg);
         onView(withId(android.R.id.button1)).perform(click());
+    }
+
+
+    public static void LisaArhiiviTestiTeosed(){
+        Context context = InstrumentationRegistry.getTargetContext();
+        android.content.res.Resources resources = context.getResources();
+
+        LisaTeosUI(resources.getString(R.string.test_teos1_nimi), resources.getString(R.string.test_teos1_autor), resources.getString(R.string.test_teos1_kommentaar));
+        LisaTehtudHarjutusUI(resources.getString(R.string.test_teos1_h1_nimi), 1380, 35);
+        VajutaTagasiKui1Fragment();
+        VajutaTagasiKui1Fragment();
+
+        LisaTeosUI(resources.getString(R.string.test_teos2_nimi), resources.getString(R.string.test_teos2_autor), resources.getString(R.string.test_teos2_kommentaar));
+        LisaTehtudHarjutusUI(resources.getString(R.string.test_teos2_h1_nimi), 2880, 15);
+        VajutaTagasiKui1Fragment();
+        VajutaTagasiKui1Fragment();
+
+        LisaTeosUI(resources.getString(R.string.test_teos3_nimi), resources.getString(R.string.test_teos3_autor), resources.getString(R.string.test_teos3_kommentaar));
+        VajutaTagasiKui1Fragment();
+
+        LisaTeosUI(resources.getString(R.string.test_teos4_nimi), resources.getString(R.string.test_teos4_autor), resources.getString(R.string.test_teos4_kommentaar));
+        VajutaTagasiKui1Fragment();
     }
 
     public static void SeaKuupaev(Calendar c, int ressursiid){
@@ -221,6 +265,9 @@ import static org.hamcrest.CoreMatchers.not;
     public static void VajutaLisaTeos(){
         onView(withId(R.id.lisateos)).perform(click());
     }
+    public static void VajutaArhiivMenuu(){
+        onView(withId(R.id.naitaarhiivi)).perform(click());
+    }
     public static void VajutaKustutaTeos(){
         onView(withId(R.id.kustutateos)).perform(click());
     }
@@ -246,9 +293,10 @@ import static org.hamcrest.CoreMatchers.not;
     public static void VajutaTaimeriNuppu(){
         onView(withId(R.id.kaivitataimernupp)).perform(click());
     }
-    public static void OnHarjutusMuudaFragment(){
-        onView(withId(R.id.HarjutusTabel)).check(matches(isDisplayed()));
+    public static void VajutaArhiivNupp(){
+        onView(withId(R.id.arhiivis)).perform(click());
     }
+
 
     public static void OnUueHarjutuseKestusNull(){
         onView(withId(R.id.timer)).check(ViewAssertions.matches(withText(R.string.stopper)));
@@ -271,27 +319,28 @@ import static org.hamcrest.CoreMatchers.not;
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.sees))));
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(isEnabled()));
     }
-
     public static void OnMikrofoniNuppValjasKasutusel(){
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.valjas))));
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(isEnabled()));
     }
-
     public static void OnMikrofoniNuppSeesKasutu(){
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.sees))));
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(not(isEnabled())));
     }
-
     public static void OnMikrofoniNuppValjasKasutu(){
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches((withText(R.string.valjas))));
         onView(withId(R.id.mikrofoniluliti)).check(ViewAssertions.matches(not(isEnabled())));
     }
 
-
+    public static void EiOoleTeosFragment(){
+        onView(withId(R.id.harjutuslist)).check(ViewAssertions.doesNotExist());
+    }
+    public static void OnHarjutusMuudaFragment(){
+        onView(withId(R.id.HarjutusTabel)).check(matches(isDisplayed()));
+    }
     public static void EiOoleHarjutusMuudaFragment(){
         onView(withId(R.id.HarjutusTabel)).check(ViewAssertions.doesNotExist());
     }
-
     public static void OnHarjutusLisaTehtudFragment(){
         onView(withId(R.id.harjutuseandmed)).check(matches(isDisplayed()));
     }
@@ -348,6 +397,7 @@ import static org.hamcrest.CoreMatchers.not;
         AnnaUiDevice().pressHome();
         AvaPilliPaevik(context);
     }
+
     public static void MultiFragmentTuvastus(ActivityTestRule activityTestRule) {
         if (!bMultiFragmentTuvastatud) {
             if (BuildConfig.DEBUG) Log.d("TestTooriistad", "Tuvastame mitmefragmentsust");
@@ -360,7 +410,6 @@ import static org.hamcrest.CoreMatchers.not;
             bMultiFragmentTuvastatud = true;
         }
     }
-
     public static boolean OnMultiFragment() {
         return bMultiFragment;
     }

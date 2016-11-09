@@ -18,7 +18,8 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
-public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnFocusChangeListener {
+public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, View.OnFocusChangeListener,
+        View.OnClickListener {
 
 
     private PilliPaevikDatabase mPPManager;
@@ -30,7 +31,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
     private TeosFragmendiKuulaja teosFragmendiKuulaja;
 
     // Vaate lahtrid
-    private RatingBar mHinnang;
+    private CheckBox mArhiivis;
     private EditText mNimi;
     private EditText mAutor;
     private EditText mKommentaar;
@@ -103,14 +104,15 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         mNimi = (EditText) getView().findViewById(R.id.nimi);
         mAutor = (EditText) getView().findViewById(R.id.autor);
         mKommentaar = (EditText) getView().findViewById(R.id.kommentaar);
-        mHinnang = ((RatingBar) getView().findViewById(R.id.hinnaguriba));
+        mArhiivis = ((CheckBox) getView().findViewById(R.id.arhiivis));
 
         mNimi.setText(this.teos.getNimi());
         mAutor.setText(this.teos.getAutor());
         mKommentaar.setText(this.teos.getKommentaar());
-        mHinnang.setRating(this.teos.getHinnang());
+        mArhiivis.setChecked(this.teos.getKasutusviis() == 0);
 
         mNimi.setOnFocusChangeListener(this);
+        mArhiivis.setOnClickListener(this);
 
         LooHarjutusteAdapter();
         HarjutusteStatistika ();
@@ -119,7 +121,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
     public void onPause() {
         if(BuildConfig.DEBUG) Log.d("TeosFragment","onPause");
         super.onPause();
-        if(this.teos != null) {
+        if(mPPManager.getTeos(this.teosid) != null) {
             SalvestaTeos();
         } else {
             if (BuildConfig.DEBUG) Log.d("TeosFragment", "onPause: teos == null");
@@ -189,6 +191,19 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.arhiivis:
+                AndmedTeosesse(teos);
+                teosFragmendiKuulaja.VarskendaTeosList();
+                teosFragmendiKuulaja.VarskendaTeosFragment(teos);
+                break;
+            default:
+                break;
+        }
+    }
+
     private class HarjutuskorradAdapter extends ArrayAdapter<HarjutusKord> {
         private ArrayList<HarjutusKord> harjutuskorrad;
         public HarjutuskorradAdapter(Context context, ArrayList<HarjutusKord> harjutuskorrad) {
@@ -256,7 +271,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         teos.setNimi(mNimi.getText().toString());
         teos.setAutor(mAutor.getText().toString());
         teos.setKommentaar(mKommentaar.getText().toString());
-        teos.setHinnang((short) mHinnang.getRating());
+        teos.setKasutusviis( (short)(mArhiivis.isChecked() ? 0 : 1));
 
         if (BuildConfig.DEBUG) Log.d("TeosFragment", "Andmed teosesse: " + teos.toString());
 
@@ -269,7 +284,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
 
     public void KustutaTeos() {
         teos.Kustuta(getActivity().getApplicationContext());
-        this.teos = null;
+        teosFragmendiKuulaja.KustutaTeos(this.teos, 0);
     }
 
     private void HarjutusteStatistika (){
@@ -295,8 +310,6 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
     @Override
     public void kuiJahVastus(android.app.DialogFragment dialog) {
         if(BuildConfig.DEBUG) Log.d("TeosFragment", "Kustutamise kuiJahVastus");
-        int listindex = mPPManager.getAllTeosed().indexOf(mPPManager.getTeos(teosid));
         KustutaTeos();
-        teosFragmendiKuulaja.KustutaTeos(this.teosid, listindex);
     }
 }

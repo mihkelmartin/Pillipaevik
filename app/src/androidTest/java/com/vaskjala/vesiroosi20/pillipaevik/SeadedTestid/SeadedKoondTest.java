@@ -8,7 +8,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({TestSeadedSisesta.class,
         TestSeadedFailis.class,
-        TestSeadedGoogleKontoValimine.class,
         TestSeadedNaviTiitliTekst.class,
         TestSeadedRaadioNupud.class,
         TestSeadedEesmargid.class,

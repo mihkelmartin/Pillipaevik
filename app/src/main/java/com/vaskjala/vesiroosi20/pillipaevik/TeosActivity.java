@@ -125,7 +125,7 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
     }
 
     @Override
-    public void KustutaTeos(int teosid, int itemposition) {
+    public void KustutaTeos(Teos teos, int itemposition) {
         if(BuildConfig.DEBUG) Log.d("TeosActivity", "Tagasi kustutamisega. Pos:" + this.itemposition);
         Intent output = new Intent();
         output.putExtra("item_position", this.itemposition);
@@ -139,7 +139,12 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
     }
 
     @Override
-    public void VarskendaTeosListiElement(int position) {
+    public void VarskendaTeosFragment(Teos teos) {
+
+    }
+
+    @Override
+    public void VarskendaTeosListiElement(Teos teos) {
 
     }
 

@@ -11,21 +11,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class TeosListFragment extends Fragment {
 
-    protected SimpleItemRecyclerViewAdapter mMainAdapter;
+    private SimpleItemRecyclerViewAdapter mMainAdapter;
     private PilliPaevikDatabase mPPManager;
     private TeosListFragmendiKuulaja teosListFragmendiKuulaja;
 
@@ -85,12 +81,22 @@ public class TeosListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.teoslistmenyy, menu);
+        menu.findItem(R.id.naitaarhiivi).setChecked(Tooriistad.kasNaitaArhiivi(getActivity().getApplicationContext()));
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.lisateos){
             if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Lisa teos vajutatud");
             teosListFragmendiKuulaja.UusTeos();
+        }
+        if(item.getItemId()==R.id.naitaarhiivi){
+            if(BuildConfig.DEBUG) Log.d("TeosListFragment", "Näita arhiivi vajutatud");
+            Context context = getActivity().getApplicationContext();
+            Tooriistad.SeadistaNaitaArhiiviSeadeteFailis(context, !Tooriistad.kasNaitaArhiivi(context));
+            item.setChecked(Tooriistad.kasNaitaArhiivi(context));
+            mMainAdapter.FiltreeriTeosed();
+            mMainAdapter.notifyDataSetChanged();
+            teosListFragmendiKuulaja.ValiTeineTeos(0);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -103,14 +109,28 @@ public class TeosListFragment extends Fragment {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Teos> mValues;
+        private final List<Teos> teoslist;
+        private final List<Teos> mValues = new ArrayList<Teos>();
 
         public SimpleItemRecyclerViewAdapter(List<Teos> items) {
-            mValues = items;
+            teoslist = items;
+            FiltreeriTeosed();
         }
 
         public void SordiTeosed(){
+            Collections.sort(teoslist);
             Collections.sort(mValues);
+        }
+        public void FiltreeriTeosed(){
+            mValues.clear();
+            if(Tooriistad.kasNaitaArhiivi(getActivity().getApplicationContext())) {
+                mValues.addAll(teoslist);
+            } else {
+                for(Teos teos : teoslist){
+                    if(teos.getKasutusviis() == 1)
+                        mValues.add(teos);
+                }
+            }
         }
 
         @Override
@@ -119,24 +139,15 @@ public class TeosListFragment extends Fragment {
                     .inflate(R.layout.teos_list_rida, parent, false);
             return new ViewHolder(view);
         }
-
-        public class ListiKuulaja implements View.OnClickListener {
-
-            private ViewHolder holder;
-
-            public ListiKuulaja(ViewHolder holder){
-                this.holder = holder;
-            }
-            public void onClick(View v) {
-                teosListFragmendiKuulaja.TeosValitud(holder.mItem.getId(),
-                        holder.getLayoutPosition());
-            }
-        }
-
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mContentView.setText(holder.mItem.getNimi());
+
+            if(holder.mItem.getKasutusviis() == 1)
+                holder.mArhiiviOsa.setVisibility(View.GONE);
+            else
+                holder.mArhiiviOsa.setVisibility(View.VISIBLE);
 
             new Thread(new Runnable() {
                 public void run() {
@@ -153,6 +164,20 @@ public class TeosListFragment extends Fragment {
             holder.mView.setOnClickListener(pLK);
         }
 
+        public class ListiKuulaja implements View.OnClickListener {
+
+            private ViewHolder holder;
+
+            public ListiKuulaja(ViewHolder holder){
+                this.holder = holder;
+            }
+            public void onClick(View v) {
+                teosListFragmendiKuulaja.TeosValitud(holder.mItem.getId(),
+                        holder.getLayoutPosition());
+            }
+        }
+
+
         @Override
         public int getItemCount() {
             return mValues.size();
@@ -163,6 +188,7 @@ public class TeosListFragment extends Fragment {
             public final TextView mContentView;
             public final TextView mHarjutusteArv;
             public final TextView mHarjutuseKestus;
+            public final LinearLayout mArhiiviOsa;
 
             public Teos mItem;
 
@@ -172,6 +198,7 @@ public class TeosListFragment extends Fragment {
                 mContentView = (TextView) view.findViewById(R.id.content);
                 mHarjutusteArv = (TextView) view.findViewById(R.id.teoslistteoseharjutustearv);
                 mHarjutuseKestus = (TextView) view.findViewById(R.id.teoslistteoseharjutustekestus);
+                mArhiiviOsa = (LinearLayout) view.findViewById(R.id.arhiiviosa);
             }
 
             @Override
@@ -179,6 +206,28 @@ public class TeosListFragment extends Fragment {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    public List<Teos> AnnaTeosList() {
+        return mMainAdapter.mValues;
+    }
+    public void UuendaTeosList(){
+        mMainAdapter.FiltreeriTeosed();
+        mMainAdapter.SordiTeosed();
+        mMainAdapter.notifyDataSetChanged();
+    }
+    public int EemaldaTeosListist(Teos teos){
+        int pos = mMainAdapter.mValues.indexOf(teos);
+        mMainAdapter.notifyItemRemoved(pos);
+        mMainAdapter.FiltreeriTeosed();
+        return pos;
+    }
+    public void UuendaTeosListis(Teos teos){
+        mMainAdapter.notifyItemChanged(mMainAdapter.mValues.indexOf(teos));
+    }
+    public void EemaldaPositsioonListist(int pos){
+        mMainAdapter.FiltreeriTeosed();
+        mMainAdapter.notifyItemRemoved(pos);
     }
 
     public void VarskendaProgressid(){

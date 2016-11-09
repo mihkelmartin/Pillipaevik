@@ -5,10 +5,11 @@ package com.vaskjala.vesiroosi20.pillipaevik;
  */
 public interface TeosFragmendiKuulaja {
     void HarjutusValitud(int teosid, int harjutusud);
-    void KustutaTeos(int teosid, int itemposition);
+    void KustutaTeos(Teos teos, int itemposition);
     void AlustaHarjutust(int teosid);
     void LisaTehtudHarjutus(int teosid);
     void VarskendaTeosList();
-    void VarskendaTeosListiElement(int position);
+    void VarskendaTeosFragment(Teos teos);
+    void VarskendaTeosListiElement(Teos teos);
     void SeaTeosid(int teosid);
 }

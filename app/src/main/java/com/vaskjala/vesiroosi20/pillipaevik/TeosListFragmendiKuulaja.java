@@ -6,4 +6,5 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 public interface TeosListFragmendiKuulaja {
     void UusTeos();
     void TeosValitud(int teoseid, int asukoht);
+    void ValiTeineTeos(int itemposition);
 }

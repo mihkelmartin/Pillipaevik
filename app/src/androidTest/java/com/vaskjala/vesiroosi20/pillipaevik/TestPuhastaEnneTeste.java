@@ -50,10 +50,6 @@ public class TestPuhastaEnneTeste {
         }
         editor.commit();
 
-        PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(context);
-        List<Teos> teosList =  new ArrayList<Teos>(pilliPaevikDatabase.getAllTeosed());
-        for( Teos teos : teosList ){
-            teos.Kustuta(context);
-        }
+        TestTooriistad.KustutaAndmed(context);
     }
 }

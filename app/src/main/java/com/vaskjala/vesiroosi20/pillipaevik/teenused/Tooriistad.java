@@ -231,6 +231,20 @@ public final class Tooriistad {
         return (int) Math.ceil((double) sekundid / 60.0);
     }
 
+    public static boolean kasNaitaArhiivi(Context context){
+        boolean retVal;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = sharedPref.getBoolean("naitaArhiivi", true);
+        return  retVal;
+    }
+
+    public static void SeadistaNaitaArhiiviSeadeteFailis(Context context, boolean olek){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("naitaArhiivi", olek);
+        editor.commit();
+    }
+
     public static boolean kasStopperiAutoStart(Context context){
         boolean retVal;
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
