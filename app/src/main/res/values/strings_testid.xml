@@ -50,6 +50,11 @@
     <string name="test_teos4_h2_nimi" translatable="false">TIV HII S</string>
     <string name="test_teos4_h3_nimi" translatable="false">TIV HIII S</string>
 
+    <string name="test_teos5_nimi" translatable="false">Testteos V</string>
+    <string name="test_teos5_autor" translatable="false">Marek</string>
+    <string name="test_teos5_kommentaar" translatable="false">Turek!</string>
+
+
     <string name="test_h_ei_salvestu" translatable="false">Ei salvestu</string>
     <string name="test_h_salvestub1" translatable="false">Salvestub I</string>
     <string name="test_h_salvestub2" translatable="false">Salvestub II</string>

@@ -64,7 +64,7 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_toEndOf="@+id/harjutustearvkast"
-                      android:layout_toStartOf="@+id/hinnaguriba"
+                      android:layout_toStartOf="@+id/arhiivis"
                       android:orientation="horizontal">
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
@@ -78,19 +78,15 @@
                       android:textColor="@android:color/white"
                       android:text="00:00"/>
             </LinearLayout>
-        <RatingBar
-                android:id="@+id/hinnaguriba"
+        <CheckBox
+                android:id="@+id/arhiivis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_vertical"
-                android:progressTint="@color/colorAccent"
-                style="?android:attr/ratingBarStyleSmall"
-                android:indeterminate="false"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:stepSize="1"
-                android:rating="3"/>
+                android:buttonTint="@android:color/white"
+                android:textColor="@android:color/white"
+                android:text="@string/arhiivis"/>
     </RelativeLayout>
     <View
             android:layout_width="match_parent"

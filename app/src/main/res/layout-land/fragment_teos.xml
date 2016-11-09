@@ -89,23 +89,15 @@
                               android:textColor="@android:color/white"
                               android:text="00:00"/>
                 </LinearLayout>
-                <RatingBar
-                        android:id="@+id/hinnaguriba"
+                <CheckBox
+                        android:id="@+id/arhiivis"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/tekstilahtri_aaris"
-                        android:layout_marginBottom="@dimen/tekstilahtri_aaris"
-                        android:layout_alignStart="@id/harjutustekestuskast"
-                        android:layout_below="@id/harjutustekestuskast"
+                        android:layout_below="@+id/harjutustekestuskast"
                         android:layout_gravity="center_vertical"
-                        android:progressTint="@color/colorAccent"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:indeterminate="false"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:stepSize="1"
-                        android:rating="3"
-                        android:onClick="MuudaHinnangut"/>
+                        android:buttonTint="@android:color/white"
+                        android:textColor="@android:color/white"
+                        android:text="@string/arhiivis"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

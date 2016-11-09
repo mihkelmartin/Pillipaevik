@@ -8,4 +8,12 @@
             android:icon="@drawable/ic_add_black"
             app:showAsAction="always"
             android:orderInCategory="101"/>
+
+    <item android:id="@+id/naitaarhiivi"
+          android:title="@string/naita_arhiivi"
+          android:checkable="true"
+          app:showAsAction="always"
+          android:orderInCategory="401">
+    </item>
+
 </menu>

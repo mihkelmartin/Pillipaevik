@@ -21,5 +21,6 @@
 
 
     <item name="pildikeste_vahendamine_uldine" format="float" type="dimen">0.85</item>
+    <item name="pildikeste_vahendamine_50pc" format="float" type="dimen">0.5</item>
 
 </resources>

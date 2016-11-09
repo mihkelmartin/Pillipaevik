@@ -34,6 +34,7 @@
 
     // Menüüd
     <string name="lisa_teos">Lisää kappale…</string>
+    <string name="naita_arhiivi">Näytä arkistoidut</string>
     <string name="kusututa">Poista kappale…</string>
     <string name="AlustaUutHarjutust">Aloita uusi…</string>
     <string name="LisaTehtudHarjutus">Lisää tehty …</string>
@@ -114,6 +115,9 @@
     <string name="nimi_vihje">Kappaleen nimi</string>
     <string name="autor_vihje">Tekijä</string>
     <string name="kommentaar_vihje">Lisää kommentti</string>
+
+    <string name="arhiivis">Arkistoitu</string>
+
 
     <string name="tana">Tänään</string>
     <string name="nadal">Viikko</string>

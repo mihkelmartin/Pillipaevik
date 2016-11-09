@@ -35,6 +35,7 @@
 
     // Menüüd
     <string name="lisa_teos">Lisa teos…</string>
+    <string name="naita_arhiivi">Näita arhiivi</string>
     <string name="kusututa">Kusututa harjutus…</string>
     <string name="AlustaUutHarjutust">Alusta uut…</string>
     <string name="LisaTehtudHarjutus">Lisa tehtud …</string>
@@ -115,6 +116,8 @@
     <string name="nimi_vihje">Nimi. Näiteks Mazurka</string>
     <string name="autor_vihje">Autor. Näiteks Beethoven</string>
     <string name="kommentaar_vihje">Lisa kommentaar</string>
+
+    <string name="arhiivis">Arhiivis</string>
 
     <string name="tana">Täna</string>
     <string name="nadal">Nädal</string>

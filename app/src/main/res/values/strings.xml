@@ -35,6 +35,7 @@
 
     // Menüüd
     <string name="lisa_teos">Add song…</string>
+    <string name="naita_arhiivi">Show archived</string>
     <string name="kusututa">Delete exercise…</string>
     <string name="AlustaUutHarjutust">Start exercise…</string>
     <string name="LisaTehtudHarjutus">Add exercise …</string>
@@ -115,6 +116,8 @@
     <string name="nimi_vihje">Name. For example Yesterday</string>
     <string name="autor_vihje">Author. For example John Lennon</string>
     <string name="kommentaar_vihje">Comment</string>
+
+    <string name="arhiivis">Archived</string>
 
     <string name="tana">Today</string>
     <string name="nadal">Week</string>

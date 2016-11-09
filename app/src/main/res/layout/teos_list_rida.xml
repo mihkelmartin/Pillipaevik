@@ -24,6 +24,28 @@
                 android:layout_height="@dimen/eraldusjoone_paksus"
                 android:background="@android:color/white"/>
     </LinearLayout>
+    <LinearLayout android:id="@+id/arhiiviosa"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="0"
+                  android:visibility="gone"
+                  android:background="@color/pillipaevik_peamine_taust"
+                  android:orientation="vertical">
+        <ImageView
+                android:id="@+id/arhiivipilt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:scaleX="@dimen/pildikeste_vahendamine_50pc"
+                android:scaleY="@dimen/pildikeste_vahendamine_50pc"
+                android:src="@drawable/ic_archive_black"/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eraldusjoone_paksus"
+                android:background="@android:color/white"/>
+    </LinearLayout>
+
     <View
             android:layout_width="@dimen/eraldusjoone_paksus"
             android:layout_height="match_parent"
