@@ -24,6 +24,7 @@ public class TeosListFragment extends Fragment {
     private SimpleItemRecyclerViewAdapter mMainAdapter;
     private PilliPaevikDatabase mPPManager;
     private TeosListFragmendiKuulaja teosListFragmendiKuulaja;
+    private RecyclerView mTeosList;
 
     @Override
     public void onAttach(Context context) {
@@ -59,9 +60,9 @@ public class TeosListFragment extends Fragment {
         if(BuildConfig.DEBUG) Log.d("TeosListFragment", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_teos_list, container, false);
 
-        View recyclerView = view.findViewById(R.id.harjutua_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        mTeosList = (RecyclerView) view.findViewById(R.id.harjutua_list);
+        assert mTeosList != null;
+        setupRecyclerView(mTeosList);
 
         return view;
     }
@@ -172,8 +173,7 @@ public class TeosListFragment extends Fragment {
                 this.holder = holder;
             }
             public void onClick(View v) {
-                teosListFragmendiKuulaja.TeosValitud(holder.mItem.getId(),
-                        holder.getLayoutPosition());
+                teosListFragmendiKuulaja.TeosValitud(holder.mItem);
             }
         }
 
@@ -228,6 +228,17 @@ public class TeosListFragment extends Fragment {
     public void EemaldaPositsioonListist(int pos){
         mMainAdapter.FiltreeriTeosed();
         mMainAdapter.notifyItemRemoved(pos);
+    }
+    public void KeriTeosListKohale(int asukoht){
+        mTeosList.scrollToPosition(asukoht);
+    }
+
+    public void KeriLisTeosele(Teos teos){
+        KeriTeosListKohale(AnnaTeosList().indexOf(teos));
+    }
+
+    public void KeriLisTeoseid(int teoseid){
+       KeriLisTeosele(mPPManager.getTeos(teoseid));
     }
 
     public void VarskendaProgressid(){

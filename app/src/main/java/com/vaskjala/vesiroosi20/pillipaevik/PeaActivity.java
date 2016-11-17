@@ -102,8 +102,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
             Teos teos = mPPManager.getTeos(teoseid);
 
-            TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-            List<Teos> teosList = teosListFragment.AnnaTeosList();
+            List<Teos> teosList = AnnaTeosListFragment().AnnaTeosList();
             boolean bTeosTeosListis = teos != null && teosList.contains(teos);
 
             // Pillipäevikut avades teosid = -1 või kui Teosed puuduvad
@@ -111,7 +110,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                 if(!teosList.isEmpty()){
                     teos = teosList.get(0);
                     if(teos != null) {
-                        TeosValitud(teos.getId(), 0);
+                        TeosValitud(teos);
                         HarjutusValitud(teos.getId(), harjutuseid);
                     }
                 }
@@ -232,12 +231,14 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                                     Intent data) {
 
         if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "onActivityResult");
-        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
+        TeosListFragment teosListFragment = AnnaTeosListFragment();
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_MUUDETUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
+                int teoseid = data.getIntExtra("item_id",0);
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Teos muudetud Pos:" + itemposition);
                 teosListFragment.UuendaTeosList();
+                teosListFragment.KeriLisTeoseid(teoseid);
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
                 int itemposition = data.getIntExtra("item_position",0);
@@ -247,8 +248,10 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
         if (requestCode == getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_LISA)) {
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_LISATUD)) {
-                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud");
+                int teoseid = data.getIntExtra("item_id",0);
+                if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisatud:" + teoseid);
                 teosListFragment.UuendaTeosList();
+                teosListFragment.KeriLisTeoseid(teoseid);
             }
             if (resultCode == getResources().getInteger(R.integer.TEOS_ACTIVITY_RETURN_KUSTUTATUD)) {
                 if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi TeosActivityst. Lisamisel kustutati");
@@ -334,7 +337,8 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
     public void UusTeos() {
         if(bMitmeFragmendiga){
             SuleHarjutusFragment();
-            LooTeosFragment(new TeosFragment(), -1, 0);
+            LooTeosFragment(new TeosFragment(), null);
+            VarskendaTeosList();
         }
         else {
             Intent intent = new Intent(this, TeosActivity.class);
@@ -343,38 +347,45 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
     }
     @Override
-    public void TeosValitud(int teoseid, int itemposition) {
+    public void TeosValitud(Teos teos) {
 
         if(bMitmeFragmendiga) {
-            if (this.teoseid != teoseid) {
+            if (teoseid != teos.getId()) {
                 SuleHarjutusFragment();
-                LooTeosFragment(new TeosFragment(), teoseid, itemposition);
-                ValiEsimeneHarjutusKord(teoseid);
+                LooTeosFragment(new TeosFragment(), teos);
+                ValiEsimeneHarjutusKord(teos.getId());
             } else {
                 TeosFragment teosFragment = (TeosFragment)(getFragmentManager().findFragmentById(R.id.teos_hoidja));
                 if(teosFragment == null || teosFragment.TeoseNimiMuutunud()) {
-                    LooTeosFragment(new TeosFragment(), teoseid, itemposition);
+                    LooTeosFragment(new TeosFragment(), teos);
                     // Teoslisti värksendus Arhiivimenüü kaudu
                     if(teosFragment == null)
-                        ValiEsimeneHarjutusKord(teoseid);
+                        ValiEsimeneHarjutusKord(teos.getId());
                 }
             }
         }
         else {
+            int itemposition = AnnaTeosListFragment().AnnaTeosList().indexOf(teos);
             Intent intent = new Intent(this, TeosActivity.class);
-            intent.putExtra("item_id", teoseid);
+            intent.putExtra("item_id", teos.getId());
             intent.putExtra("item_position", itemposition);
             startActivityForResult(intent, getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
-            if (BuildConfig.DEBUG) Log.d("PeaActivity", "Teos valitud : " + teoseid + " Holder position: " +
+            if (BuildConfig.DEBUG) Log.d("PeaActivity", "Teos valitud : " + teos.getId() + " Holder position: " +
                     itemposition + " Intent: " +
                     getResources().getInteger(R.integer.TEOSLIST_ACTIVITY_INTENT_MUUDA));
         }
     }
 
     @Override
+    public void MuudaTeos(Teos teos) {
+        int vanaasukoht = AnnaTeosListFragment().AnnaTeosList().indexOf(teos);
+        VarskendaTeosList();
+        VarskendaListJaFragment(teos, vanaasukoht);
+    }
+
+    @Override
     public void KustutaTeos(Teos teos, int itemposition) {
-        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-        int pos = teosListFragment.EemaldaTeosListist(teos);
+        int pos = AnnaTeosListFragment().EemaldaTeosListist(teos);
         VarskendaProgressid();
         ValiTeineTeos(pos);
     }
@@ -447,25 +458,20 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         VarskendaTeoseVaated(teosid);
     }
 
-    @Override
-    public void VarskendaTeosList() {
-        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-        teosListFragment.UuendaTeosList();
+    private void VarskendaTeosList() {
+        AnnaTeosListFragment().UuendaTeosList();
     }
 
-    @Override
-    public void VarskendaTeosFragment(Teos teos) {
-        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-        List<Teos> teosList = teosListFragment.AnnaTeosList();
+    private void VarskendaListJaFragment(Teos teos, int vanaasukoht) {
+        List<Teos> teosList = AnnaTeosListFragment().AnnaTeosList();
         if(!teosList.contains(teos))
-            ValiTeineTeos(0);
+            ValiTeineTeos(vanaasukoht);
+        else
+            AnnaTeosListFragment().KeriLisTeosele(teos);
     }
 
-    @Override
-    public void VarskendaTeosListiElement(Teos teos) {
-        TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-        if(teosListFragment != null)
-            teosListFragment.UuendaTeosListis(teos);
+    private void VarskendaTeosListiElement(Teos teos) {
+        AnnaTeosListFragment().UuendaTeosListis(teos);
     }
 
     @Override
@@ -523,17 +529,23 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         this.iSahtliValik = iSahtliValik;
     }
 
-    private void LooTeosFragment(Fragment fragment, int teoseid, int itemposition){
-        this.teoseid = teoseid;
+    private void LooTeosFragment(Fragment fragment, Teos teos){
+
+        teoseid = teos == null ? -1 : teos.getId();
+
         Bundle args = new Bundle();
         args.putInt("item_id", teoseid);
-        args.putInt("item_position", itemposition);
+        args.putInt("item_position", 0);
         fragment.setArguments(args);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.teos_hoidja, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
         getFragmentManager().executePendingTransactions();
+
+        List<Teos> teosList = AnnaTeosListFragment().AnnaTeosList();
+        int itemposition = teosList.contains(teos) ? teosList.indexOf(teos) : 0;
+        AnnaTeosListFragment().KeriTeosListKohale(itemposition);
     }
     private void SuleTeosFragment(){
         Fragment teosfragment = getFragmentManager().findFragmentById(R.id.teos_hoidja);
@@ -577,17 +589,17 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
     }
 
-    public void ValiTeineTeos(int itemposition){
+    public void ValiTeineTeos(int vanaasukoht){
         if(bMitmeFragmendiga) {
             EemaldaHarjutusFragment();
             SuleTeosFragment();
-            int newitemposition = itemposition == 0 ? itemposition : itemposition - 1;
-            TeosListFragment teosListFragment = (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
-            List<Teos> teosed = teosListFragment.AnnaTeosList();
+            int uusasukoht = vanaasukoht == 0 ? vanaasukoht : vanaasukoht - 1;
+            List<Teos> teosed = AnnaTeosListFragment().AnnaTeosList();
             if (!teosed.isEmpty()) {
-                Teos teos = teosed.get(newitemposition);
-                if (teos != null)
-                    TeosValitud(teos.getId(), newitemposition);
+                Teos teos = teosed.get(uusasukoht);
+                if (teos != null) {
+                    TeosValitud(teos);
+                }
             }
         }
     }
@@ -619,5 +631,9 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         if(teosListFragment != null){
             teosListFragment.VarskendaProgressid();
         }
+    }
+
+    private TeosListFragment AnnaTeosListFragment(){
+        return (TeosListFragment) getFragmentManager().findFragmentById(R.id.teoslistfragment);
     }
 }

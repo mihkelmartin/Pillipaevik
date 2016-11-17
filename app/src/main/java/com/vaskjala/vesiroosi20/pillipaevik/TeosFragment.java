@@ -26,7 +26,6 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
     public HarjutuskorradAdapter pHarjutusedAdapter = null;
     private int teosid;
     private Teos teos;
-    private int itemposition;
     private boolean bUueTeoseLoomine = false;
     private TeosFragmendiKuulaja teosFragmendiKuulaja;
 
@@ -66,17 +65,14 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
             Bundle algargumendid = getArguments();
             if(algargumendid != null) {
                 this.teosid = algargumendid.getInt("item_id", 0);
-                this.itemposition = algargumendid.getInt("item_position", 0);
             } else {
                 if (getActivity() != null && getActivity().getIntent() != null) {
                     this.teosid = getActivity().getIntent().getIntExtra("item_id", 0);
-                    this.itemposition = getActivity().getIntent().getIntExtra("item_position", 0);
                 }
             }
         } else {
             if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen savedInstanceState");
             this.teosid = savedInstanceState.getInt("teoseid");
-            this.itemposition = savedInstanceState.getInt("item_position");
             this.bUueTeoseLoomine = savedInstanceState.getBoolean("uusteos");
         }
         this.teos = mPPManager.getTeos(teosid);
@@ -86,9 +82,8 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
             teos.Salvesta(getActivity().getApplicationContext());
             this.teosid = teos.getId();
             teosFragmendiKuulaja.SeaTeosid(this.teosid);
-            teosFragmendiKuulaja.VarskendaTeosList();
         }
-        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen teost:" + String.valueOf(this.teosid) + " " + this.teos + " Pos:" + this.itemposition);
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen teost:" + String.valueOf(this.teosid) + " " + this.teos);
     }
     @Nullable
     @Override
@@ -130,10 +125,9 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        if(BuildConfig.DEBUG) Log.d("TeosFragment", "onSaveInstanceState :" + this.teosid + " " + this.itemposition );
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "onSaveInstanceState :" + this.teosid);
 
         savedInstanceState.putInt("teoseid", this.teosid);
-        savedInstanceState.putInt("item_position", this.itemposition);
         savedInstanceState.putBoolean("uusteos", this.bUueTeoseLoomine);
 
         // Always call the superclass so it can save the view hierarchy state
@@ -196,8 +190,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         switch (v.getId()) {
             case R.id.arhiivis:
                 AndmedTeosesse(teos);
-                teosFragmendiKuulaja.VarskendaTeosList();
-                teosFragmendiKuulaja.VarskendaTeosFragment(teos);
+                teosFragmendiKuulaja.MuudaTeos(teos);
                 break;
             default:
                 break;
@@ -263,7 +256,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         AndmedTeosesse(this.teos);
         teos.Salvesta(getActivity().getApplicationContext());
         if(bnimiMuutunud)
-            teosFragmendiKuulaja.VarskendaTeosList();
+            teosFragmendiKuulaja.MuudaTeos(teos);
     }
 
     private void AndmedTeosesse(Teos teos) {

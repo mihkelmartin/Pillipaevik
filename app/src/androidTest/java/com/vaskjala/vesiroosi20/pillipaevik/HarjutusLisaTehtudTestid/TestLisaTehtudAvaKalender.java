@@ -56,7 +56,7 @@ public class TestLisaTehtudAvaKalender {
             VajutaDialoogOK();
 
             AvaSahtelValiKalender();
-            VajutaTagasi();
+            VajutaKodu();
 
             LeiaHarjutus(resources.getString(R.string.test_teos3_h10_nimi)).perform(click());
             OnHarjutusLisaTehtudFragment();

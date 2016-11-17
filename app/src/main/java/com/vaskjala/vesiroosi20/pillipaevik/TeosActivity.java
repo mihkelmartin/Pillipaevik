@@ -30,17 +30,20 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
 
         if (savedInstanceState == null) {
             if(BuildConfig.DEBUG) Log.d("TeosActivity", "Instance ei ole salvestatud, loen Intent obektist");
-            this.teosid = getIntent().getIntExtra("item_id", 0);
+            int intentteosid = getIntent().getIntExtra("item_id", 0);
+            if(intentteosid == -1) {
+                bUueTeoseLoomine = true;
+                Log.d("TeosActivity", "Uus teos. TeosFragment väärtustas this.teosid:" + this.teosid);
+            }
+            else {
+                this.teosid = intentteosid;
+            }
             this.itemposition = getIntent().getIntExtra("item_position", 0);
         } else {
             if(BuildConfig.DEBUG) Log.d("TeosActivity", "Loen saveinstantsist");
             this.teosid = savedInstanceState.getInt("teoseid");
             this.itemposition = savedInstanceState.getInt("item_position");
             this.bUueTeoseLoomine = savedInstanceState.getBoolean("uusteos");
-        }
-        if ( this.teosid == -1 ) {
-            Log.d("TeosActivity", "Uus teos");
-            bUueTeoseLoomine = true;
         }
     }
 
@@ -134,22 +137,12 @@ public class TeosActivity extends AppCompatActivity implements TeosFragmendiKuul
     }
 
     @Override
-    public void VarskendaTeosList() {
-
-    }
-
-    @Override
-    public void VarskendaTeosFragment(Teos teos) {
-
-    }
-
-    @Override
-    public void VarskendaTeosListiElement(Teos teos) {
-
-    }
-
-    @Override
     public void SeaTeosid(int teosid) {
+        this.teosid = teosid;
+    }
+
+    @Override
+    public void MuudaTeos(Teos teos) {
 
     }
 }
