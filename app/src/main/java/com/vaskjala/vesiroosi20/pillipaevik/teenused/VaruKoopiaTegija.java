@@ -4,33 +4,31 @@ import android.app.backup.*;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
+import com.vaskjala.vesiroosi20.pillipaevik.R;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
  * Created by mihkel on 5.06.2016.
  */
 public class VaruKoopiaTegija extends BackupAgentHelper {
-    // The name of the SharedPreferences file
-    private static final String PREFS = "seadete_fail";
-    private String currentDBPath = "/data/data/com.vaskjala.vesiroosi20.pillipaevik/databases/" + PilliPaevikDatabase.DATABASE_NAME;
 
+    @Override
+    public File getFilesDir(){
+        File path = getDatabasePath(PilliPaevikDatabase.DATABASE_NAME);
+        return path.getParentFile();
+    }
 
-    // A key to uniquely identify the set of backup data
-    private static final String PREFS_BACKUP_KEY = "seaded";
-    private static final String FILES_BACKUP_KEY = PilliPaevikDatabase.DATABASE_NAME;
-
-    // Allocate a helper and add it to the backup agent
     @Override
     public void onCreate() {
-        if(BuildConfig.DEBUG) Log.d("VaruKoopiaTegija","onCreate");
         SharedPreferencesBackupHelper helperSP =
-                new SharedPreferencesBackupHelper(this, PREFS);
-        addHelper(PREFS_BACKUP_KEY, helperSP);
+                new SharedPreferencesBackupHelper(this, getString(R.string.seadete_fail));
+        addHelper(getString(R.string.seadete_fail), helperSP);
 
-        FileBackupHelper helperDB = new FileBackupHelper(this, currentDBPath);
-        addHelper(FILES_BACKUP_KEY, helperDB);
+        FileBackupHelper helperDB = new FileBackupHelper(this, PilliPaevikDatabase.DATABASE_NAME);
+        addHelper(PilliPaevikDatabase.DATABASE_NAME, helperDB);
     }
 
     @Override

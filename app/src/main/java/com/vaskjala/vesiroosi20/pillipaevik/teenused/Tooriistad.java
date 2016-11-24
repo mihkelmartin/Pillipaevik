@@ -41,7 +41,7 @@ public final class Tooriistad {
     public static final int GOOGLE_DRIVE_REST_UHENDUSE_LUBA = 1004;
     public static final int GOOGLE_PLAY_TEENUSTE_VEAAKEN = 1010;
 
-    public static final int ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV = 15;
+    public static final int ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV = 8;
 
     public static final long MAKSIMAALNE_HELIFAILIPIKKUS_MILLISEKUNDITES = 30 * 60 * 1000;
 
