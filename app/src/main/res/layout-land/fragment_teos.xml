@@ -61,6 +61,7 @@
                               android:orientation="horizontal">
                     <ImageView android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
+                               android:layout_gravity="start|center_vertical"
                                android:src="@drawable/ic_replay_white"/>
                     <LinearLayout android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
@@ -93,6 +94,7 @@
                               android:orientation="horizontal">
                     <ImageView android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
+                               android:layout_gravity="start|center_vertical"
                                android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                                android:src="@drawable/ic_query_builder_white"/>
                     <LinearLayout android:layout_width="wrap_content"
