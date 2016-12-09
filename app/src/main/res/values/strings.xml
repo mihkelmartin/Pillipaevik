@@ -90,6 +90,7 @@
     <string name="opetaja_e_post_vihje">My teacher\'s e-mail</string>
     <string name="harjutamise_norm_vihje">Minutes to practice in a day</string>
     <string name="stopperiautostart">Autostart stopwatch</string>
+    <string name="naitateosetanaststatistikat">Show current day statistics</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Allow recording</string>
     <string name="kasKasutadaGoogleDrive">Use Google Drive</string>
     <string name="GoogleDriveVajalikkus">Google Drive is needed to add recordings to a report</string>
@@ -197,6 +198,7 @@
     <integer name="KALENDER_ACTIVITY_START">16</integer>
     <integer name="KALENDER_ACTIVITY_INTENT_HARJUTUS_MUUDA">12</integer>
 
+    <integer name="SEADED_ACTIVITY_START">17</integer>
 
     <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
 

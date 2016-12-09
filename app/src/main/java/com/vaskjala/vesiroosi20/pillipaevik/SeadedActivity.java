@@ -11,8 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 public class SeadedActivity extends AppCompatActivity {
 
@@ -31,6 +29,7 @@ public class SeadedActivity extends AppCompatActivity {
     private EditText paevasharjutada;
 
     private Switch stopperiAutoStart;
+    private Switch naitaTeoseTanastStatistikat;
 
     private EditText googlekonto;
     private Switch kasLubadaMikrofonigaSalvestamine;
@@ -77,6 +76,7 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaepost = ((EditText)findViewById(R.id.opetajaepost));
         paevasharjutada = ((EditText)findViewById(R.id.paevasharjutada));
         stopperiAutoStart = ((Switch)findViewById(R.id.stopperiautostart));
+        naitaTeoseTanastStatistikat = ((Switch)findViewById(R.id.naitateosetanaststatistikat));
         googlekonto = ((EditText)findViewById(R.id.googlekonto));
         kasLubadaMikrofonigaSalvestamine = ((Switch) findViewById(R.id.kasLubadaMikrofonigaSalvestamine));
         kaskasutadagoogledrive = ((Switch) findViewById(R.id.kasKasutadaGoogleDrive));
@@ -95,6 +95,7 @@ public class SeadedActivity extends AppCompatActivity {
         opetajaepost.setOnFocusChangeListener(mFP);
         paevasharjutada.setOnFocusChangeListener(mFP);
         stopperiAutoStart.setOnFocusChangeListener(mFP);
+        naitaTeoseTanastStatistikat.setOnFocusChangeListener(mFP);
         kasLubadaMikrofonigaSalvestamine.setOnFocusChangeListener(mFP);
         kaskasutadagoogledrive.setOnFocusChangeListener(mFP);
     }
@@ -115,6 +116,7 @@ public class SeadedActivity extends AppCompatActivity {
             lszPaevas = "";
         paevasharjutada.setText(lszPaevas);
         stopperiAutoStart.setChecked(sharedPref.getBoolean("stopperiAutoStart", false));
+        naitaTeoseTanastStatistikat.setChecked(sharedPref.getBoolean("naitaTeoseTanastStatistikat", false));
         googlekonto.setText(sharedPref.getString("googlekonto", ""));
         kasLubadaMikrofonigaSalvestamine.setChecked(sharedPref.getBoolean("kaslubadamikrofonigasalvestamine", true));
         kaskasutadagoogledrive.setChecked(sharedPref.getBoolean("kaskasutadagoogledrive", true));
@@ -145,6 +147,8 @@ public class SeadedActivity extends AppCompatActivity {
             editor.putInt("paevasharjutada", 0);
 
         editor.putBoolean("stopperiAutoStart", stopperiAutoStart.isChecked());
+        editor.putBoolean("naitaTeoseTanastStatistikat", naitaTeoseTanastStatistikat.isChecked());
+
         editor.putString("googlekonto", googlekonto.getText().toString());
         editor.putBoolean("kaslubadamikrofonigasalvestamine", kasLubadaMikrofonigaSalvestamine.isChecked());
         editor.putBoolean("kaskasutadagoogledrive", kaskasutadagoogledrive.isChecked());

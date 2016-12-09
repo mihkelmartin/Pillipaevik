@@ -163,7 +163,7 @@ public final class Tooriistad {
 
     // Kuupäevaarvutused
     public static int KaheKuupaevaVahePaevades(Date esimene, Date teine){
-        return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24);
+        return (int)((teine.getTime() - esimene.getTime()) / 1000 / 60 / 60 / 24) + 1;
     }
 
     public static Date MoodustaNihkegaKuupaev(int minutid){
@@ -244,6 +244,14 @@ public final class Tooriistad {
         editor.putBoolean("naitaArhiivi", olek);
         editor.commit();
     }
+
+    public static boolean kasNaitaTeoseTanastStatistikat(Context context){
+        boolean retVal;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = sharedPref.getBoolean("naitaTeoseTanastStatistikat", false);
+        return  retVal;
+    }
+
 
     public static boolean kasStopperiAutoStart(Context context){
         boolean retVal;

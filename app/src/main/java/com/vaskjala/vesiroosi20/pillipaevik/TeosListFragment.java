@@ -25,6 +25,7 @@ public class TeosListFragment extends Fragment {
     private PilliPaevikDatabase mPPManager;
     private TeosListFragmendiKuulaja teosListFragmendiKuulaja;
     private RecyclerView mTeosList;
+    private boolean bNaitaTeoseTanastStatistikat = false;
 
     @Override
     public void onAttach(Context context) {
@@ -71,11 +72,8 @@ public class TeosListFragment extends Fragment {
     public void onStart() {
         if(BuildConfig.DEBUG) Log.d("TeosListFragment", "onStart");
         super.onStart();
-
-        // TODO Asünkroonselt + Fragmendi puhul peab seda värksendama ka siis kui Teos kustutatakse
-        // TODO Ei toimi Tahvlil
+        bNaitaTeoseTanastStatistikat = Tooriistad.kasNaitaTeoseTanastStatistikat(getActivity().getApplicationContext());
         VarskendaProgressid();
-
     }
 
     @Override
@@ -157,6 +155,15 @@ public class TeosListFragment extends Fragment {
                         public void run() {
                             holder.mHarjutusteArv.setText(String.valueOf(stat[1]));
                             holder.mHarjutuseKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(stat[0]/60));
+                            if(bNaitaTeoseTanastStatistikat){
+                                holder.mHarjutusteArvTana.setVisibility(View.VISIBLE);
+                                holder.mHarjutuseKestusTana.setVisibility(View.VISIBLE);
+                                holder.mHarjutusteArvTana.setText("(" + String.valueOf(stat[3]) + ")");
+                                holder.mHarjutuseKestusTana.setText("(" + Tooriistad.KujundaHarjutusteMinutidTabloo(stat[2]/60) + ")");
+                            } else {
+                                holder.mHarjutusteArvTana.setVisibility(View.GONE);
+                                holder.mHarjutuseKestusTana.setVisibility(View.GONE);
+                            }
                         }
                     });
                 }
@@ -188,6 +195,8 @@ public class TeosListFragment extends Fragment {
             public final TextView mContentView;
             public final TextView mHarjutusteArv;
             public final TextView mHarjutuseKestus;
+            public final TextView mHarjutusteArvTana;
+            public final TextView mHarjutuseKestusTana;
             public final LinearLayout mArhiiviOsa;
 
             public Teos mItem;
@@ -198,6 +207,8 @@ public class TeosListFragment extends Fragment {
                 mContentView = (TextView) view.findViewById(R.id.content);
                 mHarjutusteArv = (TextView) view.findViewById(R.id.teoslistteoseharjutustearv);
                 mHarjutuseKestus = (TextView) view.findViewById(R.id.teoslistteoseharjutustekestus);
+                mHarjutusteArvTana = (TextView) view.findViewById(R.id.teoslistteoseharjutustearvtana);
+                mHarjutuseKestusTana = (TextView) view.findViewById(R.id.teoslistteoseharjutustekestustana);
                 mArhiiviOsa = (LinearLayout) view.findViewById(R.id.arhiiviosa);
             }
 

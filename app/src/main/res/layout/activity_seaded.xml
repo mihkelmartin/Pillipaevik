@@ -154,6 +154,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                android:id="@+id/naitateosetanaststatistikat"
+                android:textOff="@string/ei"
+                android:textOn="@string/jah"
+                android:text="@string/naitateosetanaststatistikat"/>
+        <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horisontaalne_aaris"
+                android:layout_marginEnd="@dimen/horisontaalne_aaris"
                 android:id="@+id/kasLubadaMikrofonigaSalvestamine"
                 android:textOff="@string/ei"
                 android:textOn="@string/jah"

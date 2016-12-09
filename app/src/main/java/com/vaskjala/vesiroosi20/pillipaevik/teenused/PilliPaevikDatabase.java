@@ -475,11 +475,20 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
 
     public int[] TeoseHarjutusKordadeStatistika(int teoseid){
 
-        int[] retVal = new int[2];
+        int[] retVal = new int[4];
         String selectParing = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +
                 "), COUNT(*) FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
                 " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + String.valueOf(teoseid);
         if(BuildConfig.DEBUG) Log.d(LOG, selectParing);
+
+        Date now = new Date();
+        String selectParingTana = "SELECT SUM(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_PIKKUSSEKUNDITES +
+                "), COUNT(*) FROM " + HarjutusKord.Harjutuskordkirje.TABLE_NAME +
+                " WHERE " + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_TEOSEID + "=" + String.valueOf(teoseid) + " AND date(" +
+                HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG + ") >= date('" + Tooriistad.KujundaKuupaev(now) +
+                "') AND date(" + HarjutusKord.Harjutuskordkirje.COLUMN_NAME_ALGUSAEG +
+                ") <= date('" + Tooriistad.KujundaKuupaev(now) + "')";
+        if(BuildConfig.DEBUG) Log.d(LOG, selectParingTana);
 
         try{
             synchronized (sPilliPaevikuLukk) {
@@ -492,11 +501,22 @@ public class PilliPaevikDatabase extends SQLiteOpenHelper {
                     if(BuildConfig.DEBUG) Log.d("TeoseHarjutusKordad....", "Sekundeid:" + retVal[0] + " Kordi:" + retVal[1]);
                 }
                 c.close();
+
+                Cursor c1 = db.rawQuery(selectParingTana, null);
+                // looping through all rows and adding to list
+                if (c1.moveToFirst()) {
+                    retVal[2] = c1.getInt(0);
+                    retVal[3] = c1.getInt(1);
+                    if(BuildConfig.DEBUG) Log.d("TeoseHarjutusKordad....", "Sekundeid täna:" + retVal[2] + " Kordi täna:" + retVal[3]);
+                }
+                c1.close();
+
                 db.close();
             }
         } catch (Exception e){
             if(BuildConfig.DEBUG) Log.e("getAllHarjutuskorrad", "Ei suuda lugeda" + e.toString());
         }
+
         return retVal;
     }
 

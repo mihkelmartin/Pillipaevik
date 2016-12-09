@@ -173,7 +173,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                     case R.id.seaded :
                         if(BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
                         Intent intentSeaded = new Intent(view.getContext(), SeadedActivity.class);
-                        startActivity(intentSeaded);
+                        startActivityForResult(intentSeaded,getResources().getInteger(R.integer.SEADED_ACTIVITY_START));
                         break;
                     case R.id.teave :
                         if(BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
@@ -275,6 +275,10 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
         }
         if (requestCode == getResources().getInteger(R.integer.KALENDER_ACTIVITY_START)) {
             if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi HarjutusteKalenderActivity");
+            teosListFragment.UuendaTeosList();
+        }
+        if (requestCode == getResources().getInteger(R.integer.SEADED_ACTIVITY_START)) {
+            if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Tagasi SeadedActivity");
             teosListFragment.UuendaTeosList();
         }
         if( requestCode == Tooriistad.PEAMINE_KONTO_VALIMINE) {

@@ -14,7 +14,6 @@ import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,6 +33,8 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
     private EditText mNimi;
     private EditText mAutor;
     private EditText mKommentaar;
+
+    private boolean bNaitaTeoseTanastStatistikat = false;
 
     @Override
     public void onAttach(Context context) {
@@ -110,6 +111,8 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         mArhiivis.setOnClickListener(this);
 
         LooHarjutusteAdapter();
+
+        bNaitaTeoseTanastStatistikat = Tooriistad.kasNaitaTeoseTanastStatistikat(getActivity().getApplicationContext());
         HarjutusteStatistika ();
     }
     @Override
@@ -285,6 +288,21 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         ((TextView) getView().findViewById(R.id.teoseharjutustearv)).setText(String.valueOf(stat[1]));
         ((TextView) getView().findViewById(R.id.teoseharjutustekestus))
                 .setText(Tooriistad.KujundaHarjutusteMinutid(getActivity().getApplicationContext(), stat[0]/60));
+
+        TextView that = ((TextView) getView().findViewById(R.id.teoseharjutustearvtana));
+        TextView thkt = ((TextView) getView().findViewById(R.id.teoseharjutustekestustana));
+
+        if(that != null && thkt !=null) {
+            if (bNaitaTeoseTanastStatistikat) {
+                that.setVisibility(View.VISIBLE);
+                thkt.setVisibility(View.VISIBLE);
+                that.setText("(" + String.valueOf(stat[3]) + ")");
+                thkt.setText("(" + Tooriistad.KujundaHarjutusteMinutidTabloo(stat[2] / 60) + ")");
+            } else {
+                that.setVisibility(View.GONE);
+                thkt.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override

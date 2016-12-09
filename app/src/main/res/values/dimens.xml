@@ -2,7 +2,8 @@
 <resources>
 
     <dimen name="stopperi_font">60sp</dimen>
-    <dimen name="korduste_arvu_laius">36sp</dimen>
+    <dimen name="korduste_arvu_laius">37sp</dimen>
+    <dimen name="korduste_kestuse_laius">46sp</dimen>
     <dimen name="vaike_font_abitekstide_jaoks">12sp</dimen>
 
 
