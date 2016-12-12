@@ -39,7 +39,6 @@
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="?attr/actionBarSize"
-                    android:gravity="center_vertical"
                     android:paddingStart="@dimen/horisontaalne_aaris"
                     android:paddingEnd="@dimen/horisontaalne_aaris"
                     android:background="@color/tabeli_rea_andmed">
@@ -47,14 +46,15 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignParentStart="true"
+                      android:layout_centerVertical="true"
                       android:orientation="horizontal">
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_gravity="start|center_vertical"
+                       android:layout_gravity="center_vertical"
                        android:src="@drawable/ic_replay_white"/>
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_gravity="start|center_vertical"
+                          android:layout_gravity="center_vertical"
                           android:orientation="vertical">
                 <TextView android:id="@+id/teoseharjutustearv"
                           android:layout_width="@dimen/korduste_arvu_laius"
@@ -71,48 +71,43 @@
                           android:layout_gravity="center"
                           android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                           android:textColor="@android:color/white"
-                          android:visibility="visible"
                           android:text="(0)"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout android:id="@+id/harjutustekestuskast"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:layout_centerVertical="true"
                       android:layout_toEndOf="@+id/harjutustearvkast"
                       android:layout_toStartOf="@+id/arhiivis"
                       android:orientation="horizontal">
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_gravity="start|center_vertical"
+                       android:layout_gravity="center_vertical"
                        android:layout_marginEnd="@dimen/tekstilahtri_aaris"
                        android:src="@drawable/ic_query_builder_white"/>
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_gravity="start|center_vertical"
+                          android:layout_gravity="center_vertical"
                           android:orientation="vertical">
                 <TextView android:id="@+id/teoseharjutustekestus"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_gravity="start"
-                          android:gravity="center_vertical"
                           android:textColor="@android:color/white"
                           android:text="00:00"/>
                 <TextView android:id="@+id/teoseharjutustekestustana"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_gravity="start"
-                          android:gravity="center_vertical"
                           android:textColor="@android:color/white"
-                          android:visibility="visible"
                           android:text="(00:00)"/>
             </LinearLayout>
-            </LinearLayout>
+        </LinearLayout>
         <CheckBox
                 android:id="@+id/arhiivis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:buttonTint="@android:color/white"
                 android:textColor="@android:color/white"
                 android:text="@string/arhiivis"/>
