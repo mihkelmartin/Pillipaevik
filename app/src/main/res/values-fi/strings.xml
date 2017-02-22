@@ -100,6 +100,7 @@
     <string name="teave_tiitel">Sovelluksen tiedot</string>
     <string name="teave_laen">Lataan…</string>
     <string name="teave_google_kasutus">Pelimannin päiväkirja käyttää Googlen palveluita. Alhaalla Googlen palvelujen käyttöehdot</string>
+    <string name="privaatsus_eeskirjad">Tietosuojakäytäntö https://sites.google.com/site/musiciansdiaryprivacypolicy/"</string>
 
     // HarjutusteKalenderActivity
     <string name="title_activity_harjutuste_kalender">Harjoittelukalenteri</string>

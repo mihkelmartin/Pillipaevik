@@ -56,6 +56,8 @@ import static org.hamcrest.CoreMatchers.not;
     private static boolean bMultiFragment = false;
     private static UiDevice ui = null;
 
+    public static final int OOTE_AEG = 250;
+
     public static void KustutaAndmed(Context context){
         PilliPaevikDatabase pilliPaevikDatabase = new PilliPaevikDatabase(context);
         List<Teos> teosList =  new ArrayList<Teos>(pilliPaevikDatabase.getAllTeosed());
@@ -206,19 +208,19 @@ import static org.hamcrest.CoreMatchers.not;
     public static void AvaSahtelValiKalender() {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.harjutuste_kalender));
-        TestTooriistad.Oota(1000);
+        TestTooriistad.Oota(OOTE_AEG);
     }
 
     public static void AvaSahtelValiAruanne() {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.saada_aruanne));
-        TestTooriistad.Oota(1000);
+        TestTooriistad.Oota(OOTE_AEG);
     }
 
     public static void AvaSahtelValiSeaded() {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
-        TestTooriistad.Oota(1000);
+        TestTooriistad.Oota(OOTE_AEG);
     }
 
     public static void VajutaTagasiKui1Fragment() {

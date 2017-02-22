@@ -65,7 +65,7 @@ public class TestSeadedGoogleKontoValimine {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         SeadistaSalvestamine("", bTestiSAlgolek,true);
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
-        TestTooriistad.Oota(1000);
+        TestTooriistad.Oota(OOTE_AEG);
         VajutaKodu();
         TestTooriistad.Oota(3000);
 

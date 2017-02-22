@@ -68,7 +68,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         // Test III
         onView(withId(R.id.harjutusekirjeldus)).perform(ViewActions.replaceText("TEST III"));
         VajutaTaimeriNuppu();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnTaimeriNuppKatkesta();
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutu();
@@ -76,7 +76,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         VajutaKoduAvaPilliPaevik(context);
         VajutaTagasi();
         OnTaimeriNuppKatkesta();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutu();
 
@@ -90,7 +90,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         VajutaKoduAvaPilliPaevik(context);
         VajutaTagasi();
         OnTaimeriNuppJatka();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutusel();
 
@@ -105,7 +105,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         VajutaKoduAvaPilliPaevik(context);
         VajutaTagasi();
         OnTaimeriNuppJatka();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutusel();
 
@@ -115,7 +115,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         VajutaMikrofoni();
         OnMikrofoniNuppSeesKasutusel();
         VajutaTaimeriNuppu();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnTaimeriNuppKatkesta();
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppSeesKasutu();
@@ -123,7 +123,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         VajutaKoduAvaPilliPaevik(context);
         VajutaTagasi();
         OnTaimeriNuppKatkesta();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutu();
 
@@ -137,7 +137,7 @@ public class TestHarjutusUueNupudKaotaActivity {
         VajutaKoduAvaPilliPaevik(context);
         VajutaTagasi();
         OnTaimeriNuppJatka();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutusel();
 

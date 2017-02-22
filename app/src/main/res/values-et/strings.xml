@@ -101,6 +101,7 @@
     <string name="teave_tiitel">Teave rakenduse kohta</string>
     <string name="teave_laen">Laen…</string>
     <string name="teave_google_kasutus">Pillipäevik kasutab Google teenuseid. All Google teenuste kasutustingimused</string>
+    <string name="privaatsus_eeskirjad">Privaatsuseeskirjad https://sites.google.com/site/musiciansdiaryprivacypolicy/"</string>
 
     // HarjutusteKalenderActivity
     <string name="title_activity_harjutuste_kalender">Harjutuste kalender</string>

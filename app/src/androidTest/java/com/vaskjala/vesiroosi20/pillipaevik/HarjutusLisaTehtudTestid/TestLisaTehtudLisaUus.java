@@ -63,7 +63,7 @@ public class TestLisaTehtudLisaUus {
 
             VajutaMikrofoni();
             VajutaTaimeriNuppu();
-            Oota(1000);
+            Oota(OOTE_AEG);
             VajutaTagasi();
 
             LeiaHarjutus(resources.getString(R.string.test_teos3_h6_nimi)).check(ViewAssertions.matches(isDisplayed()));

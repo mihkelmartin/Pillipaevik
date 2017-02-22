@@ -62,7 +62,7 @@ public class TestHarjutusJagaSalvestist {
 
         // Oota, et link jõuaks Google Draivist Pillipäevikusse
         if(OnReaalneSeade()) {
-            Oota(10000);
+            Oota(OOTE_AEG * 5);
             ValiTeos(resources.getString(R.string.test_teos4_nimi));
             LeiaHarjutus(resources.getString(R.string.test_teos4_h2_nimi)).perform(click());
             VajutaJagaSalvestist();

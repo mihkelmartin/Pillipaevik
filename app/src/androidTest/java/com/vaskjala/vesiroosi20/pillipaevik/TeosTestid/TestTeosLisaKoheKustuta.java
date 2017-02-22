@@ -55,7 +55,7 @@ public class TestTeosLisaKoheKustuta {
         KeeraParemale();
         VajutaKustutaTeos();
         KeeraVasakule();
-        Oota(1000);
+        Oota(OOTE_AEG);
         VajutaDialoogTuhista();
         VajutaKustutaTeos();
         KeeraVasakule();

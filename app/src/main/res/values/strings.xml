@@ -100,7 +100,8 @@
     // Teave Activity
     <string name="teave_tiitel">Information</string>
     <string name="teave_laen">Loading…</string>
-    <string name="teave_google_kasutus">Diary of a Player uses Google Services. See information below</string>
+    <string name="teave_google_kasutus">Mucisian\'s Diary uses Google Services. See information below</string>
+    <string name="privaatsus_eeskirjad">Privacy Policy https://sites.google.com/site/musiciansdiaryprivacypolicy/"</string>
 
     // HarjutusteKalenderActivity
     <string name="title_activity_harjutuste_kalender">Exercise log</string>

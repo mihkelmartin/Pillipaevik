@@ -95,7 +95,7 @@ public class TestSeadedRaadioNupud {
         onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         SeadistaSalvestamine("ajutineeteihakataksuhendustlooma", bSalgolek, bGalgolek);
         onView(withId(R.id.sahtli_navivaade)).perform(NavigationViewActions.navigateTo(R.id.seaded));
-        TestTooriistad.Oota(1000);
+        TestTooriistad.Oota(OOTE_AEG);
 
         onView(withId(R.id.kasKasutadaGoogleDrive)).perform(ViewActions.scrollTo());
 

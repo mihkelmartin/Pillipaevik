@@ -56,7 +56,7 @@ public class TestHarjutusUueNupud {
 
         // Test IV
         VajutaTaimeriNuppu();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnTaimeriNuppKatkesta();
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppValjasKasutu();
@@ -75,7 +75,7 @@ public class TestHarjutusUueNupud {
 
         // Test VII
         VajutaTaimeriNuppu();
-        Oota(1000);
+        Oota(OOTE_AEG);
         OnTaimeriNuppKatkesta();
         OnUuelHarjutuselKestus();
         OnMikrofoniNuppSeesKasutu();

@@ -64,6 +64,7 @@ public class TestHarjutusLisaKaduv {
         KontrolliTulemust(context);
 
         // Kustuta
+        Oota(OOTE_AEG);
         VajutaAlustaUutHarjutust();
         onView(withId(R.id.harjutusekirjeldus)).
                 perform(ViewActions.replaceText(resources.getString(R.string.test_teos4_h3_nimi)), closeSoftKeyboard());
