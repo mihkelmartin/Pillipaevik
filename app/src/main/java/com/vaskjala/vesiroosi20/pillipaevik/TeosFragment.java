@@ -113,7 +113,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         LooHarjutusteAdapter();
 
         bNaitaTeoseTanastStatistikat = Tooriistad.kasNaitaTeoseTanastStatistikat(getActivity().getApplicationContext());
-        HarjutusteStatistika ();
+        VarskendaHarjutusteJaStatistika ();
     }
     @Override
     public void onPause() {
