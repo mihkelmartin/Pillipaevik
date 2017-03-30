@@ -7,4 +7,5 @@ public interface TeosListFragmendiKuulaja {
     void UusTeos();
     void TeosValitud(Teos teos);
     void ValiTeineTeos(int itemposition);
+    void AlustaHarjutust(int teosid);
 }

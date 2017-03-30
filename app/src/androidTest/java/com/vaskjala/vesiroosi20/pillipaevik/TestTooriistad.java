@@ -41,6 +41,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -246,6 +247,12 @@ import static org.hamcrest.CoreMatchers.not;
     public static void ValiTeos(String nimi){
         onView(withId(R.id.harjutua_list)).
                 perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(nimi)), click()).atPosition(0));
+
+    }
+
+    public static void ValiTeosPikkVajutus(String nimi){
+        onView(withId(R.id.harjutua_list)).
+                perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(nimi)), longClick()).atPosition(0));
 
     }
 

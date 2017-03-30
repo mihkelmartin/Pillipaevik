@@ -90,6 +90,7 @@
     <string name="opetaja_e_post_vihje">Minu õpetaja e-post</string>
     <string name="harjutamise_norm_vihje">Mitu minutit tahan päevas harjutada</string>
     <string name="stopperiautostart">Stopper käivitub automaatselt</string>
+    <string name="pikkvajutusalustabharjutuse">Pikk vajutus teosel alustab uue harjutuse</string>
     <string name="naitateosetanaststatistikat">Näita tänast harjutamist</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Salvestamine ja kuulamine</string>
     <string name="kasKasutadaGoogleDrive">Salvesta Google Drive\'i</string>

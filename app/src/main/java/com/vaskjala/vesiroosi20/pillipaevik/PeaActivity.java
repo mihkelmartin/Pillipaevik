@@ -264,7 +264,7 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             int uueharjutuseid = data.getIntExtra("harjutus_id",0);
             HarjutusMuudetud(teoseid, uueharjutuseid, 0);
             PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
-            if(mPPManager.getHarjutus(teoseid, uueharjutuseid) != null) {
+            if(bMitmeFragmendiga && mPPManager.getHarjutus(teoseid, uueharjutuseid) != null) {
                 HarjutusValitud(teoseid, uueharjutuseid);
             }
             if(data != null) {
@@ -396,17 +396,23 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
 
     @Override
     public void AlustaHarjutust(int teosid) {
-        if(bMitmeFragmendiga && false) {
-            if (BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta uut harjutust");
-            SuleHarjutusFragment();
-            LooHarjutusFragment(new HarjutusUusFragment(), teosid, -1);
+        if(bMitmeFragmendiga) {
+            PilliPaevikDatabase mPPManager = new PilliPaevikDatabase(getApplicationContext());
+            Teos teos = mPPManager.getTeos(teosid);
+            TeosValitud(teos);
+            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Teos valitud");
         } else {
-            if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta uut harjutust");
-            Intent intent = new Intent(this, HarjutusUusActivity.class);
-            intent.putExtra("teos_id", teosid);
-            intent.putExtra("harjutus_id", -1);
-            startActivityForResult(intent, getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_UUS));
+            // Kui pika vajutuse ja ühe-fragmendi vaates minnakse nö otse uut harjutust tegema
+            // siis võib teoseid instance muutuja valeks jääda, sest ühe-fragmendi juhtumil seda
+            // praktiliselt ei kasutata
+            teoseid = teosid;
         }
+
+        if(BuildConfig.DEBUG) Log.d(getLocalClassName(), "Alusta uut harjutust");
+        Intent intent = new Intent(this, HarjutusUusActivity.class);
+        intent.putExtra("teos_id", teosid);
+        intent.putExtra("harjutus_id", -1);
+        startActivityForResult(intent, getResources().getInteger(R.integer.TEOS_ACTIVITY_INTENT_HARJUTUS_UUS));
     }
 
     @Override

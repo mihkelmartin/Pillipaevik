@@ -90,6 +90,7 @@
     <string name="opetaja_e_post_vihje">My teacher\'s e-mail</string>
     <string name="harjutamise_norm_vihje">Minutes to practice in a day</string>
     <string name="stopperiautostart">Autostart stopwatch</string>
+    <string name="pikkvajutusalustabharjutuse">Long press on song list item starts new practice</string>
     <string name="naitateosetanaststatistikat">Show current day statistics</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Allow recording</string>
     <string name="kasKasutadaGoogleDrive">Use Google Drive</string>

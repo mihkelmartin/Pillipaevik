@@ -168,15 +168,17 @@ public class TeosListFragment extends Fragment {
                     });
                 }
             }).start();
-            ListiKuulaja pLK = new ListiKuulaja(holder);
+            ListiKlikiKuulaja pLK = new ListiKlikiKuulaja(holder);
+            ListiPikaKlikiKuulaja pLPK = new ListiPikaKlikiKuulaja(holder);
             holder.mView.setOnClickListener(pLK);
+            holder.mView.setOnLongClickListener(pLPK);
         }
 
-        public class ListiKuulaja implements View.OnClickListener {
+        public class ListiKlikiKuulaja implements View.OnClickListener {
 
             private ViewHolder holder;
 
-            public ListiKuulaja(ViewHolder holder){
+            public ListiKlikiKuulaja(ViewHolder holder){
                 this.holder = holder;
             }
             public void onClick(View v) {
@@ -184,6 +186,20 @@ public class TeosListFragment extends Fragment {
             }
         }
 
+        public class ListiPikaKlikiKuulaja implements View.OnLongClickListener {
+
+            private ViewHolder holder;
+
+            public ListiPikaKlikiKuulaja(ViewHolder holder){
+                this.holder = holder;
+            }
+            public boolean onLongClick(View v) {
+                if(Tooriistad.kaspikkVajutusAlustabHarjutuse(getActivity().getApplicationContext())) {
+                    teosListFragmendiKuulaja.AlustaHarjutust(holder.mItem.getId());
+                }
+                return true;
+            }
+        }
 
         @Override
         public int getItemCount() {

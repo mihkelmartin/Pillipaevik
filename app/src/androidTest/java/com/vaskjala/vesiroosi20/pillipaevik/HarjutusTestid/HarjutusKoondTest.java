@@ -17,8 +17,10 @@ import org.junit.runners.Suite;
         TestHarjutusKustutaMangivSalvestis.class,
         TestHarjutusKustutaSalvestav.class,
         TestHarjutusUusAutoStart.class,
+        TestHarjutusUusPikkVajutus.class,
         TestHarjutusKustutaTeos.class,
         TestHarjutusUueNupud.class,
-        TestHarjutusUueNupudKaotaActivity.class})
+        TestHarjutusUueNupudKaotaActivity.class
+        })
 
 public class HarjutusKoondTest {}

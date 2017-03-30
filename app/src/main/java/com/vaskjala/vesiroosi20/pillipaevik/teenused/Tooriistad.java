@@ -267,6 +267,20 @@ public final class Tooriistad {
         editor.commit();
     }
 
+    public static boolean kaspikkVajutusAlustabHarjutuse(Context context){
+        boolean retVal;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        retVal = sharedPref.getBoolean("pikkVajutusAlustabHarjutuse", false);
+        return  retVal;
+    }
+
+    public static void SeadistapikkVajutusAlustabHarjutuseSeadeteFailis(Context context, boolean olek){
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("pikkVajutusAlustabHarjutuse", olek);
+        editor.commit();
+    }
+
     // Helifailide salvestamine
     public static boolean KasLubadaSalvestamine(Context context){
         boolean retVal;

@@ -89,6 +89,7 @@
     <string name="opetaja_e_post_vihje">Opettajani sähköposti</string>
     <string name="harjutamise_norm_vihje">Monta minuuttia haluan päivässä harjoitella</string>
     <string name="stopperiautostart">Kellon automaattinen käynnistys</string>
+    <string name="pikkvajutusalustabharjutuse">Pitkä painallus kappaleella aloittaa uuden harjoituksen</string>
     <string name="naitateosetanaststatistikat">Näytä tänäistä harjoittelua</string>
     <string name="kasLubadaMikrofonigaSalvestamine">Nauhoittaminen ja kuunteleminen</string>
     <string name="kasKasutadaGoogleDrive">Tallenna Google Driveen</string>
