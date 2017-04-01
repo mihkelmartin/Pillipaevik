@@ -14,6 +14,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
+                android:backgroundTint="@android:color/white"
                 android:singleLine="false"
                 android:id="@+id/harjutusekirjeldus"
                 android:hint="@string/harjutuse_mida_harjutasid_vihje"
