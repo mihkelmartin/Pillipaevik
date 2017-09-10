@@ -1,6 +1,9 @@
 package com.vaskjala.vesiroosi20.pillipaevik.kalender;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,8 @@ import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by mihkel on 12.06.2016.
  */
@@ -23,10 +28,16 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         extends RecyclerView.Adapter<HarjutusKalenderPaevadRecyclerViewAdapter.ViewHolder> {
 
     private final List<KalendriKirje> mValues;
+    private final int vajaharjutada;
     private HarjutusteKalenderFragmendiKuulaja harjutusteKalenderFragmendiKuulaja;
     public HarjutusKalenderPaevadRecyclerViewAdapter(List<KalendriKirje> items, HarjutusteKalenderFragmendiKuulaja harjutusteKalenderFragmendiKuulaja) {
         mValues = items;
         this.harjutusteKalenderFragmendiKuulaja = harjutusteKalenderFragmendiKuulaja;
+
+        Context context = (Context)harjutusteKalenderFragmendiKuulaja;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.seadete_fail), MODE_PRIVATE);
+        vajaharjutada = sharedPref.getInt("paevasharjutada", 0);
+
     }
 
     @Override
@@ -91,6 +102,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
         public TextView mKuupaev = null;
         public TextView mHarjutusteArv = null;
         public TextView mHarjutusteKestus = null;
+        public ImageView mHarjutusteStaatusPilt = null;
 
 
         public ViewHolderPaev(View view, int viewType) {
@@ -99,6 +111,7 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
             mKuupaev = (TextView) view.findViewById(R.id.kuupaev);
             mHarjutusteArv = (TextView) view.findViewById(R.id.paevakalenderharjutustearv);
             mHarjutusteKestus = (TextView) view.findViewById(R.id.paevakalenderharjutustekestus);
+            mHarjutusteStaatusPilt = (ImageView) view.findViewById(R.id.harjutatudstaatuspilt);
         }
 
         @Override
@@ -106,7 +119,20 @@ public class HarjutusKalenderPaevadRecyclerViewAdapter
             super.AndmedVaatele();
             mKuupaev.setText(Tooriistad.KujundaKuupaevSonalineLuhike(((PaevaKirje)mItem).kuupaev));
             mHarjutusteArv.setText(String.valueOf(((PaevaKirje) mItem).kordadearv));
-            mHarjutusteKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(((PaevaKirje) mItem).pikkussekundites/60));
+            int minutid = ((PaevaKirje) mItem).pikkussekundites/60;
+            mHarjutusteKestus.setText(Tooriistad.KujundaHarjutusteMinutidTabloo(minutid));
+            // Kui Seadetes on määratud harjutamise pikkus päevas vaid siis muuda värvi
+            if(vajaharjutada != 0) {
+                if (minutid < vajaharjutada) {
+                    mHarjutusteStaatusPilt.setVisibility(View.VISIBLE);
+                    mHarjutusteStaatusPilt.setImageResource(R.drawable.ic_notok_red);
+                } else {
+                    mHarjutusteStaatusPilt.setVisibility(View.VISIBLE);
+                    mHarjutusteStaatusPilt.setImageResource(R.drawable.ic_ok_green);
+                }
+            } else {
+                mHarjutusteStaatusPilt.setVisibility(View.GONE);
+            }
         }
 
         @Override

@@ -21,8 +21,8 @@ android {
         applicationId "com.vaskjala.vesiroosi20.pillipaevik"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 21
-        versionName '2.9'
+        versionCode 22
+        versionName '3.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +41,7 @@ android {
             signingConfig signingConfigs.PillipaevikGooglePlay
         }
     }
-    // testBuildType "debugTestAVD"
+    // testBuildType "debugTestReaalne"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
