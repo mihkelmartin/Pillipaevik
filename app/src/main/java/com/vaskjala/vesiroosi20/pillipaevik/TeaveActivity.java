@@ -35,9 +35,7 @@ public class TeaveActivity extends AppCompatActivity {
 
         private String googlelitsentsstr;
         protected Void doInBackground(Void ... params) {
-            googlelitsentsstr = GoogleApiAvailability
-                        .getInstance()
-                        .getOpenSourceSoftwareLicenseInfo(getApplicationContext());
+            googlelitsentsstr = "";
             return null;
         }
 

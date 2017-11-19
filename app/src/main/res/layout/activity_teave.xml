@@ -46,12 +46,7 @@
                 android:layout_marginBottom="@dimen/horisontaalne_aaris"
                 android:layout_marginStart="@dimen/horisontaalne_aaris"
                 android:layout_marginEnd="@dimen/horisontaalne_aaris"
-                android:text="@string/teave_google_kasutus"/>
-        <View
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/eraldusjoone_paksus"
-                android:layout_marginBottom="@dimen/eraldusjoone_paksus"
-                android:background="@android:color/white" />
+                android:text=""/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

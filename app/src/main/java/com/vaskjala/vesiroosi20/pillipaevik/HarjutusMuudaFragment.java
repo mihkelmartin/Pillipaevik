@@ -225,11 +225,10 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
         args.putString("kysimus", getString(R.string.dialog_kas_kustuta_salvestuse_kusimus));
         args.putString("jahvastus", getString(R.string.jah));
         args.putString("eivastus", getString(R.string.ei));
+        args.putInt("fragmendiID",this.getId());
         DialogFragment newFragment = new LihtneKusimus();
         newFragment.setArguments(args);
-        newFragment.setTargetFragment(this, 0);
-        newFragment.show(getChildFragmentManager(), "KustutaSalvestus");
-    }
+        newFragment.show(getFragmentManager(), "KustutaSalvestus");    }
 
     // Dialoogi vastused
     @Override

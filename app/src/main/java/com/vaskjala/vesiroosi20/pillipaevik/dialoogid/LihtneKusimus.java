@@ -22,7 +22,7 @@ public class LihtneKusimus extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            if(BuildConfig.DEBUG) Log.d("LihtsaKusimuseKuulaja", "Ühendati Activity");
+            if(BuildConfig.DEBUG) Log.d("LihtneKusimus", "Ühendati Activity");
             mListener = (LihtsaKusimuseKuulaja) activity;
         } catch (ClassCastException e) {
             if(BuildConfig.DEBUG) Log.d("LihtneKusimus","onAttach. Activityl ei ole liides defineeritud");
@@ -32,10 +32,12 @@ public class LihtneKusimus extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        if(getParentFragment() != null) {
+        int fragmendiid = getArguments().getInt("fragmendiID",0);
+        if(fragmendiid != 0);
+        {
             try {
-                if (BuildConfig.DEBUG) Log.d("LihtsaKusimuseKuulaja", "Ühendati Fragment");
-                mListener = (LihtsaKusimuseKuulaja) getParentFragment();
+                if (BuildConfig.DEBUG) Log.d("LihtneKusimus", "Ühendati Fragment");
+                mListener = (LihtsaKusimuseKuulaja) getFragmentManager().findFragmentById(fragmendiid);
             } catch (ClassCastException e) {
                 throw new ClassCastException("Fragmendil ei ole LihtsaKusimuseKuulaja liides defineeritud");
             }

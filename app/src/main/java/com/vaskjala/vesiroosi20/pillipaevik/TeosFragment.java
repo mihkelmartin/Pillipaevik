@@ -161,10 +161,10 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
             args.putString("kysimus",kysimys);
             args.putString("jahvastus",getString(R.string.jah));
             args.putString("eivastus",getString(R.string.ei));
+            args.putInt("fragmendiID",this.getId());
             android.app.DialogFragment newFragment = new LihtneKusimus();
             newFragment.setArguments(args);
-            newFragment.setTargetFragment(this, 0);
-            newFragment.show(getChildFragmentManager(), "Kustuta teos");
+            newFragment.show(getFragmentManager(), "Kustuta teos");
         }
         if(item.getItemId() == R.id.alustauut){
             SalvestaTeos();
