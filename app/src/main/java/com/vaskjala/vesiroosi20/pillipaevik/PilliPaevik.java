@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
-import com.vaskjala.vesiroosi20.pillipaevik.teenused.AndmebaasiVarukoopiaTegija;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
 /**
@@ -18,8 +17,6 @@ public class PilliPaevik extends Application {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(this, AndmebaasiVarukoopiaTegija.class);
-            startService(intent);
             Tooriistad.importDB(getApplicationContext());
         }
     }

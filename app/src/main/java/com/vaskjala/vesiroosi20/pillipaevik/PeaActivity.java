@@ -120,6 +120,8 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
                 HarjutusValitud(teoseid, harjutuseid);
             }
         }
+        Intent intent = new Intent(this, AndmebaasiVarukoopiaTegija.class);
+        startService(intent);
     }
 
     @Override
