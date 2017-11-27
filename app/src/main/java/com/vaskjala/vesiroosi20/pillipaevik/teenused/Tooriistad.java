@@ -459,12 +459,15 @@ public final class Tooriistad {
             }
 
             // Kustuta liigsed varukoopiad
-            List<String> pFailid = Arrays.asList(sd.list());
-            int varukoopiatearv = pFailid.size();
-            if(varukoopiatearv > ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV ) {
-                Collections.sort(pFailid, Collections.<String>reverseOrder());
-                for (int i = 0; i <= varukoopiatearv - ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV - 1 ;i++) {
-                    Tooriistad.KustutaKohalikFail(sd, pFailid.get(ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV + i));
+            String[] failid = sd.list();
+            if(failid != null) {
+                List<String> pFailid = Arrays.asList(failid);
+                int varukoopiatearv = pFailid.size();
+                if (varukoopiatearv > ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV) {
+                    Collections.sort(pFailid, Collections.<String>reverseOrder());
+                    for (int i = 0; i <= varukoopiatearv - ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV - 1; i++) {
+                        Tooriistad.KustutaKohalikFail(sd, pFailid.get(ANDMEBAASI_VARUKOOPIATE_MAKSIMUM_ARV + i));
+                    }
                 }
             }
 
