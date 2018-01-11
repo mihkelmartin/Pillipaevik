@@ -17,6 +17,7 @@ public class PilliPaevik extends Application {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
+            Tooriistad.exportDB(getApplicationContext());
             Tooriistad.importDB(getApplicationContext());
         }
     }

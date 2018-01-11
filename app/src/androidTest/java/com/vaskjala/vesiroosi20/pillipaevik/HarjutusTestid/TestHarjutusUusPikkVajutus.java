@@ -78,7 +78,7 @@ public class TestHarjutusUusPikkVajutus {
     }
     @After
     public void Lopeta_Test() {
-        SeadistaStopperiAutoStartSeadeteFailis(InstrumentationRegistry.getTargetContext(), bpikkVajutusAlustabHarjutuse);
+        SeadistapikkVajutusAlustabHarjutuseSeadeteFailis(InstrumentationRegistry.getTargetContext(), bpikkVajutusAlustabHarjutuse);
         SeadistaStopperiAutoStartSeadeteFailis(InstrumentationRegistry.getTargetContext(), bAutoStart);
     }
 }

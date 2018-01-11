@@ -1,7 +1,7 @@
 Reaalse seadme peale
 1. NB! Ühekordne tegevus seadme loomisel. Pillipäeviku ikoon koduaknasse nähtavaks.
 2. NB! Arendaja valikutes animatsioonid jms välja lülitada
-3. NB! Reaalses seadmes veenduda, et Google Drive ühendused on loodud ja töötavad.
+3. NB! Reaalses seadmes veenduda, et Google Drive ühendused on loodud ja töötavad. Longpress starts Harjutus -> OFF
 4. NB! Kui aktivitite hävitamine on sees siis Telefonil ei töööta Kalendritestide test TestMuudaEsimeneHarjutus
 5. NB! Lülita välja õigekirja abi jms mis võib tekitada ebavajalikke objekte ekraanile. Language & Input Spell checker OFF
 5. build.gradle-s peab testBuildType "debugTestReaalne" või "debugTestAVD"

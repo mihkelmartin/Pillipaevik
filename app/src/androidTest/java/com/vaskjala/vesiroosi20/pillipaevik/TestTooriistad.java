@@ -21,11 +21,17 @@ import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.AppCompatImageButton;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import android.support.test.espresso.contrib.PickerActions;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -46,6 +52,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by mihkel on 28.09.2016.
@@ -236,7 +243,7 @@ import static org.hamcrest.CoreMatchers.not;
     }
 
     public static void VajutaKodu() {
-        onView(withContentDescription(R.string.test_kodunupp)).perform(click());
+        onView(androidHomeMatcher()).perform(click());
     }
 
     public static DataInteraction LeiaHarjutus(String nimi){
@@ -258,8 +265,8 @@ import static org.hamcrest.CoreMatchers.not;
     public static void VajutaKoduKui1Fragment() {
         if (!TestTooriistad.OnMultiFragment()) {
             if (BuildConfig.DEBUG) Log.d("VajutaTagasiKui1Frag", "");
-            onView(Matchers.anyOf(withContentDescription(R.string.test_kodunupp),
-                    withContentDescription(R.string.test_kodunupp2))).perform(click());
+            onView(anyOf(androidHomeMatcher(),
+                    androidHomeMatcher())).perform(click());
         }
     }
 
@@ -518,6 +525,14 @@ import static org.hamcrest.CoreMatchers.not;
         };
     }
 
+    public static Matcher<View> androidHomeMatcher() {
+        return allOf(
+                withParent(withClassName(is(Toolbar.class.getName()))),
+                withClassName(anyOf(
+                        is(ImageButton.class.getName()),
+                        is(AppCompatImageButton.class.getName())
+                )));
+    }
     public static void HarjutusPuudub(String harjutusenimi){
         onView(withId(R.id.harjutuslist))
                 .check(matches(not(withAdaptedData(harjutusNimega(harjutusenimi)))));

@@ -63,7 +63,6 @@ public class HarjutusUusFragment extends HarjutusFragment {
             this.stardiaeg = savedInstanceState.getLong("stardiaeg");
             this.kulunudaeg = savedInstanceState.getLong("kulunudaeg");
             this.taimertootab = savedInstanceState.getBoolean("taimertootab");
-            this.bkasSalvestame = savedInstanceState.getBoolean("kasSalvestame");
             if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "Loen savedinstantsist :" + getHarjutusid() + " " +
                     this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab);
 
@@ -122,15 +121,15 @@ public class HarjutusUusFragment extends HarjutusFragment {
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "On Stop");
         if(taimertootab)
             handler.removeCallbacks(AjaUuendaja);
+
+        SeisataLindistaja();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        SeisataLindistaja();
         savedInstanceState.putLong("stardiaeg", this.stardiaeg);
         savedInstanceState.putLong("kulunudaeg", this.kulunudaeg);
         savedInstanceState.putBoolean("taimertootab", this.taimertootab);
-        savedInstanceState.putBoolean("kasSalvestame", this.bkasSalvestame);
         if(BuildConfig.DEBUG) Log.d("HarjutusUusFragment", "onSaveInstanceState " +
                 " " + this.stardiaeg + " " + this.kulunudaeg + " Taimer sees:" +this.taimertootab +
                 " Kas salvestame: " + bkasSalvestame);
