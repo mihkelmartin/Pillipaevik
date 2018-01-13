@@ -85,7 +85,7 @@ public class TestKalenderJagaAndmedPuudu {
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.kalendri_tabel)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
         VajutaJagaSalvestist();
-        onView(withText(containsString(resources.getString(R.string.aruande_tegemise_keeldumise_pohjus)))).
+        onView(withText(containsString(resources.getString(R.string.jagamise_keeldumise_pohjus)))).
                 check(ViewAssertions.matches(isDisplayed()));
 
         editor.putString("minueesnimi", resources.getString(R.string.test_minueesnimi));
