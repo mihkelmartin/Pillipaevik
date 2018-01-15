@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+    <!-- App name -->
+    <string name="rakenduse_pealkiri">音乐家日记</string>
+
+    <string name="tund">小时</string>
+    <string name="tundi">小时</string>
+    <string name="minut">分钟</string>
+    <string name="minutit">分钟</string>
+    <string name="tere">你好</string>
+
+
+    <string name="ava_sahtel">打开</string>
+    <string name="sule_sahtel">关闭</string>
+
+    <!-- Messages in case Google account selection failed -->
+    <string name="konto_valimise_vea_pealkiri">没有选择Google帐户！</string>
+    <string name="google_play_teenused_puuduvad_vea_pealkiri">Google Play服务缺失！</string>
+    <string name="konto_valimise_vea_tekst">Google Drive 连接在设置中关闭。</string>
+
+    <!-- Choose Google account ... -->
+    <string name="konto_valimise_pealkiri">以便储存录音</string>
+
+
+    <!-- Google Drive configuration error messages -->
+    <string name="google_drive_uhenduse_vea_pealkiri">Google Drive 配置错误！</string>
+    <string name="google_drive_uhenduse_vea_tekst">在系统设置中检查应用程序的权限。</string>
+
+
+    <!-- Example Song data - Name, Author, Comment -->
+    <string name="naidislugu">爱我如你</string>
+    <string name="looautor">艾丽·高登</string>
+    <string name="lookommentaar">位列2015年40大热门歌曲官方榜单</string>
+
+    <!-- User has practiced Love me like You do three times with descriptions below -->
+    <string name="harjutusekirjeldus1">第一次</string>
+    <string name="harjutusekirjeldus2">第二次</string>
+    <string name="harjutusekirjeldus3">5次</string>
+
+
+    <!-- Menu names -->
+    <string name="lisa_teos">添加歌曲...</string>
+    <!-- Songs can be marked as archived -->
+    <string name="naita_arhiivi">显示存档</string>
+    <!-- Excercise and Practice are the equivalents -->
+    <string name="kusututa">删除练习...</string>
+    <string name="AlustaUutHarjutust">开始练习...</string>
+    <string name="LisaTehtudHarjutus">添加练习...</string>
+
+
+    <!-- Select month for report -->
+    <string name="vali_aruande_kuu">选择月</string>
+    <integer name="kuudearv">6</integer>
+
+    <!-- Buttons -->
+    <string name="ok">好</string>
+    <string name="loobu">取消</string>
+    <string name="jah">是</string>
+    <string name="ei">否</string>
+
+    <!-- Start, Stop or Resume measuring time -->
+    <string name="alusta">开始</string>
+    <string name="katkesta">停止</string>
+    <string name="jatka">恢复</string>
+    <!-- Microphone On or Off -->
+    <string name="sees">开启</string>
+    <string name="valjas">关闭</string>
+
+
+    <!-- Reporting -->
+    <string name="aruanne_saada">发送报告</string>
+    <string name="aruanne_eposti_rakendus_puudub">没有找到电子邮件应用...</string>
+
+    <string name="aruanne_koondi_pealkiri">概要</string>
+    <string name="aruanne_soovituslik_harjutamise_aeg">建议每天练习时间：</string>
+    <string name="aruanne_soovituslik_harjutamise_aeg_kokku">建议总练习时间：</string>
+    <string name="aruanne_tegelik_harjutamise_aeg_kokku">实际总练习时间：</string>
+    <string name="aruanne_salvestatud_harjutused">录制的练习</string>
+    <string name="aruanne_paevade_kaupa">按天报告</string>
+    <!-- Signature part at the end of report -->
+    <string name="aruanne_tervitades">问候，</string>
+    <string name="aruanne_pillipaeviku_vahendusel"> via音乐家日记</string>
+
+    <!-- Error messsages why report can't be created -->
+    <string name="aruande_tegemise_hoiatuse_pealkiri">无法创建报告</string>
+    <string name="aruande_tegemise_keeldumise_pohjus">在设置中填写您的名字，姓氏和乐器！</string>
+
+
+
+    <!-- Settings  -->
+    <string name="seaded_tiitel">设置</string>
+    <string name="seadete_fail">seadete_fail</string>
+    <string name="minu_eesnimi_vihje">我的名字</string>
+    <string name="minu_perenimi_vihje">我饿姓氏</string>
+    <string name="minu_e_post_vihje">我的电子邮件</string>
+    <string name="muusikakooli_nimi_vihje">我的音乐学校</string>
+    <string name="klass_vihje">班级</string>
+    <string name="pill_vihje">我的乐器</string>
+    <string name="opetaja_eesnimi_vihje">我老师的名字</string>
+    <string name="opetaja_perenimi_vihje">我老师的姓氏</string>
+    <string name="opetaja_e_post_vihje">我老师的电子邮箱</string>
+    <string name="harjutamise_norm_vihje">每天的练习分钟时长</string>
+    <string name="stopperiautostart">自动启动秒表</string>
+    <string name="pikkvajutusalustabharjutuse">长按歌曲列表项开始新的练习</string>
+    <string name="naitateosetanaststatistikat">显示今天的统计数据</string>
+    <string name="kasLubadaMikrofonigaSalvestamine">允许录音</string>
+    <string name="kasKasutadaGoogleDrive">使用Google Drive</string>
+    <string name="GoogleDriveVajalikkus">需要使用Google Drive来添加录音至报告</string>
+    <string name="google_konto_vihje">谷歌帐户</string>
+
+
+    <!-- Information page -->
+    <string name="teave_tiitel">信息</string>
+    <string name="teave_laen">载入中...</string>
+    <string name="teave_google_kasutus">音乐家日记使用谷歌服务。请参见下面的信息</string>
+    <string name="privaatsus_eeskirjad">隐私政策https://sites.google.com/site/musiciansdiaryprivacypolicy/</string>
+
+    <!-- Excercise log -->
+    <string name="title_activity_harjutuste_kalender">练习日记</string>
+
+
+    <!-- Song related texts -->
+    <string name="snackbar_anna_teosele_nimi">给我一首歌的名称</string>
+    <string name="snackbar_teos_juba_olemas">所给名称的歌曲已存在</string>
+    <string name="snackbar_nimi_tuhi">名称为空</string>
+    <string name="dialog_kas_kustuta_teose_pealkiri">删除歌曲？</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa1">您将要删除歌曲</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa2">和它的所有练习。删除？</string>
+
+    <!-- Descriptions for Song fields - name, author, comment -->
+    <string name="nimi_vihje">名称。例如昨天</string>
+    <string name="autor_vihje">作者。例如约翰·列侬</string>
+    <string name="kommentaar_vihje">评论</string>
+
+    <string name="arhiivis">存档</string>
+
+    <string name="tana">今天</string>
+    <string name="nadal">周</string>
+    <string name="kuu">月</string>
+
+
+    <!-- Excerice/Practice or Recording (via microphone) deleteing -->
+    <string name="dialog_kas_kustuta_harjutuse_kusimus">删除练习</string>
+    <string name="dialog_kas_kustuta_salvestuse_kusimus">删除录音？</string>
+    <string name="snackbar_harjutuse_automaatne_kustutamine">无时长练习已删除！</string>
+
+    <!-- Error messages when selecting date and time -->
+    <string name="ajamuutmine_aeg_tulevikus">您选择了一个未来的时间！时间并未改变！</string>
+    <string name="muuda_harjutuse_kestust">选择持续时间</string>
+
+    <!-- New practice session -->
+    <string name="harjutuse_kirjeldus_vihje">您计划练习什么...</string>
+    <string name="stopper">00:00:00</string>
+    <string name="vaikimisisharjutusekirjeldus">我演奏了</string>
+
+    <!-- Adding exercise later -->
+    <string name="harjutuse_mida_harjutasid_vihje">您练习了什么 ...</string>
+    <string name="harjutus_algas">开始于：</string>
+    <string name="harjutus_loppes">结束于：</string>
+    <string name="harjutuse_kestus">持续时间：</string>
+    <string name="harjutus_minutit">分钟</string>
+
+
+    <!-- Help texts -->
+    <string name="link_aruandel_kysimus">在报告中</string>
+    <string name="eisaamuutaharjutustjuhend">只有练习环节的名称可以更改。要更改练习时间，请删除这个环节并添加新的。</string>
+    <string name="lisatehtudharjutustjuhend">添加您并未使用音乐家日记的练习环节。除了输入起始点和结束点，在必要时，您还可以减少练习时长。</string>
+    <string name="uusharjutustjuhend">如果在设置中允许录音和收听，您可以用麦克风来录制您的练习。如果允许使用Google Drive，您可以添加录音至报告。</string>
+
+    <string name="jagamise_keeldumise_pealkiri">无法分享录音</string>
+    <string name="jagamise_keeldumise_pohjus">在设置中填写您的名字，姓氏和乐器！</string>
+
+    <string name="jagamise_teema_harjutus">练习</string>
+    <string name="jagamise_sisu_link_harjutusele">连接至录音</string>
+
+    <!-- Navigation bar texts -->
+    <string name="menyyvalik_harjutuste_kalender">练习日历</string>
+    <string name="menyyvalik_saada_aruanne">发送报告</string>
+    <string name="menyyvalik_saada_satted">设置</string>
+    <string name="menyyvalik_saada_teave">信息</string>
+
+    <!-- Activitite tagasiside koodid -->
+    <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_MUUDETUD">2</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_KUSTUTATUD">3</integer>
+
+    <integer name="TEOS_ACTIVITY_INTENT_HARJUTUS_UUS">4</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD">5</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA">12</integer>
+
+    <integer name="TEOS_ACTIVITY_INTENT_HARJUTUS_TEHTUD">6</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_TEHTUD_LISATUD">13</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_TEHTUD_LOOMATA">14</integer>
+
+    <integer name="TEOS_ACTIVITY_INTENT_HARJUTUS_MUUDA">7</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_MUUDA">8</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD">15</integer>
+
+    <integer name="TEOSLIST_ACTIVITY_INTENT_LISA">9</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_LISATUD">10</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_UUS_LOOMATA">11</integer>
+
+    <integer name="KALENDER_ACTIVITY_START">16</integer>
+    <integer name="KALENDER_ACTIVITY_INTENT_HARJUTUS_MUUDA">12</integer>
+
+    <integer name="SEADED_ACTIVITY_START">17</integer>
+
+    <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
+
+</resources>
