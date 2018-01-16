@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+    <!-- App name -->
+    <string name="rakenduse_pealkiri">Diario del Músico</string>
+
+    <string name="tund">hora</string>
+    <string name="tundi">horas</string>
+    <string name="minut">minuto</string>
+    <string name="minutit">minutos</string>
+    <string name="tere">Hola</string>
+
+
+    <string name="ava_sahtel">Abrir</string>
+    <string name="sule_sahtel">Cerrar</string>
+
+    <!-- Messages in case Google account selection failed -->
+    <string name="konto_valimise_vea_pealkiri">¡No se ha seleccionado la cuenta de Google!</string>
+    <string name="google_play_teenused_puuduvad_vea_pealkiri">¡No se encuentran los servicios Google Play!</string>
+    <string name="konto_valimise_vea_tekst">La conexión de Google Drive está deshabilitada en los ajustes.</string>
+
+    <!-- Choose Google account ... -->
+    <string name="konto_valimise_pealkiri">para guardar grabaciones</string>
+
+
+    <!-- Google Drive configuration error messages -->
+    <string name="google_drive_uhenduse_vea_pealkiri">¡Error de configuración de Google Drive!</string>
+    <string name="google_drive_uhenduse_vea_tekst">Revisa los permisos de la aplicación en los Ajustes del sistema.</string>
+
+
+    <!-- Example Song data - Name, Author, Comment -->
+    <string name="naidislugu">Love Me Like You Do</string>
+    <string name="looautor">Ellie Goulding</string>
+    <string name="lookommentaar">En las 40 principales canciones de 2015</string>
+
+    <!-- User has practiced Love me like You do three times with descriptions below -->
+    <string name="harjutusekirjeldus1">Primera vez</string>
+    <string name="harjutusekirjeldus2">Segunda vez</string>
+    <string name="harjutusekirjeldus3">5 veces</string>
+
+
+    <!-- Menu names -->
+    <string name="lisa_teos">Añadir canción</string>
+    <!-- Songs can be marked as archived -->
+    <string name="naita_arhiivi">Mostrar archivadas</string>
+    <!-- Excercise and Practice are the equivalents -->
+    <string name="kusututa">Eliminar ejercicio...</string>
+    <string name="AlustaUutHarjutust">Comenzar ejercicio...</string>
+    <string name="LisaTehtudHarjutus">Añadir ejercicio...</string>
+
+
+    <!-- Select month for report -->
+    <string name="vali_aruande_kuu">Elegir mes</string>
+    <integer name="kuudearv">6</integer>
+
+    <!-- Buttons -->
+    <string name="ok">Aceptar</string>
+    <string name="loobu">Cancelar</string>
+    <string name="jah">Sí</string>
+    <string name="ei">No</string>
+
+    <!-- Start, Stop or Resume measuring time -->
+    <string name="alusta">Comenzar</string>
+    <string name="katkesta">Detener</string>
+    <string name="jatka">Reanudar</string>
+    <!-- Microphone On or Off -->
+    <string name="sees">Activado</string>
+    <string name="valjas">Desactivado</string>
+
+
+    <!-- Reporting -->
+    <string name="aruanne_saada">Enviar informe...</string>
+    <string name="aruanne_eposti_rakendus_puudub">aplicación de correo electrónico no encontrada...</string>
+
+    <string name="aruanne_koondi_pealkiri">Resumen</string>
+    <string name="aruanne_soovituslik_harjutamise_aeg">Tiempo de práctica diaria recomendado:</string>
+    <string name="aruanne_soovituslik_harjutamise_aeg_kokku">Tiempo de práctica total recomendado:</string>
+    <string name="aruanne_tegelik_harjutamise_aeg_kokku">Tiempo de práctica total actual:</string>
+    <string name="aruanne_salvestatud_harjutused">Ejercicios grabados</string>
+    <string name="aruanne_paevade_kaupa">Informe por día</string>
+    <!-- Signature part at the end of report -->
+    <string name="aruanne_tervitades">Saludos,</string>
+    <string name="aruanne_pillipaeviku_vahendusel">por medio de la app Diario del Músico</string>
+
+    <!-- Error messsages why report can't be created -->
+    <string name="aruande_tegemise_hoiatuse_pealkiri">No se pudo crear el informe</string>
+    <string name="aruande_tegemise_keeldumise_pohjus">¡Llena tu nombre, apellido e instrumento en los ajustes!</string>
+
+
+
+    <!-- Settings  -->
+    <string name="seaded_tiitel">Ajustes</string>
+    <string name="seadete_fail">seadete_fail</string>
+    <string name="minu_eesnimi_vihje">Mi nombre</string>
+    <string name="minu_perenimi_vihje">Mi apellido</string>
+    <string name="minu_e_post_vihje">Mi correo electrónico</string>
+    <string name="muusikakooli_nimi_vihje">Mi escuela de música</string>
+    <string name="klass_vihje">Clase</string>
+    <string name="pill_vihje">Mi instrumento</string>
+    <string name="opetaja_eesnimi_vihje">El nombre de mi profesor</string>
+    <string name="opetaja_perenimi_vihje">El apellido de mi profesor</string>
+    <string name="opetaja_e_post_vihje">El correo electrónico de mi profesor</string>
+    <string name="harjutamise_norm_vihje">Minutos para practicar en un día</string>
+    <string name="stopperiautostart">Iniciar cronómetro automáticamente</string>
+    <string name="pikkvajutusalustabharjutuse">Presionar largo el elemento de la lista de canciones inicia una nueva práctica</string>
+    <string name="naitateosetanaststatistikat">Mostrar las estadísticas diarias actuales</string>
+    <string name="kasLubadaMikrofonigaSalvestamine">Permitir grabar</string>
+    <string name="kasKasutadaGoogleDrive">Usar Google Drive</string>
+    <string name="GoogleDriveVajalikkus">Google Drive es necesario para añadir grabaciones al informe</string>
+    <string name="google_konto_vihje">Cuenta Google</string>
+
+
+    <!-- Information page -->
+    <string name="teave_tiitel">Información</string>
+    <string name="teave_laen">Cargando...</string>
+    <string name="teave_google_kasutus">La app Diario del Músico usa los servicios de Google. Consulta la información a continuación</string>
+    <string name="privaatsus_eeskirjad">Política de privacidad: https://sites.google.com/site/musiciansdiaryprivacypolicy/</string>
+
+    <!-- Excercise log -->
+    <string name="title_activity_harjutuste_kalender">Registro de ejercicios</string>
+
+
+    <!-- Song related texts -->
+    <string name="snackbar_anna_teosele_nimi">Escribe un nombre para la canción</string>
+    <string name="snackbar_teos_juba_olemas">Ya existe una canción con este nombre</string>
+    <string name="snackbar_nimi_tuhi">El nombre está vacío</string>
+    <string name="dialog_kas_kustuta_teose_pealkiri">¿Eliminar la canción?</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa1">Estás a punto de eliminar una canción</string>
+    <string name="dialog_kas_kustuta_teose_kusimus_osa2">y todos sus ejercicios. ¿Eliminar?</string>
+
+    <!-- Descriptions for Song fields - name, author, comment -->
+    <string name="nimi_vihje">Nombre. Por ejemplo, Yesterday</string>
+    <string name="autor_vihje">Autor. Por ejemplo, John Lennon</string>
+    <string name="kommentaar_vihje">Comentario</string>
+
+    <string name="arhiivis">Archivado</string>
+
+    <string name="tana">Hoy</string>
+    <string name="nadal">Semana</string>
+    <string name="kuu">Mes</string>
+
+
+    <!-- Excerice/Practice or Recording (via microphone) deleteing -->
+    <string name="dialog_kas_kustuta_harjutuse_kusimus">Eliminar ejercicio</string>
+    <string name="dialog_kas_kustuta_salvestuse_kusimus">¿Eliminar grabación?</string>
+    <string name="snackbar_harjutuse_automaatne_kustutamine">¡Ejercicio sin duración eliminado!</string>
+
+    <!-- Error messages when selecting date and time -->
+    <string name="ajamuutmine_aeg_tulevikus">¡Has elegido un tiempo futuro! ¡El tiempo no se cambió!</string>
+    <string name="muuda_harjutuse_kestust">Elige duración</string>
+
+    <!-- New practice session -->
+    <string name="harjutuse_kirjeldus_vihje">Qué estás planificando practicar...</string>
+    <string name="stopper">00:00:00</string>
+    <string name="vaikimisisharjutusekirjeldus">Yo toqué</string>
+
+    <!-- Adding exercise later -->
+    <string name="harjutuse_mida_harjutasid_vihje">Qué practicaste...</string>
+    <string name="harjutus_algas">Comenzada:</string>
+    <string name="harjutus_loppes">Terminada:</string>
+    <string name="harjutuse_kestus">Duración:</string>
+    <string name="harjutus_minutit">minutos</string>
+
+
+    <!-- Help texts -->
+    <string name="link_aruandel_kysimus">En el informe</string>
+    <string name="eisaamuutaharjutustjuhend">Solo el nombre de la sesión de práctica se puede modificar. Para cambar los tiempos de práctica, elimina esta sesión y crea una nueva.</string>
+    <string name="lisatehtudharjutustjuhend">Añade una sesión de práctica que no hayas hecho con la app Diario del Músico. Además de ingresar un punto de inicio y fin, puede disminuir la duración de la práctica si es necesario.</string>
+    <string name="uusharjutustjuhend">Si se permite grabar y escuchar en los ajustes, puedes grabar tu práctica con el micrófono. Si se permite usar Google Drive, puedes añadir grabaciones a los informes.</string>
+
+    <string name="jagamise_keeldumise_pealkiri">No se pudo compartir la grabación</string>
+    <string name="jagamise_keeldumise_pohjus">¡Llena tu nombre, apellido e instrumento en los ajustes!</string>
+
+    <string name="jagamise_teema_harjutus">ejercicio</string>
+    <string name="jagamise_sisu_link_harjutusele">Enlazar a la grabación</string>
+
+    <!-- Navigation bar texts -->
+    <string name="menyyvalik_harjutuste_kalender">Calendario de práctica</string>
+    <string name="menyyvalik_saada_aruanne">Enviar informe</string>
+    <string name="menyyvalik_saada_satted">Ajustes</string>
+    <string name="menyyvalik_saada_teave">Información</string>
+
+    <!-- Activitite tagasiside koodid -->
+    <integer name="TEOSLIST_ACTIVITY_INTENT_MUUDA">1</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_MUUDETUD">2</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_KUSTUTATUD">3</integer>
+
+    <integer name="TEOS_ACTIVITY_INTENT_HARJUTUS_UUS">4</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_UUS_LISATUD">5</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_UUS_LOOMATA">12</integer>
+
+    <integer name="TEOS_ACTIVITY_INTENT_HARJUTUS_TEHTUD">6</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_TEHTUD_LISATUD">13</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_TEHTUD_LOOMATA">14</integer>
+
+    <integer name="TEOS_ACTIVITY_INTENT_HARJUTUS_MUUDA">7</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_MUUDA">8</integer>
+    <integer name="HARJUTUS_ACTIVITY_RETURN_KUSTUTATUD">15</integer>
+
+    <integer name="TEOSLIST_ACTIVITY_INTENT_LISA">9</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_LISATUD">10</integer>
+    <integer name="TEOS_ACTIVITY_RETURN_UUS_LOOMATA">11</integer>
+
+    <integer name="KALENDER_ACTIVITY_START">16</integer>
+    <integer name="KALENDER_ACTIVITY_INTENT_HARJUTUS_MUUDA">12</integer>
+
+    <integer name="SEADED_ACTIVITY_START">17</integer>
+
+    <integer name="GOOGLE_DRIVE_PAIGALDUS">1000</integer>
+
+</resources>
