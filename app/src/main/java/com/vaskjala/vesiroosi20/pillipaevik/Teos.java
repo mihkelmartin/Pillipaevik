@@ -3,7 +3,7 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.BaseColumns;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.KustutaFailDraivistTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;

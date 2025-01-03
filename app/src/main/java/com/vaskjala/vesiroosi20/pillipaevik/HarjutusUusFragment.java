@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.LisaFailDraiviTeenus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
@@ -169,15 +168,11 @@ public class HarjutusUusFragment extends HarjutusFragment {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.kaivitataimernupp:
-                KaivitaTaimer(v);
-                break;
-            case R.id.mikrofoniluliti:
-                LulitaMikrofon(v);
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.kaivitataimernupp) {
+            KaivitaTaimer(v);
+        } else if (id == R.id.mikrofoniluliti) {
+            LulitaMikrofon(v);
         }
     }
 

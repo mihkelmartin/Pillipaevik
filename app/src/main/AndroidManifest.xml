@@ -42,6 +42,7 @@
                 android:name=".PeaActivity"
                 android:label="@string/rakenduse_pealkiri"
                 android:launchMode="singleTop"
+                android:exported="true"
                 android:theme="@style/Pillipaevik">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

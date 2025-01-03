@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -42,7 +42,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         try {
             teosFragmendiKuulaja = (TeosFragmendiKuulaja) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama TeosFragmendiKuulaja");
+            throw new ClassCastException(context + " peab teostama TeosFragmendiKuulaja");
         }
     }
     @SuppressWarnings("deprecation")
@@ -51,7 +51,7 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
         try {
             teosFragmendiKuulaja = (TeosFragmendiKuulaja) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " peab teostama TeosFragmendiKuulaja");
+            throw new ClassCastException(context + " peab teostama TeosFragmendiKuulaja");
         }
     }
     @Override
@@ -84,23 +84,22 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
             this.teosid = teos.getId();
             teosFragmendiKuulaja.SeaTeosid(this.teosid);
         }
-        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen teost:" + String.valueOf(this.teosid) + " " + this.teos);
+        if(BuildConfig.DEBUG) Log.d("TeosFragment", "Loen teost:" + this.teosid + " " + this.teos);
     }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         if(BuildConfig.DEBUG) Log.d("TeosFragment", "onCreateView");
-        View view = inflater.inflate(R.layout.fragment_teos, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_teos, container, false);
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mNimi = (EditText) getView().findViewById(R.id.nimi);
-        mAutor = (EditText) getView().findViewById(R.id.autor);
-        mKommentaar = (EditText) getView().findViewById(R.id.kommentaar);
-        mArhiivis = ((CheckBox) getView().findViewById(R.id.arhiivis));
+        mNimi = getView().findViewById(R.id.nimi);
+        mAutor = getView().findViewById(R.id.autor);
+        mKommentaar = getView().findViewById(R.id.kommentaar);
+        mArhiivis = getView().findViewById(R.id.arhiivis);
 
         mNimi.setText(this.teos.getNimi());
         mAutor.setText(this.teos.getAutor());
@@ -190,13 +189,9 @@ public class TeosFragment extends Fragment implements LihtsaKusimuseKuulaja, Vie
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.arhiivis:
-                AndmedTeosesse(teos);
-                teosFragmendiKuulaja.MuudaTeos(teos);
-                break;
-            default:
-                break;
+        if (v.getId() == R.id.arhiivis) {
+            AndmedTeosesse(teos);
+            teosFragmendiKuulaja.MuudaTeos(teos);
         }
     }
 

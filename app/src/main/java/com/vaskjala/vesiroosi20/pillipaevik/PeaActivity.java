@@ -8,13 +8,13 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -151,36 +151,29 @@ public class PeaActivity extends AppCompatActivity implements LihtsaKusimuseKuul
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
 
-                switch (getiSahtliValik()) {
-                    case R.id.harjutuste_kalender :
-                            Intent i = new Intent(view.getContext(), HarjutusteKalenderActivity.class);
-                            startActivityForResult(i,getResources().getInteger(R.integer.KALENDER_ACTIVITY_START));
-                        break;
-                    case R.id.saada_aruanne :
-                        if(Tooriistad.kasNimedEpostOlemas(getApplicationContext())) {
-                            Bundle args = new Bundle();
-                            DialogFragment valiAruandeKuu = new ValiAruandeKuu();
-                            valiAruandeKuu.setArguments(args);
-                            valiAruandeKuu.show(getFragmentManager(), "ValiAruandeKuu");
-                        } else {
-                            Tooriistad.NaitaHoiatust((Activity) view.getContext(),
-                                    getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
-                                    getString(R.string.aruande_tegemise_keeldumise_pohjus));
+                if (getiSahtliValik() == R.id.harjutuste_kalender) {
+                    Intent i = new Intent(view.getContext(), HarjutusteKalenderActivity.class);
+                    startActivityForResult(i, getResources().getInteger(R.integer.KALENDER_ACTIVITY_START));
+                } else if (getiSahtliValik() == R.id.saada_aruanne) {
+                    if (Tooriistad.kasNimedEpostOlemas(getApplicationContext())) {
+                        Bundle args = new Bundle();
+                        DialogFragment valiAruandeKuu = new ValiAruandeKuu();
+                        valiAruandeKuu.setArguments(args);
+                        valiAruandeKuu.show(getFragmentManager(), "ValiAruandeKuu");
+                    } else {
+                        Tooriistad.NaitaHoiatust((Activity) view.getContext(),
+                                getString(R.string.aruande_tegemise_hoiatuse_pealkiri),
+                                getString(R.string.aruande_tegemise_keeldumise_pohjus));
 
-                        }
-                        break;
-                    case R.id.seaded :
-                        if(BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
-                        Intent intentSeaded = new Intent(view.getContext(), SeadedActivity.class);
-                        startActivityForResult(intentSeaded,getResources().getInteger(R.integer.SEADED_ACTIVITY_START));
-                        break;
-                    case R.id.teave :
-                        if(BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
-                        Intent intentTeave = new Intent(view.getContext(), TeaveActivity.class);
-                        startActivity(intentTeave);
-                        break;
-                    default:
-                        break;
+                    }
+                } else if (getiSahtliValik() == R.id.seaded) {
+                    if (BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
+                    Intent intentSeaded = new Intent(view.getContext(), SeadedActivity.class);
+                    startActivityForResult(intentSeaded, getResources().getInteger(R.integer.SEADED_ACTIVITY_START));
+                } else if (getiSahtliValik() == R.id.teave) {
+                    if (BuildConfig.DEBUG) Log.d("PeaActivity", "Seaded vajutatud");
+                    Intent intentTeave = new Intent(view.getContext(), TeaveActivity.class);
+                    startActivity(intentTeave);
                 }
                 setiSahtliValik(0);
                 super.onDrawerClosed(view);

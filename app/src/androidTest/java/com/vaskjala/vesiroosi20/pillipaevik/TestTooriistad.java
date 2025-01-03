@@ -21,7 +21,7 @@ import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.support.v7.widget.AppCompatImageButton;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;

@@ -6,22 +6,17 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveId;
+import com.google.api.services.drive.model.File;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.LihtneKusimus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.GoogleDriveUhendus;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.Tooriistad;
 
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -152,19 +147,13 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.mangi:
-            case R.id.stopp:
-                MangiLugu(v);
-                break;
-            case R.id.jaga:
-                JagaLugu(v);
-                break;
-            case R.id.kustutasalvestus:
-                KustutaSalvestusKlikk(v);
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.mangi || id == R.id.stopp) {
+            MangiLugu(v);
+        } else if (id == R.id.jaga) {
+            JagaLugu(v);
+        } else if (id == R.id.kustutasalvestus) {
+            KustutaSalvestusKlikk(v);
         }
     }
     public void MangiLugu(View v){
@@ -265,19 +254,19 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
         SeadistaSalvestiseRiba();
     }
 
-    private class AvaFailMangimiseks extends AsyncTask<HarjutusKord, Void, DriveContents> {
+    private class AvaFailMangimiseks extends AsyncTask<HarjutusKord, Void, FileInputStream> {
+
 
         @Override
-        protected DriveContents doInBackground(HarjutusKord... harjutusKords) {
-            DriveContents dFC = null;
+        protected FileInputStream  doInBackground(HarjutusKord... harjutusKords) {
+
+            FileInputStream dFC = null;
             if(!isCancelled()) {
                 GoogleDriveUhendus mGDU = new GoogleDriveUhendus(getActivity().getApplicationContext(), null);
                 if (!isCancelled() && mGDU.LooDriveUhendusAsunkroonselt()) {
-                    DriveId dID;
-                    dID = mGDU.AnnaDriveID(harjutusKords[0].getHelifailidriveid());
                     try {
                         if (!isCancelled())
-                            dFC = mGDU.AvaDriveFail(dID, DriveFile.MODE_READ_ONLY);
+                            dFC = mGDU.AvaDriveFail(harjutusKords[0]);
                     } catch (FileNotFoundException e) {
                         if (BuildConfig.DEBUG)
                             Log.e("AvaFailMangimiseks", "Faili ei leitud. Tühjendame väljad. " + e.toString());
@@ -290,9 +279,13 @@ public class HarjutusMuudaFragment extends HarjutusFragment {
             return dFC;
         }
 
-        protected void onPostExecute(DriveContents dFC) {
+        protected void onPostExecute(FileInputStream dFC) {
             if(dFC != null){
-                mHeliFail = dFC.getParcelFileDescriptor().getFileDescriptor();
+                try {
+                    mHeliFail = dFC.getFD();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
             SeadistaSalvestiseRiba();
             super.onPostExecute(dFC);

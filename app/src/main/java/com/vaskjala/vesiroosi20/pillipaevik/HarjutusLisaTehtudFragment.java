@@ -2,10 +2,9 @@ package com.vaskjala.vesiroosi20.pillipaevik;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.*;
-import android.widget.EditText;
 import android.widget.TextView;
 import com.vaskjala.vesiroosi20.pillipaevik.dialoogid.*;
 import com.vaskjala.vesiroosi20.pillipaevik.teenused.PilliPaevikDatabase;
@@ -106,47 +105,34 @@ public class HarjutusLisaTehtudFragment extends HarjutusFragment implements AjaM
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.alguskuupaev:
-            case R.id.lopukuupaev:
-            case R.id.alguskellaaeg:
-            case R.id.lopukellaaeg:
-                MuudaKuupaeva(v);
-                break;
-            case R.id.pikkusminutites:
-                MuudaPikkust(v);
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.alguskuupaev || id == R.id.lopukuupaev || id == R.id.alguskellaaeg || id == R.id.lopukellaaeg) {
+            MuudaKuupaeva(v);
+        } else if (id == R.id.pikkusminutites) {
+            MuudaPikkust(v);
         }
     }
     public void MuudaKuupaeva(View v) {
 
         Bundle args = new Bundle();
         DialogFragment muudaFragment = null;
-        switch (v.getId()) {
-            case R.id.alguskuupaev:
-                args.putBoolean("muudaalgust", true);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getAlgusaeg()));
-                muudaFragment = new ValiKuupaev();
-                break;
-            case R.id.lopukuupaev:
-                args.putBoolean("muudaalgust", false);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getLopuaeg()));
-                muudaFragment = new ValiKuupaev();
-                break;
-            case R.id.alguskellaaeg:
-                args.putBoolean("muudaalgust", true);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getAlgusaeg()));
-                muudaFragment = new ValiKellaaeg();
-                break;
-            case R.id.lopukellaaeg:
-                args.putBoolean("muudaalgust", false);
-                args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getLopuaeg()));
-                muudaFragment = new ValiKellaaeg();
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.alguskuupaev) {
+            args.putBoolean("muudaalgust", true);
+            args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getAlgusaeg()));
+            muudaFragment = new ValiKuupaev();
+        } else if (id == R.id.lopukuupaev) {
+            args.putBoolean("muudaalgust", false);
+            args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getLopuaeg()));
+            muudaFragment = new ValiKuupaev();
+        } else if (id == R.id.alguskellaaeg) {
+            args.putBoolean("muudaalgust", true);
+            args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getAlgusaeg()));
+            muudaFragment = new ValiKellaaeg();
+        } else if (id == R.id.lopukellaaeg) {
+            args.putBoolean("muudaalgust", false);
+            args.putString("datetime", Tooriistad.KujundaKuupaevKellaaeg(getHarjutuskord().getLopuaeg()));
+            muudaFragment = new ValiKellaaeg();
         }
         assert muudaFragment != null;
         muudaFragment.setArguments(args);

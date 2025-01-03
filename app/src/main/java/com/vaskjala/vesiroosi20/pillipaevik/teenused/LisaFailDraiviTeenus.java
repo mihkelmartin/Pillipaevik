@@ -3,9 +3,6 @@ package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
-import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveId;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 import com.vaskjala.vesiroosi20.pillipaevik.HarjutusKord;
 import com.vaskjala.vesiroosi20.pillipaevik.Teos;
@@ -27,55 +24,37 @@ public class LisaFailDraiviTeenus extends IntentService {
 
     protected void onHandleIntent(Intent workIntent)  {
 
-        try {
-            PilliPaevikDatabase mPP = new PilliPaevikDatabase(getApplicationContext());
-            Teos teos = mPP.getTeos(workIntent.getIntExtra("teosid",0));
-            HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
-            harjutusKord = harjutuskorradmap.get(workIntent.getIntExtra("harjutusid",0));
-            if(BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
 
-            FileInputStream in = new FileInputStream(getFilesDir().getPath() + "/" + harjutusKord.getHelifail());
-            GoogleDriveUhendus mGD = new GoogleDriveUhendus(getApplicationContext(), null);
-            if(mGD.LooDriveUhendusAsunkroonselt()) {
-                DriveId mHDI;
-                DriveContents mFD;
-                int writemode = DriveFile.MODE_WRITE_ONLY;
+        PilliPaevikDatabase mPP = new PilliPaevikDatabase(getApplicationContext());
+        Teos teos = mPP.getTeos(workIntent.getIntExtra("teosid",0));
+        HashMap<Integer, HarjutusKord> harjutuskorradmap = teos.getHarjutuskorradmap(getApplicationContext());
+        harjutusKord = harjutuskorradmap.get(workIntent.getIntExtra("harjutusid",0));
+        if(BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus","Harjutuskord  :" + harjutusKord.toString());
 
-                if (harjutusKord.getHelifailidriveid() == null || harjutusKord.getHelifailidriveid().isEmpty()) {
-                    mHDI = mGD.LooDriveHeliFail(harjutusKord.getHelifail());
-                    if (mHDI != null) {
-                        harjutusKord.setHelifailidriveid(mGD.AnnaDriveID(mHDI));
-                        harjutusKord.setHelifailidriveidmuutumatu(mGD.AnnaDriveIDMuutumatu(mHDI));
-                        harjutusKord.Salvesta(getApplicationContext());
-                        if (BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus", "Helifaili Drive andmed harjutusse salvestatud");
-                    } else {
-                        if (BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Helifaili Drive andmeid harjutusse ei salvestatud");
-                    }
+        java.io.File heliFail = new File(getFilesDir().getPath() + "/" + harjutusKord.getHelifail());
+        GoogleDriveUhendus mGD = new GoogleDriveUhendus(getApplicationContext(), null);
+        if(mGD.LooDriveUhendusAsunkroonselt()) {
+            String mHDI;
+            if (harjutusKord.getHelifailidriveid() == null || harjutusKord.getHelifailidriveid().isEmpty()) {
+                mHDI = mGD.LooDriveHeliFail(harjutusKord.getHelifail());
+                if (mHDI != null) {
+                    harjutusKord.setHelifailidriveid(mHDI);
+                    harjutusKord.setHelifailidriveidmuutumatu(mHDI);
+                    harjutusKord.Salvesta(getApplicationContext());
+                    if (BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus", "Helifaili Drive andmed harjutusse salvestatud");
                 } else {
-                    mHDI = mGD.AnnaDriveID(harjutusKord.getHelifailidriveid());
-                    if (BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus", "Helifail oli olemas. Kirjutame üle");
+                    if (BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Helifaili Drive andmeid harjutusse ei salvestatud");
                 }
-
-                mFD = mGD.AvaDriveFail(mHDI, writemode);
-                if (mFD != null) {
-                    try {
-                        FileOutputStream out = new FileOutputStream(mFD.getParcelFileDescriptor().getFileDescriptor());
-                        byte[] buf = new byte[2048];
-                        int len;
-                        while ((len = in.read(buf)) > 0) {
-                            out.write(buf, 0, len);
-                        }
-                        if (mGD.SalvestaDrivei(mFD)) {
-                            Tooriistad.KustutaKohalikFail(getFilesDir(), harjutusKord.getHelifail());
-                        }
-                    } catch (Exception e) {
-                        if (BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Lugemise/kirjutamise viga :" + e.toString());
-                    }
-                }
+            } else {
+                mHDI = harjutusKord.getHelifailidriveid();
+                if (BuildConfig.DEBUG) Log.d("LisaFailDraiviTeenus", "Helifail oli olemas. Kirjutame üle");
             }
-            mGD.KatkestaDriveUhendus();
-        } catch (FileNotFoundException e) {
-            if (BuildConfig.DEBUG) Log.e("LisaFailDraiviTeenus", "Lugemise/kirjutamise viga :" + e.toString());
+
+            if (mGD.SalvestaDrivei(harjutusKord, heliFail)) {
+               Tooriistad.KustutaKohalikFail(getFilesDir(), harjutusKord.getHelifail());
+            }
         }
+        mGD.KatkestaDriveUhendus();
+
     }
 }

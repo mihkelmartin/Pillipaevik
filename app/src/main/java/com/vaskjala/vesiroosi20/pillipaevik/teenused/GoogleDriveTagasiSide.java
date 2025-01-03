@@ -1,13 +1,6 @@
 package com.vaskjala.vesiroosi20.pillipaevik.teenused;
 
 import android.util.Log;
-import com.google.android.gms.drive.events.CompletionEvent;
-import com.google.android.gms.drive.events.DriveEventService;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.vaskjala.vesiroosi20.pillipaevik.BuildConfig;
 
 import java.io.IOException;
@@ -15,8 +8,8 @@ import java.io.IOException;
 /**
  * Created by mihkel on 13.06.2016.
  */
-public class GoogleDriveTagasiSide extends DriveEventService {
-
+public class GoogleDriveTagasiSide /*extends DriveEventService*/ {
+/*
     @Override
     public void onCompletion(CompletionEvent event) {
 
@@ -42,4 +35,6 @@ public class GoogleDriveTagasiSide extends DriveEventService {
         }
         event.dismiss();
     }
+
+ */
 }

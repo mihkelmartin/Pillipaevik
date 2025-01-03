@@ -128,7 +128,7 @@
                     android:layout_height="@dimen/eraldusjoone_paksus"
                     android:layout_above="@+id/harjutatudprogresstabel"
                     android:background="@android:color/white"/>
-            <android.support.v7.widget.RecyclerView android:id="@+id/harjutua_list"
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/harjutua_list"
                                                     android:name="com.vaskjala.vesiroosi20.pillipaevik.TeosListActivity"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="wrap_content"

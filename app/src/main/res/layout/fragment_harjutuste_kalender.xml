@@ -15,7 +15,7 @@
             android:layout_height="@dimen/eraldusjoone_paksus"
             android:layout_alignParentBottom="true"
             android:background="@android:color/white"/>
-    <android.support.v7.widget.RecyclerView android:id="@+id/kalendri_tabel"
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/kalendri_tabel"
                                             android:name="com.vaskjala.vesiroosi20.pillipaevik.HarjutusteKalenderActivity"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
